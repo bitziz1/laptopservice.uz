@@ -1,0 +1,113 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import { siteConfig } from "@/data/siteConfig";
+
+const breadcrumbs = [
+  { name: "О мастере", url: "/about" },
+];
+---
+
+<BaseLayout
+  title="О мастере Руслане и сервисном центре Laptop Service в Ташкенте"
+  description="20 лет опыта в компонентном ремонте электроники и ноутбуков. Сервисный центр на ул. Паркент 11: микроскопы, BGA-пайка, осциллографы, согласование стоимости до ремонта."
+  breadcrumbs={breadcrumbs}
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-10">
+    
+    <Breadcrumbs items={breadcrumbs} />
+
+    <header class="space-y-4">
+      <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded border border-chassis-700 bg-chassis-850 text-xs font-mono text-chassis-300">
+        Мастерская на ул. Паркент 11
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-chassis-100 tracking-tight leading-tight">
+        Мастер Руслан и сервисный центр Laptop Service
+      </h1>
+
+      <p class="text-xs sm:text-sm text-chassis-300 leading-relaxed">
+        С 2004 года мастер Руслан занимается компонентным ремонтом вычислительной техники и сложной радиоэлектроники в Ташкенте. Накопленный за 20 лет практический опыт позволяет восстанавливать платы на уровне отдельных микросхем, дорожек и радиодеталей.
+      </p>
+    </header>
+
+    <!-- Workshop Equipment -->
+    <section class="rounded border border-chassis-800 bg-chassis-850 p-6 space-y-4">
+      <h2 class="text-sm font-bold text-chassis-200 uppercase font-mono tracking-wider">
+        Техническое оснащение сервисного центра
+      </h2>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-mono">
+        <div class="p-3 rounded bg-chassis-900 border border-chassis-800 space-y-1">
+          <div class="text-chassis-100 font-bold">Инфракрасная BGA станция</div>
+          <div class="text-chassis-400 leading-relaxed">Бессвинцовая и свинцовая пайка GPU, комбайнов и хабов PCH без деформации текстолита.</div>
+        </div>
+
+        <div class="p-3 rounded bg-chassis-900 border border-chassis-800 space-y-1">
+          <div class="text-chassis-100 font-bold">Оптический стереомикроскоп</div>
+          <div class="text-chassis-400 leading-relaxed">Восстановление проводников 0.02мм и пайка SMD-компонентов.</div>
+        </div>
+
+        <div class="p-3 rounded bg-chassis-900 border border-chassis-800 space-y-1">
+          <div class="text-chassis-100 font-bold">Диагностический комплекс</div>
+          <div class="text-chassis-400 leading-relaxed">Осциллограф, тепловизор, ЛБП, программаторы RT809H и Vertyanov JIG.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Principles -->
+    <section class="rounded border border-chassis-800 bg-chassis-850 p-6 space-y-4">
+      <h2 class="text-sm font-bold text-chassis-200 uppercase font-mono tracking-wider">
+        Принципы работы
+      </h2>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-chassis-300">
+        <div class="space-y-1">
+          <div class="font-bold text-chassis-100 font-mono">1. Согласование цены до ремонта</div>
+          <p class="text-chassis-400">Стоимость озвучивается после диагностики и согласуется строго до начала пайки.</p>
+        </div>
+
+        <div class="space-y-1">
+          <div class="font-bold text-chassis-100 font-mono">2. Качественные расходники</div>
+          <p class="text-chassis-400">Применяем фазовый термоинтерфейс Honeywell PTM7950 и безотмывочные флюсы.</p>
+        </div>
+
+        <div class="space-y-1">
+          <div class="font-bold text-chassis-100 font-mono">3. Проверка под нагрузкой</div>
+          <p class="text-chassis-400">Каждая плата после ремонта проходит обязательный стресс-тест в тестах стабильности.</p>
+        </div>
+
+        <div class="space-y-1">
+          <div class="font-bold text-chassis-100 font-mono">4. Гарантия сервисного центра</div>
+          <p class="text-chassis-400">На все выполненные работы предоставляется сервисная гарантия.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Direct CTA -->
+    <div class="rounded-lg border border-chassis-700 bg-chassis-950 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="text-xs text-chassis-300 text-center sm:text-left space-y-1">
+        <div class="font-bold text-chassis-100">Нужна консультация мастера?</div>
+        <div>Напишите в Telegram или позвоните по прямому номеру.</div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <a
+          href={siteConfig.telegram.masterUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="px-4 py-2 rounded border border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 text-xs font-mono font-bold transition-colors"
+        >
+          Telegram: {siteConfig.telegram.masterHandle}
+        </a>
+        <a
+          href={`tel:${siteConfig.phones.primary}`}
+          class="px-4 py-2 rounded border border-chassis-700 bg-chassis-900 hover:bg-chassis-800 text-chassis-200 text-xs font-mono transition-colors"
+        >
+          {siteConfig.phones.displayPrimary}
+        </a>
+      </div>
+    </div>
+
+  </div>
+</BaseLayout>

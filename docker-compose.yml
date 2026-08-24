@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  laptopservice:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: laptopservice_web
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  caddy_data:
+  caddy_config:

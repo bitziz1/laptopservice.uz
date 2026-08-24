@@ -1,0 +1,85 @@
+---
+import { siteConfig } from "@/data/siteConfig";
+
+const workflowSteps = [
+  {
+    step: "01",
+    title: "Доставка или визит в сервисный центр",
+    desc: "Привезите ноутбук по адресу ул. Паркент 11 (напротив Паркентского базара) или отправьте курьером через сервис Яндекс Доставка."
+  },
+  {
+    step: "02",
+    title: "Аппаратная диагностика платы",
+    desc: "Мастер разбирает устройство, производит замеры сопротивлений, проверяет сигналы осциллографом, тепловизором и ЛБП для выявления точной причины неисправности."
+  },
+  {
+    step: "03",
+    title: "Согласование стоимости ДО ремонта",
+    desc: "Мастер связывается с вами, объясняет причину поломки и озвучивает точную стоимость работы и комплектующих. Без вашего согласия ремонт не начинается."
+  },
+  {
+    step: "04",
+    title: "Ремонт и стресс-тестирование",
+    desc: "Проведение пайки / замены чипов / чистки с последующей обязательной проверкой под нагрузкой."
+  },
+  {
+    step: "05",
+    title: "Выдача устройства и гарантия",
+    desc: "Оплата производится по факту выполненных работ. Предоставляется гарантия сервисного центра."
+  }
+];
+---
+
+<div class="space-y-10">
+  
+  <!-- Diagnostic Principle Alert -->
+  <div class="rounded-lg border border-chassis-700 bg-chassis-850 p-6 sm:p-8 space-y-3">
+    <div class="text-xs font-mono text-chassis-400 uppercase tracking-wider">Главный принцип ценообразования</div>
+    <h3 class="text-lg sm:text-xl font-bold text-chassis-100">
+      Точная стоимость всегда согласуется с вами строго ДО начала ремонта
+    </h3>
+    <p class="text-xs sm:text-sm text-chassis-300 leading-relaxed">
+      В сложном компонентном ремонте невозможно назвать честную сумму без осмотра платы под микроскопом и замеров напряжений. Стоимость деталей зависит от конкретной модели ноутбука и ситуации у поставщиков. Мы не называем выдуманных цен — мастер определяет дефект на диагностике и согласовывает смету перед началом пайки.
+    </p>
+  </div>
+
+  <!-- Step by step workflow -->
+  <div class="space-y-4">
+    <div class="text-xs font-mono text-chassis-400 uppercase tracking-wider">Как устроен процесс ремонта:</div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {workflowSteps.map((item) => (
+        <div class="rounded-lg border border-chassis-800 bg-chassis-850 p-5 space-y-2">
+          <div class="text-xs font-mono text-chassis-400 font-bold">{item.step}</div>
+          <h4 class="text-sm font-bold text-chassis-100">{item.title}</h4>
+          <p class="text-xs text-chassis-400 leading-relaxed">{item.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- Direct Consultation Bar -->
+  <div class="rounded-lg border border-chassis-800 bg-chassis-950 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div class="text-xs text-chassis-300 space-y-1 text-center sm:text-left">
+      <div class="font-bold text-chassis-100">Хотите проконсультироваться по поломке?</div>
+      <div>Опишите симптомы дежурному мастеру для предварительной оценки.</div>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <a
+        href={siteConfig.telegram.masterUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="px-4 py-2 rounded border border-chassis-700 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 text-xs font-mono transition-colors"
+      >
+        Написать в Telegram
+      </a>
+      <a
+        href={`tel:${siteConfig.phones.primary}`}
+        class="px-4 py-2 rounded border border-chassis-700 bg-chassis-900 hover:bg-chassis-800 text-chassis-200 text-xs font-mono transition-colors"
+      >
+        {siteConfig.phones.displayPrimary}
+      </a>
+    </div>
+  </div>
+
+</div>

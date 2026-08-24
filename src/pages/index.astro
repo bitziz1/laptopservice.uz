@@ -1,0 +1,254 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import MasterBadge from "@/components/MasterBadge.astro";
+import ServiceCard from "@/components/ServiceCard.astro";
+import CaseCard from "@/components/CaseCard.astro";
+import ReviewCard from "@/components/ReviewCard.astro";
+import { siteConfig } from "@/data/siteConfig";
+import { servicesData } from "@/data/services";
+import { casesData } from "@/data/cases";
+import { reviewsData } from "@/data/reviews";
+
+const homeFaq = [
+  {
+    question: "Как узнать стоимость ремонта моего ноутбука?",
+    answer: "Точная стоимость определяется после аппаратной диагностики в сервисном центре. Мастер связывается с вами, объясняет причину неисправности и называет фиксированную цену работ и необходимых деталей. Ремонт начинается строго после вашего согласия."
+  },
+  {
+    question: "Как передать ноутбук на диагностику?",
+    answer: "Вы можете привезти устройство лично в сервисный центр по адресу ул. Паркент 11 (напротив Паркентского базара) или отправить через службу доставки (Яндекс Доставка / курьер)."
+  },
+  {
+    question: "Сколько времени занимает диагностика?",
+    answer: "В большинстве случаев первичная аппаратная диагностика на приборах занимает от 40 минут до 2 часов. При плавающих дефектах — до 24 часов."
+  },
+  {
+    question: "Предоставляется ли гарантия на выполненный ремонт?",
+    answer: "Да, на все выполненные работы по BGA-пайке и компонентному ремонту цепей питания предоставляется гарантия сервисного центра."
+  }
+];
+---
+
+<BaseLayout
+  title="Laptop Service — Ремонт ноутбуков в Ташкенте"
+  description="Сервисный центр по ремонту ноутбуков в Ташкенте (ул. Паркент 11). Компонентный ремонт материнских плат, BGA-пайка, чистка от пыли, восстановление после залития. Согласование стоимости до ремонта."
+  type="LocalBusiness"
+  faqList={homeFaq}
+>
+  
+  <!-- HERO SECTION -->
+  <section class="border-b border-chassis-800 py-12 sm:py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl space-y-5">
+        
+        <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded border border-chassis-700 bg-chassis-850 text-xs font-mono text-chassis-300">
+          <span>Сервисный центр • г. Ташкент, ул. Паркент 11</span>
+        </div>
+
+        <h1 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-chassis-100 tracking-tight leading-tight">
+          Ремонт ноутбуков и материнских плат любой сложности в Ташкенте
+        </h1>
+
+        <p class="text-sm sm:text-base text-chassis-300 leading-relaxed">
+          Компонентный ремонт, BGA-пайка видеочипов и процессоров, восстановление плат после залития и перепадов напряжения. 20 лет практического опыта мастера Руслана.
+        </p>
+
+        <!-- Key Policy Notice -->
+        <div class="p-4 rounded border border-chassis-700 bg-chassis-850 text-xs font-mono text-chassis-300 space-y-1">
+          <div class="font-bold text-chassis-100 uppercase">Порядок работы и ценообразования:</div>
+          <p>
+            1. Приносите ноутбук в сервисный центр или отправляете доставкой.<br />
+            2. Мастер проводит диагностику на приборах.<br />
+            3. Стоимость озвучивается и согласуется с вами <strong>строго ДО начала ремонта</strong>.
+          </p>
+        </div>
+
+        <!-- Direct CTA Buttons -->
+        <div class="flex flex-wrap items-center gap-3 pt-2">
+          <a
+            href={siteConfig.telegram.masterUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="px-5 py-2.5 rounded border border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 text-xs font-mono font-bold transition-colors"
+          >
+            Написать в Telegram мастеру
+          </a>
+
+          <a
+            href={`tel:${siteConfig.phones.primary}`}
+            class="px-5 py-2.5 rounded border border-chassis-700 bg-chassis-900 hover:bg-chassis-850 text-chassis-200 text-xs font-mono transition-colors"
+          >
+            Позвонить: {siteConfig.phones.displayPrimary}
+          </a>
+
+          <a
+            href="/contacts"
+            class="px-4 py-2.5 rounded border border-chassis-800 hover:bg-chassis-850 text-chassis-400 hover:text-chassis-200 text-xs font-mono transition-colors"
+          >
+            Схема проезда и адрес →
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- MASTER INFO -->
+  <section class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <MasterBadge />
+  </section>
+
+  <!-- SERVICES CATALOG -->
+  <section class="py-12 border-t border-b border-chassis-800 bg-chassis-950">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+        <div>
+          <div class="text-xs font-mono text-chassis-400 uppercase tracking-wider">Услуги</div>
+          <h2 class="text-xl sm:text-2xl font-bold text-chassis-100">Основные виды выполняемых работ</h2>
+        </div>
+        <a href="/services" class="text-xs font-mono text-chassis-300 hover:text-chassis-100 underline">
+          Все услуги ({servicesData.length}) →
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {servicesData.map((service) => (
+          <ServiceCard service={service} />
+        ))}
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CASES FROM TELEGRAM -->
+  <section class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+      <div>
+        <div class="text-xs font-mono text-chassis-400 uppercase tracking-wider">Telegram @laptopservice_uz</div>
+        <h2 class="text-xl sm:text-2xl font-bold text-chassis-100">Реальные примеры ремонтов</h2>
+      </div>
+      <a href="/cases" class="text-xs font-mono text-chassis-300 hover:text-chassis-100 underline">
+        Все кейсы ({casesData.length}) →
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+      {casesData.slice(0, 3).map((caseItem) => (
+        <CaseCard caseItem={caseItem} />
+      ))}
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="py-12 border-t border-chassis-800 bg-chassis-950">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+        <div>
+          <div class="text-xs font-mono text-chassis-400 uppercase tracking-wider">Отзывы на картах</div>
+          <h2 class="text-xl sm:text-2xl font-bold text-chassis-100">Отзывы клиентов</h2>
+        </div>
+        <div class="flex items-center gap-3 text-xs font-mono">
+          <a href={siteConfig.socials.yandexMaps} target="_blank" rel="noopener noreferrer" class="text-chassis-300 hover:text-chassis-100 underline">
+            Яндекс Карты
+          </a>
+          <span class="text-chassis-600">•</span>
+          <a href={siteConfig.socials.googleMaps} target="_blank" rel="noopener noreferrer" class="text-chassis-300 hover:text-chassis-100 underline">
+            Google Maps
+          </a>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {reviewsData.slice(0, 3).map((review) => (
+          <ReviewCard review={review} />
+        ))}
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-12 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+    <div>
+      <div class="text-xs font-mono text-chassis-400 uppercase tracking-wider">Вопросы и ответы</div>
+      <h2 class="text-xl sm:text-2xl font-bold text-chassis-100">Часто задаваемые вопросы</h2>
+    </div>
+
+    <div class="space-y-3">
+      {homeFaq.map((faq) => (
+        <div class="rounded border border-chassis-800 bg-chassis-850 p-5 space-y-1.5">
+          <h3 class="font-bold text-chassis-100 text-sm">{faq.question}</h3>
+          <p class="text-xs sm:text-sm text-chassis-300 leading-relaxed">{faq.answer}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ADDRESS & MAP STRIP -->
+  <section class="py-12 border-t border-chassis-800 bg-chassis-950">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <div class="lg:col-span-6 space-y-4">
+          <div class="text-xs font-mono text-chassis-400 uppercase tracking-wider">Локация сервисного центра</div>
+          <h2 class="text-xl sm:text-2xl font-bold text-chassis-100">{siteConfig.address.fullAddress}</h2>
+          <p class="text-xs sm:text-sm text-chassis-300 leading-relaxed">
+            Ориентиры: напротив центрального входа Паркентского базара, рядом с магазином «Радиодетали». 
+            {siteConfig.address.deliveryInfo}.
+          </p>
+          <div class="text-xs font-mono text-chassis-300 space-y-1 pt-1">
+            <div>График: {siteConfig.workingHours.days} ({siteConfig.workingHours.hours})</div>
+            <div>Телефон: {siteConfig.phones.displayPrimary}</div>
+          </div>
+          <div class="flex flex-wrap gap-2 pt-2">
+            <a
+              href={siteConfig.socials.yandexMaps}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="px-3.5 py-2 rounded border border-chassis-700 bg-chassis-850 hover:bg-chassis-800 text-chassis-200 text-xs font-mono transition-colors"
+            >
+              Открыть в Яндекс Картах
+            </a>
+            <a
+              href={siteConfig.socials.googleMaps}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="px-3.5 py-2 rounded border border-chassis-700 bg-chassis-850 hover:bg-chassis-800 text-chassis-200 text-xs font-mono transition-colors"
+            >
+              Открыть в Google Maps
+            </a>
+          </div>
+        </div>
+
+        <div class="lg:col-span-6">
+          <div class="rounded border border-chassis-800 bg-chassis-900 p-6 space-y-3">
+            <div class="text-xs font-mono text-chassis-400 uppercase">Прямая связь с мастером</div>
+            <div class="text-sm text-chassis-200">
+              По всем вопросам диагностики, сроков и возможности отправки техники курьером:
+            </div>
+            <div class="pt-2 flex flex-col sm:flex-row gap-2">
+              <a
+                href={siteConfig.telegram.masterUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="px-4 py-2 text-center rounded border border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 text-xs font-mono font-bold transition-colors"
+              >
+                Telegram: {siteConfig.telegram.masterHandle}
+              </a>
+              <a
+                href={`tel:${siteConfig.phones.primary}`}
+                class="px-4 py-2 text-center rounded border border-chassis-700 bg-chassis-850 hover:bg-chassis-800 text-chassis-200 text-xs font-mono transition-colors"
+              >
+                Позвонить мастеру
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

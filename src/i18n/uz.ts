@@ -1,0 +1,76 @@
+﻿import type { ru } from "./ru";
+
+export const uz: typeof ru = {
+  nav: {
+    home: "Bosh sahifa",
+    services: "Xizmatlar",
+    cases: "Ta'mirlash keyslari",
+    about: "Usta haqida",
+    prices: "Narxlar",
+    reviews: "Fikrlar",
+    contacts: "Aloqa",
+    getConsultation: "Diagnostikaga yozilish",
+  },
+  hero: {
+    badge: "Parkent ko'chasi 11-uydagi muhandislik laboratoriyasi",
+    title: "Toshkentda noutbuklarni professional va halol ta'mirlash",
+    subtitle: "Usta Ruslanning 20 yillik tajribasi. BGA payvandlash, suv tekkan va tushib ketgan platalarni tiklash, termopastani sifatli almashtirish.",
+    ctaPrimary: "Bepul diagnostika",
+    ctaTelegram: "Telegramda ustaga yozish",
+    trustExperience: "20 yillik tajriba",
+    trustBGA: "BGA-stansiya va mikroskop",
+    trustWarranty: "6 oygacha kafolat",
+    trustSpeed: "30 daqiqadan tezkor ta'mirlash",
+  },
+  services: {
+    title: "Servis markazi xizmatlari",
+    subtitle: "Apple, ASUS ROG/TUF, Lenovo Legion/ThinkPad, Acer, Dell, HP, MSI noutbuklarini komponent darajasida ta'mirlaymiz.",
+    viewAll: "Barcha xizmatlar",
+    diagnosticsFreeNote: "Ta'mirlash amalga oshirilsa diagnostika 0 so'm",
+  },
+  masterBlock: {
+    title: "Ruslan — bosh muhandis va asoschi",
+    badge: "Toshkentda 20 yillik amaliyot",
+    description: "2004 yildan beri radioelektronika va noutbuklarni komponent darajasida ta'mirlash bilan shug'ullanadi. Boshqa servislar butun platani qimmatga almashtirishni taklif qilgan joyda, Ruslan mikroskop ostida buzilgan kondensatorni topadi yoki BGA stansiyada videoripni aniq qayta lehimlaydi.",
+    point1: "Faqat original chiplar va sifatli materiallar (Kester, Amtech, Honeywell PTM7950)",
+    point2: "Professional mikroskop va infraqizil BGA stansiyasi",
+    point3: "Ochiqlik: o'lchovlar va lehimlash jarayoni mijozga yuboriladi",
+  },
+  cases: {
+    title: "Laboratoriyadan real keyslar",
+    subtitle: "Telegram kanalimiz @laptopservice_uz dan o'lchovlar, mikroskop ostidagi suratlar va natijalar bilan ta'mirlash tarixi.",
+    viewAll: "Barcha keyslarni ko'rish",
+  },
+  prices: {
+    title: "Halol narx oralig'i",
+    subtitle: "Biz plata ko'rilmasdan oldin asossiz aniq narx aytmaymiz. Quyida xizmatlarning haqiqiy mo'ljal narxlari keltirilgan.",
+    note: "Yakuniy narx har qanday pullik ish boshlanishidan OLDIN siz bilan qat'iy kelishiladi.",
+  },
+  contacts: {
+    title: "Manzil va aloqa",
+    subtitle: "Parkent ko'chasi 11-uyga (Parkent bozori qarshisida) tashrif buyuring yoki navbatchi ustaga yozing.",
+    addressTitle: "Ustaxona manzili",
+    landmarkTitle: "Mo'ljal",
+    hoursTitle: "Ish vaqti",
+    phoneTitle: "Buyurtmalar va maslahat",
+    telegramTitle: "Telegram kanal va guruh",
+  },
+  leadForm: {
+    title: "Diagnostika uchun ariza / Maslahat",
+    subtitle: "Nosozlik belgilarini yozing — usta 15 daqiqada sabablari va taxminiy narxini aytadi.",
+    devicePlaceholder: "Noutbuk modeli (masalan ASUS TUF A15 yoki MacBook Pro 16)",
+    problemPlaceholder: "Nima bo'ldi? (masalan suv to'kildi, yoqilmayapti, qizib ketyapti)",
+    phonePlaceholder: "+998 (90) 000-00-00",
+    namePlaceholder: "Ismingiz",
+    contactPref: "Qulay aloqa usuli",
+    prefTelegram: "Telegram",
+    prefCall: "Telefon qo'ng'irog'i",
+    submitBtn: "Arizani ustaga yuborish",
+    successMsg: "Rahmat! Ariza ustaga yetkazildi. 15 daqiqa ichida siz bilan bog'lanamiz.",
+    guaranteeNote: "Ma'lumotlar maxfiyligi kafolatlanadi. Spamsiz.",
+  },
+  footer: {
+    rights: "Barcha huquqlar himoyalangan.",
+    disclaimer: "Laptop Service / RemontNoutbukov. Toshkentda hisoblash texnikasini professional ta'mirlash.",
+  }
+};

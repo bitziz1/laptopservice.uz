@@ -1,0 +1,55 @@
+---
+import type { CaseItem } from "@/data/cases";
+
+interface Props {
+  caseItem: CaseItem;
+}
+
+const { caseItem } = Astro.props;
+---
+
+<article class="rounded-lg border border-chassis-800 bg-chassis-850 p-5 sm:p-6 flex flex-col justify-between hover:border-chassis-700 transition-colors">
+  
+  <div class="space-y-3">
+    <div class="flex items-center justify-between gap-2 border-b border-chassis-800 pb-3 text-[11px] font-mono">
+      <span class="text-chassis-300 font-bold uppercase">{caseItem.category}</span>
+      <span class="text-chassis-400">{caseItem.date}</span>
+    </div>
+
+    <div class="text-xs font-mono text-chassis-300 font-bold">
+      Устройство: {caseItem.device}
+    </div>
+
+    <h3 class="text-sm sm:text-base font-bold text-chassis-100 line-clamp-2">
+      <a href={`/cases/${caseItem.slug}`} class="hover:underline">
+        {caseItem.title}
+      </a>
+    </h3>
+
+    <p class="text-xs text-chassis-400 line-clamp-2 leading-relaxed">
+      <span class="text-chassis-300 font-medium">Симптом:</span> {caseItem.problem}
+    </p>
+
+    <p class="text-xs text-chassis-400 line-clamp-2 leading-relaxed">
+      <span class="text-chassis-300 font-medium">Решение:</span> {caseItem.solution.split("\n")[0]}
+    </p>
+  </div>
+
+  <div class="pt-4 mt-4 border-t border-chassis-800 flex items-center justify-between">
+    <div class="flex flex-wrap gap-1">
+      {caseItem.tags.slice(0, 2).map((tag) => (
+        <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-chassis-900 border border-chassis-800 text-chassis-400">
+          #{tag}
+        </span>
+      ))}
+    </div>
+
+    <a
+      href={`/cases/${caseItem.slug}`}
+      class="text-xs font-mono text-chassis-200 hover:text-chassis-100 underline underline-offset-2"
+    >
+      Читать разбор →
+    </a>
+  </div>
+
+</article>

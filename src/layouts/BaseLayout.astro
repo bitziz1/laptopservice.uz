@@ -1,0 +1,118 @@
+---
+import { siteConfig } from "@/data/siteConfig";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import SchemaOrg from "@/components/SchemaOrg.astro";
+import "@/styles/global.css";
+
+export interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  canonicalUrl?: string;
+  type?: "LocalBusiness" | "Service" | "Article" | "HowTo" | "FAQPage" | "General";
+  serviceData?: {
+    name: string;
+    description: string;
+    price?: string;
+  };
+  howToSteps?: {
+    name: string;
+    text: string;
+  }[];
+  faqList?: {
+    question: string;
+    answer: string;
+  }[];
+  breadcrumbs?: {
+    name: string;
+    url: string;
+  }[];
+}
+
+const {
+  title = siteConfig.siteName,
+  description = "Ремонт ноутбуков в Ташкенте (ул. Паркент 11). BGA-пайка, чистка от пыли, замена термоинтерфейсов, восстановление после залития. Согласование стоимости до ремонта.",
+  image = `${siteConfig.url}/og-image.jpg`,
+  canonicalUrl = Astro.url.href,
+  type = "General",
+  serviceData,
+  howToSteps,
+  faqList,
+  breadcrumbs,
+} = Astro.props;
+
+const currentPath = Astro.url.pathname;
+const fullTitle = title.includes("Laptop Service") ? title : `${title} — Laptop Service`;
+---
+
+<!DOCTYPE html>
+<html lang="ru" class="dark">
+  <head>
+    <!-- Google Tag Manager -->
+    <script is:inline>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-MHDMSHWH');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:site_name" content={siteConfig.brandName} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#171A20" />
+
+    <!-- Hreflang -->
+    <link rel="alternate" hreflang="ru" href={canonicalUrl} />
+    <link rel="alternate" hreflang="uz" href={canonicalUrl} />
+    <link rel="alternate" hreflang="x-default" href={canonicalUrl} />
+
+    <!-- Schema.org Microdata -->
+    <SchemaOrg
+      type={type}
+      title={fullTitle}
+      description={description}
+      url={canonicalUrl}
+      image={image}
+      serviceData={serviceData}
+      howToSteps={howToSteps}
+      faqList={faqList}
+      breadcrumbs={breadcrumbs}
+    />
+  </head>
+
+  <body class="bg-chassis-900 text-chassis-200 min-h-screen flex flex-col selection:bg-chassis-700 selection:text-chassis-100">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MHDMSHWH"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <Header currentPath={currentPath} />
+
+    <main id="main-content" class="flex-1">
+      <slot />
+    </main>
+
+    <Footer />
+  </body>
+</html>

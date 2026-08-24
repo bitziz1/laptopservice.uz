@@ -1,0 +1,162 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import { casesData, type CaseItem } from "@/data/cases";
+import { siteConfig } from "@/data/siteConfig";
+
+export function getStaticPaths() {
+  return casesData.map((caseItem) => ({
+    params: { slug: caseItem.slug },
+    props: { caseItem },
+  }));
+}
+
+interface Props {
+  caseItem: CaseItem;
+}
+
+const { caseItem } = Astro.props;
+
+const breadcrumbs = [
+  { name: "Кейсы ремонта", url: "/cases" },
+  { name: caseItem.device, url: `/cases/${caseItem.slug}` },
+];
+
+const solutionSteps = caseItem.solution
+  .split("\n")
+  .map((line) => line.trim())
+  .filter((line) => line.length > 0)
+  .map((line, idx) => ({
+    name: `Этап ${idx + 1}`,
+    text: line.replace(/^\d+\.\s*/, ""),
+  }));
+---
+
+<BaseLayout
+  title={`${caseItem.title}`}
+  description={`${caseItem.problem.slice(0, 150)}... Разбор ремонта в сервисном центре Laptop Service на Паркент 11.`}
+  type="HowTo"
+  howToSteps={solutionSteps}
+  breadcrumbs={breadcrumbs}
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
+    
+    <Breadcrumbs items={breadcrumbs} />
+
+    <!-- Case Header -->
+    <header class="space-y-3">
+      <div class="flex flex-wrap items-center gap-2 text-xs font-mono">
+        <span class="px-2 py-0.5 rounded border border-chassis-700 bg-chassis-850 text-chassis-300 font-bold uppercase">
+          {caseItem.category}
+        </span>
+        <span class="text-chassis-400">
+          Дата: {caseItem.date}
+        </span>
+      </div>
+
+      <h1 class="text-xl sm:text-3xl font-extrabold text-chassis-100 tracking-tight leading-tight">
+        {caseItem.title}
+      </h1>
+
+      <div class="text-xs font-mono text-chassis-300">
+        Устройство: <strong class="text-chassis-100">{caseItem.device}</strong>
+      </div>
+    </header>
+
+    <!-- Specs Box -->
+    {caseItem.keySpecs && (
+      <div class="rounded border border-chassis-800 bg-chassis-850 p-4 sm:p-5">
+        <div class="text-xs font-mono text-chassis-400 uppercase tracking-wider mb-3">Параметры ремонта</div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
+          {caseItem.keySpecs.map((spec) => (
+            <div class="p-2.5 rounded bg-chassis-900 border border-chassis-800">
+              <span class="text-chassis-400 block text-[10px]">{spec.label}</span>
+              <span class="text-chassis-200 font-bold">{spec.value}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <!-- Problem -->
+    <section class="rounded border border-chassis-800 bg-chassis-850 p-5 sm:p-6 space-y-2">
+      <div class="text-xs font-mono text-chassis-400 uppercase tracking-wider font-bold">
+        01. Неисправность и симптомы
+      </div>
+      <p class="text-xs sm:text-sm text-chassis-300 leading-relaxed">
+        {caseItem.problem}
+      </p>
+    </section>
+
+    <!-- Diagnosis -->
+    <section class="rounded border border-chassis-800 bg-chassis-850 p-5 sm:p-6 space-y-2">
+      <div class="text-xs font-mono text-chassis-400 uppercase tracking-wider font-bold">
+        02. Результаты аппаратной диагностики
+      </div>
+      <p class="text-xs sm:text-sm text-chassis-300 leading-relaxed">
+        {caseItem.diagnosis}
+      </p>
+    </section>
+
+    <!-- Steps -->
+    <section class="rounded border border-chassis-800 bg-chassis-850 p-5 sm:p-6 space-y-4">
+      <div class="text-xs font-mono text-chassis-400 uppercase tracking-wider font-bold">
+        03. Ход выполнения ремонта
+      </div>
+
+      <div class="space-y-2.5">
+        {solutionSteps.map((step, idx) => (
+          <div class="p-3 rounded bg-chassis-900 border border-chassis-800 text-xs text-chassis-300 flex items-start gap-2.5">
+            <span class="text-chassis-400 font-mono font-bold">{idx + 1}.</span>
+            <span class="leading-relaxed">{step.text}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Result -->
+    <section class="rounded border border-chassis-800 bg-chassis-850 p-5 sm:p-6 space-y-2">
+      <div class="text-xs font-mono text-chassis-400 uppercase tracking-wider font-bold">
+        04. Итог и тестирование
+      </div>
+      <p class="text-xs sm:text-sm text-chassis-300 leading-relaxed">
+        {caseItem.result}
+      </p>
+    </section>
+
+    <!-- Tags -->
+    <div class="flex flex-wrap gap-1.5 pt-2">
+      {caseItem.tags.map((tag) => (
+        <span class="px-2 py-0.5 rounded bg-chassis-900 border border-chassis-800 text-[11px] font-mono text-chassis-400">
+          #{tag}
+        </span>
+      ))}
+    </div>
+
+    <!-- CTA -->
+    <div class="rounded-lg border border-chassis-700 bg-chassis-950 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="text-xs text-chassis-300 text-center sm:text-left space-y-1">
+        <div class="font-bold text-chassis-100">Похожая проблема с ноутбуком {caseItem.device}?</div>
+        <div>Привезите устройство на диагностику на ул. Паркент 11 или отправьте доставкой.</div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <a
+          href={siteConfig.telegram.masterUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="px-4 py-2 rounded border border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 text-xs font-mono font-bold transition-colors"
+        >
+          Telegram мастера
+        </a>
+        <a
+          href={`tel:${siteConfig.phones.primary}`}
+          class="px-4 py-2 rounded border border-chassis-700 bg-chassis-900 hover:bg-chassis-800 text-chassis-200 text-xs font-mono transition-colors"
+        >
+          Позвонить
+        </a>
+      </div>
+    </div>
+
+  </div>
+</BaseLayout>

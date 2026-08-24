@@ -1,0 +1,34 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Страница не найдена (404) — Laptop Service"
+  description="Запрашиваемая страница не найдена. Перейдите на главную страницу или свяжитесь с мастером."
+>
+  <div class="max-w-xl mx-auto px-4 py-20 text-center space-y-4">
+    <div class="inline-block px-3 py-1 rounded border border-chassis-700 bg-chassis-850 text-chassis-300 font-mono text-sm font-bold">
+      404: Page Not Found
+    </div>
+    
+    <h1 class="text-xl sm:text-2xl font-bold text-chassis-100">Страница не найдена</h1>
+    <p class="text-xs sm:text-sm text-chassis-400">
+      Возможно, адрес введен с ошибкой или страница была перемещена.
+    </p>
+
+    <div class="pt-2 flex justify-center gap-2">
+      <a
+        href="/"
+        class="px-4 py-2 rounded border border-chassis-700 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 text-xs font-mono transition-colors"
+      >
+        На главную страницу
+      </a>
+      <a
+        href="/services"
+        class="px-4 py-2 rounded border border-chassis-800 bg-chassis-900 hover:bg-chassis-850 text-chassis-300 text-xs font-mono transition-colors"
+      >
+        Услуги
+      </a>
+    </div>
+  </div>
+</BaseLayout>

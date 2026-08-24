@@ -1,0 +1,131 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import { siteConfig } from "@/data/siteConfig";
+
+const breadcrumbs = [
+  { name: "Контакты", url: "/contacts" },
+];
+---
+
+<BaseLayout
+  title="Контакты и схема проезда — Laptop Service Ташкент"
+  description="Адрес сервисного центра Laptop Service: г. Ташкент, ул. Паркент 11 (напротив Паркентского базара, магазин «Радиодетали»). Телефон мастера, Telegram, доставка."
+  type="LocalBusiness"
+  breadcrumbs={breadcrumbs}
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
+    
+    <Breadcrumbs items={breadcrumbs} />
+
+    <header class="space-y-3">
+      <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded border border-chassis-700 bg-chassis-850 text-xs font-mono text-chassis-300">
+        Контакты сервисного центра
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-chassis-100 tracking-tight leading-tight">
+        Контакты, адрес и способы доставки
+      </h1>
+
+      <p class="text-xs sm:text-sm text-chassis-300 leading-relaxed">
+        Сервисный центр находится на улице Паркент, дом 11. Напротив расположен Паркентский базар, а по соседству — магазин «Радиодетали».
+      </p>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
+      
+      <!-- Phone & Telegram -->
+      <div class="rounded border border-chassis-800 bg-chassis-850 p-5 space-y-3">
+        <div class="text-chassis-400 uppercase tracking-wider font-bold">Связь с мастером</div>
+        <div class="space-y-2">
+          <div>
+            <span class="text-chassis-400 block text-[11px]">Телефон для звонков:</span>
+            <a href={`tel:${siteConfig.phones.primary}`} class="text-sm font-bold text-chassis-100 hover:underline">
+              {siteConfig.phones.displayPrimary}
+            </a>
+          </div>
+          <div>
+            <span class="text-chassis-400 block text-[11px]">Telegram мастера:</span>
+            <a href={siteConfig.telegram.masterUrl} target="_blank" rel="noopener noreferrer" class="text-sm font-bold text-chassis-200 hover:underline">
+              {siteConfig.telegram.masterHandle}
+            </a>
+          </div>
+          <div>
+            <span class="text-chassis-400 block text-[11px]">Telegram канал:</span>
+            <a href={siteConfig.telegram.channelUrl} target="_blank" rel="noopener noreferrer" class="text-chassis-300 hover:underline">
+              {siteConfig.telegram.channel}
+            </a>
+          </div>
+          <div>
+            <span class="text-chassis-400 block text-[11px]">Telegram чат:</span>
+            <a href={siteConfig.telegram.chatUrl} target="_blank" rel="noopener noreferrer" class="text-chassis-300 hover:underline">
+              t.me/laptop_service_chat
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Address & Schedule -->
+      <div class="rounded border border-chassis-800 bg-chassis-850 p-5 space-y-3">
+        <div class="text-chassis-400 uppercase tracking-wider font-bold">Адрес и режим работы</div>
+        <div class="space-y-2">
+          <div>
+            <span class="text-chassis-400 block text-[11px]">Физический адрес:</span>
+            <span class="text-chassis-100 font-bold block">{siteConfig.address.fullAddress}</span>
+          </div>
+          <div>
+            <span class="text-chassis-400 block text-[11px]">График работы:</span>
+            <span class="text-chassis-200">{siteConfig.workingHours.days}: {siteConfig.workingHours.hours}</span>
+          </div>
+          <div>
+            <span class="text-chassis-400 block text-[11px]">Воскресенье:</span>
+            <span class="text-chassis-300">{siteConfig.workingHours.sunday}</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Delivery Instructions -->
+    <section class="rounded border border-chassis-800 bg-chassis-850 p-6 space-y-3 text-xs text-chassis-300">
+      <h3 class="text-sm font-bold text-chassis-100 font-mono uppercase tracking-wider">
+        Доставка техники курьером / Яндекс Доставкой
+      </h3>
+      <p class="leading-relaxed">
+        Если у вас нет возможности приехать лично, вы можете отправить ноутбук курьерской службой (Яндекс Доставка, Express) в рабочие часы сервисного центра.
+      </p>
+      <p class="leading-relaxed text-chassis-400">
+        Перед отправкой обязательно напишите или позвоните мастеру, чтобы подтвердить отправку и указать модель устройства и симптомы поломки.
+      </p>
+    </section>
+
+    <!-- Maps Links -->
+    <section class="rounded border border-chassis-800 bg-chassis-900 p-6 space-y-4">
+      <h3 class="text-sm font-bold text-chassis-100 font-mono uppercase tracking-wider">
+        Карты и навигация
+      </h3>
+      <p class="text-xs text-chassis-400">
+        Координаты: 41.3144° N, 69.3148° E (г. Ташкент, ул. Паркент 11)
+      </p>
+      <div class="flex flex-wrap gap-2 pt-1 text-xs font-mono">
+        <a
+          href={siteConfig.socials.yandexMaps}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="px-4 py-2 rounded border border-chassis-700 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 transition-colors"
+        >
+          Яндекс Карты (laptop_service) →
+        </a>
+        <a
+          href={siteConfig.socials.googleMaps}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="px-4 py-2 rounded border border-chassis-700 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 transition-colors"
+        >
+          Google Maps →
+        </a>
+      </div>
+    </section>
+
+  </div>
+</BaseLayout>

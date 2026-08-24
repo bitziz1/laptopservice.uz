@@ -1,0 +1,161 @@
+---
+import { siteConfig } from "@/data/siteConfig";
+
+export interface Props {
+  type?: "LocalBusiness" | "Service" | "Article" | "HowTo" | "FAQPage" | "General";
+  title?: string;
+  description?: string;
+  url?: string;
+  image?: string;
+  serviceData?: {
+    name: string;
+    description: string;
+  };
+  howToSteps?: {
+    name: string;
+    text: string;
+  }[];
+  faqList?: {
+    question: string;
+    answer: string;
+  }[];
+  breadcrumbs?: {
+    name: string;
+    url: string;
+  }[];
+}
+
+const {
+  title = siteConfig.siteName,
+  description = "Сервисный центр по ремонту ноутбуков в Ташкенте. BGA-пайка, чистка от пыли, восстановление после залития на ул. Паркент 11. Опыт мастера Руслана — 20 лет.",
+  image = `${siteConfig.url}/og-image.jpg`,
+  serviceData,
+  howToSteps,
+  faqList,
+  breadcrumbs,
+} = Astro.props;
+
+// 1. LocalBusiness / ElectronicsRepairShop Schema
+const localBusinessSchema = {
+  "@context": "https://schema.org",
+  "@type": "ElectronicsRepairShop",
+  "@id": `${siteConfig.url}/#organization`,
+  "name": "Laptop Service — Ремонт ноутбуков в Ташкенте",
+  "alternateName": ["RemontNoutbukov", "Laptop Service Tashkent"],
+  "url": siteConfig.url,
+  "logo": `${siteConfig.url}/favicon.svg`,
+  "image": image,
+  "description": description,
+  "telephone": siteConfig.phones.primary,
+  "priceRange": "$$",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "ул. Паркент 11",
+    "addressLocality": "Ташкент",
+    "addressRegion": "Ташкент",
+    "postalCode": "100000",
+    "addressCountry": "UZ"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": siteConfig.address.geo.latitude,
+    "longitude": siteConfig.address.geo.longitude
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      "opens": "09:00",
+      "closes": "19:00"
+    }
+  ],
+  "sameAs": [
+    siteConfig.telegram.channelUrl,
+    siteConfig.telegram.chatUrl,
+    siteConfig.telegram.masterUrl,
+    siteConfig.socials.instagram,
+    siteConfig.socials.facebook,
+    siteConfig.socials.yandexMaps,
+    siteConfig.socials.googleMaps
+  ],
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "5.0",
+    "reviewCount": "52",
+    "bestRating": "5",
+    "worstRating": "1"
+  }
+};
+
+// 2. Service Schema
+const serviceSchema = serviceData ? {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": serviceData.name,
+  "name": serviceData.name,
+  "description": serviceData.description,
+  "provider": {
+    "@type": "ElectronicsRepairShop",
+    "name": "Laptop Service",
+    "url": siteConfig.url,
+    "telephone": siteConfig.phones.primary,
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "ул. Паркент 11",
+      "addressLocality": "Ташкент",
+      "addressCountry": "UZ"
+    }
+  },
+  "areaServed": {
+    "@type": "City",
+    "name": "Ташкент"
+  }
+} : null;
+
+// 3. HowTo / Article Schema
+const howToSchema = howToSteps && howToSteps.length > 0 ? {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": title,
+  "description": description,
+  "image": image,
+  "step": howToSteps.map((s, idx) => ({
+    "@type": "HowToStep",
+    "position": idx + 1,
+    "name": s.name,
+    "text": s.text
+  }))
+} : null;
+
+// 4. FAQ Schema
+const faqSchema = faqList && faqList.length > 0 ? {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqList.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
+    }
+  }))
+} : null;
+
+// 5. Breadcrumbs Schema
+const breadcrumbsSchema = breadcrumbs && breadcrumbs.length > 0 ? {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": breadcrumbs.map((bc, idx) => ({
+    "@type": "ListItem",
+    "position": idx + 1,
+    "name": bc.name,
+    "item": bc.url.startsWith("http") ? bc.url : `${siteConfig.url}${bc.url}`
+  }))
+} : null;
+---
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)} />
+{serviceSchema && <script is:inline type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />}
+{howToSchema && <script is:inline type="application/ld+json" set:html={JSON.stringify(howToSchema)} />}
+{faqSchema && <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
+{breadcrumbsSchema && <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbsSchema)} />}

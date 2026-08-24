@@ -1,0 +1,57 @@
+---
+import type { ReviewItem } from "@/data/reviews";
+
+interface Props {
+  review: ReviewItem;
+}
+
+const { review } = Astro.props;
+---
+
+<div class="rounded-lg border border-chassis-800 bg-chassis-850 p-5 sm:p-6 flex flex-col justify-between space-y-4">
+  
+  <div class="space-y-3">
+    <div class="flex items-center justify-between gap-2 border-b border-chassis-800 pb-3">
+      <div>
+        <h4 class="font-bold text-chassis-100 text-sm">{review.author}</h4>
+        <p class="text-[11px] text-chassis-400 font-mono">Устройство: {review.device}</p>
+      </div>
+
+      <span class="text-[10px] font-mono px-2 py-0.5 rounded border border-chassis-800 bg-chassis-900 text-chassis-400">
+        {review.source}
+      </span>
+    </div>
+
+    <div class="flex items-center gap-1 text-xs text-chassis-300 font-mono">
+      <span>★★★★★</span>
+      <span class="text-chassis-400 ml-1">{review.date}</span>
+    </div>
+
+    <p class="text-xs sm:text-sm text-chassis-300 leading-relaxed italic">
+      «{review.text}»
+    </p>
+
+    <!-- Optional attached photos from repair / workshop -->
+    {review.photos && review.photos.length > 0 && (
+      <div class="pt-2">
+        <div class="text-[10px] font-mono uppercase text-chassis-400 mb-1.5">Фото ремонта / устройства:</div>
+        <div class="flex flex-wrap gap-2">
+          {review.photos.map((photo, idx) => (
+            <div class="px-2.5 py-1 rounded border border-chassis-800 bg-chassis-900 text-chassis-300 text-[11px] font-mono flex items-center gap-1.5">
+              <span>📷</span>
+              <span>{photo.caption || `Фото #${idx + 1}`}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+
+  {review.masterReply && (
+    <div class="pt-3 border-t border-chassis-800 text-xs text-chassis-400 space-y-1">
+      <span class="text-chassis-300 font-mono font-bold block">Ответ мастера:</span>
+      <p class="italic">{review.masterReply}</p>
+    </div>
+  )}
+
+</div>

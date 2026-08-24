@@ -1,0 +1,132 @@
+---
+import { siteConfig } from "@/data/siteConfig";
+
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = "" } = Astro.props;
+
+const navItems = [
+  { href: "/", label: "Главная" },
+  { href: "/services", label: "Услуги" },
+  { href: "/cases", label: "Кейсы" },
+  { href: "/about", label: "О мастере" },
+  { href: "/prices", label: "Диагностика и цены" },
+  { href: "/reviews", label: "Отзывы" },
+  { href: "/contacts", label: "Контакты" },
+];
+---
+
+<header class="sticky top-0 z-50 w-full border-b border-chassis-800 bg-chassis-900/95 backdrop-blur-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16 sm:h-18">
+      
+      <!-- Brand Logo / Identity -->
+      <a href="/" class="flex items-center gap-2.5 focus:outline-none">
+        <div class="w-8 h-8 rounded border border-chassis-700 bg-chassis-850 flex items-center justify-center text-chassis-100 font-mono text-sm font-bold">
+          LS
+        </div>
+        <div class="flex flex-col">
+          <span class="font-bold text-sm sm:text-base tracking-wider text-chassis-100 uppercase">Laptop Service</span>
+          <span class="text-[11px] text-chassis-400 font-mono">ул. Паркент 11 • Ташкент</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden lg:flex items-center gap-1">
+        {navItems.map((item) => {
+          const isActive = item.href === "/" ? currentPath === "/" || currentPath === "" : currentPath.startsWith(item.href);
+          return (
+            <a
+              href={item.href}
+              class={`px-3 py-1.5 rounded text-xs font-mono uppercase tracking-wider transition-colors ${
+                isActive
+                  ? "text-chassis-100 bg-chassis-800 font-bold border border-chassis-700"
+                  : "text-chassis-400 hover:text-chassis-200 hover:bg-chassis-850"
+              }`}
+            >
+              {item.label}
+            </a>
+          );
+        })}
+      </nav>
+
+      <!-- Direct Contact Actions (Call & Telegram) -->
+      <div class="hidden sm:flex items-center gap-2.5">
+        <a
+          href={siteConfig.telegram.masterUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="px-3 py-1.5 rounded border border-chassis-700 bg-chassis-850 hover:bg-chassis-800 text-chassis-200 hover:text-chassis-100 text-xs font-mono transition-colors flex items-center gap-1.5"
+        >
+          <span>Telegram мастера</span>
+        </a>
+
+        <a
+          href={`tel:${siteConfig.phones.primary}`}
+          class="px-3.5 py-1.5 rounded border border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 text-xs font-mono font-bold transition-colors flex items-center gap-1.5"
+        >
+          <span>{siteConfig.phones.displayPrimary}</span>
+        </a>
+      </div>
+
+      <!-- Mobile Hamburger Button -->
+      <button
+        type="button"
+        id="mobile-menu-toggle"
+        class="p-2 rounded border border-chassis-800 text-chassis-400 hover:text-chassis-100 sm:hidden"
+        aria-label="Меню"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+      </button>
+
+    </div>
+  </div>
+
+  <!-- Mobile Drawer Menu -->
+  <div id="mobile-menu" class="hidden sm:hidden border-t border-chassis-800 bg-chassis-950 px-4 py-4 space-y-2">
+    {navItems.map((item) => {
+      const isActive = item.href === "/" ? currentPath === "/" || currentPath === "" : currentPath.startsWith(item.href);
+      return (
+        <a
+          href={item.href}
+          class={`block px-3 py-2 rounded text-xs font-mono uppercase ${
+            isActive ? "bg-chassis-800 text-chassis-100 font-bold" : "text-chassis-400 hover:text-chassis-200"
+          }`}
+        >
+          {item.label}
+        </a>
+      );
+    })}
+
+    <div class="pt-3 border-t border-chassis-800 space-y-2">
+      <a
+        href={siteConfig.telegram.masterUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="block w-full py-2.5 text-center rounded border border-chassis-700 bg-chassis-850 text-chassis-200 text-xs font-mono"
+      >
+        Написать в Telegram мастеру
+      </a>
+      <a
+        href={`tel:${siteConfig.phones.primary}`}
+        class="block w-full py-2.5 text-center rounded border border-chassis-600 bg-chassis-800 text-chassis-100 text-xs font-mono font-bold"
+      >
+        Позвонить: {siteConfig.phones.displayPrimary}
+      </a>
+    </div>
+  </div>
+</header>
+
+<script>
+  const toggleBtn = document.getElementById("mobile-menu-toggle");
+  const mobileMenu = document.getElementById("mobile-menu");
+  if (toggleBtn && mobileMenu) {
+    toggleBtn.addEventListener("click", () => {
+      mobileMenu.classList.toggle("hidden");
+    });
+  }
+</script>

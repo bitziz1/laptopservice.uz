@@ -1,0 +1,141 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import { servicesData, type ServiceItem } from "@/data/services";
+import { siteConfig } from "@/data/siteConfig";
+
+export function getStaticPaths() {
+  return servicesData.map((service) => ({
+    params: { slug: service.slug },
+    props: { service },
+  }));
+}
+
+interface Props {
+  service: ServiceItem;
+}
+
+const { service } = Astro.props;
+
+const breadcrumbs = [
+  { name: "Услуги", url: "/services" },
+  { name: service.title, url: `/services/${service.slug}` },
+];
+---
+
+<BaseLayout
+  title={`${service.title} в Ташкенте`}
+  description={`${service.shortDescription} Сервисный центр Laptop Service на ул. Паркент 11. Опыт 20 лет, согласование стоимости до ремонта.`}
+  type="Service"
+  serviceData={{
+    name: service.title,
+    description: service.fullDescription,
+  }}
+  faqList={service.faq}
+  breadcrumbs={breadcrumbs}
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-10">
+    
+    <Breadcrumbs items={breadcrumbs} />
+
+    <!-- Service Header -->
+    <header class="space-y-4">
+      <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded border border-chassis-700 bg-chassis-850 text-xs font-mono text-chassis-300">
+        Услуга сервисного центра • ул. Паркент 11
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-chassis-100 tracking-tight leading-tight">
+        {service.title}
+      </h1>
+
+      <p class="text-sm sm:text-base text-chassis-300 leading-relaxed">
+        {service.fullDescription}
+      </p>
+
+      <!-- Key Specs Bar -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-b border-chassis-800 py-3 text-xs font-mono">
+        <div>
+          <span class="text-chassis-400 block">Ориентировочные сроки:</span>
+          <span class="text-chassis-100 font-bold">{service.timeRange}</span>
+        </div>
+        <div>
+          <span class="text-chassis-400 block">Гарантия:</span>
+          <span class="text-chassis-100 font-bold">{service.warranty}</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Symptoms Checklist -->
+    <section class="space-y-3">
+      <h2 class="text-sm font-bold text-chassis-200 uppercase font-mono tracking-wider">
+        Характерные признаки и симптомы неисправности:
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        {service.symptoms.map((symptom) => (
+          <div class="p-3 rounded border border-chassis-800 bg-chassis-850 text-xs text-chassis-300 flex items-start gap-2">
+            <span class="text-chassis-400 font-mono">-</span>
+            <span>{symptom}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Stages of Work -->
+    <section class="space-y-4">
+      <h2 class="text-sm font-bold text-chassis-200 uppercase font-mono tracking-wider">
+        Порядок проведения работ:
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {service.stages.map((stage, idx) => (
+          <div class="p-4 rounded border border-chassis-800 bg-chassis-850 space-y-1.5">
+            <div class="text-xs font-mono text-chassis-400 font-bold">0{idx + 1}. {stage.title}</div>
+            <p class="text-xs text-chassis-400 leading-relaxed">{stage.description}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    {service.faq && service.faq.length > 0 && (
+      <section class="space-y-4 border-t border-chassis-800 pt-8">
+        <h2 class="text-sm font-bold text-chassis-200 uppercase font-mono tracking-wider">
+          Частые вопросы по услуге
+        </h2>
+        <div class="space-y-3">
+          {service.faq.map((item) => (
+            <div class="p-4 rounded border border-chassis-800 bg-chassis-850 space-y-1">
+              <h3 class="text-xs font-bold text-chassis-100">{item.question}</h3>
+              <p class="text-xs text-chassis-400 leading-relaxed">{item.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- Direct CTA Banner -->
+    <div class="rounded-lg border border-chassis-700 bg-chassis-950 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="text-xs text-chassis-300 text-center sm:text-left space-y-1">
+        <div class="font-bold text-chassis-100">Нужна консультация по услуге «{service.title}»?</div>
+        <div>Свяжитесь с мастером напрямую для уточнения деталей.</div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <a
+          href={siteConfig.telegram.masterUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="px-4 py-2 rounded border border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 text-xs font-mono font-bold transition-colors"
+        >
+          Telegram мастера
+        </a>
+        <a
+          href={`tel:${siteConfig.phones.primary}`}
+          class="px-4 py-2 rounded border border-chassis-700 bg-chassis-900 hover:bg-chassis-800 text-chassis-200 text-xs font-mono transition-colors"
+        >
+          Позвонить
+        </a>
+      </div>
+    </div>
+
+  </div>
+</BaseLayout>

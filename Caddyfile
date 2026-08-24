@@ -1,0 +1,37 @@
+# Caddy Configuration for Laptop Service (laptopservice.uz)
+
+# 1. 301-Permanent Redirect from remontnoutbukov.uz to laptopservice.uz
+remontnoutbukov.uz, www.remontnoutbukov.uz {
+    redir https://laptopservice.uz{uri} permanent
+}
+
+# 2. Main production domain
+laptopservice.uz, www.laptopservice.uz {
+    root * /srv/dist
+    encode zstd gzip
+
+    # Handle SPA / SSG clean URLs and 404 page
+    try_files {path} {path}/ {path}.html /404.html
+    file_server
+
+    # Security & Performance Headers
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "SAMEORIGIN"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        Permissions-Policy "geolocation=(), microphone=(), camera=()"
+    }
+
+    # Cache static assets
+    @static {
+        path /_astro/* /favicon.svg /og-image.jpg
+    }
+    header @static Cache-Control "public, max-age=31536000, immutable"
+
+    # HTML files cache
+    @html {
+        path *.html /
+    }
+    header @html Cache-Control "public, max-age=0, must-revalidate"
+}

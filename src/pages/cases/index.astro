@@ -1,0 +1,59 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import CaseCard from "@/components/CaseCard.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import { casesData } from "@/data/cases";
+import { siteConfig } from "@/data/siteConfig";
+
+const breadcrumbs = [
+  { name: "Кейсы ремонта", url: "/cases" },
+];
+---
+
+<BaseLayout
+  title="Примеры ремонтов ноутбуков — Сервисный центр на Паркент 11"
+  description="Реальные разборы ремонтов ноутбуков из Telegram-канала @laptopservice_uz: замеры, BGA-пайка, поиск коротких замыканий, восстановление после залития."
+  breadcrumbs={breadcrumbs}
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
+    
+    <Breadcrumbs items={breadcrumbs} />
+
+    <div class="max-w-3xl space-y-3">
+      <div class="text-xs font-mono text-chassis-400 uppercase tracking-wider">
+        Telegram-канал: {siteConfig.telegram.channel}
+      </div>
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-chassis-100 tracking-tight">
+        Примеры выполненных ремонтов
+      </h1>
+      <p class="text-xs sm:text-sm text-chassis-300 leading-relaxed">
+        Публикуем разборы реальных случаев из практики: устранение коротких замыканий, замена видеочипов и хабов BGA-методом, ремонт выломанных петель и ультразвуковая чистка после залития.
+      </p>
+    </div>
+
+    <!-- Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      {casesData.map((caseItem) => (
+        <CaseCard caseItem={caseItem} />
+      ))}
+    </div>
+
+    <!-- Telegram Channel Strip -->
+    <div class="rounded-lg border border-chassis-800 bg-chassis-950 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="text-xs text-chassis-300 text-center sm:text-left space-y-1">
+        <span class="text-chassis-100 font-bold block">Следите за новыми публикациями в Telegram</span>
+        <span>Регулярно выкладываем замеры, фото под микроскопом и результаты стресс-тестов.</span>
+      </div>
+
+      <a
+        href={siteConfig.telegram.channelUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="px-5 py-2.5 rounded border border-chassis-700 bg-chassis-850 hover:bg-chassis-800 text-chassis-100 text-xs font-mono transition-colors shrink-0"
+      >
+        Канал @laptopservice_uz →
+      </a>
+    </div>
+
+  </div>
+</BaseLayout>

@@ -1,0 +1,103 @@
+---
+- name: Deploy laptopservice.uz on clean Ubuntu 24.04 LTS
+  hosts: webservers
+  become: true
+  vars:
+    app_dir: /opt/laptopservice
+    repo_url: "https://github.com/your-username/laptopservice.git" # или копирование локальной папки
+    domain_main: "laptopservice.uz"
+    domain_redirect: "remontnoutbukov.uz"
+
+  tasks:
+    - name: Update apt cache and upgrade packages
+      apt:
+        update_cache: yes
+        upgrade: dist
+        autoremove: yes
+
+    - name: Install required system tools
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+          - git
+          - ufw
+          - rsync
+        state: present
+
+    - name: Configure UFW Firewall (SSH, HTTP, HTTPS)
+      ufw:
+        rule: allow
+        port: "{{ item }}"
+        proto: tcp
+      loop:
+        - "22"
+        - "80"
+        - "443"
+
+    - name: Enable UFW
+      ufw:
+        state: enabled
+
+    - name: Add Docker official GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker repository for Ubuntu 24.04 (Noble)
+      apt_repository:
+        repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu noble stable"
+        state: present
+
+    - name: Install Docker CE & Docker Compose Plugin
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+        state: present
+        update_cache: yes
+
+    - name: Ensure Docker service is running and enabled
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Create application directory
+      file:
+        path: "{{ app_dir }}"
+        state: directory
+        mode: '0755'
+
+    - name: Synchronize project files to remote server
+      synchronize:
+        src: ../
+        dest: "{{ app_dir }}"
+        delete: yes
+        rsync_opts:
+          - "--exclude=.git"
+          - "--exclude=node_modules"
+          - "--exclude=dist"
+          - "--exclude=.gemini"
+          - "--exclude=ansible"
+
+    - name: Build and launch Docker containers with Caddy
+      community.docker.docker_compose_v2:
+        project_src: "{{ app_dir }}"
+        state: present
+        build: always
+      register: compose_output
+
+    - name: Verify Caddy and site container status
+      command: docker compose -f {{ app_dir }}/docker-compose.yml ps
+      register: ps_output
+
+    - name: Display container status
+      debug:
+        var: ps_output.stdout_lines
