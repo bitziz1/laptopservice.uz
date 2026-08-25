@@ -9,7 +9,7 @@
    - Яндекс Карты: `https://yandex.com/maps/org/laptop_service/81659688745`
    - Google Maps: `https://maps.app.goo.gl/nhNuRttDTpXGpabW7`
    - Телефон сервиса: `+998(93)228-77-38`
-   - Telegram сервиса: `https://t.me/remontnoutbukov_uz` (@remontnoutbukov_uz)
+   - Telegram сервиса: `https://t.me/laptopservice_master` (@laptopservice_master)
    - Руководитель сервиса Руслан: `+998(90)358-77-38` / `@remontnoutbukov_uz` (строго по делу, только на странице контактов)
    - Telegram канал: `https://t.me/laptopservice_uz`
    - Telegram чат: `https://t.me/laptop_service_chat`
@@ -18,7 +18,7 @@
 
 2. **Отказ от форм на сайте и прямой CTA**:
    - Полностью удалены формы заявок и модальные окна.
-   - Все кнопки на сайте ведут на звонок `+998(93)228-77-38` или в Telegram `@remontnoutbukov_uz` (без упоминания имени мастера, через IconLink).
+   - Все кнопки на сайте ведут на звонок `+998(93)228-77-38` или в Telegram `@laptopservice_master` (без упоминания имени мастера, через IconLink).
 
 3. **Переработка ценовой политики и копирайта**:
    - Удалены конкретные диапазоны цен на услуги (цены индивидуальны).
@@ -69,3 +69,5 @@
    - **Иконки**: все контактные и CTA-ссылки переведены на `IconLink` — `reviews.astro`, `about.astro`, `prices.astro`/`PriceTable`, `cases/index`, `ServiceCard`; иконки для Telegram/phone/maps/instagram/facebook/yandex/google теперь единообразны.
    - **Сроки/цены → сложность**: из `ServiceItem` и `BuildItem` удалены поля `timeRange`/`warranty`/`price`; добавлены `complexity: easy|medium|hard` и конфиги `complexityConfig`/`buildComplexityConfig` с бейджами: Легкий (зеленый `emerald`), Стандартный (желтый `amber`), Сложный (красный `red`); обновлены `ServiceCard`, `BuildCard`, `services/[slug]`, `builds/[slug]`; скрипт `content_tool.py` валидирует `complexity` вместо `price`.
    - **Руслан**: удалены все упоминания вне контактов (`MasterBadge`, `about`, `index`, `services.ts`, `SchemaOrg`, `i18n`, `reviews`); в `contacts.astro` добавлен отдельный блок «Руководитель сервиса — Руслан» с `+998 (90) 358-77-38` и `@remontnoutbukov_uz` (строго по делу); `siteConfig` дополнен объектом `manager` и обновлён `telegram.masterHandle` на `@remontnoutbukov_uz`, CTA-лейблы стали нейтральными («Написать в Telegram», «Позвонить»).
+
+13. Актуальный Telegram username для связи с мастером: [@laptopservice_master](https://t.me/laptopservice_master)
