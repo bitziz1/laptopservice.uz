@@ -58,11 +58,11 @@ const homeFaq = [
 
         <!-- Key Policy Notice -->
         <div class="text-xs font-sans text-chassis-300 space-y-1 leading-relaxed">
-          <div class="font-bold text-chassis-100 uppercase tracking-wider">Порядок работы:</div>
+          <div class="font-bold text-chassis-100 uppercase tracking-wider">Как всё устроено — бесплатно и прозрачно:</div>
           <p>
-            1. Приносите ноутбук в сервисный центр или отправляете доставкой.<br />
-            2. Проводим диагностику на приборах.<br />
-            3. Стоимость согласуется с вами <strong>строго до начала ремонта</strong>.
+            1. Привозите ноутбук на Паркент 11 — диагностика <strong>бесплатно</strong>.<br />
+            2. Если сразу неочевидно, оставляете устройство — фиксируем акт приёма и контакты, на диагностику уходит время.<br />
+            3. Находим причину — звоним, объясняем и согласуем стоимость. Только после вашего согласия мастер приступает к ремонту.
           </p>
         </div>
 
@@ -75,7 +75,7 @@ const homeFaq = [
             ariaLabel="Написать в Telegram"
             variant="button"
             target="_blank"
-            class="px-5 py-2.5 border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 font-bold"
+            class="px-6 py-3.5 text-sm border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 font-bold"
           />
           <IconLink
             type="phone"
@@ -83,14 +83,26 @@ const homeFaq = [
             label={`Позвонить: ${siteConfig.phones.displayPrimary}`}
             ariaLabel="Позвонить"
             variant="button"
-            class="px-5 py-2.5 bg-chassis-900 hover:bg-chassis-850 text-chassis-200"
+            class="px-6 py-3.5 text-sm bg-chassis-900 hover:bg-chassis-850 text-chassis-200"
           />
-          <a
-            href="/contacts"
-            class="px-4 py-2.5 rounded border border-chassis-800 hover:bg-chassis-850 text-chassis-400 hover:text-chassis-200 text-xs font-sans transition-colors"
-          >
-            Схема проезда и адрес →
-          </a>
+          <IconLink
+            type="yandex-maps"
+            href={siteConfig.socials.yandexMaps}
+            label="Яндекс Карты"
+            ariaLabel="Открыть в Яндекс Картах"
+            variant="button"
+            target="_blank"
+            class="px-6 py-3.5 text-sm"
+          />
+          <IconLink
+            type="google-maps"
+            href={siteConfig.socials.googleMaps}
+            label="Google Maps"
+            ariaLabel="Открыть в Google Maps"
+            variant="button"
+            target="_blank"
+            class="px-6 py-3.5 text-sm"
+          />
         </div>
 
       </div>

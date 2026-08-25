@@ -34,35 +34,40 @@ const breadcrumbs = [
       </p>
     </header>
 
-    <!-- Rating Summary -->
-    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 py-2">
-      <div class="flex items-center gap-4 text-xs font-sans">
-        <div class="text-2xl sm:text-3xl font-bold text-chassis-100">5.0</div>
-        <div class="text-chassis-300">
-          <div>★★★★★ (Отличная оценка)</div>
-          <div class="text-chassis-400 text-[11px]">Профили на картах Ташкента</div>
+    <!-- Rating Summary + Оставить отзыв -->
+    <div class="space-y-4">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 py-2">
+        <div class="flex items-center gap-4 text-xs font-sans">
+          <div class="text-2xl sm:text-3xl font-bold text-chassis-100">5.0</div>
+          <div class="text-chassis-300">
+            <div>★★★★★ (Отличная оценка)</div>
+            <div class="text-chassis-400 text-[11px]">Профили на картах Ташкента</div>
+          </div>
         </div>
       </div>
 
-      <div class="flex items-center gap-2 text-xs font-sans">
-        <IconLink
-          type="yandex-maps"
-          href={siteConfig.socials.yandexMaps}
-          label="Яндекс Карты"
-          ariaLabel="Открыть в Яндекс Картах"
-          variant="button"
-          target="_blank"
-          class="text-[11px]"
-        />
-        <IconLink
-          type="google-maps"
-          href={siteConfig.socials.googleMaps}
-          label="Google Maps"
-          ariaLabel="Открыть в Google Maps"
-          variant="button"
-          target="_blank"
-          class="text-[11px]"
-        />
+      <div class="space-y-2">
+        <div class="text-sm font-bold text-chassis-100">Оставить свой отзыв</div>
+        <div class="flex flex-col sm:flex-row gap-3">
+          <IconLink
+            type="yandex-maps"
+            href={siteConfig.socials.yandexMaps}
+            label="Оставить отзыв на Яндекс Картах"
+            ariaLabel="Оставить отзыв на Яндекс Картах"
+            variant="button"
+            target="_blank"
+            class="px-6 py-3.5 text-sm font-bold flex-1 justify-center"
+          />
+          <IconLink
+            type="google-maps"
+            href={siteConfig.socials.googleMaps}
+            label="Оставить отзыв на Google Maps"
+            ariaLabel="Оставить отзыв на Google Maps"
+            variant="button"
+            target="_blank"
+            class="px-6 py-3.5 text-sm font-bold flex-1 justify-center"
+          />
+        </div>
       </div>
     </div>
 

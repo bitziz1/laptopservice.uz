@@ -4,6 +4,7 @@ import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import IconLink from "@/components/IconLink.astro";
 import { casesData, type CaseItem } from "@/data/cases";
 import { siteConfig } from "@/data/siteConfig";
+import { formatDateRu } from "@/utils/formatDate";
 
 export function getStaticPaths() {
   return casesData.map((caseItem) => ({
@@ -50,9 +51,8 @@ const solutionSteps = caseItem.solution
         <span class="text-chassis-400 font-bold uppercase tracking-wider">
           {caseItem.category}
         </span>
-        <span class="text-chassis-400">
-          • {caseItem.date}
-        </span>
+        <span class="text-chassis-400">•</span>
+        <time datetime={caseItem.date} class="text-chassis-400">{formatDateRu(caseItem.date)}</time>
       </div>
 
       <h1 class="text-xl sm:text-3xl font-extrabold text-chassis-100 tracking-tight leading-tight">

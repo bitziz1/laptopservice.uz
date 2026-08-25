@@ -1,5 +1,6 @@
 ---
 import type { BuildItem } from "@/data/builds";
+import { formatDateRu } from "@/utils/formatDate";
 
 interface Props {
   build: BuildItem;
@@ -15,34 +16,39 @@ const purposeColor: Record<string, string> = {
 };
 ---
 
-<article class="rounded-lg bg-chassis-850/50 p-5 sm:p-6 flex flex-col justify-between">
-  <div class="space-y-3">
-    <div class="flex items-center justify-between gap-2 pb-2">
-      <span class={`text-[11px] font-sans font-bold uppercase tracking-wider ${purposeColor[build.purpose] ?? "text-chassis-400"}`}>
-        {build.purposeLabel}
-      </span>
-      <span class="text-[11px] font-sans text-chassis-400">{build.date}</span>
+<article class="rounded-lg bg-chassis-850/50 overflow-hidden flex flex-col justify-between">
+  { (build as any).image && (
+    <div class="w-full bg-chassis-900">
+      <img src={(build as any).image} alt="" class="w-full h-auto object-contain max-h-48" loading="lazy" />
+    </div>
+  )}
+  <div class="p-5 sm:p-6 flex flex-col justify-between flex-1 space-y-4">
+    <div class="space-y-3">
+      <div class="flex items-center justify-between gap-2">
+        <span class={`text-[11px] font-sans font-bold uppercase tracking-wider ${purposeColor[build.purpose] ?? "text-chassis-400"}`}>
+          {build.purposeLabel}
+        </span>
+        <span class="text-[11px] font-sans text-chassis-400">{formatDateRu(build.date)}</span>
+      </div>
+
+      <h3 class="text-lg font-extrabold text-chassis-100 leading-tight line-clamp-2">
+        <a href={`/builds/${build.slug}`} class="hover:underline">
+          {build.title}
+        </a>
+      </h3>
+
+      <p class="text-xs text-chassis-400 line-clamp-3 leading-relaxed">
+        {build.description}
+      </p>
+
+      <div class="grid grid-cols-1 gap-1.5 pt-1 text-xs font-mono">
+        {build.components.cpu && <div class="flex gap-1.5"><span class="text-chassis-400 shrink-0">CPU:</span><span class="text-chassis-300 line-clamp-1">{build.components.cpu}</span></div>}
+        {build.components.gpu && <div class="flex gap-1.5"><span class="text-chassis-400 shrink-0">GPU:</span><span class="text-chassis-300 line-clamp-1">{build.components.gpu}</span></div>}
+        {build.components.ram && <div class="flex gap-1.5"><span class="text-chassis-400 shrink-0">RAM:</span><span class="text-chassis-300 line-clamp-1">{build.components.ram}</span></div>}
+        {build.components.storage && <div class="flex gap-1.5"><span class="text-chassis-400 shrink-0">Накопитель:</span><span class="text-chassis-300 line-clamp-1">{build.components.storage}</span></div>}
+      </div>
     </div>
 
-    <h3 class="text-sm sm:text-base font-bold text-chassis-100 line-clamp-2">
-      <a href={`/builds/${build.slug}`} class="hover:underline">
-        {build.title}
-      </a>
-    </h3>
-
-    <p class="text-xs text-chassis-400 line-clamp-3 leading-relaxed">
-      {build.description}
-    </p>
-
-    <div class="grid grid-cols-1 gap-1.5 pt-1 text-xs font-mono">
-      {build.components.cpu && <div class="flex gap-1.5"><span class="text-chassis-400 shrink-0">CPU:</span><span class="text-chassis-300 line-clamp-1">{build.components.cpu}</span></div>}
-      {build.components.gpu && <div class="flex gap-1.5"><span class="text-chassis-400 shrink-0">GPU:</span><span class="text-chassis-300 line-clamp-1">{build.components.gpu}</span></div>}
-      {build.components.ram && <div class="flex gap-1.5"><span class="text-chassis-400 shrink-0">RAM:</span><span class="text-chassis-300 line-clamp-1">{build.components.ram}</span></div>}
-      {build.components.storage && <div class="flex gap-1.5"><span class="text-chassis-400 shrink-0">Накопитель:</span><span class="text-chassis-300 line-clamp-1">{build.components.storage}</span></div>}
-    </div>
-  </div>
-
-  <div class="pt-4 mt-4">
     <div class="flex items-center justify-between">
       <div class="flex flex-wrap gap-1">
         {build.tags.slice(0, 2).map((tag) => (

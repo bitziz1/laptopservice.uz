@@ -10,36 +10,40 @@ interface Props {
 const { service } = Astro.props;
 ---
 
-<div class="rounded-lg bg-chassis-850/50 p-5 sm:p-6 flex flex-col justify-between">
-  
-  <div class="space-y-3">
-
-    <h3 class="text-base sm:text-lg font-bold text-chassis-100">
-      <a href={`/services/${service.slug}`} class="hover:underline">
-        {service.title}
-      </a>
-    </h3>
-
-    <p class="text-xs sm:text-sm text-chassis-400 leading-relaxed">
-      {service.shortDescription}
-    </p>
-
-    <!-- Typical Symptoms -->
-    <div class="space-y-1 pt-1">
-      <div class="text-[10px] font-sans uppercase text-chassis-400">Характерные признаки:</div>
-      {service.symptoms.slice(0, 2).map((symptom) => (
-        <div class="text-xs text-chassis-300 flex items-start gap-1.5">
-          <span class="text-chassis-400 font-sans">-</span>
-          <span class="line-clamp-1">{symptom}</span>
-        </div>
-      ))}
+<div class="rounded-lg bg-chassis-850/50 overflow-hidden flex flex-col justify-between">
+  { (service as any).image && (
+    <div class="w-full bg-chassis-900">
+      <img src={(service as any).image} alt="" class="w-full h-auto object-contain max-h-48" loading="lazy" />
     </div>
-  </div>
+  )}
+  <div class="p-5 sm:p-6 flex flex-col justify-between flex-1 space-y-4">
+    <div class="space-y-3">
+      <h3 class="text-lg font-extrabold text-chassis-100 leading-tight">
+        <a href={`/services/${service.slug}`} class="hover:underline">
+          {service.title}
+        </a>
+      </h3>
 
-  <!-- Bottom Actions -->
-  <div class="pt-4 mt-4 space-y-2">
+      <p class="text-xs text-chassis-400 leading-relaxed line-clamp-3">
+        {service.shortDescription}
+      </p>
 
-    <div class="grid grid-cols-2 gap-2 pt-1">
+      <!-- Typical Symptoms -->
+      <div class="space-y-1 pt-1">
+        <div class="text-[10px] font-sans uppercase text-chassis-400">Характерные признаки:</div>
+        {service.symptoms.slice(0, 2).map((symptom) => (
+          <div class="text-xs text-chassis-300 flex items-start gap-1.5">
+            <span class="text-chassis-400 font-sans">-</span>
+            <span class="line-clamp-1">{symptom}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Bottom Actions -->
+    <div class="space-y-2">
+
+      <div class="grid grid-cols-2 gap-2">
       <a
         href={`/services/${service.slug}`}
         class="py-2 px-3 rounded border border-chassis-800 bg-chassis-900 hover:bg-chassis-800 text-chassis-300 text-center text-xs font-sans transition-colors"
@@ -55,7 +59,7 @@ const { service } = Astro.props;
         target="_blank"
         class="py-2 px-2 justify-center text-xs font-sans"
       />
+      </div>
     </div>
   </div>
-
 </div>
