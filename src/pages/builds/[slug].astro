@@ -2,7 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import IconLink from "@/components/IconLink.astro";
-import { buildsData, type BuildItem, buildComplexityConfig } from "@/data/builds";
+import { buildsData, type BuildItem } from "@/data/builds";
 import { siteConfig } from "@/data/siteConfig";
 
 export function getStaticPaths() {
@@ -71,10 +71,6 @@ const productJsonLd = {
       <p class="text-sm sm:text-base text-chassis-300 leading-relaxed">
         {build.description}
       </p>
-
-      <div class="text-xs font-sans font-bold uppercase tracking-wider text-chassis-300">
-        {buildComplexityConfig[build.complexity].label}
-      </div>
     </header>
 
     <!-- Components Table -->
