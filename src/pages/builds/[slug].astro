@@ -58,10 +58,10 @@ const productJsonLd = {
 
     <header class="space-y-4">
       <div class="flex flex-wrap items-center gap-2 text-xs">
-        <span class="px-2 py-0.5 rounded border border-chassis-700 bg-chassis-850 text-chassis-300 font-sans font-bold uppercase tracking-wider">
+        <span class="text-chassis-400 font-bold uppercase tracking-wider">
           {build.purposeLabel}
         </span>
-        <span class="text-chassis-400 font-sans">Дата: {build.date}</span>
+        <span class="text-chassis-400">• {build.date}</span>
       </div>
 
       <h1 class="text-2xl sm:text-4xl font-extrabold text-chassis-100 tracking-tight leading-tight">
@@ -72,20 +72,20 @@ const productJsonLd = {
         {build.description}
       </p>
 
-      <div class={`inline-flex items-center gap-2 px-3 py-1.5 rounded border text-xs font-sans font-bold uppercase tracking-wider ${buildComplexityConfig[build.complexity].class}`}>
+      <div class="text-xs font-sans font-bold uppercase tracking-wider text-chassis-300">
         {buildComplexityConfig[build.complexity].label}
       </div>
     </header>
 
     <!-- Components Table -->
-    <section class="rounded border border-chassis-800 bg-chassis-850 p-5 sm:p-6 space-y-4">
+    <section class="py-2 space-y-4">
       <h2 class="text-sm font-bold text-chassis-200 uppercase font-sans tracking-wider">
-        Состав сборки
+        Состав
       </h2>
 
-      <div class="grid grid-cols-1 gap-2 text-xs font-mono">
+      <div class="space-y-4 text-xs font-mono">
         {componentEntries.map(([key, value]) => (
-          <div class="p-3 rounded bg-chassis-900 border border-chassis-800 flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-3">
+          <div class="flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-3">
             <span class="text-chassis-400 shrink-0 sm:w-40 font-sans font-bold uppercase text-[11px] tracking-wider">
               {componentLabels[key] ?? key}
             </span>
@@ -95,7 +95,7 @@ const productJsonLd = {
       </div>
 
       <p class="text-xs text-chassis-400 leading-relaxed">
-        Комплектующие подбираются из наличия в Ташкенте с возможностью замены на аналог по согласованию. Цена фиксируется на момент согласования до закупки.
+        Комплектующие подбираются из наличия в Ташкенте с возможностью замены на аналог по согласованию.
       </p>
     </section>
 
@@ -103,9 +103,9 @@ const productJsonLd = {
     <script is:inline type="application/ld+json" set:html={JSON.stringify(productJsonLd)} />
 
     <!-- Tags -->
-    <div class="flex flex-wrap gap-1.5 pt-2">
+    <div class="flex flex-wrap gap-2 pt-2">
       {build.tags.map((tag) => (
-        <span class="px-2 py-0.5 rounded bg-chassis-900 border border-chassis-800 text-[11px] font-sans text-chassis-400">
+        <span class="text-[11px] font-sans text-sky-400">
           #{tag}
         </span>
       ))}
@@ -115,7 +115,7 @@ const productJsonLd = {
     <div class="rounded-lg border border-chassis-700 bg-chassis-950 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="text-xs text-chassis-300 text-center sm:text-left space-y-1">
         <div class="font-bold text-chassis-100">Заказать такую сборку или подобрать аналог?</div>
-        <div>Напишите мастеру задачу и бюджет — предложим варианты.</div>
+        <div>Напишите задачу и бюджет — предложим варианты.</div>
       </div>
       <div class="flex items-center gap-2">
         <IconLink

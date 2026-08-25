@@ -3,36 +3,36 @@ import { siteConfig } from "@/data/siteConfig";
 import IconLink from "@/components/IconLink.astro";
 ---
 
-<div class="rounded-lg border border-chassis-800 bg-chassis-850 p-6 sm:p-8">
+<div class="rounded-lg bg-chassis-850/40 p-6 sm:p-8">
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
     
-    <div class="lg:col-span-4 space-y-2 border-b lg:border-b-0 lg:border-r border-chassis-800 pb-4 lg:pb-0 lg:pr-6">
+    <div class="lg:col-span-4 space-y-2 pb-4 lg:pb-0 lg:pr-6">
       <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider">Подход</div>
       <h3 class="text-lg font-bold text-chassis-100">Сервисный центр</h3>
       <p class="text-xs font-sans text-chassis-300">Компонентный ремонт с 2004 года</p>
-      <p class="text-xs text-chassis-400">Специализация: схемотехника, BGA-пайка, восстановление плат после залития и перепадов напряжения.</p>
+      <p class="text-xs text-chassis-400 leading-relaxed">Специализация: схемотехника, BGA-пайка, восстановление плат после залития и перепадов напряжения.</p>
     </div>
 
     <div class="lg:col-span-8 space-y-4">
       <div class="space-y-2">
-        <h4 class="text-sm font-bold text-chassis-200 uppercase font-sans tracking-wider">Принцип работы сервисного центра</h4>
+        <h4 class="text-sm font-bold text-chassis-200 uppercase font-sans tracking-wider">Принцип работы</h4>
         <p class="text-xs sm:text-sm text-chassis-300 leading-relaxed">
-          Вместо замены всей платы мы находим точную причину неисправности на компонентном уровне (короткие замыкания, поврежденные дорожки, неисправные BGA-микросхемы).
+          Вместо замены всей платы находим точную причину неисправности на компонентном уровне — короткие замыкания, поврежденные дорожки, неисправные BGA-микросхемы.
         </p>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-sans">
-        <div class="p-3 rounded border border-chassis-800 bg-chassis-900">
-          <div class="text-chassis-200 font-bold mb-0.5">Оборудование</div>
-          <div class="text-chassis-400">Инфракрасная BGA-станция, микроскоп, ЛБП, программаторы</div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-sans">
+        <div class="space-y-1">
+          <div class="text-chassis-100 font-bold">Оборудование</div>
+          <div class="text-chassis-400 leading-relaxed">Инфракрасная BGA-станция, микроскоп, ЛБП, программаторы</div>
         </div>
-        <div class="p-3 rounded border border-chassis-800 bg-chassis-900">
-          <div class="text-chassis-200 font-bold mb-0.5">Материалы</div>
-          <div class="text-chassis-400">Качественные флюсы и термоинтерфейсы (Honeywell PTM7950)</div>
+        <div class="space-y-1">
+          <div class="text-chassis-100 font-bold">Материалы</div>
+          <div class="text-chassis-400 leading-relaxed">Качественные флюсы и термоинтерфейсы (Honeywell PTM7950)</div>
         </div>
-        <div class="p-3 rounded border border-chassis-800 bg-chassis-900">
-          <div class="text-chassis-200 font-bold mb-0.5">Согласование</div>
-          <div class="text-chassis-400">Стоимость озвучивается и согласуется до начала пайки</div>
+        <div class="space-y-1">
+          <div class="text-chassis-100 font-bold">Согласование</div>
+          <div class="text-chassis-400 leading-relaxed">Стоимость озвучивается и согласуется до начала пайки</div>
         </div>
       </div>
 

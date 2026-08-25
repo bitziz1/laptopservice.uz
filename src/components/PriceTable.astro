@@ -34,23 +34,23 @@ const workflowSteps = [
 <div class="space-y-10">
   
   <!-- Diagnostic Principle Alert -->
-  <div class="rounded-lg border border-chassis-700 bg-chassis-850 p-6 sm:p-8 space-y-3">
-    <div class="text-xs font-mono text-chassis-400 uppercase tracking-wider">Главный принцип ценообразования</div>
+  <div class="py-2 space-y-3">
+    <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider">Главный принцип</div>
     <h3 class="text-lg sm:text-xl font-bold text-chassis-100">
-      Точная стоимость всегда согласуется с вами строго ДО начала ремонта
+      Точная стоимость — только после диагностики
     </h3>
     <p class="text-xs sm:text-sm text-chassis-300 leading-relaxed">
-      В сложном компонентном ремонте невозможно назвать честную сумму без осмотра платы под микроскопом и замеров напряжений. Стоимость деталей зависит от конкретной модели ноутбука и ситуации у поставщиков. Мы не называем выдуманных цен — мастер определяет дефект на диагностике и согласовывает смету перед началом пайки.
+      В сложном компонентном ремонте невозможно назвать честную сумму без осмотра платы под микроскопом и замеров. Стоимость деталей зависит от модели ноутбука и наличия у поставщиков. Дефект определяем на диагностике и согласовываем смету до начала пайки.
     </p>
   </div>
 
   <!-- Step by step workflow -->
   <div class="space-y-4">
-    <div class="text-xs font-mono text-chassis-400 uppercase tracking-wider">Как устроен процесс ремонта:</div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider">Как устроен процесс ремонта</div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
       {workflowSteps.map((item) => (
-        <div class="rounded-lg border border-chassis-800 bg-chassis-850 p-5 space-y-2">
-          <div class="text-xs font-mono text-chassis-400 font-bold">{item.step}</div>
+        <div class="space-y-1.5">
+          <div class="text-xs font-sans text-chassis-400 font-bold">{item.step}</div>
           <h4 class="text-sm font-bold text-chassis-100">{item.title}</h4>
           <p class="text-xs text-chassis-400 leading-relaxed">{item.desc}</p>
         </div>

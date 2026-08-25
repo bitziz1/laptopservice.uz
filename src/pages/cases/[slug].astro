@@ -47,11 +47,11 @@ const solutionSteps = caseItem.solution
     <!-- Case Header -->
     <header class="space-y-3">
       <div class="flex flex-wrap items-center gap-2 text-xs font-sans">
-        <span class="px-2 py-0.5 rounded border border-chassis-700 bg-chassis-850 text-chassis-300 font-bold uppercase">
+        <span class="text-chassis-400 font-bold uppercase tracking-wider">
           {caseItem.category}
         </span>
         <span class="text-chassis-400">
-          Дата: {caseItem.date}
+          • {caseItem.date}
         </span>
       </div>
 
@@ -66,13 +66,13 @@ const solutionSteps = caseItem.solution
 
     <!-- Specs Box -->
     {caseItem.keySpecs && (
-      <div class="rounded border border-chassis-800 bg-chassis-850 p-4 sm:p-5">
-        <div class="text-xs font-mono text-chassis-400 uppercase tracking-wider mb-3">Параметры ремонта</div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
+      <div class="py-2 space-y-3">
+        <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider">Параметры ремонта</div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
           {caseItem.keySpecs.map((spec) => (
-            <div class="p-2.5 rounded bg-chassis-900 border border-chassis-800">
-              <span class="text-chassis-400 block text-[10px]">{spec.label}</span>
-              <span class="text-chassis-200 font-bold">{spec.value}</span>
+            <div class="space-y-1">
+              <span class="text-chassis-400 block text-[11px] uppercase tracking-wider">{spec.label}</span>
+              <span class="text-chassis-200 font-bold font-mono">{spec.value}</span>
             </div>
           ))}
         </div>
@@ -80,9 +80,9 @@ const solutionSteps = caseItem.solution
     )}
 
     <!-- Problem -->
-    <section class="rounded border border-chassis-800 bg-chassis-850 p-5 sm:p-6 space-y-2">
+    <section class="py-4 space-y-2">
       <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider font-bold">
-        01. Неисправность и симптомы
+        01 — Неисправность и симптомы
       </div>
       <p class="text-xs sm:text-sm text-chassis-300 leading-relaxed">
         {caseItem.problem}
@@ -90,9 +90,9 @@ const solutionSteps = caseItem.solution
     </section>
 
     <!-- Diagnosis -->
-    <section class="rounded border border-chassis-800 bg-chassis-850 p-5 sm:p-6 space-y-2">
+    <section class="py-4 space-y-2">
       <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider font-bold">
-        02. Результаты аппаратной диагностики
+        02 — Результаты диагностики
       </div>
       <p class="text-xs sm:text-sm text-chassis-300 leading-relaxed">
         {caseItem.diagnosis}
@@ -100,25 +100,25 @@ const solutionSteps = caseItem.solution
     </section>
 
     <!-- Steps -->
-    <section class="rounded border border-chassis-800 bg-chassis-850 p-5 sm:p-6 space-y-4">
+    <section class="py-4 space-y-3">
       <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider font-bold">
-        03. Ход выполнения ремонта
+        03 — Ход выполнения
       </div>
 
-      <div class="space-y-2.5">
+      <div class="space-y-3">
         {solutionSteps.map((step, idx) => (
-          <div class="p-3 rounded bg-chassis-900 border border-chassis-800 text-xs text-chassis-300 flex items-start gap-2.5">
-            <span class="text-chassis-400 font-sans font-bold">{idx + 1}.</span>
-            <span class="leading-relaxed">{step.text}</span>
+          <div class="text-xs text-chassis-300 flex items-start gap-2.5 leading-relaxed">
+            <span class="text-chassis-100 font-bold">{idx + 1}.</span>
+            <span>{step.text}</span>
           </div>
         ))}
       </div>
     </section>
 
     <!-- Result -->
-    <section class="rounded border border-chassis-800 bg-chassis-850 p-5 sm:p-6 space-y-2">
+    <section class="py-4 space-y-2">
       <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider font-bold">
-        04. Итог и тестирование
+        04 — Итог и тестирование
       </div>
       <p class="text-xs sm:text-sm text-chassis-300 leading-relaxed">
         {caseItem.result}
@@ -126,9 +126,9 @@ const solutionSteps = caseItem.solution
     </section>
 
     <!-- Tags -->
-    <div class="flex flex-wrap gap-1.5 pt-2">
+    <div class="flex flex-wrap gap-2 pt-2">
       {caseItem.tags.map((tag) => (
-        <span class="px-2 py-0.5 rounded bg-chassis-900 border border-chassis-800 text-[11px] font-sans text-chassis-400">
+        <span class="text-[11px] font-sans text-sky-400">
           #{tag}
         </span>
       ))}

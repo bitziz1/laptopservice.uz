@@ -19,9 +19,9 @@ export interface ServiceItem {
 }
 
 export const complexityConfig: Record<ServiceComplexity, { label: string; class: string }> = {
-  easy: { label: "Легкий ремонт", class: "border-emerald-800 bg-emerald-950 text-emerald-300" },
-  medium: { label: "Стандартный ремонт", class: "border-amber-800 bg-amber-950 text-amber-300" },
-  hard: { label: "Сложный ремонт", class: "border-red-800 bg-red-950 text-red-300" },
+  easy: { label: "Легкий ремонт", class: "text-chassis-300" },
+  medium: { label: "Стандартный ремонт", class: "text-chassis-300" },
+  hard: { label: "Сложный ремонт", class: "text-chassis-300" },
 };
 
 export const servicesData: ServiceItem[] = [
@@ -254,7 +254,7 @@ export const servicesData: ServiceItem[] = [
       },
       {
         title: "Подбор комплектующих",
-        description: "Предлагаем 2–3 варианта SSD/RAM/матрицы/клавиатуры по бюджету с согласованием цены до закупки."
+        description: "Предлагаем подходящие комплектующие по вашим задачам и бюджету с согласованием цены до закупки."
       },
       {
         title: "Установка и клонирование",

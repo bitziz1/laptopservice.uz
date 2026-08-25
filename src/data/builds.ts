@@ -27,9 +27,9 @@ export interface BuildItem {
 }
 
 export const buildComplexityConfig: Record<BuildComplexity, { label: string; class: string }> = {
-  easy: { label: "Легкий ремонт", class: "border-emerald-800 bg-emerald-950 text-emerald-300" },
-  medium: { label: "Стандартный ремонт", class: "border-amber-800 bg-amber-950 text-amber-300" },
-  hard: { label: "Сложный ремонт", class: "border-red-800 bg-red-950 text-red-300" },
+  easy: { label: "Легкая сборка", class: "text-chassis-300" },
+  medium: { label: "Стандартная сборка", class: "text-chassis-300" },
+  hard: { label: "Комплексная сборка", class: "text-chassis-300" },
 };
 
 export const buildsData: BuildItem[] = [

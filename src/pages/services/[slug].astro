@@ -41,7 +41,7 @@ const breadcrumbs = [
 
     <!-- Service Header -->
     <header class="space-y-4">
-      <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded border border-chassis-700 bg-chassis-850 text-xs font-sans text-chassis-300">
+      <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider">
         Услуга сервисного центра • ул. Паркент 11
       </div>
 
@@ -53,9 +53,9 @@ const breadcrumbs = [
         {service.fullDescription}
       </p>
 
-      <!-- Complexity Badge -->
-      <div class="pt-2 border-t border-b border-chassis-800 py-3">
-        <span class={`inline-flex text-xs font-sans font-bold px-3 py-1 rounded border uppercase tracking-wider ${complexityConfig[service.complexity].class}`}>
+      <!-- Complexity -->
+      <div class="pt-2">
+        <span class="text-xs font-sans font-bold uppercase tracking-wider text-chassis-300">
           {complexityConfig[service.complexity].label}
         </span>
       </div>
@@ -64,12 +64,12 @@ const breadcrumbs = [
     <!-- Symptoms Checklist -->
     <section class="space-y-3">
       <h2 class="text-sm font-bold text-chassis-200 uppercase font-sans tracking-wider">
-        Характерные признаки и симптомы неисправности:
+        Характерные признаки
       </h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+      <div class="space-y-2">
         {service.symptoms.map((symptom) => (
-          <div class="p-3 rounded border border-chassis-800 bg-chassis-850 text-xs text-chassis-300 flex items-start gap-2">
-            <span class="text-chassis-400 font-sans">-</span>
+          <div class="text-xs text-chassis-300 flex items-start gap-2.5 leading-relaxed">
+            <span class="text-chassis-500 mt-0.5">—</span>
             <span>{symptom}</span>
           </div>
         ))}
@@ -79,12 +79,12 @@ const breadcrumbs = [
     <!-- Stages of Work -->
     <section class="space-y-4">
       <h2 class="text-sm font-bold text-chassis-200 uppercase font-sans tracking-wider">
-        Порядок проведения работ:
+        Порядок проведения работ
       </h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div class="space-y-4">
         {service.stages.map((stage, idx) => (
-          <div class="p-4 rounded border border-chassis-800 bg-chassis-850 space-y-1.5">
-            <div class="text-xs font-sans text-chassis-400 font-bold">0{idx + 1}. {stage.title}</div>
+          <div class="space-y-1">
+            <div class="text-xs font-sans text-chassis-100 font-bold">0{idx + 1}. {stage.title}</div>
             <p class="text-xs text-chassis-400 leading-relaxed">{stage.description}</p>
           </div>
         ))}
@@ -93,13 +93,13 @@ const breadcrumbs = [
 
     <!-- FAQ -->
     {service.faq && service.faq.length > 0 && (
-      <section class="space-y-4 border-t border-chassis-800 pt-8">
+      <section class="space-y-4 pt-6">
         <h2 class="text-sm font-bold text-chassis-200 uppercase font-sans tracking-wider">
-          Частые вопросы по услуге
+          Частые вопросы
         </h2>
-        <div class="space-y-3">
+        <div class="space-y-4">
           {service.faq.map((item) => (
-            <div class="p-4 rounded border border-chassis-800 bg-chassis-850 space-y-1">
+            <div class="space-y-1">
               <h3 class="text-xs font-bold text-chassis-100">{item.question}</h3>
               <p class="text-xs text-chassis-400 leading-relaxed">{item.answer}</p>
             </div>
