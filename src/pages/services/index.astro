@@ -2,6 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import ServiceCard from "@/components/ServiceCard.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import IconLink from "@/components/IconLink.astro";
 import { servicesData } from "@/data/services";
 import { siteConfig } from "@/data/siteConfig";
 
@@ -20,7 +21,7 @@ const breadcrumbs = [
     <Breadcrumbs items={breadcrumbs} />
 
     <div class="max-w-3xl space-y-3">
-      <div class="text-xs font-mono text-chassis-400 uppercase tracking-wider">Сервисный центр</div>
+      <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider">Сервисный центр</div>
       <h1 class="text-2xl sm:text-4xl font-extrabold text-chassis-100 tracking-tight">
         Услуги по ремонту ноутбуков и компьютеров
       </h1>
@@ -30,7 +31,7 @@ const breadcrumbs = [
     </div>
 
     <!-- Pricing Policy Banner -->
-    <div class="p-4 rounded border border-chassis-700 bg-chassis-850 text-xs font-mono text-chassis-300">
+    <div class="p-4 rounded border border-chassis-700 bg-chassis-850 text-xs font-sans text-chassis-300">
       <strong>Важно:</strong> Оценка стоимости производится по результатам диагностики и согласовывается с вами строго ДО начала ремонта.
     </div>
 
@@ -41,6 +42,17 @@ const breadcrumbs = [
       ))}
     </div>
 
+    <!-- Builds Banner -->
+    <div class="rounded-lg border border-chassis-700 bg-chassis-850 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="text-xs text-chassis-300 space-y-1">
+        <div class="font-bold text-chassis-100 text-sm">Нужна сборка ПК с нуля?</div>
+        <div>Собираем игровые, офисные и AI-станции под ваш бюджет с гарантией. Посмотрите готовые примеры.</div>
+      </div>
+      <a href="/builds" class="px-5 py-2.5 rounded border border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 text-xs font-sans font-bold transition-colors shrink-0">
+        Сборки ПК →
+      </a>
+    </div>
+
     <!-- Direct CTA -->
     <div class="rounded-lg border border-chassis-800 bg-chassis-950 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="text-xs text-chassis-300 text-center sm:text-left">
@@ -48,14 +60,15 @@ const breadcrumbs = [
         <span>Опишите симптомы дежурному мастеру в Telegram.</span>
       </div>
 
-      <a
+      <IconLink
+        type="telegram"
         href={siteConfig.telegram.masterUrl}
+        label="Написать мастеру в Telegram"
+        ariaLabel="Написать мастеру в Telegram"
+        variant="button"
         target="_blank"
-        rel="noopener noreferrer"
-        class="px-5 py-2.5 rounded border border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 text-xs font-mono font-bold transition-colors"
-      >
-        Написать мастеру в Telegram
-      </a>
+        class="px-5 py-2.5 border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 font-bold"
+      />
     </div>
 
   </div>

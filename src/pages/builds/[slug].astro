@@ -1,0 +1,160 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import IconLink from "@/components/IconLink.astro";
+import { buildsData, type BuildItem } from "@/data/builds";
+import { siteConfig } from "@/data/siteConfig";
+
+export function getStaticPaths() {
+  return buildsData.map((build) => ({
+    params: { slug: build.slug },
+    props: { build },
+  }));
+}
+
+interface Props {
+  build: BuildItem;
+}
+
+const { build } = Astro.props;
+
+const breadcrumbs = [
+  { name: "Сборки ПК", url: "/builds" },
+  { name: build.title, url: `/builds/${build.slug}` },
+];
+
+// For Schema.org Product Offer
+const priceNumeric = build.price.replace(/[^\d]/g, "");
+
+const componentLabels: Record<string, string> = {
+  cpu: "Процессор",
+  motherboard: "Материнская плата",
+  ram: "Оперативная память",
+  gpu: "Видеокарта",
+  storage: "Накопители",
+  psu: "Блок питания",
+  case: "Корпус",
+  cooler: "Охлаждение",
+};
+
+const componentEntries = Object.entries(build.components) as [string, string][];
+
+const productJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: build.title,
+  description: build.description,
+  category: build.purposeLabel,
+  offers: {
+    "@type": "Offer",
+    priceCurrency: "UZS",
+    price: priceNumeric || undefined,
+    availability: "https://schema.org/InStock",
+    seller: {
+      "@type": "LocalBusiness",
+      name: siteConfig.brandName,
+      address: siteConfig.address.fullAddress,
+    },
+  },
+  brand: { "@type": "Brand", name: siteConfig.brandName },
+};
+---
+
+<BaseLayout
+  title={`${build.title} — Сборка ПК в Ташкенте`}
+  description={`${build.description.slice(0, 150)} Сервисный центр на Паркент 11, подбор комплектующих и гарантия.`}
+  breadcrumbs={breadcrumbs}
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <header class="space-y-4">
+      <div class="flex flex-wrap items-center gap-2 text-xs">
+        <span class="px-2 py-0.5 rounded border border-chassis-700 bg-chassis-850 text-chassis-300 font-sans font-bold uppercase tracking-wider">
+          {build.purposeLabel}
+        </span>
+        <span class="text-chassis-400 font-sans">Дата: {build.date}</span>
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-chassis-100 tracking-tight leading-tight">
+        {build.title}
+      </h1>
+
+      <p class="text-sm sm:text-base text-chassis-300 leading-relaxed">
+        {build.description}
+      </p>
+
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded border border-chassis-700 bg-chassis-850 text-xs font-mono text-chassis-200">
+        <span class="text-chassis-400">Цена ориентир:</span>
+        <span class="font-bold text-chassis-100">{build.price}</span>
+      </div>
+    </header>
+
+    <!-- Components Table -->
+    <section class="rounded border border-chassis-800 bg-chassis-850 p-5 sm:p-6 space-y-4">
+      <h2 class="text-sm font-bold text-chassis-200 uppercase font-sans tracking-wider">
+        Состав сборки
+      </h2>
+
+      <div class="grid grid-cols-1 gap-2 text-xs font-mono">
+        {componentEntries.map(([key, value]) => (
+          <div class="p-3 rounded bg-chassis-900 border border-chassis-800 flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-3">
+            <span class="text-chassis-400 shrink-0 sm:w-40 font-sans font-bold uppercase text-[11px] tracking-wider">
+              {componentLabels[key] ?? key}
+            </span>
+            <span class="text-chassis-200 leading-relaxed">{value}</span>
+          </div>
+        ))}
+      </div>
+
+      <p class="text-xs text-chassis-400 leading-relaxed">
+        Комплектующие подбираются из наличия в Ташкенте с возможностью замены на аналог по согласованию. Цена фиксируется на момент согласования до закупки.
+      </p>
+    </section>
+
+    <!-- JSON-LD Product -->
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(productJsonLd)} />
+
+    <!-- Tags -->
+    <div class="flex flex-wrap gap-1.5 pt-2">
+      {build.tags.map((tag) => (
+        <span class="px-2 py-0.5 rounded bg-chassis-900 border border-chassis-800 text-[11px] font-sans text-chassis-400">
+          #{tag}
+        </span>
+      ))}
+    </div>
+
+    <!-- CTA -->
+    <div class="rounded-lg border border-chassis-700 bg-chassis-950 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="text-xs text-chassis-300 text-center sm:text-left space-y-1">
+        <div class="font-bold text-chassis-100">Заказать такую сборку или подобрать аналог?</div>
+        <div>Напишите мастеру задачу и бюджет — предложим варианты.</div>
+      </div>
+      <div class="flex items-center gap-2">
+        <IconLink
+          type="telegram"
+          href={siteConfig.telegram.masterUrl}
+          label="Telegram мастера"
+          ariaLabel="Написать мастеру в Telegram"
+          variant="button"
+          target="_blank"
+          class="border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 font-bold"
+        />
+        <IconLink
+          type="phone"
+          href={`tel:${siteConfig.phones.primary}`}
+          label="Позвонить"
+          ariaLabel="Позвонить мастеру"
+          variant="button"
+          class="border-chassis-700 bg-chassis-900 hover:bg-chassis-800 text-chassis-200"
+        />
+      </div>
+    </div>
+
+    <div class="flex justify-center">
+      <a href="/builds" class="text-xs font-sans text-chassis-300 hover:text-chassis-100 underline">
+        ← ко всем сборкам
+      </a>
+    </div>
+  </div>
+</BaseLayout>

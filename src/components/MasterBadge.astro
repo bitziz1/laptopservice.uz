@@ -1,26 +1,27 @@
 ---
 import { siteConfig } from "@/data/siteConfig";
+import IconLink from "@/components/IconLink.astro";
 ---
 
 <div class="rounded-lg border border-chassis-800 bg-chassis-850 p-6 sm:p-8">
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
     
     <div class="lg:col-span-4 space-y-2 border-b lg:border-b-0 lg:border-r border-chassis-800 pb-4 lg:pb-0 lg:pr-6">
-      <div class="text-xs font-mono text-chassis-400 uppercase">Опыт и профиль</div>
+      <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider">Опыт и профиль</div>
       <h3 class="text-lg font-bold text-chassis-100">Мастер Руслан</h3>
-      <p class="text-xs font-mono text-chassis-300">20 лет опыта в ремонте электроники</p>
+      <p class="text-xs font-sans text-chassis-300">20 лет опыта в ремонте электроники</p>
       <p class="text-xs text-chassis-400">Специализация: схемотехника, BGA-пайка, восстановление материнских плат после залития и перепадов напряжения.</p>
     </div>
 
     <div class="lg:col-span-8 space-y-4">
       <div class="space-y-2">
-        <h4 class="text-sm font-bold text-chassis-200 uppercase font-mono tracking-wider">Принцип работы сервисного центра</h4>
+        <h4 class="text-sm font-bold text-chassis-200 uppercase font-sans tracking-wider">Принцип работы сервисного центра</h4>
         <p class="text-xs sm:text-sm text-chassis-300 leading-relaxed">
           Вместо замены всей платы мы находим точную причину неисправности на компонентном уровне (короткие замыкания, поврежденные дорожки, неисправные BGA-микросхемы).
         </p>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-mono">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-sans">
         <div class="p-3 rounded border border-chassis-800 bg-chassis-900">
           <div class="text-chassis-200 font-bold mb-0.5">Оборудование</div>
           <div class="text-chassis-400">Инфракрасная BGA-станция, микроскоп, ЛБП, программаторы</div>
@@ -36,20 +37,23 @@ import { siteConfig } from "@/data/siteConfig";
       </div>
 
       <div class="flex flex-wrap items-center gap-3 pt-1">
-        <a
+        <IconLink
+          type="telegram"
           href={siteConfig.telegram.masterUrl}
+          label="Написать мастеру в Telegram"
+          ariaLabel="Написать мастеру в Telegram"
+          variant="button"
           target="_blank"
-          rel="noopener noreferrer"
-          class="px-4 py-2 rounded border border-chassis-700 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 text-xs font-mono transition-colors"
-        >
-          Написать мастеру в Telegram
-        </a>
-        <a
+          class="border-chassis-700 bg-chassis-800 hover:bg-chassis-700 text-chassis-100"
+        />
+        <IconLink
+          type="phone"
           href={`tel:${siteConfig.phones.primary}`}
-          class="px-4 py-2 rounded border border-chassis-700 bg-chassis-900 hover:bg-chassis-800 text-chassis-200 text-xs font-mono transition-colors"
-        >
-          Позвонить: {siteConfig.phones.displayPrimary}
-        </a>
+          label={`Позвонить: ${siteConfig.phones.displayPrimary}`}
+          ariaLabel="Позвонить мастеру"
+          variant="button"
+          class="border-chassis-700 bg-chassis-900 hover:bg-chassis-800 text-chassis-200"
+        />
       </div>
     </div>
 

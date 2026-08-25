@@ -1,6 +1,7 @@
 ---
 import { siteConfig } from "@/data/siteConfig";
 import { servicesData } from "@/data/services";
+import IconLink from "@/components/IconLink.astro";
 
 const currentYear = new Date().getFullYear();
 ---
@@ -11,20 +12,21 @@ const currentYear = new Date().getFullYear();
       
       <!-- Col 1: Identity & Terms -->
       <div class="space-y-3">
-        <div class="flex items-center gap-2">
-          <span class="font-bold text-sm text-chassis-100 uppercase tracking-wider font-mono">Laptop Service</span>
-        </div>
+        <a href="/" class="flex items-center gap-2" aria-label="Laptop Service — на главную">
+          <img src="/logo.svg" alt="Laptop Service" width="24" height="24" class="w-6 h-6" loading="lazy" />
+          <span class="font-bold text-sm text-chassis-100 uppercase tracking-wider">Laptop Service</span>
+        </a>
         <p class="text-xs leading-relaxed text-chassis-400">
           Сервисный центр по ремонту ноутбуков и компьютерной техники в Ташкенте. Компонентный ремонт, BGA-пайка, восстановление после залития.
         </p>
-        <p class="text-xs text-chassis-300 font-mono border-l border-chassis-700 pl-2 mt-2">
+        <p class="text-xs text-chassis-300 font-sans border-l border-chassis-700 pl-2 mt-2">
           Стоимость ремонта всегда согласуется с клиентом строго до начала работ.
         </p>
       </div>
 
       <!-- Col 2: Services -->
       <div>
-        <h3 class="text-xs font-mono font-bold text-chassis-200 uppercase tracking-wider mb-3">Услуги</h3>
+        <h3 class="text-xs font-sans font-bold text-chassis-200 uppercase tracking-wider mb-3">Услуги</h3>
         <ul class="space-y-2 text-xs">
           {servicesData.map((service) => (
             <li>
@@ -33,80 +35,117 @@ const currentYear = new Date().getFullYear();
               </a>
             </li>
           ))}
+          <li>
+            <a href="/builds" class="hover:text-chassis-100 transition-colors">
+              Сборка ПК под задачу
+            </a>
+          </li>
         </ul>
       </div>
 
-      <!-- Col 3: Navigation & Channels -->
+      <!-- Col 3: Contacts & Channels -->
       <div>
-        <h3 class="text-xs font-mono font-bold text-chassis-200 uppercase tracking-wider mb-3">Контакты и каналы</h3>
-        <ul class="space-y-2 text-xs font-mono">
+        <h3 class="text-xs font-sans font-bold text-chassis-200 uppercase tracking-wider mb-3">Контакты и каналы</h3>
+        <ul class="space-y-2.5 text-xs">
           <li>
-            <a href={`tel:${siteConfig.phones.primary}`} class="text-chassis-200 hover:text-chassis-100 font-bold">
-              {siteConfig.phones.displayPrimary} (Звонок)
-            </a>
+            <IconLink
+              type="phone"
+              href={`tel:${siteConfig.phones.primary}`}
+              label={`${siteConfig.phones.displayPrimary} (звонок)`}
+              ariaLabel="Позвонить мастеру"
+              variant="inline"
+              class="font-bold text-chassis-200 hover:text-chassis-100"
+            />
           </li>
           <li>
-            <a href={siteConfig.telegram.masterUrl} target="_blank" rel="noopener noreferrer" class="hover:text-chassis-100">
-              Telegram мастера: {siteConfig.telegram.masterHandle}
-            </a>
+            <IconLink
+              type="telegram"
+              href={siteConfig.telegram.masterUrl}
+              label={`Telegram мастера: ${siteConfig.telegram.masterHandle}`}
+              ariaLabel="Написать мастеру в Telegram"
+              variant="inline"
+              target="_blank"
+            />
           </li>
           <li>
-            <a href={siteConfig.telegram.channelUrl} target="_blank" rel="noopener noreferrer" class="hover:text-chassis-100">
-              Telegram канал: @laptopservice_uz
-            </a>
+            <IconLink
+              type="telegram-channel"
+              href={siteConfig.telegram.channelUrl}
+              label="Telegram канал: @laptopservice_uz"
+              ariaLabel="Telegram-канал @laptopservice_uz"
+              variant="inline"
+              target="_blank"
+            />
           </li>
           <li>
-            <a href={siteConfig.telegram.chatUrl} target="_blank" rel="noopener noreferrer" class="hover:text-chassis-100">
-              Telegram чат мастеров
-            </a>
+            <IconLink
+              type="telegram"
+              href={siteConfig.telegram.chatUrl}
+              label="Telegram чат мастеров"
+              ariaLabel="Telegram-чат мастеров"
+              variant="inline"
+              target="_blank"
+            />
           </li>
           <li>
-            <a href={siteConfig.socials.instagram} target="_blank" rel="noopener noreferrer" class="hover:text-chassis-100">
-              Instagram: laptopservice_uz
-            </a>
+            <IconLink
+              type="instagram"
+              href={siteConfig.socials.instagram}
+              label="Instagram: laptopservice_uz"
+              ariaLabel="Instagram: laptopservice_uz"
+              variant="inline"
+              target="_blank"
+            />
           </li>
           <li>
-            <a href={siteConfig.socials.facebook} target="_blank" rel="noopener noreferrer" class="hover:text-chassis-100">
-              Facebook: RemontNoutbukov.uz
-            </a>
+            <IconLink
+              type="facebook"
+              href={siteConfig.socials.facebook}
+              label="Facebook: RemontNoutbukov.uz"
+              ariaLabel="Facebook: RemontNoutbukov.uz"
+              variant="inline"
+              target="_blank"
+            />
           </li>
         </ul>
       </div>
 
       <!-- Col 4: Address & Maps -->
       <div class="space-y-3">
-        <h3 class="text-xs font-mono font-bold text-chassis-200 uppercase tracking-wider mb-3">Адрес и доставка</h3>
+        <h3 class="text-xs font-sans font-bold text-chassis-200 uppercase tracking-wider mb-3">Адрес и доставка</h3>
         <div class="text-xs space-y-1.5">
           <p class="text-chassis-200 font-medium">{siteConfig.address.fullAddress}</p>
           <p class="text-chassis-400">Ориентир: напротив Паркентского базара, магазин «Радиодетали»</p>
           <p class="text-chassis-400 pt-1">{siteConfig.address.deliveryInfo}</p>
-          <p class="text-chassis-300 font-mono pt-1">{siteConfig.workingHours.days}: {siteConfig.workingHours.hours}</p>
+          <p class="text-chassis-300 font-sans pt-1">{siteConfig.workingHours.days}: {siteConfig.workingHours.hours}</p>
         </div>
 
-        <div class="flex items-center gap-2 pt-2">
-          <a
+        <div class="flex items-center gap-2 pt-2 flex-wrap">
+          <IconLink
+            type="yandex-maps"
             href={siteConfig.socials.yandexMaps}
+            label="Яндекс Карты"
+            ariaLabel="Открыть в Яндекс Картах"
+            variant="button"
             target="_blank"
-            rel="noopener noreferrer"
-            class="px-2.5 py-1 rounded border border-chassis-800 bg-chassis-850 hover:bg-chassis-800 text-chassis-300 hover:text-chassis-100 text-xs font-mono transition-colors"
-          >
-            Яндекс Карты
-          </a>
-          <a
+            class="text-[11px]"
+          />
+          <IconLink
+            type="google-maps"
             href={siteConfig.socials.googleMaps}
+            label="Google Maps"
+            ariaLabel="Открыть в Google Maps"
+            variant="button"
             target="_blank"
-            rel="noopener noreferrer"
-            class="px-2.5 py-1 rounded border border-chassis-800 bg-chassis-850 hover:bg-chassis-800 text-chassis-300 hover:text-chassis-100 text-xs font-mono transition-colors"
-          >
-            Google Maps
-          </a>
+            class="text-[11px]"
+          />
         </div>
       </div>
 
     </div>
 
     <!-- Bottom Bar -->
-    <div class="mt-8 pt-6 border-t border-chassis-850 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-chassis-400 font-mono">
+    <div class="mt-8 pt-6 border-t border-chassis-850 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-chassis-400 font-sans">
       <p>© {currentYear} {siteConfig.legalName}. Все права защищены.</p>
       <p>{siteConfig.domain} (301-редирект с {siteConfig.redirectDomain})</p>
     </div>

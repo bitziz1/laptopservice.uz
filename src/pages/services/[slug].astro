@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import IconLink from "@/components/IconLink.astro";
 import { servicesData, type ServiceItem } from "@/data/services";
 import { siteConfig } from "@/data/siteConfig";
 
@@ -40,7 +41,7 @@ const breadcrumbs = [
 
     <!-- Service Header -->
     <header class="space-y-4">
-      <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded border border-chassis-700 bg-chassis-850 text-xs font-mono text-chassis-300">
+      <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded border border-chassis-700 bg-chassis-850 text-xs font-sans text-chassis-300">
         Услуга сервисного центра • ул. Паркент 11
       </div>
 
@@ -53,7 +54,7 @@ const breadcrumbs = [
       </p>
 
       <!-- Key Specs Bar -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-b border-chassis-800 py-3 text-xs font-mono">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-b border-chassis-800 py-3 text-xs font-sans">
         <div>
           <span class="text-chassis-400 block">Ориентировочные сроки:</span>
           <span class="text-chassis-100 font-bold">{service.timeRange}</span>
@@ -67,13 +68,13 @@ const breadcrumbs = [
 
     <!-- Symptoms Checklist -->
     <section class="space-y-3">
-      <h2 class="text-sm font-bold text-chassis-200 uppercase font-mono tracking-wider">
+      <h2 class="text-sm font-bold text-chassis-200 uppercase font-sans tracking-wider">
         Характерные признаки и симптомы неисправности:
       </h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
         {service.symptoms.map((symptom) => (
           <div class="p-3 rounded border border-chassis-800 bg-chassis-850 text-xs text-chassis-300 flex items-start gap-2">
-            <span class="text-chassis-400 font-mono">-</span>
+            <span class="text-chassis-400 font-sans">-</span>
             <span>{symptom}</span>
           </div>
         ))}
@@ -82,13 +83,13 @@ const breadcrumbs = [
 
     <!-- Stages of Work -->
     <section class="space-y-4">
-      <h2 class="text-sm font-bold text-chassis-200 uppercase font-mono tracking-wider">
+      <h2 class="text-sm font-bold text-chassis-200 uppercase font-sans tracking-wider">
         Порядок проведения работ:
       </h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {service.stages.map((stage, idx) => (
           <div class="p-4 rounded border border-chassis-800 bg-chassis-850 space-y-1.5">
-            <div class="text-xs font-mono text-chassis-400 font-bold">0{idx + 1}. {stage.title}</div>
+            <div class="text-xs font-sans text-chassis-400 font-bold">0{idx + 1}. {stage.title}</div>
             <p class="text-xs text-chassis-400 leading-relaxed">{stage.description}</p>
           </div>
         ))}
@@ -98,7 +99,7 @@ const breadcrumbs = [
     <!-- FAQ -->
     {service.faq && service.faq.length > 0 && (
       <section class="space-y-4 border-t border-chassis-800 pt-8">
-        <h2 class="text-sm font-bold text-chassis-200 uppercase font-mono tracking-wider">
+        <h2 class="text-sm font-bold text-chassis-200 uppercase font-sans tracking-wider">
           Частые вопросы по услуге
         </h2>
         <div class="space-y-3">
@@ -120,20 +121,23 @@ const breadcrumbs = [
       </div>
 
       <div class="flex items-center gap-2">
-        <a
+        <IconLink
+          type="telegram"
           href={siteConfig.telegram.masterUrl}
+          label="Telegram мастера"
+          ariaLabel="Написать мастеру в Telegram"
+          variant="button"
           target="_blank"
-          rel="noopener noreferrer"
-          class="px-4 py-2 rounded border border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 text-xs font-mono font-bold transition-colors"
-        >
-          Telegram мастера
-        </a>
-        <a
+          class="border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 font-bold"
+        />
+        <IconLink
+          type="phone"
           href={`tel:${siteConfig.phones.primary}`}
-          class="px-4 py-2 rounded border border-chassis-700 bg-chassis-900 hover:bg-chassis-800 text-chassis-200 text-xs font-mono transition-colors"
-        >
-          Позвонить
-        </a>
+          label="Позвонить"
+          ariaLabel="Позвонить мастеру"
+          variant="button"
+          class="border-chassis-700 bg-chassis-900 hover:bg-chassis-800 text-chassis-200"
+        />
       </div>
     </div>
 

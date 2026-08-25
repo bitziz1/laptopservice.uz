@@ -40,3 +40,25 @@
 7. **Инфраструктура и Деплой**:
    - Подготовлен Ansible Playbook (`ansible/playbook.yml`) для автоматического развертывания на чистый Ubuntu 24.04 LTS VPS с Docker и Caddy.
    - Подготовлены инструкции для локального запуска на Windows.
+
+8. **IconLink — единый компонент ссылок с иконками (Задача A)**:
+   - Создан `src/components/IconLink.astro` с вариантами `button`/`inline`/`icon-only`, поддержка `telegram`, `phone`, `instagram`, `facebook`, `yandex-maps`, `google-maps` (SVG из `public/`).
+   - Заменены все голые текстовые ссылки на `IconLink` в `Header.astro`, `Footer.astro`, `MasterBadge.astro`, `pages/index.astro` (hero, блок отзывов, адресный блок), `pages/contacts.astro`, `pages/cases/[slug].astro`, `pages/services/[slug].astro`, `pages/services/index.astro`.
+   - Логотип в шапке/подвале заменён на `public/logo.svg`, favicon обновлён, добавлены `phone.svg`, `Telegram_Logo.svg` и др.
+
+9. **Сборки ПК и расширенный апгрейд (Задача B)**:
+   - Создан `src/data/builds.ts` (`BuildItem`, типы `gaming|ai-work|office|rendering`) с 3 примерами: игровая RTX 4060, AI-станция RTX 4090, офисная i5-12400.
+   - `src/components/BuildCard.astro`, `src/pages/builds/index.astro` (фильтр по purpose), `src/pages/builds/[slug].astro` (таблица компонентов + Schema.org Product/Offer).
+   - Расширен `src/data/services.ts` → `upgrade-noutbuka`: добавлены замена матрицы/клавиатуры/аккумулятора, расширены `symptoms`/`stages`/`faq`.
+   - Навигация: «Сборки ПК» в `Header`, ссылка в `Footer`, блок-preview на `pages/index.astro`, баннер на `pages/services/index.astro`.
+   - `scripts/indexnow_ping.py` дополнен URL `/builds` и слагов.
+
+10. **Контент-инструмент без AI-API (Задача C)**:
+   - Переработан `scripts/telegram_ingest.py` в `scripts/content_tool.py` — CLI с командами `fetch-telegram` (реальный Telethon, сохраняет в `content/_raw/telegram/<id>/`), `make-prompt --id --type case|build` (печатает промпт), `import-result --id` (валидирует YAML → `content/cases|builds/drafts/`), `import-reviews` (парсит `content/_raw/reviews/inbox.txt` → `content/reviews/drafts/`), `publish --id --type` (перемещает в `published/` + IndexNow пинг).
+   - Добавлен `scripts/README.md` с пошаговой инструкцией для нетехнического пользователя.
+
+11. **Типографика self-hosted (Задача D)**:
+   - Скачаны woff2 в `public/fonts/`: `Inter-Regular`, `Inter-Bold`, `Inter-ExtraBold`, `JetBrainsMono-Regular`, `JetBrainsMono-Bold`.
+   - `src/styles/global.css` — добавлены 5 `@font-face` с `font-display: swap`.
+   - `tailwind.config.mjs` — задана единая шкала `fontSize` (2xs–5xl) + `fontFamily.sans/mono`.
+   - Пройдены все `src/components/` и `src/pages/`: `font-mono` убран из навигации/кнопок/лейблов, оставлен только для технических таблиц (`keySpecs`, компоненты сборок) и цен (`PriceTable`, `BuildCard` price).

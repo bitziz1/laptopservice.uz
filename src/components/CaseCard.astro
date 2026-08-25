@@ -11,12 +11,12 @@ const { caseItem } = Astro.props;
 <article class="rounded-lg border border-chassis-800 bg-chassis-850 p-5 sm:p-6 flex flex-col justify-between hover:border-chassis-700 transition-colors">
   
   <div class="space-y-3">
-    <div class="flex items-center justify-between gap-2 border-b border-chassis-800 pb-3 text-[11px] font-mono">
+    <div class="flex items-center justify-between gap-2 border-b border-chassis-800 pb-3 text-[11px] font-sans">
       <span class="text-chassis-300 font-bold uppercase">{caseItem.category}</span>
       <span class="text-chassis-400">{caseItem.date}</span>
     </div>
 
-    <div class="text-xs font-mono text-chassis-300 font-bold">
+    <div class="text-xs font-sans text-chassis-300 font-bold">
       Устройство: {caseItem.device}
     </div>
 
@@ -38,7 +38,7 @@ const { caseItem } = Astro.props;
   <div class="pt-4 mt-4 border-t border-chassis-800 flex items-center justify-between">
     <div class="flex flex-wrap gap-1">
       {caseItem.tags.slice(0, 2).map((tag) => (
-        <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-chassis-900 border border-chassis-800 text-chassis-400">
+        <span class="text-[10px] font-sans px-1.5 py-0.5 rounded bg-chassis-900 border border-chassis-800 text-chassis-400">
           #{tag}
         </span>
       ))}
@@ -46,7 +46,7 @@ const { caseItem } = Astro.props;
 
     <a
       href={`/cases/${caseItem.slug}`}
-      class="text-xs font-mono text-chassis-200 hover:text-chassis-100 underline underline-offset-2"
+      class="text-xs font-sans text-chassis-200 hover:text-chassis-100 underline underline-offset-2"
     >
       Читать разбор →
     </a>

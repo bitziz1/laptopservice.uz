@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import IconLink from "@/components/IconLink.astro";
 import { casesData, type CaseItem } from "@/data/cases";
 import { siteConfig } from "@/data/siteConfig";
 
@@ -45,7 +46,7 @@ const solutionSteps = caseItem.solution
 
     <!-- Case Header -->
     <header class="space-y-3">
-      <div class="flex flex-wrap items-center gap-2 text-xs font-mono">
+      <div class="flex flex-wrap items-center gap-2 text-xs font-sans">
         <span class="px-2 py-0.5 rounded border border-chassis-700 bg-chassis-850 text-chassis-300 font-bold uppercase">
           {caseItem.category}
         </span>
@@ -58,7 +59,7 @@ const solutionSteps = caseItem.solution
         {caseItem.title}
       </h1>
 
-      <div class="text-xs font-mono text-chassis-300">
+      <div class="text-xs font-sans text-chassis-300">
         Устройство: <strong class="text-chassis-100">{caseItem.device}</strong>
       </div>
     </header>
@@ -80,7 +81,7 @@ const solutionSteps = caseItem.solution
 
     <!-- Problem -->
     <section class="rounded border border-chassis-800 bg-chassis-850 p-5 sm:p-6 space-y-2">
-      <div class="text-xs font-mono text-chassis-400 uppercase tracking-wider font-bold">
+      <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider font-bold">
         01. Неисправность и симптомы
       </div>
       <p class="text-xs sm:text-sm text-chassis-300 leading-relaxed">
@@ -90,7 +91,7 @@ const solutionSteps = caseItem.solution
 
     <!-- Diagnosis -->
     <section class="rounded border border-chassis-800 bg-chassis-850 p-5 sm:p-6 space-y-2">
-      <div class="text-xs font-mono text-chassis-400 uppercase tracking-wider font-bold">
+      <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider font-bold">
         02. Результаты аппаратной диагностики
       </div>
       <p class="text-xs sm:text-sm text-chassis-300 leading-relaxed">
@@ -100,14 +101,14 @@ const solutionSteps = caseItem.solution
 
     <!-- Steps -->
     <section class="rounded border border-chassis-800 bg-chassis-850 p-5 sm:p-6 space-y-4">
-      <div class="text-xs font-mono text-chassis-400 uppercase tracking-wider font-bold">
+      <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider font-bold">
         03. Ход выполнения ремонта
       </div>
 
       <div class="space-y-2.5">
         {solutionSteps.map((step, idx) => (
           <div class="p-3 rounded bg-chassis-900 border border-chassis-800 text-xs text-chassis-300 flex items-start gap-2.5">
-            <span class="text-chassis-400 font-mono font-bold">{idx + 1}.</span>
+            <span class="text-chassis-400 font-sans font-bold">{idx + 1}.</span>
             <span class="leading-relaxed">{step.text}</span>
           </div>
         ))}
@@ -116,7 +117,7 @@ const solutionSteps = caseItem.solution
 
     <!-- Result -->
     <section class="rounded border border-chassis-800 bg-chassis-850 p-5 sm:p-6 space-y-2">
-      <div class="text-xs font-mono text-chassis-400 uppercase tracking-wider font-bold">
+      <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider font-bold">
         04. Итог и тестирование
       </div>
       <p class="text-xs sm:text-sm text-chassis-300 leading-relaxed">
@@ -127,7 +128,7 @@ const solutionSteps = caseItem.solution
     <!-- Tags -->
     <div class="flex flex-wrap gap-1.5 pt-2">
       {caseItem.tags.map((tag) => (
-        <span class="px-2 py-0.5 rounded bg-chassis-900 border border-chassis-800 text-[11px] font-mono text-chassis-400">
+        <span class="px-2 py-0.5 rounded bg-chassis-900 border border-chassis-800 text-[11px] font-sans text-chassis-400">
           #{tag}
         </span>
       ))}
@@ -141,20 +142,23 @@ const solutionSteps = caseItem.solution
       </div>
 
       <div class="flex items-center gap-2">
-        <a
+        <IconLink
+          type="telegram"
           href={siteConfig.telegram.masterUrl}
+          label="Telegram мастера"
+          ariaLabel="Написать мастеру в Telegram"
+          variant="button"
           target="_blank"
-          rel="noopener noreferrer"
-          class="px-4 py-2 rounded border border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 text-xs font-mono font-bold transition-colors"
-        >
-          Telegram мастера
-        </a>
-        <a
+          class="border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 font-bold"
+        />
+        <IconLink
+          type="phone"
           href={`tel:${siteConfig.phones.primary}`}
-          class="px-4 py-2 rounded border border-chassis-700 bg-chassis-900 hover:bg-chassis-800 text-chassis-200 text-xs font-mono transition-colors"
-        >
-          Позвонить
-        </a>
+          label="Позвонить"
+          ariaLabel="Позвонить мастеру"
+          variant="button"
+          class="border-chassis-700 bg-chassis-900 hover:bg-chassis-800 text-chassis-200"
+        />
       </div>
     </div>
 

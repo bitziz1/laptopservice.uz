@@ -20,7 +20,7 @@ const breadcrumbs = [
     <Breadcrumbs items={breadcrumbs} />
 
     <header class="max-w-3xl space-y-3">
-      <div class="text-xs font-mono text-chassis-400 uppercase tracking-wider">
+      <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider">
         Верифицированные отзывы
       </div>
 
@@ -35,7 +35,7 @@ const breadcrumbs = [
 
     <!-- Rating Summary -->
     <div class="rounded border border-chassis-800 bg-chassis-850 p-5 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-4 text-xs font-mono">
+      <div class="flex items-center gap-4 text-xs font-sans">
         <div class="text-2xl sm:text-3xl font-bold text-chassis-100">5.0</div>
         <div class="text-chassis-300">
           <div>★★★★★ (Отличная оценка)</div>
@@ -43,7 +43,7 @@ const breadcrumbs = [
         </div>
       </div>
 
-      <div class="flex items-center gap-2 text-xs font-mono">
+      <div class="flex items-center gap-2 text-xs font-sans">
         <a
           href={siteConfig.socials.yandexMaps}
           target="_blank"
@@ -82,13 +82,13 @@ const breadcrumbs = [
           href={siteConfig.telegram.masterUrl}
           target="_blank"
           rel="noopener noreferrer"
-          class="px-4 py-2 rounded border border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 text-xs font-mono font-bold transition-colors"
+          class="px-4 py-2 rounded border border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 text-xs font-sans font-bold transition-colors"
         >
           Telegram мастера
         </a>
         <a
           href={`tel:${siteConfig.phones.primary}`}
-          class="px-4 py-2 rounded border border-chassis-700 bg-chassis-900 hover:bg-chassis-800 text-chassis-200 text-xs font-mono transition-colors"
+          class="px-4 py-2 rounded border border-chassis-700 bg-chassis-900 hover:bg-chassis-800 text-chassis-200 text-xs font-sans transition-colors"
         >
           {siteConfig.phones.displayPrimary}
         </a>

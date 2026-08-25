@@ -1,0 +1,105 @@
+---
+/**
+ * IconLink — переиспользуемый компонент для ссылок с иконкой.
+ * SVG-ассеты берутся из /public/ по соглашению имён.
+ *
+ * Props:
+ *   type     — тип контакта, определяет иконку и aria-label по умолчанию
+ *   href     — URL ссылки (tel:..., https://t.me/..., и т.д.)
+ *   label    — текст рядом с иконкой (и aria-label, если не задан ariaLabel)
+ *   ariaLabel — явный aria-label (переопределяет label для screen-reader)
+ *   variant  — 'button' (bordered pill) | 'inline' (простой текстовый линк) | 'icon-only'
+ *   class    — дополнительные CSS-классы (прокидываются снаружи)
+ *   target   — '_blank' и т.д.
+ *   rel      — rel атрибут (по умолчанию 'noopener noreferrer' для _blank)
+ */
+
+export type IconType = "telegram" | "telegram-channel" | "phone" | "instagram" | "facebook" | "google-maps" | "yandex-maps";
+
+export type IconVariant = "button" | "inline" | "icon-only";
+
+interface Props {
+  type: IconType;
+  href: string;
+  label?: string;
+  ariaLabel?: string;
+  variant?: IconVariant;
+  class?: string;
+  target?: string;
+  rel?: string;
+}
+
+const {
+  type,
+  href,
+  label,
+  ariaLabel,
+  variant = "inline",
+  class: extraClass = "",
+  target,
+  rel,
+} = Astro.props;
+
+// Map icon type → SVG file path (from /public/)
+const iconMap: Record<IconType, string> = {
+  telegram: "/Telegram_Logo.svg",
+  "telegram-channel": "/Telegram_Logo.svg",
+  phone: "/phone.svg",
+  instagram: "/Instagram_logo.svg",
+  facebook: "/Facebook_logo.svg",
+  "google-maps": "/Google_Maps_icon.svg",
+  "yandex-maps": "/Yandex_Maps_icon.svg",
+};
+
+// Default human-readable aria labels
+const defaultAriaLabels: Record<IconType, string> = {
+  telegram: "Написать в Telegram мастеру",
+  "telegram-channel": "Telegram-канал @laptopservice_uz",
+  phone: "Позвонить мастеру",
+  instagram: "Instagram: laptopservice_uz",
+  facebook: "Facebook: RemontNoutbukov.uz",
+  "google-maps": "Открыть в Google Maps",
+  "yandex-maps": "Открыть в Яндекс Картах",
+};
+
+const iconSrc = iconMap[type];
+const computedAriaLabel = ariaLabel ?? label ?? defaultAriaLabels[type];
+
+// Determine rel attribute
+const computedRel =
+  rel ?? (target === "_blank" ? "noopener noreferrer" : undefined);
+
+// Variant styles
+const variantClasses: Record<IconVariant, string> = {
+  button:
+    "inline-flex items-center gap-1.5 px-3 py-1.5 rounded border border-chassis-700 bg-chassis-850 hover:bg-chassis-800 text-chassis-200 hover:text-chassis-100 text-xs font-sans transition-colors",
+  inline:
+    "inline-flex items-center gap-1.5 text-chassis-300 hover:text-chassis-100 transition-colors",
+  "icon-only":
+    "inline-flex items-center justify-center w-8 h-8 rounded border border-chassis-800 bg-chassis-850 hover:bg-chassis-800 transition-colors",
+};
+
+const classes = [variantClasses[variant], extraClass].filter(Boolean).join(" ");
+---
+
+<a
+  href={href}
+  aria-label={computedAriaLabel}
+  class={classes}
+  target={target}
+  rel={computedRel}
+>
+  <img
+    src={iconSrc}
+    alt=""
+    aria-hidden="true"
+    width="16"
+    height="16"
+    class="w-4 h-4 shrink-0 object-contain"
+    loading="lazy"
+  />
+  {variant !== "icon-only" && label && (
+    <span>{label}</span>
+  )}
+  <slot />
+</a>

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import IconLink from "@/components/IconLink.astro";
 import { siteConfig } from "@/data/siteConfig";
 
 const breadcrumbs = [
@@ -19,7 +20,7 @@ const breadcrumbs = [
     <Breadcrumbs items={breadcrumbs} />
 
     <header class="space-y-3">
-      <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded border border-chassis-700 bg-chassis-850 text-xs font-mono text-chassis-300">
+      <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded border border-chassis-700 bg-chassis-850 text-xs font-sans text-chassis-300">
         Контакты сервисного центра
       </div>
 
@@ -32,43 +33,86 @@ const breadcrumbs = [
       </p>
     </header>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
       
       <!-- Phone & Telegram -->
-      <div class="rounded border border-chassis-800 bg-chassis-850 p-5 space-y-3">
-        <div class="text-chassis-400 uppercase tracking-wider font-bold">Связь с мастером</div>
-        <div class="space-y-2">
-          <div>
+      <div class="rounded border border-chassis-800 bg-chassis-850 p-5 space-y-4">
+        <div class="text-chassis-400 uppercase tracking-wider font-sans font-bold text-[11px]">Связь с мастером</div>
+        <div class="space-y-3">
+          <div class="space-y-1">
             <span class="text-chassis-400 block text-[11px]">Телефон для звонков:</span>
-            <a href={`tel:${siteConfig.phones.primary}`} class="text-sm font-bold text-chassis-100 hover:underline">
-              {siteConfig.phones.displayPrimary}
-            </a>
+            <IconLink
+              type="phone"
+              href={`tel:${siteConfig.phones.primary}`}
+              label={siteConfig.phones.displayPrimary}
+              ariaLabel="Позвонить мастеру"
+              variant="inline"
+              class="text-sm font-bold text-chassis-100"
+            />
           </div>
-          <div>
+          <div class="space-y-1">
             <span class="text-chassis-400 block text-[11px]">Telegram мастера:</span>
-            <a href={siteConfig.telegram.masterUrl} target="_blank" rel="noopener noreferrer" class="text-sm font-bold text-chassis-200 hover:underline">
-              {siteConfig.telegram.masterHandle}
-            </a>
+            <IconLink
+              type="telegram"
+              href={siteConfig.telegram.masterUrl}
+              label={siteConfig.telegram.masterHandle}
+              ariaLabel="Написать мастеру в Telegram"
+              variant="inline"
+              target="_blank"
+              class="text-sm font-bold text-chassis-200"
+            />
           </div>
-          <div>
+          <div class="space-y-1">
             <span class="text-chassis-400 block text-[11px]">Telegram канал:</span>
-            <a href={siteConfig.telegram.channelUrl} target="_blank" rel="noopener noreferrer" class="text-chassis-300 hover:underline">
-              {siteConfig.telegram.channel}
-            </a>
+            <IconLink
+              type="telegram-channel"
+              href={siteConfig.telegram.channelUrl}
+              label={siteConfig.telegram.channel}
+              ariaLabel="Telegram-канал @laptopservice_uz"
+              variant="inline"
+              target="_blank"
+              class="text-chassis-300"
+            />
           </div>
-          <div>
+          <div class="space-y-1">
             <span class="text-chassis-400 block text-[11px]">Telegram чат:</span>
-            <a href={siteConfig.telegram.chatUrl} target="_blank" rel="noopener noreferrer" class="text-chassis-300 hover:underline">
-              t.me/laptop_service_chat
-            </a>
+            <IconLink
+              type="telegram"
+              href={siteConfig.telegram.chatUrl}
+              label="t.me/laptop_service_chat"
+              ariaLabel="Telegram-чат мастеров"
+              variant="inline"
+              target="_blank"
+              class="text-chassis-300"
+            />
+          </div>
+          <div class="flex gap-3 pt-1">
+            <IconLink
+              type="instagram"
+              href={siteConfig.socials.instagram}
+              label="Instagram"
+              ariaLabel="Instagram: laptopservice_uz"
+              variant="inline"
+              target="_blank"
+              class="text-chassis-300"
+            />
+            <IconLink
+              type="facebook"
+              href={siteConfig.socials.facebook}
+              label="Facebook"
+              ariaLabel="Facebook: RemontNoutbukov.uz"
+              variant="inline"
+              target="_blank"
+              class="text-chassis-300"
+            />
           </div>
         </div>
       </div>
 
       <!-- Address & Schedule -->
-      <div class="rounded border border-chassis-800 bg-chassis-850 p-5 space-y-3">
-        <div class="text-chassis-400 uppercase tracking-wider font-bold">Адрес и режим работы</div>
-        <div class="space-y-2">
+      <div class="rounded border border-chassis-800 bg-chassis-850 p-5 space-y-4">
+        <div class="text-chassis-400 uppercase tracking-wider font-sans font-bold text-[11px]">Адрес и режим работы</div>
+        <div class="space-y-2 font-sans">
           <div>
             <span class="text-chassis-400 block text-[11px]">Физический адрес:</span>
             <span class="text-chassis-100 font-bold block">{siteConfig.address.fullAddress}</span>
@@ -88,7 +132,7 @@ const breadcrumbs = [
 
     <!-- Delivery Instructions -->
     <section class="rounded border border-chassis-800 bg-chassis-850 p-6 space-y-3 text-xs text-chassis-300">
-      <h3 class="text-sm font-bold text-chassis-100 font-mono uppercase tracking-wider">
+      <h3 class="text-sm font-bold text-chassis-100 font-sans uppercase tracking-wider">
         Доставка техники курьером / Яндекс Доставкой
       </h3>
       <p class="leading-relaxed">
@@ -101,29 +145,31 @@ const breadcrumbs = [
 
     <!-- Maps Links -->
     <section class="rounded border border-chassis-800 bg-chassis-900 p-6 space-y-4">
-      <h3 class="text-sm font-bold text-chassis-100 font-mono uppercase tracking-wider">
+      <h3 class="text-sm font-bold text-chassis-100 font-sans uppercase tracking-wider">
         Карты и навигация
       </h3>
       <p class="text-xs text-chassis-400">
         Координаты: 41.3144° N, 69.3148° E (г. Ташкент, ул. Паркент 11)
       </p>
-      <div class="flex flex-wrap gap-2 pt-1 text-xs font-mono">
-        <a
+      <div class="flex flex-wrap gap-2 pt-1">
+        <IconLink
+          type="yandex-maps"
           href={siteConfig.socials.yandexMaps}
+          label="Яндекс Карты (laptop_service) →"
+          ariaLabel="Открыть в Яндекс Картах"
+          variant="button"
           target="_blank"
-          rel="noopener noreferrer"
-          class="px-4 py-2 rounded border border-chassis-700 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 transition-colors"
-        >
-          Яндекс Карты (laptop_service) →
-        </a>
-        <a
+          class="border-chassis-700 bg-chassis-800 hover:bg-chassis-700 text-chassis-100"
+        />
+        <IconLink
+          type="google-maps"
           href={siteConfig.socials.googleMaps}
+          label="Google Maps →"
+          ariaLabel="Открыть в Google Maps"
+          variant="button"
           target="_blank"
-          rel="noopener noreferrer"
-          class="px-4 py-2 rounded border border-chassis-700 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 transition-colors"
-        >
-          Google Maps →
-        </a>
+          class="border-chassis-700 bg-chassis-800 hover:bg-chassis-700 text-chassis-100"
+        />
       </div>
     </section>
 

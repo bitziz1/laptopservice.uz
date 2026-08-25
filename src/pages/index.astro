@@ -4,10 +4,13 @@ import MasterBadge from "@/components/MasterBadge.astro";
 import ServiceCard from "@/components/ServiceCard.astro";
 import CaseCard from "@/components/CaseCard.astro";
 import ReviewCard from "@/components/ReviewCard.astro";
+import IconLink from "@/components/IconLink.astro";
+import BuildCard from "@/components/BuildCard.astro";
 import { siteConfig } from "@/data/siteConfig";
 import { servicesData } from "@/data/services";
 import { casesData } from "@/data/cases";
 import { reviewsData } from "@/data/reviews";
+import { buildsData } from "@/data/builds";
 
 const homeFaq = [
   {
@@ -41,7 +44,7 @@ const homeFaq = [
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="max-w-3xl space-y-5">
         
-        <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded border border-chassis-700 bg-chassis-850 text-xs font-mono text-chassis-300">
+        <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded border border-chassis-700 bg-chassis-850 text-xs font-sans text-chassis-300">
           <span>Сервисный центр • г. Ташкент, ул. Паркент 11</span>
         </div>
 
@@ -54,7 +57,7 @@ const homeFaq = [
         </p>
 
         <!-- Key Policy Notice -->
-        <div class="p-4 rounded border border-chassis-700 bg-chassis-850 text-xs font-mono text-chassis-300 space-y-1">
+        <div class="p-4 rounded border border-chassis-700 bg-chassis-850 text-xs font-sans text-chassis-300 space-y-1">
           <div class="font-bold text-chassis-100 uppercase">Порядок работы и ценообразования:</div>
           <p>
             1. Приносите ноутбук в сервисный центр или отправляете доставкой.<br />
@@ -65,25 +68,26 @@ const homeFaq = [
 
         <!-- Direct CTA Buttons -->
         <div class="flex flex-wrap items-center gap-3 pt-2">
-          <a
+          <IconLink
+            type="telegram"
             href={siteConfig.telegram.masterUrl}
+            label="Написать в Telegram мастеру"
+            ariaLabel="Написать мастеру в Telegram"
+            variant="button"
             target="_blank"
-            rel="noopener noreferrer"
-            class="px-5 py-2.5 rounded border border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 text-xs font-mono font-bold transition-colors"
-          >
-            Написать в Telegram мастеру
-          </a>
-
-          <a
+            class="px-5 py-2.5 border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 font-bold"
+          />
+          <IconLink
+            type="phone"
             href={`tel:${siteConfig.phones.primary}`}
-            class="px-5 py-2.5 rounded border border-chassis-700 bg-chassis-900 hover:bg-chassis-850 text-chassis-200 text-xs font-mono transition-colors"
-          >
-            Позвонить: {siteConfig.phones.displayPrimary}
-          </a>
-
+            label={`Позвонить: ${siteConfig.phones.displayPrimary}`}
+            ariaLabel="Позвонить мастеру"
+            variant="button"
+            class="px-5 py-2.5 bg-chassis-900 hover:bg-chassis-850 text-chassis-200"
+          />
           <a
             href="/contacts"
-            class="px-4 py-2.5 rounded border border-chassis-800 hover:bg-chassis-850 text-chassis-400 hover:text-chassis-200 text-xs font-mono transition-colors"
+            class="px-4 py-2.5 rounded border border-chassis-800 hover:bg-chassis-850 text-chassis-400 hover:text-chassis-200 text-xs font-sans transition-colors"
           >
             Схема проезда и адрес →
           </a>
@@ -104,10 +108,10 @@ const homeFaq = [
       
       <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
         <div>
-          <div class="text-xs font-mono text-chassis-400 uppercase tracking-wider">Услуги</div>
+          <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider">Услуги</div>
           <h2 class="text-xl sm:text-2xl font-bold text-chassis-100">Основные виды выполняемых работ</h2>
         </div>
-        <a href="/services" class="text-xs font-mono text-chassis-300 hover:text-chassis-100 underline">
+        <a href="/services" class="text-xs font-sans text-chassis-300 hover:text-chassis-100 underline">
           Все услуги ({servicesData.length}) →
         </a>
       </div>
@@ -121,14 +125,34 @@ const homeFaq = [
     </div>
   </section>
 
+  <!-- BUILDS PREVIEW -->
+  <section class="py-12 border-t border-chassis-800 bg-chassis-950">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+        <div>
+          <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider">Сборка ПК • под ваш бюджет</div>
+          <h2 class="text-xl sm:text-2xl font-bold text-chassis-100">Сборки ПК под задачу</h2>
+        </div>
+        <a href="/builds" class="text-xs font-sans text-chassis-300 hover:text-chassis-100 underline">
+          Все сборки ({buildsData.length}) →
+        </a>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {buildsData.slice(0, 3).map((build) => (
+          <BuildCard build={build} />
+        ))}
+      </div>
+    </div>
+  </section>
+
   <!-- CASES FROM TELEGRAM -->
   <section class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
     <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
       <div>
-        <div class="text-xs font-mono text-chassis-400 uppercase tracking-wider">Telegram @laptopservice_uz</div>
+        <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider">Telegram @laptopservice_uz</div>
         <h2 class="text-xl sm:text-2xl font-bold text-chassis-100">Реальные примеры ремонтов</h2>
       </div>
-      <a href="/cases" class="text-xs font-mono text-chassis-300 hover:text-chassis-100 underline">
+      <a href="/cases" class="text-xs font-sans text-chassis-300 hover:text-chassis-100 underline">
         Все кейсы ({casesData.length}) →
       </a>
     </div>
@@ -146,17 +170,29 @@ const homeFaq = [
       
       <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
         <div>
-          <div class="text-xs font-mono text-chassis-400 uppercase tracking-wider">Отзывы на картах</div>
+          <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider">Отзывы на картах</div>
           <h2 class="text-xl sm:text-2xl font-bold text-chassis-100">Отзывы клиентов</h2>
         </div>
-        <div class="flex items-center gap-3 text-xs font-mono">
-          <a href={siteConfig.socials.yandexMaps} target="_blank" rel="noopener noreferrer" class="text-chassis-300 hover:text-chassis-100 underline">
-            Яндекс Карты
-          </a>
+        <div class="flex items-center gap-3 text-xs">
+          <IconLink
+            type="yandex-maps"
+            href={siteConfig.socials.yandexMaps}
+            label="Яндекс Карты"
+            ariaLabel="Открыть в Яндекс Картах"
+            variant="inline"
+            target="_blank"
+            class="text-chassis-300 hover:text-chassis-100 underline"
+          />
           <span class="text-chassis-600">•</span>
-          <a href={siteConfig.socials.googleMaps} target="_blank" rel="noopener noreferrer" class="text-chassis-300 hover:text-chassis-100 underline">
-            Google Maps
-          </a>
+          <IconLink
+            type="google-maps"
+            href={siteConfig.socials.googleMaps}
+            label="Google Maps"
+            ariaLabel="Открыть в Google Maps"
+            variant="inline"
+            target="_blank"
+            class="text-chassis-300 hover:text-chassis-100 underline"
+          />
         </div>
       </div>
 
@@ -172,7 +208,7 @@ const homeFaq = [
   <!-- FAQ -->
   <section class="py-12 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
     <div>
-      <div class="text-xs font-mono text-chassis-400 uppercase tracking-wider">Вопросы и ответы</div>
+      <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider">Вопросы и ответы</div>
       <h2 class="text-xl sm:text-2xl font-bold text-chassis-100">Часто задаваемые вопросы</h2>
     </div>
 
@@ -192,57 +228,60 @@ const homeFaq = [
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
         <div class="lg:col-span-6 space-y-4">
-          <div class="text-xs font-mono text-chassis-400 uppercase tracking-wider">Локация сервисного центра</div>
+          <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider">Локация сервисного центра</div>
           <h2 class="text-xl sm:text-2xl font-bold text-chassis-100">{siteConfig.address.fullAddress}</h2>
           <p class="text-xs sm:text-sm text-chassis-300 leading-relaxed">
             Ориентиры: напротив центрального входа Паркентского базара, магазин «Радиодетали». 
             {siteConfig.address.deliveryInfo}.
           </p>
-          <div class="text-xs font-mono text-chassis-300 space-y-1 pt-1">
+          <div class="text-xs font-sans text-chassis-300 space-y-1 pt-1">
             <div>График: {siteConfig.workingHours.days} ({siteConfig.workingHours.hours})</div>
             <div>Телефон: {siteConfig.phones.displayPrimary}</div>
           </div>
           <div class="flex flex-wrap gap-2 pt-2">
-            <a
+            <IconLink
+              type="yandex-maps"
               href={siteConfig.socials.yandexMaps}
+              label="Открыть в Яндекс Картах"
+              ariaLabel="Открыть в Яндекс Картах"
+              variant="button"
               target="_blank"
-              rel="noopener noreferrer"
-              class="px-3.5 py-2 rounded border border-chassis-700 bg-chassis-850 hover:bg-chassis-800 text-chassis-200 text-xs font-mono transition-colors"
-            >
-              Открыть в Яндекс Картах
-            </a>
-            <a
+            />
+            <IconLink
+              type="google-maps"
               href={siteConfig.socials.googleMaps}
+              label="Открыть в Google Maps"
+              ariaLabel="Открыть в Google Maps"
+              variant="button"
               target="_blank"
-              rel="noopener noreferrer"
-              class="px-3.5 py-2 rounded border border-chassis-700 bg-chassis-850 hover:bg-chassis-800 text-chassis-200 text-xs font-mono transition-colors"
-            >
-              Открыть в Google Maps
-            </a>
+            />
           </div>
         </div>
 
         <div class="lg:col-span-6">
           <div class="rounded border border-chassis-800 bg-chassis-900 p-6 space-y-3">
-            <div class="text-xs font-mono text-chassis-400 uppercase">Прямая связь с мастером</div>
+            <div class="text-xs font-sans text-chassis-400 uppercase">Прямая связь с мастером</div>
             <div class="text-sm text-chassis-200">
               По всем вопросам диагностики, сроков и возможности отправки техники курьером:
             </div>
             <div class="pt-2 flex flex-col sm:flex-row gap-2">
-              <a
+              <IconLink
+                type="telegram"
                 href={siteConfig.telegram.masterUrl}
+                label={`Telegram: ${siteConfig.telegram.masterHandle}`}
+                ariaLabel="Написать мастеру в Telegram"
+                variant="button"
                 target="_blank"
-                rel="noopener noreferrer"
-                class="px-4 py-2 text-center rounded border border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 text-xs font-mono font-bold transition-colors"
-              >
-                Telegram: {siteConfig.telegram.masterHandle}
-              </a>
-              <a
+                class="border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 font-bold w-full sm:w-auto justify-center"
+              />
+              <IconLink
+                type="phone"
                 href={`tel:${siteConfig.phones.primary}`}
-                class="px-4 py-2 text-center rounded border border-chassis-700 bg-chassis-850 hover:bg-chassis-800 text-chassis-200 text-xs font-mono transition-colors"
-              >
-                Позвонить мастеру
-              </a>
+                label="Позвонить мастеру"
+                ariaLabel="Позвонить мастеру"
+                variant="button"
+                class="bg-chassis-850 hover:bg-chassis-800 text-chassis-200 w-full sm:w-auto justify-center"
+              />
             </div>
           </div>
         </div>

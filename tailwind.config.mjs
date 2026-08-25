@@ -20,6 +20,18 @@ export default {
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
         mono: ['JetBrains Mono', 'Menlo', 'Consolas', 'Courier New', 'monospace'],
+      },
+      fontSize: {
+        '2xs': ['0.6875rem', { lineHeight: '0.875rem' }], // 11px label
+        'xs': ['0.75rem', { lineHeight: '1rem' }], // 12px
+        'sm': ['0.8125rem', { lineHeight: '1.25rem' }], // 13px body small
+        'base': ['0.875rem', { lineHeight: '1.5rem' }], // 14px body
+        'lg': ['1rem', { lineHeight: '1.75rem' }],
+        'xl': ['1.25rem', { lineHeight: '1.75rem' }],
+        '2xl': ['1.5rem', { lineHeight: '2rem' }],
+        '3xl': ['1.875rem', { lineHeight: '2.25rem' }],
+        '4xl': ['2.25rem', { lineHeight: '2.5rem' }],
+        '5xl': ['3rem', { lineHeight: '1' }],
       }
     },
   },

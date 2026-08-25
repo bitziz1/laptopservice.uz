@@ -18,7 +18,7 @@ const breadcrumbs = [
     <Breadcrumbs items={breadcrumbs} />
 
     <header class="space-y-4">
-      <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded border border-chassis-700 bg-chassis-850 text-xs font-mono text-chassis-300">
+      <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded border border-chassis-700 bg-chassis-850 text-xs font-sans text-chassis-300">
         Мастерская на ул. Паркент 11
       </div>
 
@@ -33,11 +33,11 @@ const breadcrumbs = [
 
     <!-- Workshop Equipment -->
     <section class="rounded border border-chassis-800 bg-chassis-850 p-6 space-y-4">
-      <h2 class="text-sm font-bold text-chassis-200 uppercase font-mono tracking-wider">
+      <h2 class="text-sm font-bold text-chassis-200 uppercase font-sans tracking-wider">
         Техническое оснащение сервисного центра
       </h2>
 
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-mono">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-sans">
         <div class="p-3 rounded bg-chassis-900 border border-chassis-800 space-y-1">
           <div class="text-chassis-100 font-bold">Инфракрасная BGA станция</div>
           <div class="text-chassis-400 leading-relaxed">Бессвинцовая и свинцовая пайка GPU, комбайнов и хабов PCH без деформации текстолита.</div>
@@ -57,28 +57,28 @@ const breadcrumbs = [
 
     <!-- Principles -->
     <section class="rounded border border-chassis-800 bg-chassis-850 p-6 space-y-4">
-      <h2 class="text-sm font-bold text-chassis-200 uppercase font-mono tracking-wider">
+      <h2 class="text-sm font-bold text-chassis-200 uppercase font-sans tracking-wider">
         Принципы работы
       </h2>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-chassis-300">
         <div class="space-y-1">
-          <div class="font-bold text-chassis-100 font-mono">1. Согласование цены до ремонта</div>
+          <div class="font-bold text-chassis-100 font-sans">1. Согласование цены до ремонта</div>
           <p class="text-chassis-400">Стоимость озвучивается после диагностики и согласуется строго до начала пайки.</p>
         </div>
 
         <div class="space-y-1">
-          <div class="font-bold text-chassis-100 font-mono">2. Качественные расходники</div>
+          <div class="font-bold text-chassis-100 font-sans">2. Качественные расходники</div>
           <p class="text-chassis-400">Применяем фазовый термоинтерфейс Honeywell PTM7950 и безотмывочные флюсы.</p>
         </div>
 
         <div class="space-y-1">
-          <div class="font-bold text-chassis-100 font-mono">3. Проверка под нагрузкой</div>
+          <div class="font-bold text-chassis-100 font-sans">3. Проверка под нагрузкой</div>
           <p class="text-chassis-400">Каждая плата после ремонта проходит обязательный стресс-тест в тестах стабильности.</p>
         </div>
 
         <div class="space-y-1">
-          <div class="font-bold text-chassis-100 font-mono">4. Гарантия сервисного центра</div>
+          <div class="font-bold text-chassis-100 font-sans">4. Гарантия сервисного центра</div>
           <p class="text-chassis-400">На все выполненные работы предоставляется сервисная гарантия.</p>
         </div>
       </div>
@@ -96,13 +96,13 @@ const breadcrumbs = [
           href={siteConfig.telegram.masterUrl}
           target="_blank"
           rel="noopener noreferrer"
-          class="px-4 py-2 rounded border border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 text-xs font-mono font-bold transition-colors"
+          class="px-4 py-2 rounded border border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 text-xs font-sans font-bold transition-colors"
         >
           Telegram: {siteConfig.telegram.masterHandle}
         </a>
         <a
           href={`tel:${siteConfig.phones.primary}`}
-          class="px-4 py-2 rounded border border-chassis-700 bg-chassis-900 hover:bg-chassis-800 text-chassis-200 text-xs font-mono transition-colors"
+          class="px-4 py-2 rounded border border-chassis-700 bg-chassis-900 hover:bg-chassis-800 text-chassis-200 text-xs font-sans transition-colors"
         >
           {siteConfig.phones.displayPrimary}
         </a>
