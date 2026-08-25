@@ -111,13 +111,15 @@ def validate_case(data: dict) -> list[str]:
 
 
 def validate_build(data: dict) -> list[str]:
-    required = ["slug", "title", "purpose", "purposeLabel", "date", "description", "components", "price", "tags"]
+    required = ["slug", "title", "purpose", "purposeLabel", "date", "description", "components", "complexity", "tags"]
     errors = []
     for f in required:
         if not data.get(f):
             errors.append(f"Поле '{f}' обязательно")
     if data.get("purpose") and data["purpose"] not in ("gaming", "ai-work", "office", "rendering"):
         errors.append("purpose должен быть gaming | ai-work | office | rendering")
+    if data.get("complexity") and data["complexity"] not in ("easy", "medium", "hard"):
+        errors.append("complexity должен быть easy | medium | hard")
     if data.get("date") and not re.match(r"^\d{4}-\d{2}-\d{2}$", str(data["date"])):
         errors.append("date должен быть YYYY-MM-DD")
     if data.get("tags") and not isinstance(data["tags"], list):
@@ -264,10 +266,10 @@ components:
   psu: "<БП>"
   case: "<корпус>"
   cooler: "<охлаждение>"
-price: "<от X сум>"
+complexity: "<easy | medium | hard>"
 tags: ["<тег1>", "<тег2>"]
 
-Правила: slug латиницей, purpose строго из списка, не выдумывай цены если нет в посте — пиши ориентир.
+Правила: slug латиницей, purpose и complexity строго из списка. Для сложности: easy — легкий, medium — стандартный, hard — сложный.
 Верни только YAML.
 """
 

@@ -8,8 +8,9 @@
 1. **Точные контакты и ссылки**:
    - Яндекс Карты: `https://yandex.com/maps/org/laptop_service/81659688745`
    - Google Maps: `https://maps.app.goo.gl/nhNuRttDTpXGpabW7`
-   - Телефон мастера: `+998(93)228-77-38`
-   - Telegram мастера: `https://t.me/master77_service` (@master77_service)
+   - Телефон сервиса: `+998(93)228-77-38`
+   - Telegram сервиса: `https://t.me/remontnoutbukov_uz` (@remontnoutbukov_uz)
+   - Руководитель сервиса Руслан: `+998(90)358-77-38` / `@remontnoutbukov_uz` (строго по делу, только на странице контактов)
    - Telegram канал: `https://t.me/laptopservice_uz`
    - Telegram чат: `https://t.me/laptop_service_chat`
    - Facebook: `https://www.facebook.com/RemontNoutbukov.uz`
@@ -17,7 +18,7 @@
 
 2. **Отказ от форм на сайте и прямой CTA**:
    - Полностью удалены формы заявок и модальные окна.
-   - Все кнопки на сайте напрямую ведут на звонок по номеру `+998(93)228-77-38` или в Telegram мастера `@master77_service`.
+   - Все кнопки на сайте ведут на звонок `+998(93)228-77-38` или в Telegram `@remontnoutbukov_uz` (без упоминания имени мастера, через IconLink).
 
 3. **Переработка ценовой политики и копирайта**:
    - Удалены конкретные диапазоны цен на услуги (цены индивидуальны).
@@ -62,3 +63,9 @@
    - `src/styles/global.css` — добавлены 5 `@font-face` с `font-display: swap`.
    - `tailwind.config.mjs` — задана единая шкала `fontSize` (2xs–5xl) + `fontFamily.sans/mono`.
    - Пройдены все `src/components/` и `src/pages/`: `font-mono` убран из навигации/кнопок/лейблов, оставлен только для технических таблиц (`keySpecs`, компоненты сборок) и цен (`PriceTable`, `BuildCard` price).
+
+12. **Последние правки по ТЗ заказчика (август 2026)**:
+   - **Терминология**: везде «Кейсы» заменено на «Наши работы» (навигация, заголовки, breadcrumbs, `cases/index`, `cases/[slug]`, главная).
+   - **Иконки**: все контактные и CTA-ссылки переведены на `IconLink` — `reviews.astro`, `about.astro`, `prices.astro`/`PriceTable`, `cases/index`, `ServiceCard`; иконки для Telegram/phone/maps/instagram/facebook/yandex/google теперь единообразны.
+   - **Сроки/цены → сложность**: из `ServiceItem` и `BuildItem` удалены поля `timeRange`/`warranty`/`price`; добавлены `complexity: easy|medium|hard` и конфиги `complexityConfig`/`buildComplexityConfig` с бейджами: Легкий (зеленый `emerald`), Стандартный (желтый `amber`), Сложный (красный `red`); обновлены `ServiceCard`, `BuildCard`, `services/[slug]`, `builds/[slug]`; скрипт `content_tool.py` валидирует `complexity` вместо `price`.
+   - **Руслан**: удалены все упоминания вне контактов (`MasterBadge`, `about`, `index`, `services.ts`, `SchemaOrg`, `i18n`, `reviews`); в `contacts.astro` добавлен отдельный блок «Руководитель сервиса — Руслан» с `+998 (90) 358-77-38` и `@remontnoutbukov_uz` (строго по делу); `siteConfig` дополнен объектом `manager` и обновлён `telegram.masterHandle` на `@remontnoutbukov_uz`, CTA-лейблы стали нейтральными («Написать в Telegram», «Позвонить»).

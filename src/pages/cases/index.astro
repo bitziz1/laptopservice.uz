@@ -2,17 +2,18 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import CaseCard from "@/components/CaseCard.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import IconLink from "@/components/IconLink.astro";
 import { casesData } from "@/data/cases";
 import { siteConfig } from "@/data/siteConfig";
 
 const breadcrumbs = [
-  { name: "Кейсы ремонта", url: "/cases" },
+  { name: "Наши работы", url: "/cases" },
 ];
 ---
 
 <BaseLayout
-  title="Примеры ремонтов ноутбуков — Сервисный центр на Паркент 11"
-  description="Реальные разборы ремонтов ноутбуков из Telegram-канала @laptopservice_uz: замеры, BGA-пайка, поиск коротких замыканий, восстановление после залития."
+  title="Наши работы — примеры ремонтов ноутбуков, сервисный центр на Паркент 11"
+  description="Наши работы: реальные разборы ремонтов ноутбуков из Telegram-канала @laptopservice_uz — замеры, BGA-пайка, восстановление после залития."
   breadcrumbs={breadcrumbs}
 >
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
@@ -24,7 +25,7 @@ const breadcrumbs = [
         Telegram-канал: {siteConfig.telegram.channel}
       </div>
       <h1 class="text-2xl sm:text-4xl font-extrabold text-chassis-100 tracking-tight">
-        Примеры выполненных ремонтов
+        Наши работы
       </h1>
       <p class="text-xs sm:text-sm text-chassis-300 leading-relaxed">
         Публикуем разборы реальных случаев из практики: устранение коротких замыканий, замена видеочипов и хабов BGA-методом, ремонт выломанных петель и ультразвуковая чистка после залития.
@@ -45,14 +46,15 @@ const breadcrumbs = [
         <span>Регулярно выкладываем замеры, фото под микроскопом и результаты стресс-тестов.</span>
       </div>
 
-      <a
+      <IconLink
+        type="telegram-channel"
         href={siteConfig.telegram.channelUrl}
+        label="Канал @laptopservice_uz →"
+        ariaLabel="Telegram-канал @laptopservice_uz"
+        variant="button"
         target="_blank"
-        rel="noopener noreferrer"
-        class="px-5 py-2.5 rounded border border-chassis-700 bg-chassis-850 hover:bg-chassis-800 text-chassis-100 text-xs font-sans transition-colors shrink-0"
-      >
-        Канал @laptopservice_uz →
-      </a>
+        class="shrink-0"
+      />
     </div>
 
   </div>

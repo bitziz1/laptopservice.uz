@@ -12,8 +12,8 @@ const navItems = [
   { href: "/", label: "Главная" },
   { href: "/services", label: "Услуги" },
   { href: "/builds", label: "Сборки ПК" },
-  { href: "/cases", label: "Кейсы" },
-  { href: "/about", label: "О мастере" },
+  { href: "/cases", label: "Наши работы" },
+  { href: "/about", label: "О сервисе" },
   { href: "/prices", label: "Диагностика и цены" },
   { href: "/reviews", label: "Отзывы" },
   { href: "/contacts", label: "Контакты" },
@@ -64,8 +64,8 @@ const navItems = [
         <IconLink
           type="telegram"
           href={siteConfig.telegram.masterUrl}
-          label="Telegram мастера"
-          ariaLabel="Написать мастеру в Telegram"
+          label="Telegram"
+          ariaLabel="Написать в Telegram"
           variant="button"
           target="_blank"
         />
@@ -74,7 +74,7 @@ const navItems = [
           type="phone"
           href={`tel:${siteConfig.phones.primary}`}
           label={siteConfig.phones.displayPrimary}
-          ariaLabel="Позвонить мастеру"
+          ariaLabel="Позвонить"
           variant="button"
           class="border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 font-bold"
         />
@@ -117,8 +117,8 @@ const navItems = [
       <IconLink
         type="telegram"
         href={siteConfig.telegram.masterUrl}
-        label="Написать в Telegram мастеру"
-        ariaLabel="Написать мастеру в Telegram"
+        label="Написать в Telegram"
+        ariaLabel="Написать в Telegram"
         variant="button"
         target="_blank"
         class="w-full justify-center py-2.5"
@@ -127,7 +127,7 @@ const navItems = [
         type="phone"
         href={`tel:${siteConfig.phones.primary}`}
         label={`Позвонить: ${siteConfig.phones.displayPrimary}`}
-        ariaLabel="Позвонить мастеру"
+        ariaLabel="Позвонить"
         variant="button"
         class="w-full justify-center py-2.5 border-chassis-600 bg-chassis-800 text-chassis-100 font-bold"
       />

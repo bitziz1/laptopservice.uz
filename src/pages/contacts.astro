@@ -11,7 +11,7 @@ const breadcrumbs = [
 
 <BaseLayout
   title="Контакты и схема проезда — Laptop Service Ташкент"
-  description="Адрес сервисного центра Laptop Service: г. Ташкент, ул. Паркент 11 (напротив Паркентского базара, магазин «Радиодетали»). Телефон мастера, Telegram, доставка."
+  description="Адрес сервисного центра Laptop Service: г. Ташкент, ул. Паркент 11 (напротив Паркентского базара, магазин «Радиодетали»). Телефоны, Telegram, доставка."
   type="LocalBusiness"
   breadcrumbs={breadcrumbs}
 >
@@ -37,7 +37,7 @@ const breadcrumbs = [
       
       <!-- Phone & Telegram -->
       <div class="rounded border border-chassis-800 bg-chassis-850 p-5 space-y-4">
-        <div class="text-chassis-400 uppercase tracking-wider font-sans font-bold text-[11px]">Связь с мастером</div>
+        <div class="text-chassis-400 uppercase tracking-wider font-sans font-bold text-[11px]">Контакты</div>
         <div class="space-y-3">
           <div class="space-y-1">
             <span class="text-chassis-400 block text-[11px]">Телефон для звонков:</span>
@@ -45,18 +45,18 @@ const breadcrumbs = [
               type="phone"
               href={`tel:${siteConfig.phones.primary}`}
               label={siteConfig.phones.displayPrimary}
-              ariaLabel="Позвонить мастеру"
+              ariaLabel="Позвонить"
               variant="inline"
               class="text-sm font-bold text-chassis-100"
             />
           </div>
           <div class="space-y-1">
-            <span class="text-chassis-400 block text-[11px]">Telegram мастера:</span>
+            <span class="text-chassis-400 block text-[11px]">Telegram:</span>
             <IconLink
               type="telegram"
               href={siteConfig.telegram.masterUrl}
               label={siteConfig.telegram.masterHandle}
-              ariaLabel="Написать мастеру в Telegram"
+              ariaLabel="Написать в Telegram"
               variant="inline"
               target="_blank"
               class="text-sm font-bold text-chassis-200"
@@ -129,6 +129,34 @@ const breadcrumbs = [
       </div>
 
     </div>
+
+    <!-- Руководитель сервиса -->
+    <section class="rounded border border-chassis-700 bg-chassis-900 p-6 space-y-3">
+      <h3 class="text-sm font-bold text-chassis-100 font-sans uppercase tracking-wider">Руководитель сервиса</h3>
+      <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+        <span class="text-sm font-bold text-chassis-100">{siteConfig.manager.name}</span>
+        <span class="text-xs text-chassis-400">— писать и звонить строго по делу</span>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <IconLink
+          type="phone"
+          href={`tel:${siteConfig.manager.phone}`}
+          label={siteConfig.manager.displayPhone}
+          ariaLabel="Позвонить руководителю"
+          variant="button"
+          class="border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 font-bold"
+        />
+        <IconLink
+          type="telegram"
+          href={siteConfig.manager.telegramUrl}
+          label={siteConfig.manager.telegram}
+          ariaLabel="Telegram руководителя"
+          variant="button"
+          target="_blank"
+          class="border-chassis-700 bg-chassis-800 hover:bg-chassis-700 text-chassis-100"
+        />
+      </div>
+    </section>
 
     <!-- Delivery Instructions -->
     <section class="rounded border border-chassis-800 bg-chassis-850 p-6 space-y-3 text-xs text-chassis-300">

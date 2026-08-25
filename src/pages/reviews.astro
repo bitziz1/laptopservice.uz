@@ -2,6 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import ReviewCard from "@/components/ReviewCard.astro";
+import IconLink from "@/components/IconLink.astro";
 import { reviewsData } from "@/data/reviews";
 import { siteConfig } from "@/data/siteConfig";
 
@@ -11,7 +12,7 @@ const breadcrumbs = [
 ---
 
 <BaseLayout
-  title="Отзывы клиентов о Laptop Service и мастере Руслане в Ташкенте"
+  title="Отзывы клиентов о Laptop Service в Ташкенте"
   description="Отзывы клиентов о сервисном центре Laptop Service на ул. Паркент 11. Оценки и отзывы с Яндекс Карт и Google Maps с фото выполненных работ."
   breadcrumbs={breadcrumbs}
 >
@@ -44,22 +45,24 @@ const breadcrumbs = [
       </div>
 
       <div class="flex items-center gap-2 text-xs font-sans">
-        <a
+        <IconLink
+          type="yandex-maps"
           href={siteConfig.socials.yandexMaps}
+          label="Яндекс Карты"
+          ariaLabel="Открыть в Яндекс Картах"
+          variant="button"
           target="_blank"
-          rel="noopener noreferrer"
-          class="px-3 py-1.5 rounded border border-chassis-700 bg-chassis-900 hover:bg-chassis-800 text-chassis-200 transition-colors"
-        >
-          Яндекс Карты
-        </a>
-        <a
+          class="text-[11px]"
+        />
+        <IconLink
+          type="google-maps"
           href={siteConfig.socials.googleMaps}
+          label="Google Maps"
+          ariaLabel="Открыть в Google Maps"
+          variant="button"
           target="_blank"
-          rel="noopener noreferrer"
-          class="px-3 py-1.5 rounded border border-chassis-700 bg-chassis-900 hover:bg-chassis-800 text-chassis-200 transition-colors"
-        >
-          Google Maps
-        </a>
+          class="text-[11px]"
+        />
       </div>
     </div>
 
@@ -78,20 +81,23 @@ const breadcrumbs = [
       </div>
 
       <div class="flex items-center gap-2">
-        <a
+        <IconLink
+          type="telegram"
           href={siteConfig.telegram.masterUrl}
+          label="Telegram"
+          ariaLabel="Написать в Telegram"
+          variant="button"
           target="_blank"
-          rel="noopener noreferrer"
-          class="px-4 py-2 rounded border border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 text-xs font-sans font-bold transition-colors"
-        >
-          Telegram мастера
-        </a>
-        <a
+          class="border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 font-bold"
+        />
+        <IconLink
+          type="phone"
           href={`tel:${siteConfig.phones.primary}`}
-          class="px-4 py-2 rounded border border-chassis-700 bg-chassis-900 hover:bg-chassis-800 text-chassis-200 text-xs font-sans transition-colors"
-        >
-          {siteConfig.phones.displayPrimary}
-        </a>
+          label={siteConfig.phones.displayPrimary}
+          ariaLabel="Позвонить"
+          variant="button"
+          class="border-chassis-700 bg-chassis-900 hover:bg-chassis-800 text-chassis-200"
+        />
       </div>
     </div>
 

@@ -19,7 +19,7 @@ interface Props {
 const { caseItem } = Astro.props;
 
 const breadcrumbs = [
-  { name: "Кейсы ремонта", url: "/cases" },
+  { name: "Наши работы", url: "/cases" },
   { name: caseItem.device, url: `/cases/${caseItem.slug}` },
 ];
 
@@ -145,8 +145,8 @@ const solutionSteps = caseItem.solution
         <IconLink
           type="telegram"
           href={siteConfig.telegram.masterUrl}
-          label="Telegram мастера"
-          ariaLabel="Написать мастеру в Telegram"
+          label="Telegram"
+          ariaLabel="Написать в Telegram"
           variant="button"
           target="_blank"
           class="border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 font-bold"
@@ -155,7 +155,7 @@ const solutionSteps = caseItem.solution
           type="phone"
           href={`tel:${siteConfig.phones.primary}`}
           label="Позвонить"
-          ariaLabel="Позвонить мастеру"
+          ariaLabel="Позвонить"
           variant="button"
           class="border-chassis-700 bg-chassis-900 hover:bg-chassis-800 text-chassis-200"
         />

@@ -7,10 +7,10 @@ import IconLink from "@/components/IconLink.astro";
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
     
     <div class="lg:col-span-4 space-y-2 border-b lg:border-b-0 lg:border-r border-chassis-800 pb-4 lg:pb-0 lg:pr-6">
-      <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider">Опыт и профиль</div>
-      <h3 class="text-lg font-bold text-chassis-100">Мастер Руслан</h3>
-      <p class="text-xs font-sans text-chassis-300">20 лет опыта в ремонте электроники</p>
-      <p class="text-xs text-chassis-400">Специализация: схемотехника, BGA-пайка, восстановление материнских плат после залития и перепадов напряжения.</p>
+      <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider">Подход</div>
+      <h3 class="text-lg font-bold text-chassis-100">Сервисный центр</h3>
+      <p class="text-xs font-sans text-chassis-300">Компонентный ремонт с 2004 года</p>
+      <p class="text-xs text-chassis-400">Специализация: схемотехника, BGA-пайка, восстановление плат после залития и перепадов напряжения.</p>
     </div>
 
     <div class="lg:col-span-8 space-y-4">
@@ -40,8 +40,8 @@ import IconLink from "@/components/IconLink.astro";
         <IconLink
           type="telegram"
           href={siteConfig.telegram.masterUrl}
-          label="Написать мастеру в Telegram"
-          ariaLabel="Написать мастеру в Telegram"
+          label="Написать в Telegram"
+          ariaLabel="Написать в Telegram"
           variant="button"
           target="_blank"
           class="border-chassis-700 bg-chassis-800 hover:bg-chassis-700 text-chassis-100"
@@ -50,7 +50,7 @@ import IconLink from "@/components/IconLink.astro";
           type="phone"
           href={`tel:${siteConfig.phones.primary}`}
           label={`Позвонить: ${siteConfig.phones.displayPrimary}`}
-          ariaLabel="Позвонить мастеру"
+          ariaLabel="Позвонить"
           variant="button"
           class="border-chassis-700 bg-chassis-900 hover:bg-chassis-800 text-chassis-200"
         />

@@ -2,7 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import IconLink from "@/components/IconLink.astro";
-import { buildsData, type BuildItem } from "@/data/builds";
+import { buildsData, type BuildItem, buildComplexityConfig } from "@/data/builds";
 import { siteConfig } from "@/data/siteConfig";
 
 export function getStaticPaths() {
@@ -23,8 +23,7 @@ const breadcrumbs = [
   { name: build.title, url: `/builds/${build.slug}` },
 ];
 
-// For Schema.org Product Offer
-const priceNumeric = build.price.replace(/[^\d]/g, "");
+// For Schema.org — no price, use complexity as category
 
 const componentLabels: Record<string, string> = {
   cpu: "Процессор",
@@ -45,17 +44,6 @@ const productJsonLd = {
   name: build.title,
   description: build.description,
   category: build.purposeLabel,
-  offers: {
-    "@type": "Offer",
-    priceCurrency: "UZS",
-    price: priceNumeric || undefined,
-    availability: "https://schema.org/InStock",
-    seller: {
-      "@type": "LocalBusiness",
-      name: siteConfig.brandName,
-      address: siteConfig.address.fullAddress,
-    },
-  },
   brand: { "@type": "Brand", name: siteConfig.brandName },
 };
 ---
@@ -84,9 +72,8 @@ const productJsonLd = {
         {build.description}
       </p>
 
-      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded border border-chassis-700 bg-chassis-850 text-xs font-mono text-chassis-200">
-        <span class="text-chassis-400">Цена ориентир:</span>
-        <span class="font-bold text-chassis-100">{build.price}</span>
+      <div class={`inline-flex items-center gap-2 px-3 py-1.5 rounded border text-xs font-sans font-bold uppercase tracking-wider ${buildComplexityConfig[build.complexity].class}`}>
+        {buildComplexityConfig[build.complexity].label}
       </div>
     </header>
 
@@ -134,8 +121,8 @@ const productJsonLd = {
         <IconLink
           type="telegram"
           href={siteConfig.telegram.masterUrl}
-          label="Telegram мастера"
-          ariaLabel="Написать мастеру в Telegram"
+          label="Telegram"
+          ariaLabel="Написать в Telegram"
           variant="button"
           target="_blank"
           class="border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 font-bold"
@@ -144,7 +131,7 @@ const productJsonLd = {
           type="phone"
           href={`tel:${siteConfig.phones.primary}`}
           label="Позвонить"
-          ariaLabel="Позвонить мастеру"
+          ariaLabel="Позвонить"
           variant="button"
           class="border-chassis-700 bg-chassis-900 hover:bg-chassis-800 text-chassis-200"
         />

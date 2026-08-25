@@ -1,16 +1,17 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import IconLink from "@/components/IconLink.astro";
 import { siteConfig } from "@/data/siteConfig";
 
 const breadcrumbs = [
-  { name: "О мастере", url: "/about" },
+  { name: "О сервисе", url: "/about" },
 ];
 ---
 
 <BaseLayout
-  title="О мастере Руслане и сервисном центре Laptop Service в Ташкенте"
-  description="20 лет опыта в компонентном ремонте электроники и ноутбуков. Сервисный центр на ул. Паркент 11: микроскопы, BGA-пайка, осциллографы, согласование стоимости до ремонта."
+  title="О сервисном центре Laptop Service в Ташкенте"
+  description="Сервисный центр на ул. Паркент 11: микроскопы, BGA-пайка, осциллографы, компонентный ремонт плат с 2004 года."
   breadcrumbs={breadcrumbs}
 >
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-10">
@@ -23,11 +24,11 @@ const breadcrumbs = [
       </div>
 
       <h1 class="text-2xl sm:text-4xl font-extrabold text-chassis-100 tracking-tight leading-tight">
-        Мастер Руслан и сервисный центр Laptop Service
+        Сервисный центр Laptop Service
       </h1>
 
       <p class="text-xs sm:text-sm text-chassis-300 leading-relaxed">
-        С 2004 года мастер Руслан занимается компонентным ремонтом вычислительной техники и сложной радиоэлектроники в Ташкенте. Накопленный за 20 лет практический опыт позволяет восстанавливать платы на уровне отдельных микросхем, дорожек и радиодеталей.
+        С 2004 года занимаемся компонентным ремонтом вычислительной техники и сложной радиоэлектроники в Ташкенте. Опыт позволяет восстанавливать платы на уровне отдельных микросхем, дорожек и радиодеталей — без навязывания замены всей платы.
       </p>
     </header>
 
@@ -87,25 +88,28 @@ const breadcrumbs = [
     <!-- Direct CTA -->
     <div class="rounded-lg border border-chassis-700 bg-chassis-950 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="text-xs text-chassis-300 text-center sm:text-left space-y-1">
-        <div class="font-bold text-chassis-100">Нужна консультация мастера?</div>
+        <div class="font-bold text-chassis-100">Нужна консультация?</div>
         <div>Напишите в Telegram или позвоните по прямому номеру.</div>
       </div>
 
       <div class="flex items-center gap-2">
-        <a
+        <IconLink
+          type="telegram"
           href={siteConfig.telegram.masterUrl}
+          label={`Telegram: ${siteConfig.telegram.masterHandle}`}
+          ariaLabel="Написать в Telegram"
+          variant="button"
           target="_blank"
-          rel="noopener noreferrer"
-          class="px-4 py-2 rounded border border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 text-xs font-sans font-bold transition-colors"
-        >
-          Telegram: {siteConfig.telegram.masterHandle}
-        </a>
-        <a
+          class="border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 font-bold"
+        />
+        <IconLink
+          type="phone"
           href={`tel:${siteConfig.phones.primary}`}
-          class="px-4 py-2 rounded border border-chassis-700 bg-chassis-900 hover:bg-chassis-800 text-chassis-200 text-xs font-sans transition-colors"
-        >
-          {siteConfig.phones.displayPrimary}
-        </a>
+          label={siteConfig.phones.displayPrimary}
+          ariaLabel="Позвонить"
+          variant="button"
+          class="border-chassis-700 bg-chassis-900 hover:bg-chassis-800 text-chassis-200"
+        />
       </div>
     </div>
 

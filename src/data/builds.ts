@@ -1,5 +1,7 @@
 export type BuildPurpose = "gaming" | "ai-work" | "office" | "rendering";
 
+export type BuildComplexity = "easy" | "medium" | "hard";
+
 export interface BuildItem {
   id: string;
   slug: string;
@@ -18,11 +20,17 @@ export interface BuildItem {
     cooler?: string;
     storage?: string;
   };
-  price: string;
+  complexity: BuildComplexity;
   sourceUrl: string;
   images: string[];
   tags: string[];
 }
+
+export const buildComplexityConfig: Record<BuildComplexity, { label: string; class: string }> = {
+  easy: { label: "Легкий ремонт", class: "border-emerald-800 bg-emerald-950 text-emerald-300" },
+  medium: { label: "Стандартный ремонт", class: "border-amber-800 bg-amber-950 text-amber-300" },
+  hard: { label: "Сложный ремонт", class: "border-red-800 bg-red-950 text-red-300" },
+};
 
 export const buildsData: BuildItem[] = [
   {
@@ -33,7 +41,7 @@ export const buildsData: BuildItem[] = [
     purposeLabel: "Игры (Full HD / 144 Гц)",
     date: "2026-08-10",
     description:
-      "Сбалансированная сборка для современных игр в 1080p на ультра-настройках (60–144 FPS) без переплаты. Подобрана под стабильный FPS в Cyberpunk 2077, Dota 2, CS2 и Hogwarts Legacy. Все комплектующие в наличии в Ташкенте, цена согласована с текущим рынком.",
+      "Сбалансированная сборка для современных игр в 1080p на ультра-настройках (60–144 FPS) без переплаты. Подобрана под стабильный FPS в Cyberpunk 2077, Dota 2, CS2 и Hogwarts Legacy. Все комплектующие в наличии в Ташкенте.",
     components: {
       cpu: "AMD Ryzen 5 5600 (6 ядер / 12 потоков, до 4.4 ГГц)",
       motherboard: "MSI B550M PRO-VDH WIFI (mATX, M.2 PCIe 4.0)",
@@ -44,7 +52,7 @@ export const buildsData: BuildItem[] = [
       case: "DeepCool Matrexx 40 3FS (mATX, 3 вентилятора)",
       cooler: "DeepCool AG400 (башенный, 4 теплотрубки)",
     },
-    price: "от 8 500 000 сум (без учёта периферии)",
+    complexity: "medium",
     sourceUrl: "https://t.me/laptopservice_uz",
     images: [],
     tags: ["RTX 4060", "Ryzen 5", "Full HD", "Игры", "Сборка ПК"],
@@ -68,7 +76,7 @@ export const buildsData: BuildItem[] = [
       case: "Fractal Design Meshify 2 XL (Full-Tower, продуваемый)",
       cooler: "Arctic Liquid Freezer III 360 (СЖО 360 мм)",
     },
-    price: "от 42 000 000 сум",
+    complexity: "hard",
     sourceUrl: "https://t.me/laptopservice_uz",
     images: [],
     tags: ["RTX 4090", "Ryzen 9", "AI", "Stable Diffusion", "Blender"],
@@ -92,7 +100,7 @@ export const buildsData: BuildItem[] = [
       case: "Jonsbo C6 (Mini-Tower, компактный)",
       cooler: "Боксовый кулер Intel Laminar RM1 (в комплекте CPU)",
     },
-    price: "от 4 200 000 сум",
+    complexity: "easy",
     sourceUrl: "https://t.me/laptopservice_uz",
     images: [],
     tags: ["Office", "Core i5", "Компактный ПК", "Бухгалтерия"],

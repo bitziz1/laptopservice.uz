@@ -52,7 +52,7 @@ const currentYear = new Date().getFullYear();
               type="phone"
               href={`tel:${siteConfig.phones.primary}`}
               label={`${siteConfig.phones.displayPrimary} (звонок)`}
-              ariaLabel="Позвонить мастеру"
+              ariaLabel="Позвонить"
               variant="inline"
               class="font-bold text-chassis-200 hover:text-chassis-100"
             />
@@ -61,8 +61,8 @@ const currentYear = new Date().getFullYear();
             <IconLink
               type="telegram"
               href={siteConfig.telegram.masterUrl}
-              label={`Telegram мастера: ${siteConfig.telegram.masterHandle}`}
-              ariaLabel="Написать мастеру в Telegram"
+              label={`Telegram: ${siteConfig.telegram.masterHandle}`}
+              ariaLabel="Написать в Telegram"
               variant="inline"
               target="_blank"
             />

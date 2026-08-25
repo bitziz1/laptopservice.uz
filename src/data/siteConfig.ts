@@ -13,6 +13,13 @@ export interface SiteConfig {
     displayPrimary: string;
     description: string;
   };
+  manager: {
+    name: string;
+    phone: string;
+    displayPhone: string;
+    telegram: string;
+    telegramUrl: string;
+  };
   telegram: {
     channel: string;
     channelUrl: string;
@@ -62,14 +69,21 @@ export const siteConfig: SiteConfig = {
   phones: {
     primary: "+998932287738",
     displayPrimary: "+998 (93) 228-77-38",
-    description: "Прямой номер мастера для звонков и консультаций",
+    description: "Прямой номер для звонков и консультаций",
+  },
+  manager: {
+    name: "Руслан",
+    phone: "+998903587738",
+    displayPhone: "+998 (90) 358-77-38",
+    telegram: "@remontnoutbukov_uz",
+    telegramUrl: "https://t.me/remontnoutbukov_uz",
   },
   telegram: {
     channel: "@laptopservice_uz",
     channelUrl: "https://t.me/laptopservice_uz",
     chatUrl: "https://t.me/laptop_service_chat",
-    masterUrl: "https://t.me/master77_service",
-    masterHandle: "@master77_service",
+    masterUrl: "https://t.me/remontnoutbukov_uz",
+    masterHandle: "@remontnoutbukov_uz",
   },
   socials: {
     instagram: "https://www.instagram.com/laptopservice_uz",

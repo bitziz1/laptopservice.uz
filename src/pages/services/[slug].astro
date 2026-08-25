@@ -2,7 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import IconLink from "@/components/IconLink.astro";
-import { servicesData, type ServiceItem } from "@/data/services";
+import { servicesData, type ServiceItem, complexityConfig } from "@/data/services";
 import { siteConfig } from "@/data/siteConfig";
 
 export function getStaticPaths() {
@@ -53,16 +53,11 @@ const breadcrumbs = [
         {service.fullDescription}
       </p>
 
-      <!-- Key Specs Bar -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-b border-chassis-800 py-3 text-xs font-sans">
-        <div>
-          <span class="text-chassis-400 block">Ориентировочные сроки:</span>
-          <span class="text-chassis-100 font-bold">{service.timeRange}</span>
-        </div>
-        <div>
-          <span class="text-chassis-400 block">Гарантия:</span>
-          <span class="text-chassis-100 font-bold">{service.warranty}</span>
-        </div>
+      <!-- Complexity Badge -->
+      <div class="pt-2 border-t border-b border-chassis-800 py-3">
+        <span class={`inline-flex text-xs font-sans font-bold px-3 py-1 rounded border uppercase tracking-wider ${complexityConfig[service.complexity].class}`}>
+          {complexityConfig[service.complexity].label}
+        </span>
       </div>
     </header>
 
@@ -124,8 +119,8 @@ const breadcrumbs = [
         <IconLink
           type="telegram"
           href={siteConfig.telegram.masterUrl}
-          label="Telegram мастера"
-          ariaLabel="Написать мастеру в Telegram"
+          label="Telegram"
+          ariaLabel="Написать в Telegram"
           variant="button"
           target="_blank"
           class="border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 font-bold"
@@ -134,7 +129,7 @@ const breadcrumbs = [
           type="phone"
           href={`tel:${siteConfig.phones.primary}`}
           label="Позвонить"
-          ariaLabel="Позвонить мастеру"
+          ariaLabel="Позвонить"
           variant="button"
           class="border-chassis-700 bg-chassis-900 hover:bg-chassis-800 text-chassis-200"
         />

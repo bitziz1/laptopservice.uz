@@ -1,5 +1,6 @@
 ---
 import { siteConfig } from "@/data/siteConfig";
+import IconLink from "@/components/IconLink.astro";
 
 const workflowSteps = [
   {
@@ -60,25 +61,27 @@ const workflowSteps = [
   <!-- Direct Consultation Bar -->
   <div class="rounded-lg border border-chassis-800 bg-chassis-950 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
     <div class="text-xs text-chassis-300 space-y-1 text-center sm:text-left">
-      <div class="font-bold text-chassis-100">Хотите проконсультироваться по поломке?</div>
+      <div class="font-bold text-chassis-100">Нужна консультация?</div>
       <div>Опишите симптомы дежурному мастеру для предварительной оценки.</div>
     </div>
 
     <div class="flex items-center gap-2">
-      <a
+      <IconLink
+        type="telegram"
         href={siteConfig.telegram.masterUrl}
+        label="Написать в Telegram"
+        ariaLabel="Написать в Telegram"
+        variant="button"
         target="_blank"
-        rel="noopener noreferrer"
-        class="px-4 py-2 rounded border border-chassis-700 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 text-xs font-mono transition-colors"
-      >
-        Написать в Telegram
-      </a>
-      <a
+      />
+      <IconLink
+        type="phone"
         href={`tel:${siteConfig.phones.primary}`}
-        class="px-4 py-2 rounded border border-chassis-700 bg-chassis-900 hover:bg-chassis-800 text-chassis-200 text-xs font-mono transition-colors"
-      >
-        {siteConfig.phones.displayPrimary}
-      </a>
+        label={siteConfig.phones.displayPrimary}
+        ariaLabel="Позвонить"
+        variant="button"
+        class="border-chassis-700 bg-chassis-900 hover:bg-chassis-800 text-chassis-200"
+      />
     </div>
   </div>
 
