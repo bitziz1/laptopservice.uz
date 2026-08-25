@@ -12,6 +12,8 @@ import { casesData } from "@/data/cases";
 import { reviewsData } from "@/data/reviews";
 import { buildsData } from "@/data/builds";
 
+const ctaVariants = ["Рассчитать цену","Написать","Заказать ремонт","Спросить мастера","Починить сейчас","Сломался? Пиши!"] as const;
+
 const homeFaq = [
   {
     question: "Как узнать стоимость ремонта моего ноутбука?",
@@ -124,8 +126,8 @@ const homeFaq = [
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {servicesData.map((service) => (
-          <ServiceCard service={service} />
+        {servicesData.map((service, i) => (
+          <ServiceCard service={service} ctaLabel={ctaVariants[i % ctaVariants.length]} />
         ))}
       </div>
 
