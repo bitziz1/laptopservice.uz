@@ -82,8 +82,8 @@ export const siteConfig: SiteConfig = {
     channel: "@laptopservice_uz",
     channelUrl: "https://t.me/laptopservice_uz",
     chatUrl: "https://t.me/laptop_service_chat",
-    masterUrl: "https://t.me/remontnoutbukov_uz",
-    masterHandle: "@remontnoutbukov_uz",
+    masterUrl: "https://t.me/laptopservice_master",
+    masterHandle: "@laptopservice_master",
   },
   socials: {
     instagram: "https://www.instagram.com/laptopservice_uz",
