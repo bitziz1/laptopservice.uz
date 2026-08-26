@@ -12,7 +12,7 @@ import { casesData } from "@/data/cases";
 import { reviewsData } from "@/data/reviews";
 import { buildsData } from "@/data/builds";
 
-const ctaVariants = ["Рассчитать цену","Написать в Telegram","Заказать ремонт","Спросить мастера","Починить сейчас","Сломался? Пиши!"] as const;
+const ctaVariants = ["Рассчитать цену","Написать","Заказать ремонт","Спросить мастера","Починить сейчас","Сломался? Пиши!"] as const;
 
 const homeFaq = [
   {
@@ -62,9 +62,9 @@ const homeFaq = [
         <div class="text-xs font-sans text-chassis-300 space-y-1 leading-relaxed">
           <div class="font-bold text-chassis-100 uppercase tracking-wider">Сломался ноутбук? Вот что нужно сделать:</div>
           <p>
-            1. Приносите ваш ноутбук в наш сервисный центр в Ташкенте, на ул. Паркент, 11.<br />
-            2. Составляем акт приёма с вашими контактами. Вы оставляете ноутбук на диагностику чтобы мы разобрались в проблеме.<br />
-            3. Свяжемся с вами для согласования стоимости ремонта. За работу беремся <strong>после вашего согласия</strong>.
+            1. Принесите ноутбук в наш сервисный центр в Ташкенте: ул. Паркент, 11.<br />
+            2. Оставьте ноутбук на диагностику. Мы оформим акт приёма и запишем ваши контактные данные. Мастер проверит ноутбук и выяснит, в чём проблема.<br />
+            3. Мы свяжемся с вами и сообщим стоимость ремонта. Начнём ремонт только после того, как вы согласуете стоимость.</strong>.
           </p>
         </div>
 
@@ -131,28 +131,6 @@ const homeFaq = [
         ))}
       </div>
 
-      <!-- Services CTA -->
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
-        <IconLink
-          type="telegram"
-          href={siteConfig.telegram.masterUrl}
-          label="Рассчитать цену"
-          ariaLabel="Рассчитать цену в Telegram"
-          variant="button"
-          target="_blank"
-          class="px-6 py-3 text-sm border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 font-bold w-full sm:w-auto justify-center"
-        />
-        <IconLink
-          type="telegram"
-          href={siteConfig.telegram.masterUrl}
-          label="Заказать ремонт"
-          ariaLabel="Заказать ремонт в Telegram"
-          variant="button"
-          target="_blank"
-          class="px-6 py-3 text-sm bg-chassis-900 hover:bg-chassis-850 text-chassis-200 w-full sm:w-auto justify-center"
-        />
-      </div>
-
     </div>
   </section>
 
@@ -172,17 +150,6 @@ const homeFaq = [
         {buildsData.slice(0, 3).map((build) => (
           <BuildCard build={build} />
         ))}
-      </div>
-      <div class="flex justify-center">
-        <IconLink
-          type="telegram"
-          href={siteConfig.telegram.masterUrl}
-          label="Спросить мастера"
-          ariaLabel="Спросить мастера в Telegram"
-          variant="button"
-          target="_blank"
-          class="px-6 py-3 text-sm border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 font-bold"
-        />
       </div>
     </div>
   </section>
@@ -208,8 +175,8 @@ const homeFaq = [
       <IconLink
         type="telegram"
         href={siteConfig.telegram.masterUrl}
-        label="Починить сейчас"
-        ariaLabel="Починить сейчас — написать в Telegram"
+        label="Следите за обновлениями на нашем Telegram канале"
+        ariaLabel="Следите за обновлениями на нашем Telegram канале"
         variant="button"
         target="_blank"
         class="px-6 py-3 text-sm bg-chassis-900 hover:bg-chassis-850 text-chassis-200 font-bold"
@@ -253,26 +220,6 @@ const homeFaq = [
         {reviewsData.slice(0, 3).map((review) => (
           <ReviewCard review={review} />
         ))}
-      </div>
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
-        <IconLink
-          type="telegram"
-          href={siteConfig.telegram.masterUrl}
-          label="Заказать ремонт"
-          ariaLabel="Заказать ремонт в Telegram"
-          variant="button"
-          target="_blank"
-          class="px-6 py-3 text-sm border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 font-bold w-full sm:w-auto justify-center"
-        />
-        <IconLink
-          type="telegram"
-          href={siteConfig.telegram.masterUrl}
-          label="Написать в Telegram"
-          ariaLabel="Написать в Telegram"
-          variant="button"
-          target="_blank"
-          class="px-6 py-3 text-sm bg-chassis-900 hover:bg-chassis-850 text-chassis-200 w-full sm:w-auto justify-center"
-        />
       </div>
 
     </div>
