@@ -12,14 +12,6 @@ const loopData = [...threadsData, ...threadsData, ...threadsData];
 ---
 
 <div class={`threads-wrap ${className ?? ""}`}>
-  <div class="threads-header flex items-center justify-between mb-3 px-1">
-    <div class="flex items-center gap-2 text-xs font-sans">
-      <span class="text-chassis-400">Лента как в Threads</span>
-      <span class="text-chassis-600">•</span>
-      <span class="text-chassis-300">листай вбок →</span>
-    </div>
-    <a href="https://t.me/laptopservice_uz" target="_blank" rel="noopener" class="text-[11px] font-sans text-chassis-400 hover:text-chassis-100 underline">@laptopservice_uz</a>
-  </div>
 
   <div
     id="threads-scroller"
@@ -106,10 +98,6 @@ const loopData = [...threadsData, ...threadsData, ...threadsData];
         </article>
       );
     })}
-  </div>
-
-  <div class="flex items-center justify-center gap-1.5 mt-2">
-    <span class="text-[10px] font-sans text-chassis-500">Тяни вбок • бесконечно</span>
   </div>
 </div>
 

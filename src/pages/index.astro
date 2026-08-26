@@ -12,7 +12,7 @@ import { casesData } from "@/data/cases";
 import { reviewsData } from "@/data/reviews";
 import { buildsData } from "@/data/builds";
 
-const ctaVariants = ["Рассчитать цену","Написать в Telegram","Заказать ремонт","Спросить мастера","Починить сейчас","Сломался? Пиши!"] as const;
+const ctaVariants = ["Рассчитать цену","Написать","Заказать ремонт","Спросить мастера","Починить сейчас","Сломался? Пиши!"] as const;
 
 const homeFaq = [
   {
@@ -82,7 +82,7 @@ const homeFaq = [
           <IconLink
             type="telegram"
             href={siteConfig.telegram.masterUrl}
-            label="Написать в Telegram"
+            label="Написать"
             ariaLabel="Написать в Telegram"
             variant="button"
             target="_blank"
