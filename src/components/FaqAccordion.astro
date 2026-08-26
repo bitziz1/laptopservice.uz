@@ -27,9 +27,9 @@ const { faqs } = Astro.props;
     const items = root.querySelectorAll('details[data-faq-item]');
     items.forEach((el) => {
       el.addEventListener('toggle', () => {
-        if ((el as HTMLDetailsElement).open) {
+        if (el.open) {
           items.forEach((other) => {
-            if (other !== el) (other as HTMLDetailsElement).open = false;
+            if (other !== el) other.open = false;
           });
         }
       });
