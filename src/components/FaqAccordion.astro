@@ -1,0 +1,41 @@
+---
+interface Props {
+  faqs: { question: string; answer: string }[];
+}
+const { faqs } = Astro.props;
+---
+<div class="divide-y divide-chassis-800 border border-chassis-800 rounded-xl overflow-hidden bg-chassis-850/30" data-faq-accordion>
+  {faqs.map((faq, idx) => (
+    <details class="group" open={idx === 0} data-faq-item>
+      <summary class="flex items-center justify-between gap-3 px-4 py-3 cursor-pointer list-none select-none hover:bg-chassis-800/40 transition-colors">
+        <span class="text-sm font-bold text-chassis-100 leading-tight pr-2">{faq.question}</span>
+        <span class="shrink-0 w-7 h-7 rounded-full bg-chassis-800 border border-chassis-700 flex items-center justify-center text-chassis-400 group-open:text-chassis-100 group-open:bg-chassis-700 transition-colors">
+          <span class="text-xs group-open:rotate-180 transition-transform">⌄</span>
+        </span>
+      </summary>
+      <div class="px-4 pb-3 pt-0">
+        <p class="text-xs sm:text-sm text-chassis-400 leading-relaxed">{faq.answer}</p>
+      </div>
+    </details>
+  ))}
+</div>
+
+<script is:inline>
+  (() => {
+    const root = document.querySelector('[data-faq-accordion]');
+    if (!root) return;
+    const items = root.querySelectorAll('details[data-faq-item]');
+    items.forEach((el) => {
+      el.addEventListener('toggle', () => {
+        if ((el as HTMLDetailsElement).open) {
+          items.forEach((other) => {
+            if (other !== el) (other as HTMLDetailsElement).open = false;
+          });
+        }
+      });
+    });
+  })();
+</script>
+<style>
+  details > summary::-webkit-details-marker { display: none; }
+</style>
