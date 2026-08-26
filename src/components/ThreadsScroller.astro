@@ -6,9 +6,6 @@ interface Props {
 }
 
 const { class: className } = Astro.props;
-
-// Для бесконечности дублируем 3 раза: [ ...data, ...data, ...data ]
-const loopData = [...threadsData, ...threadsData, ...threadsData];
 ---
 
 <div class={`threads-wrap ${className ?? ""}`}>
@@ -20,16 +17,14 @@ const loopData = [...threadsData, ...threadsData, ...threadsData];
     aria-label="Лента работ в стиле Threads"
     tabindex="0"
   >
-    {loopData.map((thread, idx) => {
-      const isOriginal = idx >= threadsData.length && idx < threadsData.length * 2;
+    {threadsData.map((thread, idx) => {
       return (
         <article
-          class="threads-card shrink-0 snap-center w-[260px] sm:w-[280px] bg-chassis-850 border border-chassis-800 rounded-[14px] overflow-hidden flex flex-col"
+          class="threads-card shrink-0 snap-start w-[260px] sm:w-[280px] bg-chassis-850 border border-chassis-800 rounded-[14px] overflow-hidden flex flex-col"
           role="article"
-          aria-posinset={(idx % threadsData.length) + 1}
+          aria-posinset={idx + 1}
           aria-setsize={threadsData.length}
           data-thread-id={thread.id}
-          data-original={isOriginal ? "true" : "false"}
         >
           {/* Header — компактный, без ⋯ */}
           <div class="flex items-center gap-2 p-2.5 pb-1.5">
@@ -50,7 +45,7 @@ const loopData = [...threadsData, ...threadsData, ...threadsData];
             <p class="text-xs text-chassis-200 leading-[1.4] whitespace-pre-wrap break-words line-clamp-3">{thread.text}</p>
           </div>
 
-          {/* Media — компактное, высота в ~2 раза меньше */}
+          {/* Media — компактное */}
           {thread.media.length === 1 ? (
             <div class="px-2.5 pb-2.5">
               <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900">
@@ -61,7 +56,7 @@ const loopData = [...threadsData, ...threadsData, ...threadsData];
                   alt={thread.media[0].alt}
                   width={thread.media[0].width}
                   height={thread.media[0].height}
-                  loading={isOriginal ? "eager" : "lazy"}
+                  loading={idx === 0 ? "eager" : "lazy"}
                   decoding="async"
                   class="w-full h-[148px] object-cover bg-chassis-900"
                 />
@@ -99,7 +94,6 @@ const loopData = [...threadsData, ...threadsData, ...threadsData];
     -webkit-overflow-scrolling: touch;
   }
   .threads-scroller::-webkit-scrollbar { display: none; }
-  /* На десктопе лента не растягивается — карточки остаются шириной мобилки */
   @media (min-width: 768px) {
     .threads-wrap { max-width: 720px; margin-left: auto; margin-right: auto; }
   }
@@ -107,89 +101,3 @@ const loopData = [...threadsData, ...threadsData, ...threadsData];
     .threads-scroller { scroll-behavior: auto; }
   }
 </style>
-
-<script is:inline>
-  (() => {
-    const scroller = document.getElementById('threads-scroller');
-    if (!scroller) return;
-    const cards = scroller.querySelectorAll('.threads-card');
-    if (!cards.length) return;
-    // Центрируем на средний сет (оригиналы) при загрузке
-    const originalCount = cards.length / 3;
-    const cardWidth = 332 + 12; // 320/340 + gap 12, приблизительно; точнее считаем
-    function getCardWidth() {
-      const first = cards[0];
-      if (!first) return 352;
-      const rect = first.getBoundingClientRect();
-      const style = getComputedStyle(scroller);
-      const gap = parseFloat(style.columnGap || style.gap || '12');
-      return rect.width + gap;
-    }
-    function initCenter() {
-      const cw = getCardWidth();
-      scroller.scrollLeft = cw * originalCount;
-    }
-    // Ждем layout
-    requestAnimationFrame(() => {
-      initCenter();
-    });
-    let ticking = false;
-    scroller.addEventListener('scroll', () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        const cw = getCardWidth();
-        const total = cw * cards.length;
-        const oneSet = cw * originalCount;
-        // если ушли влево за первый сет — прыжок в середину
-        if (scroller.scrollLeft < oneSet * 0.5) {
-          scroller.style.scrollBehavior = 'auto';
-          scroller.scrollLeft += oneSet;
-          scroller.getBoundingClientRect();
-          scroller.style.scrollBehavior = '';
-        } else if (scroller.scrollLeft > oneSet * 2.5) {
-          scroller.style.scrollBehavior = 'auto';
-          scroller.scrollLeft -= oneSet;
-          scroller.getBoundingClientRect();
-          scroller.style.scrollBehavior = '';
-        }
-        ticking = false;
-      });
-    }, { passive: true });
-
-    // Drag scroll для десктопа
-    let isDown = false;
-    let startX, scrollLeft;
-    scroller.addEventListener('mousedown', (e) => {
-      isDown = true;
-      scroller.classList.add('cursor-grabbing');
-      scroller.classList.remove('snap-x');
-      startX = e.pageX - scroller.offsetLeft;
-      scrollLeft = scroller.scrollLeft;
-    });
-    scroller.addEventListener('mouseleave', () => {
-      isDown = false;
-      scroller.classList.remove('cursor-grabbing');
-      scroller.classList.add('snap-x');
-    });
-    scroller.addEventListener('mouseup', () => {
-      isDown = false;
-      scroller.classList.remove('cursor-grabbing');
-      scroller.classList.add('snap-x');
-    });
-    scroller.addEventListener('mousemove', (e) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - scroller.offsetLeft;
-      const walk = (x - startX) * 1.2;
-      scroller.scrollLeft = scrollLeft - walk;
-    });
-
-    // Resize — пересчитать центр
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(initCenter, 150);
-    });
-  })();
-</script>

@@ -9,6 +9,7 @@ export interface ReviewItem {
   masterReply?: string;
   photos?: {
     caption: string;
+    src?: string;
   }[];
 }
 
@@ -76,6 +77,7 @@ export const reviewsData: ReviewItem[] = [
     date: "2026-03-24",
     device: "Ноутбук",
     text: "Отличный сервис! Обратился со сложной проблемой — ремонт оптико-механической клавиатуры. Все выполнили быстро и качественно, предложили дополнительные услуги, постоянно присылали отчеты о работе! Рекомендую!",
+    photos: [{ caption: "Фото ремонта", src: "/media/reviews/sergey-2026.webp" }],
   },
   {
     id: "rev-aleksandr-m",

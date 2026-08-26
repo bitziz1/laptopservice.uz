@@ -54,7 +54,7 @@ export const buildsData: BuildItem[] = [
     },
     complexity: "medium",
     sourceUrl: "https://t.me/laptopservice_uz",
-    images: [],
+    images: ["/media/builds/rtx-case-video-editing.png"],
     tags: ["RTX 4060", "Ryzen 5", "Full HD", "Игры", "Сборка ПК"],
   },
   {
@@ -78,7 +78,7 @@ export const buildsData: BuildItem[] = [
     },
     complexity: "hard",
     sourceUrl: "https://t.me/laptopservice_uz",
-    images: [],
+    images: ["/media/builds/rtx-case-video-editing-2.png"],
     tags: ["RTX 4090", "Ryzen 9", "AI", "Stable Diffusion", "Blender"],
   },
   {

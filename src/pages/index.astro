@@ -168,6 +168,11 @@ const homeFaq = [
               <img src="/logo.svg" alt="" width="20" height="20" class="w-5 h-5 rounded-full bg-chassis-900 border border-chassis-800 shrink-0" loading="lazy" />
               <span class="text-[10px] font-sans font-bold uppercase tracking-wider text-chassis-500">{build.purposeLabel}</span>
             </div>
+            {build.images.length > 0 && (
+              <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900 mb-2.5">
+                <img src={build.images[0]} alt={build.title} width="600" height="340" loading="lazy" decoding="async" class="w-full h-[110px] object-cover" />
+              </div>
+            )}
             <h3 class="text-sm font-bold text-chassis-100 leading-tight line-clamp-2 group-hover:underline underline-offset-2">{build.title}</h3>
             <p class="text-xs text-chassis-400 leading-relaxed line-clamp-2 mt-1.5">{build.description}</p>
             <div class="mt-2 space-y-1 font-mono text-[11px]">
@@ -200,6 +205,11 @@ const homeFaq = [
             <time datetime={caseItem.date} class="text-[11px] font-sans text-chassis-400 shrink-0">{formatDateRu(caseItem.date)}</time>
           </div>
           <div class="text-[11px] font-sans text-chassis-500 mb-1 line-clamp-1">Устройство: <span class="text-chassis-300 font-bold">{caseItem.device}</span></div>
+          {caseItem.image && (
+            <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900 mb-2.5">
+              <img src={caseItem.image} alt={caseItem.title} width="600" height="340" loading="lazy" decoding="async" class="w-full h-[110px] object-cover" />
+            </div>
+          )}
           <h3 class="text-sm font-bold text-chassis-100 leading-tight line-clamp-2 group-hover:underline underline-offset-2">{caseItem.title}</h3>
           <p class="text-xs text-chassis-400 leading-relaxed line-clamp-2 mt-1.5"><span class="text-chassis-300 font-medium">Симптом:</span> {caseItem.problem}</p>
           <span class="mt-3 text-[11px] font-sans font-bold text-chassis-300 group-hover:text-chassis-100">Читать разбор →</span>
@@ -251,7 +261,18 @@ const homeFaq = [
             </div>
             <p class="text-xs text-chassis-300 leading-relaxed line-clamp-4 italic">«{review.text}»</p>
             {review.photos && review.photos.length > 0 && (
-              <div class="mt-2 text-[10px] font-sans text-chassis-500 flex items-center gap-1"><span>📷</span><span>{review.photos[0].caption || "Фото ремонта"}</span></div>
+              <div class="mt-2.5">
+                {review.photos[0].src ? (
+                  <>
+                    <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900">
+                      <img src={review.photos[0].src} alt={review.photos[0].caption || "Фото ремонта"} width="400" height="300" loading="lazy" decoding="async" class="w-full h-[110px] object-cover" />
+                    </div>
+                    <div class="text-[10px] font-sans text-chassis-500 mt-1 truncate">{review.photos[0].caption}</div>
+                  </>
+                ) : (
+                  <div class="text-[10px] font-sans text-chassis-500 flex items-center gap-1"><span>📷</span><span>{review.photos[0].caption || "Фото ремонта"}</span></div>
+                )}
+              </div>
             )}
           </div>
         ))}

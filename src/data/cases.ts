@@ -13,6 +13,7 @@ export interface CaseItem {
   schemaType: "Article" | "HowTo";
   summaryForSocial?: string;
   tags: string[];
+  image?: string;
 }
 
 export const casesData: CaseItem[] = [
@@ -35,7 +36,8 @@ export const casesData: CaseItem[] = [
     ],
     schemaType: "HowTo",
     summaryForSocial: "ASUS TUF Gaming A15 спасён от замены платы! Причина: КЗ по линии 19V. Заменили пробитый мосфет и фильтрующую керамику. Смотрите полный разбор на laptopservice.uz/cases/asus-tuf-a15-korotkoe-zamykanie-19v",
-    tags: ["ASUS", "КЗ 19V", "Компонентный ремонт", "Пайка SMD", "TUF Gaming"]
+    tags: ["ASUS", "КЗ 19V", "Компонентный ремонт", "Пайка SMD", "TUF Gaming"],
+    image: "/media/cases/repair-chipset-mask-reball.png"
   },
   {
     id: "case-02",
@@ -56,7 +58,8 @@ export const casesData: CaseItem[] = [
     ],
     schemaType: "HowTo",
     summaryForSocial: "Lenovo Legion 5 Pro с ошибкой Code 43 на RTX 3070 вернулся в строй! Заменили банку видеопамяти GDDR6 BGA-методом. Подробности в кейсах на сайте.",
-    tags: ["Lenovo", "BGA", "RTX 3070", "Ошибка 43", "MATS"]
+    tags: ["Lenovo", "BGA", "RTX 3070", "Ошибка 43", "MATS"],
+    image: "/media/cases/repair-chipset-mask-reball-2.png"
   },
   {
     id: "case-03",
