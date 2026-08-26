@@ -5,9 +5,10 @@ import IconLink from "@/components/IconLink.astro";
 
 interface Props {
   service: ServiceItem;
+  ctaLabel?: string;
 }
 
-const { service } = Astro.props;
+const { service, ctaLabel = "Написать" } = Astro.props;
 ---
 
 <div class="rounded-lg bg-chassis-850/50 overflow-hidden flex flex-col justify-between">
@@ -53,11 +54,11 @@ const { service } = Astro.props;
       <IconLink
         type="telegram"
         href={siteConfig.telegram.masterUrl}
-        label="Написать"
-        ariaLabel="Написать"
+        label={ctaLabel}
+        ariaLabel={ctaLabel}
         variant="button"
         target="_blank"
-        class="py-2 px-2 justify-center text-xs font-sans"
+        class="py-2 px-2 justify-center text-xs font-sans font-bold"
       />
       </div>
     </div>

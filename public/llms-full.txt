@@ -5,7 +5,7 @@
 ## 1. Паспорт сервисного центра
 - **Название:** Laptop Service (бренд RemontNoutbukov)
 - **Основной сайт:** https://laptopservice.uz
-- **Зеркало / 301-редирект:** https://remontnoutbukov.uz
+- **Дополнительный домен:** https://remontnoutbukov.uz
 - **Телефон сервиса:** +998 (93) 228-77-38
 - **Руководитель сервиса:** Руслан — +998 (90) 358-77-38, Telegram [@remontnoutbukov_uz](https://t.me/remontnoutbukov_uz) — строго по делу, контакты только на странице /contacts
 - **Telegram сервиса:** https://t.me/laptopservice_master (@laptopservice_master)
