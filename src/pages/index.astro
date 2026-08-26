@@ -168,9 +168,18 @@ const homeFaq = [
               <img src="/logo.svg" alt="" width="20" height="20" class="w-5 h-5 rounded-full bg-chassis-900 border border-chassis-800 shrink-0" loading="lazy" />
               <span class="text-[10px] font-sans font-bold uppercase tracking-wider text-chassis-500">{build.purposeLabel}</span>
             </div>
-            {build.images.length > 0 && (
+            {build.images.length === 1 && (
               <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900 mb-2.5">
                 <img src={build.images[0]} alt={build.title} width="600" height="340" loading="lazy" decoding="async" class="w-full h-[110px] object-cover" />
+              </div>
+            )}
+            {build.images.length === 2 && (
+              <div class="grid grid-cols-2 gap-1.5 mb-2.5">
+                {build.images.map((src) => (
+                  <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900">
+                    <img src={src} alt={build.title} width="300" height="200" loading="lazy" decoding="async" class="w-full h-[90px] object-cover" />
+                  </div>
+                ))}
               </div>
             )}
             <h3 class="text-sm font-bold text-chassis-100 leading-tight line-clamp-2 group-hover:underline underline-offset-2">{build.title}</h3>
@@ -205,7 +214,21 @@ const homeFaq = [
             <time datetime={caseItem.date} class="text-[11px] font-sans text-chassis-400 shrink-0">{formatDateRu(caseItem.date)}</time>
           </div>
           <div class="text-[11px] font-sans text-chassis-500 mb-1 line-clamp-1">Устройство: <span class="text-chassis-300 font-bold">{caseItem.device}</span></div>
-          {caseItem.image && (
+          {(caseItem.images && caseItem.images.length === 1) && (
+            <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900 mb-2.5">
+              <img src={caseItem.images[0]} alt={caseItem.title} width="600" height="340" loading="lazy" decoding="async" class="w-full h-[110px] object-cover" />
+            </div>
+          )}
+          {(caseItem.images && caseItem.images.length === 2) && (
+            <div class="grid grid-cols-2 gap-1.5 mb-2.5">
+              {caseItem.images.map((src) => (
+                <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900">
+                  <img src={src} alt={caseItem.title} width="300" height="200" loading="lazy" decoding="async" class="w-full h-[90px] object-cover" />
+                </div>
+              ))}
+            </div>
+          )}
+          {caseItem.image && !caseItem.images && (
             <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900 mb-2.5">
               <img src={caseItem.image} alt={caseItem.title} width="600" height="340" loading="lazy" decoding="async" class="w-full h-[110px] object-cover" />
             </div>
