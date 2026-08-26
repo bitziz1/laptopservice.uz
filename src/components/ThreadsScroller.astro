@@ -1,0 +1,216 @@
+---
+import { threadsData } from "@/data/threads";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+
+// Для бесконечности дублируем 3 раза: [ ...data, ...data, ...data ]
+const loopData = [...threadsData, ...threadsData, ...threadsData];
+---
+
+<div class={`threads-wrap ${className ?? ""}`}>
+  <div class="threads-header flex items-center justify-between mb-3 px-1">
+    <div class="flex items-center gap-2 text-xs font-sans">
+      <span class="text-chassis-400">Лента как в Threads</span>
+      <span class="text-chassis-600">•</span>
+      <span class="text-chassis-300">листай вбок →</span>
+    </div>
+    <a href="https://t.me/laptopservice_uz" target="_blank" rel="noopener" class="text-[11px] font-sans text-chassis-400 hover:text-chassis-100 underline">@laptopservice_uz</a>
+  </div>
+
+  <div
+    id="threads-scroller"
+    class="threads-scroller flex gap-3 overflow-x-auto overflow-y-hidden pb-2 snap-x snap-mandatory scroll-smooth"
+    role="feed"
+    aria-label="Лента работ в стиле Threads"
+    tabindex="0"
+  >
+    {loopData.map((thread, idx) => {
+      const isOriginal = idx >= threadsData.length && idx < threadsData.length * 2;
+      return (
+        <article
+          class="threads-card shrink-0 snap-center w-[320px] sm:w-[340px] bg-chassis-850 border border-chassis-800 rounded-[16px] overflow-hidden flex flex-col"
+          role="article"
+          aria-posinset={(idx % threadsData.length) + 1}
+          aria-setsize={threadsData.length}
+          data-thread-id={thread.id}
+          data-original={isOriginal ? "true" : "false"}
+        >
+          {/* Header как в Threads */}
+          <div class="flex items-start gap-3 p-3 pb-2">
+            <img src="/logo.svg" alt="Laptop Service" width="32" height="32" class="w-8 h-8 rounded-full bg-chassis-900 border border-chassis-800 shrink-0" loading="lazy" />
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-1.5 flex-wrap">
+                <span class="text-sm font-bold text-chassis-100 leading-none">{thread.handle}</span>
+                <span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-sky-500 text-white text-[10px] leading-none">✓</span>
+                <span class="text-chassis-600 text-xs">·</span>
+                <time datetime={thread.date} class="text-xs text-chassis-400 font-sans hover:underline cursor-pointer">{thread.dateLabel}</time>
+              </div>
+              <div class="text-[11px] text-chassis-500 font-sans -mt-0.5">Laptop Service · Ташкент</div>
+            </div>
+            <button class="text-chassis-400 hover:text-chassis-100 p-1 -mr-1" aria-label="Меню">⋯</button>
+          </div>
+
+          {/* Text */}
+          <div class="px-3 pb-2">
+            <p class="text-sm text-chassis-200 leading-[1.45] whitespace-pre-wrap break-words">{thread.text}</p>
+          </div>
+
+          {/* Media — 1 или 2 фото, адаптив */}
+          {thread.media.length === 1 ? (
+            <div class="px-3 pb-3">
+              <div class="rounded-xl overflow-hidden border border-chassis-800 bg-chassis-900">
+                <img
+                  src={thread.media[0].src}
+                  srcset={thread.media[0].srcSet}
+                  sizes="(max-width: 640px) 320px, 340px"
+                  alt={thread.media[0].alt}
+                  width={thread.media[0].width}
+                  height={thread.media[0].height}
+                  loading={isOriginal ? "eager" : "lazy"}
+                  decoding="async"
+                  class="w-full h-auto object-contain max-h-[420px] bg-chassis-900"
+                />
+              </div>
+            </div>
+          ) : (
+            <div class="px-3 pb-3">
+              <div class="grid grid-cols-2 gap-2">
+                {thread.media.map((m) => (
+                  <div class="rounded-xl overflow-hidden border border-chassis-800 bg-chassis-900">
+                    <img
+                      src={m.src}
+                      alt={m.alt}
+                      width={m.width}
+                      height={m.height}
+                      loading="lazy"
+                      decoding="async"
+                      class="w-full h-[180px] object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Footer actions как в Threads — минимально */}
+          <div class="flex items-center gap-4 px-3 py-2.5 border-t border-chassis-800/60 mt-auto">
+            <span class="text-chassis-400 hover:text-chassis-100 cursor-pointer text-[16px] leading-none" aria-label="Нравится">♡</span>
+            <span class="text-chassis-400 hover:text-chassis-100 cursor-pointer text-[16px] leading-none" aria-label="Комментировать">◯</span>
+            <span class="text-chassis-400 hover:text-chassis-100 cursor-pointer text-[16px] leading-none" aria-label="Репост">↻</span>
+            <span class="text-chassis-400 hover:text-chassis-100 cursor-pointer text-[16px] leading-none ml-auto" aria-label="Поделиться">↗</span>
+          </div>
+        </article>
+      );
+    })}
+  </div>
+
+  <div class="flex items-center justify-center gap-1.5 mt-2">
+    <span class="text-[10px] font-sans text-chassis-500">Тяни вбок • бесконечно</span>
+  </div>
+</div>
+
+<style>
+  .threads-scroller {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .threads-scroller::-webkit-scrollbar { display: none; }
+  /* На десктопе лента не растягивается — карточки остаются шириной мобилки */
+  @media (min-width: 768px) {
+    .threads-wrap { max-width: 720px; margin-left: auto; margin-right: auto; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .threads-scroller { scroll-behavior: auto; }
+  }
+</style>
+
+<script is:inline>
+  (() => {
+    const scroller = document.getElementById('threads-scroller');
+    if (!scroller) return;
+    const cards = scroller.querySelectorAll('.threads-card');
+    if (!cards.length) return;
+    // Центрируем на средний сет (оригиналы) при загрузке
+    const originalCount = cards.length / 3;
+    const cardWidth = 332 + 12; // 320/340 + gap 12, приблизительно; точнее считаем
+    function getCardWidth() {
+      const first = cards[0];
+      if (!first) return 352;
+      const rect = first.getBoundingClientRect();
+      const style = getComputedStyle(scroller);
+      const gap = parseFloat(style.columnGap || style.gap || '12');
+      return rect.width + gap;
+    }
+    function initCenter() {
+      const cw = getCardWidth();
+      scroller.scrollLeft = cw * originalCount;
+    }
+    // Ждем layout
+    requestAnimationFrame(() => {
+      initCenter();
+    });
+    let ticking = false;
+    scroller.addEventListener('scroll', () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const cw = getCardWidth();
+        const total = cw * cards.length;
+        const oneSet = cw * originalCount;
+        // если ушли влево за первый сет — прыжок в середину
+        if (scroller.scrollLeft < oneSet * 0.5) {
+          scroller.style.scrollBehavior = 'auto';
+          scroller.scrollLeft += oneSet;
+          scroller.getBoundingClientRect();
+          scroller.style.scrollBehavior = '';
+        } else if (scroller.scrollLeft > oneSet * 2.5) {
+          scroller.style.scrollBehavior = 'auto';
+          scroller.scrollLeft -= oneSet;
+          scroller.getBoundingClientRect();
+          scroller.style.scrollBehavior = '';
+        }
+        ticking = false;
+      });
+    }, { passive: true });
+
+    // Drag scroll для десктопа
+    let isDown = false;
+    let startX, scrollLeft;
+    scroller.addEventListener('mousedown', (e) => {
+      isDown = true;
+      scroller.classList.add('cursor-grabbing');
+      scroller.classList.remove('snap-x');
+      startX = e.pageX - scroller.offsetLeft;
+      scrollLeft = scroller.scrollLeft;
+    });
+    scroller.addEventListener('mouseleave', () => {
+      isDown = false;
+      scroller.classList.remove('cursor-grabbing');
+      scroller.classList.add('snap-x');
+    });
+    scroller.addEventListener('mouseup', () => {
+      isDown = false;
+      scroller.classList.remove('cursor-grabbing');
+      scroller.classList.add('snap-x');
+    });
+    scroller.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - scroller.offsetLeft;
+      const walk = (x - startX) * 1.2;
+      scroller.scrollLeft = scrollLeft - walk;
+    });
+
+    // Resize — пересчитать центр
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(initCenter, 150);
+    });
+  })();
+</script>

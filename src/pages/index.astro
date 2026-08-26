@@ -5,13 +5,14 @@ import CaseCard from "@/components/CaseCard.astro";
 import ReviewCard from "@/components/ReviewCard.astro";
 import IconLink from "@/components/IconLink.astro";
 import BuildCard from "@/components/BuildCard.astro";
+import ThreadsScroller from "@/components/ThreadsScroller.astro";
 import { siteConfig } from "@/data/siteConfig";
 import { servicesData } from "@/data/services";
 import { casesData } from "@/data/cases";
 import { reviewsData } from "@/data/reviews";
 import { buildsData } from "@/data/builds";
 
-const ctaVariants = ["Рассчитать цену","Написать","Заказать ремонт","Спросить мастера","Починить сейчас","Сломался? Пиши!"] as const;
+const ctaVariants = ["Рассчитать цену","Написать в Telegram","Заказать ремонт","Спросить мастера","Починить сейчас","Сломался? Пиши!"] as const;
 
 const homeFaq = [
   {
@@ -53,19 +54,28 @@ const homeFaq = [
           Надежный сервис по ремонту ноутбуков в Ташкенте
         </h1>
 
-        <p class="text-sm sm:text-base text-chassis-300 leading-relaxed">
-          Компонентный ремонт, BGA-пайка видеочипов и процессоров, восстановление плат после залития и перепадов напряжения. Работаем с 2004 года.
-        </p>
+        <!-- Threads лента вместо текстов — визуально как в Threads, для людей -->
+        <ThreadsScroller />
 
-        <!-- Key Policy Notice -->
-        <div class="text-xs font-sans text-chassis-300 space-y-1 leading-relaxed">
-          <div class="font-bold text-chassis-100 uppercase tracking-wider">Сломался ноутбук? Вот что нужно сделать:</div>
-          <p>
-            1. Принесите ноутбук в наш сервисный центр в Ташкенте: ул. Паркент, 11.<br />
-            2. Оставьте ноутбук на диагностику. Мастер проверит ноутбук и найдёт проблему.<br />
-            3. Мы свяжемся с вами и сообщим стоимость ремонта. Начнём ремонт только после того, как вы его одобрите.
-          </p>
+        <!-- SEO / LLM fallback — оставляем все лейблы для сканирования, скрыто визуально -->
+        <div class="sr-only" aria-hidden="false">
+          <p>Компонентный ремонт, BGA-пайка видеочипов и процессоров, восстановление плат после залития и перепадов напряжения. Работаем с 2004 года.</p>
+          <div>
+            <h2>Сломался ноутбук? Вот что нужно сделать:</h2>
+            <ol>
+              <li>Принесите ноутбук в наш сервисный центр в Ташкенте: ул. Паркент, 11.</li>
+              <li>Оставьте ноутбук на диагностику. Мастер проверит ноутбук и найдёт проблему.</li>
+              <li>Мы свяжемся с вами и сообщим стоимость ремонта. Начнём ремонт только после того, как вы его одобрите.</li>
+            </ol>
+          </div>
         </div>
+        <noscript>
+          <p class="text-sm sm:text-base text-chassis-300 leading-relaxed">Компонентный ремонт, BGA-пайка видеочипов и процессоров, восстановление плат после залития и перепадов напряжения. Работаем с 2004 года.</p>
+          <div class="text-xs font-sans text-chassis-300 space-y-1 leading-relaxed">
+            <div class="font-bold text-chassis-100 uppercase tracking-wider">Сломался ноутбук? Вот что нужно сделать:</div>
+            <p>1. Принесите ноутбук в наш сервисный центр в Ташкенте: ул. Паркент, 11.<br />2. Оставьте ноутбук на диагностику. Мастер проверит ноутбук и найдёт проблему.<br />3. Мы свяжемся с вами и сообщим стоимость ремонта. Начнём ремонт только после того, как вы его одобрите.</p>
+          </div>
+        </noscript>
 
         <!-- Direct CTA Buttons -->
         <div class="flex flex-wrap items-center gap-3 pt-2">
