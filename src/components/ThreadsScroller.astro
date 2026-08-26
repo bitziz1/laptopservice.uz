@@ -15,7 +15,7 @@ const loopData = [...threadsData, ...threadsData, ...threadsData];
 
   <div
     id="threads-scroller"
-    class="threads-scroller flex gap-3 overflow-x-auto overflow-y-hidden pb-2 snap-x snap-mandatory scroll-smooth"
+    class="threads-scroller flex gap-2 overflow-x-auto overflow-y-hidden pb-1 snap-x snap-mandatory scroll-smooth"
     role="feed"
     aria-label="Лента работ в стиле Threads"
     tabindex="0"
@@ -24,55 +24,54 @@ const loopData = [...threadsData, ...threadsData, ...threadsData];
       const isOriginal = idx >= threadsData.length && idx < threadsData.length * 2;
       return (
         <article
-          class="threads-card shrink-0 snap-center w-[320px] sm:w-[340px] bg-chassis-850 border border-chassis-800 rounded-[16px] overflow-hidden flex flex-col"
+          class="threads-card shrink-0 snap-center w-[260px] sm:w-[280px] bg-chassis-850 border border-chassis-800 rounded-[14px] overflow-hidden flex flex-col"
           role="article"
           aria-posinset={(idx % threadsData.length) + 1}
           aria-setsize={threadsData.length}
           data-thread-id={thread.id}
           data-original={isOriginal ? "true" : "false"}
         >
-          {/* Header как в Threads */}
-          <div class="flex items-start gap-3 p-3 pb-2">
-            <img src="/logo.svg" alt="Laptop Service" width="32" height="32" class="w-8 h-8 rounded-full bg-chassis-900 border border-chassis-800 shrink-0" loading="lazy" />
+          {/* Header — компактный, без ⋯ */}
+          <div class="flex items-center gap-2 p-2.5 pb-1.5">
+            <img src="/logo.svg" alt="Laptop Service" width="24" height="24" class="w-6 h-6 rounded-full bg-chassis-900 border border-chassis-800 shrink-0" loading="lazy" />
             <div class="flex-1 min-w-0">
-              <div class="flex items-center gap-1.5 flex-wrap">
-                <span class="text-sm font-bold text-chassis-100 leading-none">{thread.handle}</span>
-                <span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-sky-500 text-white text-[10px] leading-none">✓</span>
-                <span class="text-chassis-600 text-xs">·</span>
-                <time datetime={thread.date} class="text-xs text-chassis-400 font-sans hover:underline cursor-pointer">{thread.dateLabel}</time>
+              <div class="flex items-center gap-1 flex-wrap leading-none">
+                <span class="text-xs font-bold text-chassis-100 leading-none">{thread.handle}</span>
+                <span class="inline-flex items-center justify-center w-3 h-3 rounded-full bg-sky-500 text-white text-[8px] leading-none">✓</span>
+                <span class="text-chassis-600 text-[11px]">·</span>
+                <time datetime={thread.date} class="text-[11px] text-chassis-400 font-sans">{thread.dateLabel}</time>
               </div>
-              <div class="text-[11px] text-chassis-500 font-sans -mt-0.5">Laptop Service · Ташкент</div>
+              <div class="text-[10px] text-chassis-500 font-sans leading-none mt-0.5">Laptop Service · Ташкент</div>
             </div>
-            <button class="text-chassis-400 hover:text-chassis-100 p-1 -mr-1" aria-label="Меню">⋯</button>
           </div>
 
-          {/* Text */}
-          <div class="px-3 pb-2">
-            <p class="text-sm text-chassis-200 leading-[1.45] whitespace-pre-wrap break-words">{thread.text}</p>
+          {/* Text — 2 строки максимум для экономии высоты */}
+          <div class="px-2.5 pb-1.5">
+            <p class="text-xs text-chassis-200 leading-[1.4] whitespace-pre-wrap break-words line-clamp-3">{thread.text}</p>
           </div>
 
-          {/* Media — 1 или 2 фото, адаптив */}
+          {/* Media — компактное, высота в ~2 раза меньше */}
           {thread.media.length === 1 ? (
-            <div class="px-3 pb-3">
-              <div class="rounded-xl overflow-hidden border border-chassis-800 bg-chassis-900">
+            <div class="px-2.5 pb-2.5">
+              <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900">
                 <img
                   src={thread.media[0].src}
                   srcset={thread.media[0].srcSet}
-                  sizes="(max-width: 640px) 320px, 340px"
+                  sizes="(max-width: 640px) 260px, 280px"
                   alt={thread.media[0].alt}
                   width={thread.media[0].width}
                   height={thread.media[0].height}
                   loading={isOriginal ? "eager" : "lazy"}
                   decoding="async"
-                  class="w-full h-auto object-contain max-h-[420px] bg-chassis-900"
+                  class="w-full h-[148px] object-cover bg-chassis-900"
                 />
               </div>
             </div>
           ) : (
-            <div class="px-3 pb-3">
-              <div class="grid grid-cols-2 gap-2">
+            <div class="px-2.5 pb-2.5">
+              <div class="grid grid-cols-2 gap-1.5">
                 {thread.media.map((m) => (
-                  <div class="rounded-xl overflow-hidden border border-chassis-800 bg-chassis-900">
+                  <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900">
                     <img
                       src={m.src}
                       alt={m.alt}
@@ -80,21 +79,13 @@ const loopData = [...threadsData, ...threadsData, ...threadsData];
                       height={m.height}
                       loading="lazy"
                       decoding="async"
-                      class="w-full h-[180px] object-cover"
+                      class="w-full h-[110px] object-cover"
                     />
                   </div>
                 ))}
               </div>
             </div>
           )}
-
-          {/* Footer actions как в Threads — минимально */}
-          <div class="flex items-center gap-4 px-3 py-2.5 border-t border-chassis-800/60 mt-auto">
-            <span class="text-chassis-400 hover:text-chassis-100 cursor-pointer text-[16px] leading-none" aria-label="Нравится">♡</span>
-            <span class="text-chassis-400 hover:text-chassis-100 cursor-pointer text-[16px] leading-none" aria-label="Комментировать">◯</span>
-            <span class="text-chassis-400 hover:text-chassis-100 cursor-pointer text-[16px] leading-none" aria-label="Репост">↻</span>
-            <span class="text-chassis-400 hover:text-chassis-100 cursor-pointer text-[16px] leading-none ml-auto" aria-label="Поделиться">↗</span>
-          </div>
         </article>
       );
     })}
