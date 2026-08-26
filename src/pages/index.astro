@@ -1,6 +1,5 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import MasterBadge from "@/components/MasterBadge.astro";
 import ServiceCard from "@/components/ServiceCard.astro";
 import CaseCard from "@/components/CaseCard.astro";
 import ReviewCard from "@/components/ReviewCard.astro";
@@ -63,8 +62,8 @@ const homeFaq = [
           <div class="font-bold text-chassis-100 uppercase tracking-wider">Сломался ноутбук? Вот что нужно сделать:</div>
           <p>
             1. Принесите ноутбук в наш сервисный центр в Ташкенте: ул. Паркент, 11.<br />
-            2. Оставьте ноутбук на диагностику. Мы оформим акт приёма и запишем ваши контактные данные. Мастер проверит ноутбук и выяснит, в чём проблема.<br />
-            3. Мы свяжемся с вами и сообщим стоимость ремонта. Начнём ремонт только после того, как вы согласуете стоимость.</strong>.
+            2. Оставьте ноутбук на диагностику. Мастер проверит ноутбук и найдёт проблему.<br />
+            3. Мы свяжемся с вами и сообщим стоимость ремонта. Начнём ремонт только после того, как вы его одобрите.
           </p>
         </div>
 
@@ -73,8 +72,8 @@ const homeFaq = [
           <IconLink
             type="telegram"
             href={siteConfig.telegram.masterUrl}
-            label="Сломался? Пиши!"
-            ariaLabel="Сломался? Пиши! — написать в Telegram"
+            label="Написать в Telegram"
+            ariaLabel="Написать в Telegram"
             variant="button"
             target="_blank"
             class="px-6 py-3.5 text-sm border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 font-bold"
@@ -90,7 +89,7 @@ const homeFaq = [
           <IconLink
             type="yandex-maps"
             href={siteConfig.socials.yandexMaps}
-            label="Яндекс Карты"
+            label="Открыть в Яндекс Картах"
             ariaLabel="Открыть в Яндекс Картах"
             variant="button"
             target="_blank"
@@ -99,7 +98,7 @@ const homeFaq = [
           <IconLink
             type="google-maps"
             href={siteConfig.socials.googleMaps}
-            label="Google Maps"
+            label="Открыть в Google Maps"
             ariaLabel="Открыть в Google Maps"
             variant="button"
             target="_blank"
@@ -157,10 +156,7 @@ const homeFaq = [
   <!-- CASES FROM TELEGRAM -->
   <section class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
     <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
-      <div>
-        <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider">Telegram @laptopservice_uz</div>
-        <h2 class="text-xl sm:text-2xl font-bold text-chassis-100">Реальные примеры ремонтов</h2>
-      </div>
+      <h2 class="text-xl sm:text-2xl font-bold text-chassis-100">Реальные примеры ремонтов</h2>
       <a href="/cases" class="text-xs font-sans text-chassis-300 hover:text-chassis-100 underline">
         Все работы ({casesData.length}) →
       </a>

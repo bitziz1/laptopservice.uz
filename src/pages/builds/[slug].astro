@@ -2,7 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import IconLink from "@/components/IconLink.astro";
-import { buildsData, type BuildItem } from "@/data/builds";
+import { buildsData} from "@/data/builds";
 import { siteConfig } from "@/data/siteConfig";
 
 export function getStaticPaths() {
@@ -12,9 +12,6 @@ export function getStaticPaths() {
   }));
 }
 
-interface Props {
-  build: BuildItem;
-}
 
 const { build } = Astro.props;
 
