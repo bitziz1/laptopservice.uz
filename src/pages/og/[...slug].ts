@@ -1,7 +1,6 @@
 import { OGImageRoute } from 'astro-og-canvas';
+import { getCollection } from 'astro:content';
 import { servicesData } from '@/data/services';
-import { buildsData } from '@/data/builds';
-import { casesData } from '@/data/cases';
 
 // Brand color from user: rgb(25,189,155) = #19BD9B
 const brandBg: [number, number, number] = [25, 189, 155];
@@ -49,18 +48,23 @@ for (const s of servicesData) {
     description: s.shortDescription?.slice(0, 120) ?? s.title,
   };
 }
-// Dynamic builds
-for (const b of buildsData) {
-  staticPages[`builds/${b.slug}`] = {
-    title: b.title,
-    description: b.description.slice(0, 120),
+// Dynamic builds — из content/builds/*.md (Obsidian)
+const buildsEntries = await getCollection("builds");
+for (const b of buildsEntries) {
+  const slug = (b.data as any).slug ?? b.id.replace(/\.md$/, "");
+  staticPages[`builds/${slug}`] = {
+    title: b.data.title,
+    description: b.data.description.slice(0, 120),
   };
 }
-// Dynamic cases
-for (const c of casesData) {
-  staticPages[`cases/${c.slug}`] = {
-    title: c.title,
-    description: c.problem.slice(0, 120),
+// Dynamic cases — из content/cases/*.md (Obsidian)
+const casesEntries = await getCollection("cases");
+for (const c of casesEntries) {
+  const slug = (c.data as any).slug ?? c.id.replace(/\.md$/, "");
+  const problem = (c.data as any).problem ?? "";
+  staticPages[`cases/${slug}`] = {
+    title: c.data.title,
+    description: problem.slice(0, 120) || c.body?.slice(0, 120) || c.data.title,
   };
 }
 

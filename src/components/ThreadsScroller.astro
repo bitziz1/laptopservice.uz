@@ -1,11 +1,24 @@
 ---
-import { threadsData } from "@/data/threads";
+import { Picture } from "astro:assets";
+import { getCollection } from "astro:content";
+import { formatDateRu } from "@/utils/formatDate";
 
 interface Props {
   class?: string;
 }
 
 const { class: className } = Astro.props;
+
+// Obsidian MD в content/threads/*.md — 1 файл = 1 пост, gallery рядом
+const threads = await getCollection("threads");
+threads.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+// helper для галереи
+function galleryWithAlts(entry: (typeof threads)[number]) {
+  const imgs = entry.data.gallery ?? [];
+  const alts = entry.data.alts ?? [];
+  return imgs.map((img, i) => ({ img, alt: alts[i] ?? entry.body?.slice(0, 80) ?? "" }));
+}
 ---
 
 <div class={`threads-wrap ${className ?? ""}`}>
@@ -17,24 +30,29 @@ const { class: className } = Astro.props;
     aria-label="Лента работ в стиле Threads"
     tabindex="0"
   >
-    {threadsData.map((thread, idx) => {
+    {threads.map((entry, idx) => {
+      const gallery = galleryWithAlts(entry);
+      const dateIso = entry.data.date.toISOString().slice(0, 10);
+      const dateLabel = entry.data.dateLabel ?? formatDateRu(dateIso);
+      const handle = entry.data.handle ?? "laptopservice_uz";
+      const text = entry.body?.trim() ?? "";
       return (
         <article
           class="threads-card shrink-0 snap-start w-[260px] sm:w-[280px] bg-chassis-850 border border-chassis-800 rounded-[14px] overflow-hidden flex flex-col"
           role="article"
           aria-posinset={idx + 1}
-          aria-setsize={threadsData.length}
-          data-thread-id={thread.id}
+          aria-setsize={threads.length}
+          data-thread-id={entry.id}
         >
           {/* Header — компактный, без ⋯ */}
           <div class="flex items-center gap-2 p-2.5 pb-1.5">
             <img src="/logo.svg" alt="Laptop Service" width="24" height="24" class="w-6 h-6 rounded-full bg-chassis-900 border border-chassis-800 shrink-0" loading="lazy" />
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-1 flex-wrap leading-none">
-                <span class="text-xs font-bold text-chassis-100 leading-none">{thread.handle}</span>
+                <span class="text-xs font-bold text-chassis-100 leading-none">{handle}</span>
                 <span class="inline-flex items-center justify-center w-3 h-3 rounded-full bg-sky-500 text-white text-[8px] leading-none">✓</span>
                 <span class="text-chassis-600 text-[11px]">·</span>
-                <time datetime={thread.date} class="text-[11px] text-chassis-400 font-sans">{thread.dateLabel}</time>
+                <time datetime={dateIso} class="text-[11px] text-chassis-400 font-sans">{dateLabel}</time>
               </div>
               <div class="text-[10px] text-chassis-500 font-sans leading-none mt-0.5">Laptop Service · Ташкент</div>
             </div>
@@ -42,39 +60,39 @@ const { class: className } = Astro.props;
 
           {/* Text — 2 строки максимум для экономии высоты */}
           <div class="px-2.5 pb-1.5">
-            <p class="text-xs text-chassis-200 leading-[1.4] whitespace-pre-wrap break-words line-clamp-3">{thread.text}</p>
+            <p class="text-xs text-chassis-200 leading-[1.4] whitespace-pre-wrap break-words line-clamp-3">{text}</p>
           </div>
 
-          {/* Media — компактное, правильно sized + fetchpriority for LCP */}
-          {thread.media.length === 1 ? (
+          {/* Media — строго из content/threads/*.md gallery (оригиналы jpg/png) */}
+          {gallery.length === 1 ? (
             <div class="px-2.5 pb-2.5">
               <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900">
-                <img
-                  src={thread.media[0].src}
-                  srcset={thread.media[0].srcSet}
+                <Picture
+                  src={gallery[0].img}
+                  alt={gallery[0].alt}
+                  widths={[360, 720, 1080]}
                   sizes="(max-width: 640px) 260px, 280px"
-                  alt={thread.media[0].alt}
-                  width={thread.media[0].width}
-                  height={thread.media[0].height}
+                  formats={["avif", "webp"]}
+                  fallbackFormat="webp"
                   loading={idx === 0 ? "eager" : "lazy"}
-                  fetchpriority={idx === 0 ? "high" : "low"}
                   decoding="async"
+                  fetchpriority={idx === 0 ? "high" : "low"}
                   class="w-full h-[148px] object-cover bg-chassis-900"
                 />
               </div>
             </div>
-          ) : (
+          ) : gallery.length > 1 ? (
             <div class="px-2.5 pb-2.5">
               <div class="grid grid-cols-2 gap-1.5">
-                {thread.media.map((m) => (
+                {gallery.map(({ img, alt }) => (
                   <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900">
-                    <img
-                      src={m.src}
-                      srcset={m.srcSet}
+                    <Picture
+                      src={img}
+                      alt={alt}
+                      widths={[180, 360, 720]}
                       sizes="(max-width: 640px) 128px, 138px"
-                      alt={m.alt}
-                      width={m.width}
-                      height={m.height}
+                      formats={["avif", "webp"]}
+                      fallbackFormat="webp"
                       loading="lazy"
                       decoding="async"
                       class="w-full h-[110px] object-cover"
@@ -83,7 +101,7 @@ const { class: className } = Astro.props;
                 ))}
               </div>
             </div>
-          )}
+          ) : null}
         </article>
       );
     })}

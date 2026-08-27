@@ -1,42 +1,60 @@
 ---
+import { Picture } from "astro:assets";
+import { getCollection, render } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import IconLink from "@/components/IconLink.astro";
-import { casesData, type CaseItem } from "@/data/cases";
 import { siteConfig } from "@/data/siteConfig";
 import { formatDateRu } from "@/utils/formatDate";
 
-export function getStaticPaths() {
-  return casesData.map((caseItem) => ({
-    params: { slug: caseItem.slug },
-    props: { caseItem },
-  }));
+export async function getStaticPaths() {
+  const entries = await getCollection("cases");
+  return entries.map((entry) => {
+    const slug = (entry.data as any).slug ?? entry.id.replace(/\.md$/, "");
+    return {
+      params: { slug },
+      props: { entry, slug },
+    };
+  });
 }
 
-interface Props {
-  caseItem: CaseItem;
-}
+const { entry, slug } = Astro.props as { entry: any; slug: string };
 
-const { caseItem } = Astro.props;
-
+const data = entry.data;
+const title = data.title;
+const device = data.device;
+const category = data.category;
+const dateStr = data.date instanceof Date ? data.date.toISOString().slice(0,10) : String(data.date);
+const tags: string[] = data.tags ?? [];
+const keySpecs = data.keySpecs;
+const problem = data.problem ?? "";
+const diagnosis = data.diagnosis ?? "";
+const solution = data.solution ?? "";
+const result = data.result ?? "";
 const breadcrumbs = [
   { name: "Наши работы", url: "/cases" },
-  { name: caseItem.device, url: `/cases/${caseItem.slug}` },
+  { name: device, url: `/cases/${slug}` },
 ];
 
-const solutionSteps = caseItem.solution
+const solutionSteps = solution
   .split("\n")
-  .map((line) => line.trim())
-  .filter((line) => line.length > 0)
-  .map((line, idx) => ({
-    name: `Этап ${idx + 1}`,
+  .map((line: string) => line.trim())
+  .filter((line: string) => line.length > 0)
+  .map((line: string) => ({
     text: line.replace(/^\d+\.\s*/, ""),
   }));
+
+const galleryImages: any[] = (() => {
+  const g = data.gallery ?? [];
+  const h = data.heroImage ?? null;
+  return h ? [h, ...g] : g;
+})();
+const { Content } = await render(entry);
 ---
 
 <BaseLayout
-  title={`${caseItem.title}`}
-  description={`${caseItem.problem.slice(0, 150)}... Разбор ремонта в сервисном центре Laptop Service на Паркент 11.`}
+  title={`${title}`}
+  description={`${(problem || data.summaryForSocial || "").slice(0, 150)}... Разбор ремонта в сервисном центре Laptop Service на Паркент 11.`}
   type="HowTo"
   howToSteps={solutionSteps}
   breadcrumbs={breadcrumbs}
@@ -49,27 +67,38 @@ const solutionSteps = caseItem.solution
     <header class="space-y-3">
       <div class="flex flex-wrap items-center gap-2 text-xs font-sans">
         <span class="text-chassis-400 font-bold uppercase tracking-wider">
-          {caseItem.category}
+          {category}
         </span>
         <span class="text-chassis-400">•</span>
-        <time datetime={caseItem.date} class="text-chassis-400">{formatDateRu(caseItem.date)}</time>
+        <time datetime={dateStr} class="text-chassis-400">{formatDateRu(dateStr)}</time>
       </div>
 
       <h1 class="text-xl sm:text-3xl font-extrabold text-chassis-100 tracking-tight leading-tight">
-        {caseItem.title}
+        {title}
       </h1>
 
       <div class="text-xs font-sans text-chassis-300">
-        Устройство: <strong class="text-chassis-100">{caseItem.device}</strong>
+        Устройство: <strong class="text-chassis-100">{device}</strong>
       </div>
     </header>
 
+    <!-- Gallery — оптимизируется в avif/webp с fallback webp -->
+    {galleryImages.length > 0 && (
+      <div class={galleryImages.length === 1 ? "rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900" : "grid grid-cols-1 sm:grid-cols-2 gap-3"}>
+        {galleryImages.map((img: any) => (
+          <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900">
+            <Picture src={img} alt={title} widths={[400, 800, 1200]} sizes="(max-width: 768px) 100vw, 800px" formats={["avif", "webp"]} fallbackFormat="webp" class="w-full h-auto object-contain" loading="lazy" decoding="async" />
+          </div>
+        ))}
+      </div>
+    )}
+
     <!-- Specs Box -->
-    {caseItem.keySpecs && (
+    {keySpecs && (
       <div class="py-2 space-y-3">
         <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider">Параметры ремонта</div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-          {caseItem.keySpecs.map((spec) => (
+          {keySpecs.map((spec: any) => (
             <div class="space-y-1">
               <span class="text-chassis-400 block text-[11px] uppercase tracking-wider">{spec.label}</span>
               <span class="text-chassis-200 font-bold font-mono">{spec.value}</span>
@@ -79,65 +108,22 @@ const solutionSteps = caseItem.solution
       </div>
     )}
 
-    <!-- Problem -->
-    <section class="py-4 space-y-2">
-      <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider font-bold">
-        01 — Неисправность и симптомы
-      </div>
-      <p class="text-xs sm:text-sm text-chassis-300 leading-relaxed">
-        {caseItem.problem}
-      </p>
-    </section>
-
-    <!-- Diagnosis -->
-    <section class="py-4 space-y-2">
-      <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider font-bold">
-        02 — Результаты диагностики
-      </div>
-      <p class="text-xs sm:text-sm text-chassis-300 leading-relaxed">
-        {caseItem.diagnosis}
-      </p>
-    </section>
-
-    <!-- Steps -->
-    <section class="py-4 space-y-3">
-      <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider font-bold">
-        03 — Ход выполнения
-      </div>
-
-      <div class="space-y-3">
-        {solutionSteps.map((step, idx) => (
-          <div class="text-xs text-chassis-300 flex items-start gap-2.5 leading-relaxed">
-            <span class="text-chassis-100 font-bold">{idx + 1}.</span>
-            <span>{step.text}</span>
-          </div>
-        ))}
-      </div>
-    </section>
-
-    <!-- Result -->
-    <section class="py-4 space-y-2">
-      <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider font-bold">
-        04 — Итог и тестирование
-      </div>
-      <p class="text-xs sm:text-sm text-chassis-300 leading-relaxed">
-        {caseItem.result}
-      </p>
-    </section>
+    <!-- Тело MD — секции ## Проблема и т.д. -->
+    <article class="prose prose-invert max-w-none prose-sm sm:prose-base prose-headings:text-chassis-100 prose-p:text-chassis-300 prose-strong:text-chassis-100 prose-li:text-chassis-300">
+      <Content />
+    </article>
 
     <!-- Tags -->
     <div class="flex flex-wrap gap-2 pt-2">
-      {caseItem.tags.map((tag) => (
-        <span class="text-[11px] font-sans text-sky-400">
-          #{tag}
-        </span>
+      {tags.map((tag: string) => (
+        <span class="text-[11px] font-sans text-sky-400">#{tag}</span>
       ))}
     </div>
 
     <!-- CTA -->
     <div class="rounded-lg border border-chassis-700 bg-chassis-950 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="text-xs text-chassis-300 text-center sm:text-left space-y-1">
-        <div class="font-bold text-chassis-100">Похожая проблема с ноутбуком {caseItem.device}?</div>
+        <div class="font-bold text-chassis-100">Похожая проблема с ноутбуком {device}?</div>
         <div>Привезите устройство на диагностику на ул. Паркент 11 или отправьте доставкой.</div>
       </div>
 

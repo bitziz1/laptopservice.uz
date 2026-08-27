@@ -1,14 +1,21 @@
 ---
+import { Picture } from "astro:assets";
+import { getCollection } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import IconLink from "@/components/IconLink.astro";
 import ThreadsScroller from "@/components/ThreadsScroller.astro";
 import FaqAccordion from "@/components/FaqAccordion.astro";
 import { siteConfig } from "@/data/siteConfig";
 import { servicesData } from "@/data/services";
-import { casesData } from "@/data/cases";
-import { reviewsData } from "@/data/reviews";
-import { buildsData } from "@/data/builds";
 import { formatDateRu } from "@/utils/formatDate";
+
+// Контент: content/{cases,builds,reviews,threads}/*.md — 1 файл = 1 запись, открывается в Obsidian
+const casesEntries = await getCollection("cases");
+const buildsEntries = await getCollection("builds");
+const reviewsEntries = await getCollection("reviews");
+casesEntries.sort((a,b)=> b.data.date.getTime() - a.data.date.getTime());
+buildsEntries.sort((a,b)=> b.data.date.getTime() - a.data.date.getTime());
+reviewsEntries.sort((a,b)=> b.data.date.getTime() - a.data.date.getTime());
 
 const homeFaq = [
   {
@@ -158,40 +165,43 @@ const homeFaq = [
           <h2 class="text-xl sm:text-2xl font-bold text-chassis-100">Сборки ПК под задачу</h2>
         </div>
         <a href="/builds" class="text-xs font-sans text-chassis-300 hover:text-chassis-100 underline">
-          Все сборки ({buildsData.length}) →
+          Все сборки ({buildsEntries.length}) →
         </a>
       </div>
       <div class="horizontal-scroller flex gap-2.5 overflow-x-auto overflow-y-hidden pb-2 snap-x snap-mandatory scroll-smooth -mx-4 px-4 sm:mx-0 sm:px-0">
-        {buildsData.map((build) => (
-          <a href={`/builds/${build.slug}`} class="group shrink-0 snap-start w-[290px] sm:w-[310px] bg-chassis-850 border border-chassis-800 rounded-[14px] overflow-hidden flex flex-col p-3.5 hover:border-chassis-700 hover:bg-chassis-800/60 transition-colors text-left">
+        {buildsEntries.map((entry) => {
+          const slug = entry.data.slug ?? entry.id.replace(/\.md$/, "");
+          const gallery = entry.data.gallery ?? [];
+          return (
+          <a href={`/builds/${slug}`} class="group shrink-0 snap-start w-[290px] sm:w-[310px] bg-chassis-850 border border-chassis-800 rounded-[14px] overflow-hidden flex flex-col p-3.5 hover:border-chassis-700 hover:bg-chassis-800/60 transition-colors text-left">
             <div class="flex items-center gap-2 mb-2">
               <img src="/logo.svg" alt="" width="20" height="20" class="w-5 h-5 rounded-full bg-chassis-900 border border-chassis-800 shrink-0" loading="lazy" />
-              <span class="text-[10px] font-sans font-bold uppercase tracking-wider text-chassis-500">{build.purposeLabel}</span>
+              <span class="text-[10px] font-sans font-bold uppercase tracking-wider text-chassis-500">{entry.data.purposeLabel}</span>
             </div>
-            {build.images.length === 1 && (
+            {gallery.length === 1 && (
               <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900 mb-2.5">
-                <img src={build.images[0]} alt={build.title} width="600" height="340" loading="lazy" decoding="async" class="w-full h-[110px] object-cover" />
+                <Picture src={gallery[0]} alt={entry.data.title} widths={[300, 600]} sizes="(max-width: 640px) 290px, 310px" formats={["avif", "webp"]} fallbackFormat="webp" loading="lazy" decoding="async" class="w-full h-[110px] object-cover" />
               </div>
             )}
-            {build.images.length === 2 && (
+            {gallery.length === 2 && (
               <div class="grid grid-cols-2 gap-1.5 mb-2.5">
-                {build.images.map((src) => (
+                {gallery.map((img) => (
                   <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900">
-                    <img src={src} alt={build.title} width="300" height="200" loading="lazy" decoding="async" class="w-full h-[90px] object-cover" />
+                    <Picture src={img} alt={entry.data.title} widths={[180, 360]} sizes="140px" formats={["avif", "webp"]} fallbackFormat="webp" loading="lazy" decoding="async" class="w-full h-[90px] object-cover" />
                   </div>
                 ))}
               </div>
             )}
-            <h3 class="text-sm font-bold text-chassis-100 leading-tight line-clamp-2 group-hover:underline underline-offset-2">{build.title}</h3>
-            <p class="text-xs text-chassis-400 leading-relaxed line-clamp-2 mt-1.5">{build.description}</p>
+            <h3 class="text-sm font-bold text-chassis-100 leading-tight line-clamp-2 group-hover:underline underline-offset-2">{entry.data.title}</h3>
+            <p class="text-xs text-chassis-400 leading-relaxed line-clamp-2 mt-1.5">{entry.data.description}</p>
             <div class="mt-2 space-y-1 font-mono text-[11px]">
-              {build.components.cpu && <div class="flex gap-1.5 leading-tight"><span class="text-chassis-600 shrink-0">CPU:</span><span class="text-chassis-400 line-clamp-1">{build.components.cpu}</span></div>}
-              {build.components.gpu && <div class="flex gap-1.5 leading-tight"><span class="text-chassis-600 shrink-0">GPU:</span><span class="text-chassis-400 line-clamp-1">{build.components.gpu}</span></div>}
-              {build.components.ram && <div class="flex gap-1.5 leading-tight"><span class="text-chassis-600 shrink-0">RAM:</span><span class="text-chassis-400 line-clamp-1">{build.components.ram}</span></div>}
+              {entry.data.components?.cpu && <div class="flex gap-1.5 leading-tight"><span class="text-chassis-600 shrink-0">CPU:</span><span class="text-chassis-400 line-clamp-1">{entry.data.components.cpu}</span></div>}
+              {entry.data.components?.gpu && <div class="flex gap-1.5 leading-tight"><span class="text-chassis-600 shrink-0">GPU:</span><span class="text-chassis-400 line-clamp-1">{entry.data.components.gpu}</span></div>}
+              {entry.data.components?.ram && <div class="flex gap-1.5 leading-tight"><span class="text-chassis-600 shrink-0">RAM:</span><span class="text-chassis-400 line-clamp-1">{entry.data.components.ram}</span></div>}
             </div>
             <span class="mt-3 text-[11px] font-sans font-bold text-chassis-300 group-hover:text-chassis-100">Смотреть характеристики →</span>
           </a>
-        ))}
+        )})}
       </div>
     </div>
   </section>
@@ -201,43 +211,43 @@ const homeFaq = [
     <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
       <h2 class="text-xl sm:text-2xl font-bold text-chassis-100">Реальные примеры ремонтов</h2>
       <a href="/cases" class="text-xs font-sans text-chassis-300 hover:text-chassis-100 underline">
-        Все работы ({casesData.length}) →
+        Все работы ({casesEntries.length}) →
       </a>
     </div>
     <div class="horizontal-scroller flex gap-2.5 overflow-x-auto overflow-y-hidden pb-2 snap-x snap-mandatory scroll-smooth -mx-4 px-4 sm:mx-0 sm:px-0">
-      {casesData.slice(0, 8).map((caseItem) => (
-        <a href={`/cases/${caseItem.slug}`} class="group shrink-0 snap-start w-[300px] sm:w-[320px] bg-chassis-850 border border-chassis-800 rounded-[14px] overflow-hidden flex flex-col p-3.5 hover:border-chassis-700 hover:bg-chassis-800/60 transition-colors text-left">
+      {casesEntries.slice(0, 8).map((entry) => {
+          const slug = entry.data.slug ?? entry.id.replace(/\.md$/, "");
+          const gallery = entry.data.gallery ?? [];
+          const heroImage = entry.data.heroImage;
+          const allImages = heroImage ? [heroImage, ...gallery] : gallery;
+          return (
+        <a href={`/cases/${slug}`} class="group shrink-0 snap-start w-[300px] sm:w-[320px] bg-chassis-850 border border-chassis-800 rounded-[14px] overflow-hidden flex flex-col p-3.5 hover:border-chassis-700 hover:bg-chassis-800/60 transition-colors text-left">
           <div class="flex items-center gap-2 mb-2">
             <img src="/logo.svg" alt="" width="20" height="20" class="w-5 h-5 rounded-full bg-chassis-900 border border-chassis-800 shrink-0" loading="lazy" />
-            <span class="text-[10px] font-sans font-bold uppercase tracking-wider text-chassis-500 line-clamp-1">{caseItem.category}</span>
+            <span class="text-[10px] font-sans font-bold uppercase tracking-wider text-chassis-500 line-clamp-1">{entry.data.category}</span>
             <span class="text-chassis-600 text-[11px]">·</span>
-            <time datetime={caseItem.date} class="text-[11px] font-sans text-chassis-400 shrink-0">{formatDateRu(caseItem.date)}</time>
+            <time datetime={entry.data.date.toISOString().slice(0,10)} class="text-[11px] font-sans text-chassis-400 shrink-0">{formatDateRu(entry.data.date.toISOString().slice(0,10))}</time>
           </div>
-          <div class="text-[11px] font-sans text-chassis-500 mb-1 line-clamp-1">Устройство: <span class="text-chassis-300 font-bold">{caseItem.device}</span></div>
-          {(caseItem.images && caseItem.images.length === 1) && (
-            <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900 mb-2.5">
-              <img src={caseItem.images[0]} alt={caseItem.title} width="600" height="340" loading="lazy" decoding="async" class="w-full h-[110px] object-cover" />
-            </div>
-          )}
-          {(caseItem.images && caseItem.images.length === 2) && (
+          <div class="text-[11px] font-sans text-chassis-500 mb-1 line-clamp-1">Устройство: <span class="text-chassis-300 font-bold">{entry.data.device}</span></div>
+          {allImages.length === 1 && (
+              <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900 mb-2.5">
+                <Picture src={allImages[0]} alt={entry.data.title} widths={[300, 600]} sizes="(max-width: 640px) 300px, 320px" formats={["avif", "webp"]} fallbackFormat="webp" loading="lazy" decoding="async" class="w-full h-[110px] object-cover" />
+              </div>
+            )}
+          {allImages.length === 2 && (
             <div class="grid grid-cols-2 gap-1.5 mb-2.5">
-              {caseItem.images.map((src) => (
-                <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900">
-                  <img src={src} alt={caseItem.title} width="300" height="200" loading="lazy" decoding="async" class="w-full h-[90px] object-cover" />
-                </div>
-              ))}
+              {allImages.map((img) => (
+                  <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900">
+                    <Picture src={img} alt={entry.data.title} widths={[180, 360]} sizes="140px" formats={["avif", "webp"]} fallbackFormat="webp" loading="lazy" decoding="async" class="w-full h-[90px] object-cover" />
+                  </div>
+                ))}
             </div>
           )}
-          {caseItem.image && !caseItem.images && (
-            <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900 mb-2.5">
-              <img src={caseItem.image} alt={caseItem.title} width="600" height="340" loading="lazy" decoding="async" class="w-full h-[110px] object-cover" />
-            </div>
-          )}
-          <h3 class="text-sm font-bold text-chassis-100 leading-tight line-clamp-2 group-hover:underline underline-offset-2">{caseItem.title}</h3>
-          <p class="text-xs text-chassis-400 leading-relaxed line-clamp-2 mt-1.5"><span class="text-chassis-300 font-medium">Симптом:</span> {caseItem.problem}</p>
+          <h3 class="text-sm font-bold text-chassis-100 leading-tight line-clamp-2 group-hover:underline underline-offset-2">{entry.data.title}</h3>
+          <p class="text-xs text-chassis-400 leading-relaxed line-clamp-2 mt-1.5"><span class="text-chassis-300 font-medium">Симптом:</span> {entry.data.problem ?? ""}</p>
           <span class="mt-3 text-[11px] font-sans font-bold text-chassis-300 group-hover:text-chassis-100">Читать разбор →</span>
         </a>
-      ))}
+        )})}
     </div>
     <div class="flex justify-center pt-1">
       <IconLink
@@ -267,38 +277,35 @@ const homeFaq = [
         </div>
       </div>
       <div class="horizontal-scroller flex gap-2.5 overflow-x-auto overflow-y-hidden pb-2 snap-x snap-mandatory scroll-smooth -mx-4 px-4 sm:mx-0 sm:px-0">
-        {reviewsData.slice(0, 8).map((review) => (
+        {reviewsEntries.slice(0, 8).map((entry) => {
+          const gallery = entry.data.gallery ?? [];
+          const captions = entry.data.captions ?? [];
+          return (
           <div class="shrink-0 snap-start w-[270px] sm:w-[290px] bg-chassis-850 border border-chassis-800 rounded-[14px] overflow-hidden flex flex-col p-3.5">
             <div class="flex items-center gap-2.5 mb-2">
               <div class="w-7 h-7 rounded-full bg-chassis-900 border border-chassis-800 flex items-center justify-center text-[11px] font-bold text-chassis-200 shrink-0">
-                {review.author.charAt(0).toUpperCase()}
+                {entry.data.author.charAt(0).toUpperCase()}
               </div>
               <div class="flex-1 min-w-0">
-                <div class="text-xs font-bold text-chassis-100 leading-none truncate">{review.author}</div>
-                <div class="text-[10px] text-chassis-500 leading-none mt-0.5 truncate">{review.device} · {review.source}</div>
+                <div class="text-xs font-bold text-chassis-100 leading-none truncate">{entry.data.author}</div>
+                <div class="text-[10px] text-chassis-500 leading-none mt-0.5 truncate">{entry.data.device} · {entry.data.source}</div>
               </div>
             </div>
             <div class="flex items-center gap-1.5 mb-1.5">
               <span class="text-[11px] text-amber-400 leading-none">★★★★★</span>
-              <span class="text-[11px] font-sans text-chassis-500">{review.date}</span>
+              <span class="text-[11px] font-sans text-chassis-500">{entry.data.date.toISOString().slice(0,10)}</span>
             </div>
-            <p class="text-xs text-chassis-300 leading-relaxed line-clamp-4 italic">«{review.text}»</p>
-            {review.photos && review.photos.length > 0 && (
+            <p class="text-xs text-chassis-300 leading-relaxed line-clamp-4 italic">«{entry.body?.trim() ?? ""}»</p>
+            {gallery.length > 0 && (
               <div class="mt-2.5">
-                {review.photos[0].src ? (
-                  <>
-                    <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900">
-                      <img src={review.photos[0].src} alt={review.photos[0].caption || "Фото ремонта"} width="400" height="300" loading="lazy" decoding="async" class="w-full h-[110px] object-cover" />
-                    </div>
-                    <div class="text-[10px] font-sans text-chassis-500 mt-1 truncate">{review.photos[0].caption}</div>
-                  </>
-                ) : (
-                  <div class="text-[10px] font-sans text-chassis-500 flex items-center gap-1"><span>📷</span><span>{review.photos[0].caption || "Фото ремонта"}</span></div>
-                )}
+                <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900">
+                  <Picture src={gallery[0]} alt={captions[0] || "Фото ремонта"} widths={[270, 400]} sizes="270px" formats={["avif", "webp"]} fallbackFormat="webp" loading="lazy" decoding="async" class="w-full h-[110px] object-cover" />
+                </div>
+                {captions[0] && <div class="text-[10px] font-sans text-chassis-500 mt-1 truncate">{captions[0]}</div>}
               </div>
             )}
           </div>
-        ))}
+        )})}
       </div>
     </div>
   </section>

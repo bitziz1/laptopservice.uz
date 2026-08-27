@@ -15,3 +15,7 @@ dist/
 Thumbs.db
 *.log
 agent_session/
+# Obsidian
+.obsidian/
+content/.obsidian/
+

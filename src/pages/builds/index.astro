@@ -1,14 +1,17 @@
 ---
+import { getCollection } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import BuildCard from "@/components/BuildCard.astro";
 import IconLink from "@/components/IconLink.astro";
-import { buildsData } from "@/data/builds";
 import { siteConfig } from "@/data/siteConfig";
 
 const breadcrumbs = [
   { name: "Сборки ПК", url: "/builds" },
 ];
+
+const buildsEntries = await getCollection("builds");
+buildsEntries.sort((a,b)=> b.data.date.getTime() - a.data.date.getTime());
 
 // For client-side filtering, we expose purpose values
 const purposes = [
@@ -55,16 +58,20 @@ const purposes = [
       ))}
     </div>
 
-    <!-- Grid -->
+    <!-- Grid — MD из content/builds/*.md (Obsidian) -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="builds-grid">
-      {buildsData.map((build) => (
-        <div data-purpose={build.purpose} class="build-card">
+      {buildsEntries.map((entry) => {
+        const slug = entry.data.slug ?? entry.id.replace(/\.md$/, "");
+        const build = { ...entry.data, slug, date: entry.data.date.toISOString().slice(0,10) } as any;
+        return (
+        <div data-purpose={entry.data.purpose} class="build-card">
           <BuildCard build={build} />
         </div>
-      ))}
+        );
+      })}
     </div>
 
-    {buildsData.length === 0 && (
+    {buildsEntries.length === 0 && (
       <div class="rounded border border-chassis-800 bg-chassis-850 p-6 text-xs text-chassis-400 text-center">
         Пока нет опубликованных сборок. Следите за обновлениями в Telegram-канале.
       </div>

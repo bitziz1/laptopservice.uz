@@ -1,14 +1,28 @@
 ---
+import { getCollection } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import ReviewCard from "@/components/ReviewCard.astro";
 import IconLink from "@/components/IconLink.astro";
-import { reviewsData } from "@/data/reviews";
 import { siteConfig } from "@/data/siteConfig";
 
 const breadcrumbs = [
   { name: "Отзывы", url: "/reviews" },
 ];
+
+const reviewsEntries = await getCollection("reviews");
+reviewsEntries.sort((a,b)=> b.data.date.getTime() - a.data.date.getTime());
+const reviewsForCard = reviewsEntries.map((e) => ({
+  id: e.id,
+  author: e.data.author,
+  source: e.data.source,
+  rating: e.data.rating,
+  date: e.data.date.toISOString().slice(0,10),
+  device: e.data.device,
+  text: e.body?.trim() ?? "",
+  gallery: e.data.gallery ?? [],
+  captions: e.data.captions ?? [],
+}));
 ---
 
 <BaseLayout
@@ -71,10 +85,10 @@ const breadcrumbs = [
       </div>
     </div>
 
-    <!-- Grid -->
+    <!-- Grid — MD из content/reviews/*.md (Obsidian) -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-      {reviewsData.map((review) => (
-        <ReviewCard review={review} />
+      {reviewsForCard.map((review) => (
+        <ReviewCard review={review as any} />
       ))}
     </div>
 

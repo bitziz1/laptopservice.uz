@@ -1,26 +1,29 @@
 ---
+import { Picture } from "astro:assets";
+import { getCollection, render } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import IconLink from "@/components/IconLink.astro";
-import { buildsData} from "@/data/builds";
 import { siteConfig } from "@/data/siteConfig";
 
-export function getStaticPaths() {
-  return buildsData.map((build) => ({
-    params: { slug: build.slug },
-    props: { build },
-  }));
+export async function getStaticPaths() {
+  const entries = await getCollection("builds");
+  return entries.map((entry) => {
+    const slug = (entry.data as any).slug ?? entry.id.replace(/\.md$/, "");
+    return {
+      params: { slug },
+      props: { entry, slug },
+    };
+  });
 }
 
-
-const { build } = Astro.props;
+const { entry, slug } = Astro.props as { entry: any; slug: string };
+const build = { ...entry.data, slug, date: entry.data.date instanceof Date ? entry.data.date.toISOString().slice(0,10) : String(entry.data.date) };
 
 const breadcrumbs = [
   { name: "Сборки ПК", url: "/builds" },
-  { name: build.title, url: `/builds/${build.slug}` },
+  { name: build.title, url: `/builds/${slug}` },
 ];
-
-// For Schema.org — no price, use complexity as category
 
 const componentLabels: Record<string, string> = {
   cpu: "Процессор",
@@ -33,7 +36,7 @@ const componentLabels: Record<string, string> = {
   cooler: "Охлаждение",
 };
 
-const componentEntries = Object.entries(build.components) as [string, string][];
+const componentEntries = Object.entries(build.components ?? {}) as [string, string][];
 
 const productJsonLd = {
   "@context": "https://schema.org",
@@ -43,6 +46,13 @@ const productJsonLd = {
   category: build.purposeLabel,
   brand: { "@type": "Brand", name: siteConfig.brandName },
 };
+
+const galleryImages: any[] = (() => {
+  const g = entry.data.gallery ?? [];
+  const h = entry.data.heroImage ?? null;
+  return h ? [h, ...g] : g;
+})();
+const { Content } = await render(entry);
 ---
 
 <BaseLayout
@@ -69,6 +79,22 @@ const productJsonLd = {
         {build.description}
       </p>
     </header>
+
+    {galleryImages.length > 0 && (
+      <div class={galleryImages.length === 1 ? "rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900" : "grid grid-cols-1 sm:grid-cols-2 gap-3"}>
+        {galleryImages.map((img: any) => (
+          <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900">
+            <Picture src={img} alt={build.title} widths={[400, 800]} sizes="(max-width: 768px) 100vw, 800px" formats={["avif", "webp"]} fallbackFormat="webp" class="w-full h-auto object-contain" loading="lazy" decoding="async" />
+          </div>
+        ))}
+      </div>
+    )}
+
+    {Content && (
+      <article class="prose prose-invert max-w-none prose-sm sm:prose-base prose-headings:text-chassis-100 prose-p:text-chassis-300">
+        <Content />
+      </article>
+    )}
 
     <!-- Components Table -->
     <section class="py-2 space-y-4">
@@ -97,7 +123,7 @@ const productJsonLd = {
 
     <!-- Tags -->
     <div class="flex flex-wrap gap-2 pt-2">
-      {build.tags.map((tag) => (
+      {build.tags.map((tag: string) => (
         <span class="text-[11px] font-sans text-sky-400">
           #{tag}
         </span>

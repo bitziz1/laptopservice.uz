@@ -1,18 +1,31 @@
 ---
-import type { CaseItem } from "@/data/cases";
+import { Picture } from "astro:assets";
+import type { ImageMetadata } from "astro";
 import { formatDateRu } from "@/utils/formatDate";
 
 interface Props {
-  caseItem: CaseItem;
+  caseItem: any;
 }
 
 const { caseItem } = Astro.props;
+// Только MD коллекции: heroImage/gallery как ImageMetadata (оптимизируются в avif/webp)
+let cardMeta: ImageMetadata | undefined;
+const heroImage = (caseItem as any).heroImage as ImageMetadata | undefined;
+const gallery = (caseItem as any).gallery as ImageMetadata[] | undefined;
+
+if (heroImage) {
+  cardMeta = heroImage;
+} else if (gallery && gallery.length > 0) {
+  cardMeta = gallery[0];
+}
+const problemText = (caseItem as any).problem ?? "";
+const solutionText = (caseItem as any).solution ?? "";
 ---
 
 <article class="rounded-lg bg-chassis-850/50 overflow-hidden flex flex-col justify-between">
-  { (caseItem as any).image && (
+  {cardMeta && (
     <div class="w-full bg-chassis-900">
-      <img src={(caseItem as any).image} alt="" class="w-full h-auto object-contain max-h-48" loading="lazy" />
+      <Picture src={cardMeta} alt={caseItem.title} widths={[400, 600]} sizes="(max-width: 768px) 100vw, 400px" formats={["avif", "webp"]} fallbackFormat="webp" class="w-full h-auto object-contain max-h-48" loading="lazy" decoding="async" />
     </div>
   )}
   <div class="p-5 sm:p-6 flex flex-col justify-between flex-1 space-y-4">
@@ -31,17 +44,17 @@ const { caseItem } = Astro.props;
       </h3>
 
       <p class="text-xs text-chassis-400 line-clamp-2 leading-relaxed">
-        <span class="text-chassis-300 font-medium">Симптом:</span> {caseItem.problem}
+        <span class="text-chassis-300 font-medium">Симптом:</span> {problemText}
       </p>
 
       <p class="text-xs text-chassis-400 line-clamp-2 leading-relaxed">
-        <span class="text-chassis-300 font-medium">Решение:</span> {caseItem.solution.split("\n")[0]}
+        <span class="text-chassis-300 font-medium">Решение:</span> {solutionText.split("\n")[0] ?? ""}
       </p>
     </div>
 
     <div class="flex items-center justify-between">
       <div class="flex flex-wrap gap-1">
-        {caseItem.tags.slice(0, 2).map((tag) => (
+        {caseItem.tags.slice(0, 2).map((tag: string) => (
           <span class="text-[11px] font-sans text-sky-400">
             #{tag}
           </span>
