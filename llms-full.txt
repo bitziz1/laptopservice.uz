@@ -50,7 +50,7 @@
 3. **Компактная офисная сборка — Core i5-12400 (UHD 730) без дискретной GPU:** Офис и учёба — https://laptopservice.uz/builds/office-compact-i5-12400-uhd730 — cpu: Intel Core i5-12400 (6 ядер / 12 потоков, UHD Graphics 730); motherboard: Gigabyte B660M DS3H DDR4 (mATX, M.2); ram: 16 GB DDR4 3200 МГц (2×8 GB); gpu: Встроенная Intel UHD Graphics 730; storage: 512 GB NVMe PCIe 3.0 (Kingston NV2); psu: 500W 80+ Bronze (FSP HV Pro 550W); case: Jonsbo C6 (Mini-Tower, компактный); cooler: Боксовый кулер Intel Laminar RM1 (в комплекте CPU)
 
 ## 6. Отзывы — 18 отзывов
-Всего отзывов в коллекции: 18. Примеры: Агата Агатовна (Яндекс Карты), Aleksandr M (Яндекс Карты), Александр Т (remontnoutbukov.uz).
+Всего отзывов в коллекции: 18. Примеры: Анастасия Б (remontnoutbukov.uz), Aleksandr M (Яндекс Карты), Денис С (remontnoutbukov.uz).
 
 ## 7. Навигация сайта
 - Главная (/) — сервис, порядок работы
