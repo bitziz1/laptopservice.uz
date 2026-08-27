@@ -22,10 +22,10 @@ const problemText = (caseItem as any).problem ?? "";
 const solutionText = (caseItem as any).solution ?? "";
 ---
 
-<article class="rounded-lg bg-chassis-850/50 overflow-hidden flex flex-col justify-between">
+<article class="rounded-[14px] bg-chassis-850 border border-chassis-800 overflow-hidden flex flex-col justify-between">
   {cardMeta && (
-    <div class="w-full bg-chassis-900">
-      <Picture src={cardMeta} alt={caseItem.title} widths={[400, 600]} sizes="(max-width: 768px) 100vw, 400px" formats={["avif", "webp"]} fallbackFormat="webp" class="w-full h-auto object-contain max-h-48" loading="lazy" decoding="async" />
+    <div class="w-full bg-chassis-900 overflow-hidden">
+      <Picture src={cardMeta} alt={caseItem.title} widths={[400, 600]} sizes="(max-width: 768px) 100vw, 400px" formats={["avif", "webp"]} fallbackFormat="webp" class="w-full h-[160px] object-cover" loading="lazy" decoding="async" />
     </div>
   )}
   <div class="p-5 sm:p-6 flex flex-col justify-between flex-1 space-y-4">

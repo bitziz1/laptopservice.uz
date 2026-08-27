@@ -99,6 +99,7 @@ export const collections = {
         rating: z.number().min(1).max(5).default(5),
         date: z.coerce.date(),
         device: z.string().default("Ноутбук"),
+        avatar: image().optional(),
         // gallery for review photos
         gallery: z.array(image()).optional(),
         captions: z.array(z.string()).optional(),

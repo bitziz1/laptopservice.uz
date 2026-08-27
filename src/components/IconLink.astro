@@ -5,7 +5,7 @@
  *
  * Props:
  *   type     — тип контакта, определяет иконку и aria-label по умолчанию
- *   href     — URL ссылки (tel:..., https://t.me/..., и т.д.)
+ *   href     — URL ссылки (tel:..., https://t.me/..., tg://resolve?domain=... и т.д.)
  *   label    — текст рядом с иконкой (и aria-label, если не задан ariaLabel)
  *   ariaLabel — явный aria-label (переопределяет label для screen-reader)
  *   variant  — 'button' (bordered pill) | 'inline' (простой текстовый линк) | 'icon-only'
@@ -14,7 +14,7 @@
  *   rel      — rel атрибут (по умолчанию 'noopener noreferrer' для _blank)
  */
 
-export type IconType = "telegram" | "telegram-channel" | "phone" | "instagram" | "facebook" | "google-maps" | "yandex-maps";
+export type IconType = "telegram" | "telegram-channel" | "phone" | "instagram" | "facebook" | "google-maps" | "yandex-maps" | "2gis";
 
 export type IconVariant = "button" | "inline" | "icon-only";
 
@@ -49,6 +49,7 @@ const iconMap: Record<IconType, string> = {
   facebook: "/Facebook_logo.svg",
   "google-maps": "/Google_Maps_icon.svg",
   "yandex-maps": "/Yandex_Maps_icon.svg",
+  "2gis": "/2gis.svg",
 };
 
 // Default human-readable aria labels
@@ -60,6 +61,7 @@ const defaultAriaLabels: Record<IconType, string> = {
   facebook: "Facebook: RemontNoutbukov.uz",
   "google-maps": "Открыть в Google Maps",
   "yandex-maps": "Открыть в Яндекс Картах",
+  "2gis": "Открыть в 2ГИС",
 };
 
 const iconSrc = iconMap[type];

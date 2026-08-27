@@ -56,9 +56,14 @@ const homeFaq = [
         <h1 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-chassis-100 tracking-tight leading-tight">
           Надежный сервис по ремонту ноутбуков в Ташкенте
         </h1>
+      </div>
 
-        <!-- Threads лента вместо текстов — визуально как в Threads, для людей -->
+      <!-- Threads лента — на всю ширину страницы -->
+      <div class="mt-6 max-w-7xl">
         <ThreadsScroller />
+      </div>
+
+      <div class="max-w-3xl space-y-5 mt-6">
 
         <!-- SEO / LLM fallback — оставляем все лейблы для сканирования, скрыто визуально -->
         <div class="sr-only" aria-hidden="false">
@@ -80,12 +85,40 @@ const homeFaq = [
           </div>
         </noscript>
 
-        <!-- Direct CTA Buttons -->
-        <div class="flex flex-wrap items-center gap-3 pt-2">
+        <!-- Mobile CTA — Instagram profile style, 2 rows -->
+        <div class="sm:hidden space-y-2 pt-2">
+          <!-- Big animated call button — fills over 3s, tall -->
+          <a href={`tel:${siteConfig.phones.primary}`} aria-label="Позвонить" class="relative overflow-hidden flex items-center justify-center gap-2 w-full py-4 rounded-xl border border-chassis-600 bg-chassis-800 text-chassis-100 font-bold text-sm tracking-wide group">
+            <span class="absolute inset-0 bg-chassis-600 origin-left animate-[heroFill_3s_ease-out_forwards]"></span>
+            <span class="relative flex items-center gap-2">
+              <img src="/phone.svg" alt="" width="16" height="16" class="w-4 h-4 object-contain invert brightness-0" aria-hidden="true" />
+              Позвонить: {siteConfig.phones.displayPrimary}
+              <span class="ml-1">›</span>
+            </span>
+          </a>
+          <!-- Two equal buttons: Location + Message -->
+          <div class="grid grid-cols-2 gap-2">
+            <a href={siteConfig.socials.yandexMaps} target="_blank" rel="noopener noreferrer" aria-label="Локация на карте" class="flex items-center justify-center gap-1.5 py-3 rounded-xl border border-chassis-700 bg-chassis-850 hover:bg-chassis-800 text-chassis-100 text-xs font-sans font-bold transition-colors">
+              <span class="flex items-center gap-1">
+                <img src="/Yandex_Maps_icon.svg" alt="" width="14" height="14" class="w-3.5 h-3.5 object-contain" loading="lazy" />
+                <img src="/Google_Maps_icon.svg" alt="" width="14" height="14" class="w-3.5 h-3.5 object-contain" loading="lazy" />
+                <img src="/2gis.svg" alt="" width="14" height="14" class="w-3.5 h-3.5 object-contain" loading="lazy" />
+              </span>
+              Локация на карте
+            </a>
+            <a href={siteConfig.telegram.masterUrl} target="_blank" rel="noopener noreferrer" aria-label="Сообщение в Telegram" class="flex items-center justify-center gap-1.5 py-3 rounded-xl border border-chassis-700 bg-chassis-850 hover:bg-chassis-800 text-chassis-100 text-xs font-sans font-bold transition-colors">
+              <img src="/Telegram_Logo.svg" alt="" width="14" height="14" class="w-3.5 h-3.5 object-contain" loading="lazy" />
+              Сообщение
+            </a>
+          </div>
+        </div>
+
+        <!-- Desktop CTA — hidden on mobile -->
+        <div class="hidden sm:flex flex-wrap items-center gap-3 pt-2">
           <IconLink
             type="telegram"
             href={siteConfig.telegram.masterUrl}
-            label="Написать"
+            label="Написать в Telegram"
             ariaLabel="Написать в Telegram"
             variant="button"
             target="_blank"
@@ -113,6 +146,15 @@ const homeFaq = [
             href={siteConfig.socials.googleMaps}
             label="Открыть в Google"
             ariaLabel="Открыть в Google Maps"
+            variant="button"
+            target="_blank"
+            class="px-6 py-3.5 text-sm"
+          />
+          <IconLink
+            type="2gis"
+            href={siteConfig.socials.twoGis}
+            label="Открыть в 2ГИС"
+            ariaLabel="Открыть в 2ГИС"
             variant="button"
             target="_blank"
             class="px-6 py-3.5 text-sm"
@@ -149,7 +191,7 @@ const homeFaq = [
                 <div class="text-[11px] text-chassis-500 flex gap-1.5 leading-tight"><span class="text-chassis-600 shrink-0">—</span><span class="line-clamp-1">{s}</span></div>
               ))}
             </div>
-            <span class="mt-3 text-[11px] font-sans font-bold text-chassis-300 group-hover:text-chassis-100">Подробнее →</span>
+            <span class="mt-auto pt-3 ml-auto self-end text-right text-[11px] font-sans font-bold text-chassis-300 group-hover:text-chassis-100">Подробнее →</span>
           </a>
         ))}
       </div>
@@ -199,7 +241,7 @@ const homeFaq = [
               {entry.data.components?.gpu && <div class="flex gap-1.5 leading-tight"><span class="text-chassis-600 shrink-0">GPU:</span><span class="text-chassis-400 line-clamp-1">{entry.data.components.gpu}</span></div>}
               {entry.data.components?.ram && <div class="flex gap-1.5 leading-tight"><span class="text-chassis-600 shrink-0">RAM:</span><span class="text-chassis-400 line-clamp-1">{entry.data.components.ram}</span></div>}
             </div>
-            <span class="mt-3 text-[11px] font-sans font-bold text-chassis-300 group-hover:text-chassis-100">Смотреть характеристики →</span>
+            <span class="mt-auto pt-3 ml-auto self-end text-right text-[11px] font-sans font-bold text-chassis-300 group-hover:text-chassis-100">Смотреть характеристики →</span>
           </a>
         )})}
       </div>
@@ -245,7 +287,7 @@ const homeFaq = [
           )}
           <h3 class="text-sm font-bold text-chassis-100 leading-tight line-clamp-2 group-hover:underline underline-offset-2">{entry.data.title}</h3>
           <p class="text-xs text-chassis-400 leading-relaxed line-clamp-2 mt-1.5"><span class="text-chassis-300 font-medium">Симптом:</span> {entry.data.problem ?? ""}</p>
-          <span class="mt-3 text-[11px] font-sans font-bold text-chassis-300 group-hover:text-chassis-100">Читать разбор →</span>
+          <span class="mt-auto pt-3 ml-auto self-end text-right text-[11px] font-sans font-bold text-chassis-300 group-hover:text-chassis-100">Читать разбор →</span>
         </a>
         )})}
     </div>
@@ -262,30 +304,40 @@ const homeFaq = [
     </div>
   </section>
 
-  <!-- REVIEWS — threads-like horizontal scroller, без ссылки -->
+  <!-- REVIEWS — threads-like horizontal scroller -->
   <section class="py-8 bg-chassis-950/50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
       <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
-        <div>
-          <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider">Отзывы на картах</div>
+        <div class="flex items-center gap-3">
           <h2 class="text-xl sm:text-2xl font-bold text-chassis-100">Отзывы клиентов</h2>
+          <a href="/reviews" class="text-xs font-sans text-chassis-300 hover:text-chassis-100 border border-chassis-700 bg-chassis-850 hover:bg-chassis-800 px-3 py-1 rounded-full transition-colors shrink-0">Оставить свой отзыв</a>
         </div>
         <div class="flex items-center gap-3 text-xs">
           <IconLink type="yandex-maps" href={siteConfig.socials.yandexMaps} label="Яндекс Карты" ariaLabel="Открыть в Яндекс Картах" variant="inline" target="_blank" class="text-chassis-300 hover:text-chassis-100 underline" />
           <span class="text-chassis-600">•</span>
           <IconLink type="google-maps" href={siteConfig.socials.googleMaps} label="Google Maps" ariaLabel="Открыть в Google Maps" variant="inline" target="_blank" class="text-chassis-300 hover:text-chassis-100 underline" />
+          <span class="text-chassis-600">•</span>
+          <IconLink type="2gis" href={siteConfig.socials.twoGis} label="2ГИС" ariaLabel="Открыть в 2ГИС" variant="inline" target="_blank" class="text-chassis-300 hover:text-chassis-100 underline" />
         </div>
       </div>
-      <div class="horizontal-scroller flex gap-2.5 overflow-x-auto overflow-y-hidden pb-2 snap-x snap-mandatory scroll-smooth -mx-4 px-4 sm:mx-0 sm:px-0">
+      <div class="horizontal-scroller flex gap-2.5 overflow-x-auto overflow-y-hidden pb-2 snap-x snap-mandatory scroll-smooth -mx-4 px-4 sm:mx-0 sm:px-0 items-start">
         {reviewsEntries.slice(0, 8).map((entry) => {
           const gallery = entry.data.gallery ?? [];
           const captions = entry.data.captions ?? [];
+          const avatar = entry.data.avatar;
+          const fullText = entry.body?.trim() ?? "";
+          const isLong = fullText.length > 200;
+          const truncated = isLong ? fullText.slice(0, 200).trim() + "…" : fullText;
           return (
-          <div class="shrink-0 snap-start w-[270px] sm:w-[290px] bg-chassis-850 border border-chassis-800 rounded-[14px] overflow-hidden flex flex-col p-3.5">
+          <div class="shrink-0 snap-start w-[270px] sm:w-[290px] bg-chassis-850 border border-chassis-800 rounded-[14px] overflow-hidden flex flex-col p-3.5 self-start h-auto">
             <div class="flex items-center gap-2.5 mb-2">
-              <div class="w-7 h-7 rounded-full bg-chassis-900 border border-chassis-800 flex items-center justify-center text-[11px] font-bold text-chassis-200 shrink-0">
-                {entry.data.author.charAt(0).toUpperCase()}
-              </div>
+              {avatar ? (
+                <Picture src={avatar} alt={entry.data.author} widths={[28, 56]} sizes="28px" formats={["avif", "webp"]} fallbackFormat="webp" class="w-7 h-7 rounded-full object-cover border border-chassis-700 shrink-0" loading="lazy" decoding="async" />
+              ) : (
+                <div class="w-7 h-7 rounded-full bg-chassis-900 border border-chassis-800 flex items-center justify-center text-[11px] font-bold text-chassis-200 shrink-0">
+                  {entry.data.author.charAt(0).toUpperCase()}
+                </div>
+              )}
               <div class="flex-1 min-w-0">
                 <div class="text-xs font-bold text-chassis-100 leading-none truncate">{entry.data.author}</div>
                 <div class="text-[10px] text-chassis-500 leading-none mt-0.5 truncate">{entry.data.device} · {entry.data.source}</div>
@@ -295,11 +347,15 @@ const homeFaq = [
               <span class="text-[11px] text-amber-400 leading-none">★★★★★</span>
               <span class="text-[11px] font-sans text-chassis-500">{entry.data.date.toISOString().slice(0,10)}</span>
             </div>
-            <p class="text-xs text-chassis-300 leading-relaxed line-clamp-4 italic">«{entry.body?.trim() ?? ""}»</p>
+            <div class="text-xs text-chassis-300 leading-relaxed italic review-text-wrap">
+              <span class="review-short">«{truncated}»</span>
+              <span class="review-full hidden">«{fullText}»</span>
+              {isLong && <button type="button" class="review-more ml-1 text-chassis-500 hover:text-chassis-300 underline text-xs font-sans not-italic">ещё</button>}
+            </div>
             {gallery.length > 0 && (
               <div class="mt-2.5">
                 <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900">
-                  <Picture src={gallery[0]} alt={captions[0] || "Фото ремонта"} widths={[270, 400]} sizes="270px" formats={["avif", "webp"]} fallbackFormat="webp" loading="lazy" decoding="async" class="w-full h-[110px] object-cover" />
+                  <Picture src={gallery[0]} alt={captions[0] || ""} widths={[270, 400]} sizes="270px" formats={["avif", "webp"]} fallbackFormat="webp" loading="lazy" decoding="async" class="w-full h-[110px] object-cover" />
                 </div>
                 {captions[0] && <div class="text-[10px] font-sans text-chassis-500 mt-1 truncate">{captions[0]}</div>}
               </div>
@@ -352,10 +408,29 @@ const homeFaq = [
               variant="button"
               target="_blank"
             />
+            <IconLink
+              type="2gis"
+              href={siteConfig.socials.twoGis}
+              label="Открыть в 2ГИС"
+              ariaLabel="Открыть в 2ГИС"
+              variant="button"
+              target="_blank"
+            />
           </div>
         </div>
 
-        <div class="lg:col-span-6">
+        <div class="lg:col-span-6 space-y-4">
+          <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900 h-[240px]">
+            <iframe
+              src="https://yandex.ru/map-widget/v1/org/81659688745/?ll=69.3148%2C41.3144&z=16&l=map"
+              width="100%"
+              height="100%"
+              style="border:0;"
+              loading="lazy"
+              title="Карта — Laptop Service, Паркент 11"
+              class="w-full h-full"
+            ></iframe>
+          </div>
           <div class="rounded border border-chassis-800 bg-chassis-900 p-6 space-y-3">
             <div class="text-xs font-sans text-chassis-400 uppercase">Прямая связь</div>
             <div class="text-sm text-chassis-200">
@@ -390,6 +465,7 @@ const homeFaq = [
   <style>
     .horizontal-scroller { scrollbar-width: none; -ms-overflow-style: none; -webkit-overflow-scrolling: touch; }
     .horizontal-scroller::-webkit-scrollbar { display: none; }
+    @keyframes heroFill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
   </style>
 
 </BaseLayout>

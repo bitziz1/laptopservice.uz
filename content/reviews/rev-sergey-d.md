@@ -4,6 +4,7 @@ source: "Яндекс Карты"
 rating: 5
 date: 2026-03-24
 device: "Ноутбук"
+avatar: ./avatars/Сергей Д..webp
 gallery:
   - ./rev-sergey-d.webp
 captions:

@@ -32,6 +32,7 @@ export interface SiteConfig {
     facebook: string;
     yandexMaps: string;
     googleMaps: string;
+    twoGis: string;
   };
   address: {
     country: string;
@@ -90,6 +91,7 @@ export const siteConfig: SiteConfig = {
     facebook: "https://www.facebook.com/RemontNoutbukov.uz",
     yandexMaps: "https://yandex.com/maps/org/laptop_service/81659688745",
     googleMaps: "https://maps.app.goo.gl/nhNuRttDTpXGpabW7",
+    twoGis: "https://go.2gis.com/UQ0XA",
   },
   address: {
     country: "Узбекистан",

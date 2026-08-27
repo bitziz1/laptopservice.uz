@@ -10,7 +10,7 @@ interface Props {
   ctaLabel?: string;
 }
 
-const { service, ctaLabel = "Написать" } = Astro.props;
+const { service, ctaLabel = "Написать в Telegram" } = Astro.props;
 const svcMeta = ((service as any).heroImage ?? (service as any).gallery?.[0]) as ImageMetadata | undefined;
 ---
 

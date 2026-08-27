@@ -2,6 +2,7 @@
 import { Picture } from "astro:assets";
 import { getCollection } from "astro:content";
 import { formatDateRu } from "@/utils/formatDate";
+import { siteConfig } from "@/data/siteConfig";
 
 interface Props {
   class?: string;
@@ -23,11 +24,16 @@ function galleryWithAlts(entry: (typeof threads)[number]) {
 
 <div class={`threads-wrap ${className ?? ""}`}>
 
+  <div class="flex items-center justify-between mb-2 px-1">
+    <h2 class="text-xs font-sans text-chassis-400 uppercase tracking-wider">Последние обновления</h2>
+    <a href={siteConfig.telegram.channelUrl} target="_blank" rel="noopener noreferrer" class="text-xs font-sans text-chassis-300 hover:text-chassis-100 underline">Весь канал →</a>
+  </div>
+
   <div
     id="threads-scroller"
-    class="threads-scroller flex gap-2 overflow-x-auto overflow-y-hidden pb-1 snap-x snap-mandatory scroll-smooth"
+    class="threads-scroller flex gap-2 overflow-x-auto overflow-y-hidden pb-1 snap-x snap-mandatory scroll-smooth -mx-4 px-4 sm:mx-0 sm:px-0"
     role="feed"
-    aria-label="Лента работ в стиле Threads"
+    aria-label="Лента работ в стиле Threads — коллекция ссылок с превью"
     tabindex="0"
   >
     {threads.map((entry, idx) => {
@@ -38,11 +44,13 @@ function galleryWithAlts(entry: (typeof threads)[number]) {
       const text = entry.body?.trim() ?? "";
       return (
         <article
-          class="threads-card shrink-0 snap-start w-[260px] sm:w-[280px] bg-chassis-850 border border-chassis-800 rounded-[14px] overflow-hidden flex flex-col"
-          role="article"
+          class="threads-card shrink-0 snap-start w-[260px] sm:w-[300px] bg-chassis-850 border border-chassis-800 rounded-[14px] overflow-hidden flex flex-col cursor-pointer hover:border-chassis-700 hover:bg-chassis-800/60 transition-colors"
+          role="button"
+          tabindex="0"
           aria-posinset={idx + 1}
           aria-setsize={threads.length}
           data-thread-id={entry.id}
+          data-thread-text={text}
         >
           {/* Header — компактный, без ⋯ */}
           <div class="flex items-center gap-2 p-2.5 pb-1.5">
@@ -106,6 +114,11 @@ function galleryWithAlts(entry: (typeof threads)[number]) {
       );
     })}
   </div>
+
+  <!-- Floating sticker — появляется в точке клика -->
+  <a id="thread-sticker" href={siteConfig.telegram.channelUrl} target="_blank" rel="noopener noreferrer" class="hidden fixed z-50 px-3 py-1.5 rounded-full bg-black/70 backdrop-blur-md border border-white/20 text-white text-xs font-bold shadow-lg whitespace-nowrap opacity-0 scale-90 transition-all duration-200 pointer-events-auto" style="transform: translate(-50%, -50%);" aria-hidden="true">
+    Публикация &gt;
+  </a>
 </div>
 
 <style>
@@ -115,10 +128,89 @@ function galleryWithAlts(entry: (typeof threads)[number]) {
     -webkit-overflow-scrolling: touch;
   }
   .threads-scroller::-webkit-scrollbar { display: none; }
-  @media (min-width: 768px) {
-    .threads-wrap { max-width: 720px; margin-left: auto; margin-right: auto; }
-  }
+  /* full-width: no max-width constraint */
   @media (prefers-reduced-motion: reduce) {
     .threads-scroller { scroll-behavior: auto; }
   }
 </style>
+
+<script>
+  const scroller = document.getElementById('threads-scroller');
+  const sticker = document.getElementById('thread-sticker') as HTMLElement | null;
+
+  function showSticker(x: number, y: number) {
+    if (!sticker) return;
+    // clamp to viewport with padding
+    const pad = 60;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const cx = Math.max(pad, Math.min(vw - pad, x));
+    const cy = Math.max(pad, Math.min(vh - pad, y));
+    sticker.style.left = cx + 'px';
+    sticker.style.top = cy + 'px';
+    sticker.classList.remove('hidden');
+    sticker.setAttribute('aria-hidden', 'false');
+    // trigger transition
+    requestAnimationFrame(() => {
+      sticker.classList.remove('opacity-0', 'scale-90');
+      sticker.classList.add('opacity-100', 'scale-100');
+    });
+  }
+
+  function hideSticker() {
+    if (!sticker) return;
+    sticker.classList.add('opacity-0', 'scale-90');
+    sticker.classList.remove('opacity-100', 'scale-100');
+    setTimeout(() => {
+      sticker.classList.add('hidden');
+      sticker.setAttribute('aria-hidden', 'true');
+    }, 200);
+  }
+
+  if (scroller && sticker) {
+    scroller.addEventListener('click', (e) => {
+      const card = (e.target as HTMLElement).closest('.threads-card');
+      if (!card) {
+        hideSticker();
+        return;
+      }
+      e.preventDefault();
+      const x = (e as MouseEvent).clientX;
+      const y = (e as MouseEvent).clientY;
+      showSticker(x, y);
+    });
+    scroller.addEventListener('touchend', (e) => {
+      const card = (e.target as HTMLElement).closest('.threads-card');
+      if (!card) return;
+      const touch = (e as TouchEvent).changedTouches[0];
+      if (!touch) return;
+      showSticker(touch.clientX, touch.clientY);
+    }, { passive: true });
+    scroller.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        const card = (e.target as HTMLElement).closest('.threads-card');
+        if (card) {
+          e.preventDefault();
+          const rect = card.getBoundingClientRect();
+          showSticker(rect.left + rect.width / 2, rect.top + rect.height / 2);
+        }
+      }
+    });
+    // клик вне — скрыть
+    document.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('.threads-card') && !target.closest('#thread-sticker')) {
+        hideSticker();
+      }
+    });
+    // скролл — скрыть
+    scroller.addEventListener('scroll', hideSticker, { passive: true });
+    // клик по стикеру — переход (естественный), скрыть после
+    sticker.addEventListener('click', () => {
+      setTimeout(hideSticker, 100);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') hideSticker();
+    });
+  }
+</script>

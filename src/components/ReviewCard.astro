@@ -10,18 +10,32 @@ const { review } = Astro.props;
 
 let galleryMeta: ImageMetadata[] = (review as any).gallery as ImageMetadata[] ?? [];
 let galleryCaptions: string[] = (review as any).captions as string[] ?? [];
+let avatar: ImageMetadata | undefined = (review as any).avatar as ImageMetadata | undefined;
+
+const reviewText: string = (review as any).text ?? "";
+const isLong = reviewText.length > 200;
+const truncatedText = isLong ? reviewText.slice(0, 200).trim() + "…" : reviewText;
 ---
 
-<div class="rounded-lg bg-chassis-850/50 p-5 sm:p-6 flex flex-col justify-between space-y-4">
+<div class="rounded-lg bg-chassis-850/50 p-5 sm:p-6 flex flex-col space-y-4 h-auto self-start">
   
   <div class="space-y-3">
     <div class="flex items-center justify-between gap-2 pb-3">
-      <div>
-        <h4 class="font-bold text-chassis-100 text-sm">{review.author}</h4>
-        <p class="text-[11px] text-chassis-400 font-sans">Устройство: {review.device}</p>
+      <div class="flex items-center gap-2.5">
+        {avatar ? (
+          <Picture src={avatar} alt={review.author} widths={[32, 64]} sizes="32px" formats={["avif", "webp"]} fallbackFormat="webp" class="w-8 h-8 rounded-full object-cover border border-chassis-700 shrink-0" loading="lazy" decoding="async" />
+        ) : (
+          <div class="w-8 h-8 rounded-full bg-chassis-900 border border-chassis-800 flex items-center justify-center text-[11px] font-bold text-chassis-200 shrink-0">
+            {review.author.charAt(0).toUpperCase()}
+          </div>
+        )}
+        <div>
+          <h4 class="font-bold text-chassis-100 text-sm">{review.author}</h4>
+          <p class="text-[11px] text-chassis-400 font-sans">Устройство: {review.device}</p>
+        </div>
       </div>
 
-      <span class="text-[10px] font-sans text-chassis-400">
+      <span class="text-[10px] font-sans text-chassis-400 shrink-0">
         {review.source}
       </span>
     </div>
@@ -31,18 +45,19 @@ let galleryCaptions: string[] = (review as any).captions as string[] ?? [];
       <span class="text-chassis-400 ml-1">{review.date}</span>
     </div>
 
-    <p class="text-xs sm:text-sm text-chassis-300 leading-relaxed italic">
-      «{review.text}»
-    </p>
+    <div class="text-xs sm:text-sm text-chassis-300 leading-relaxed italic review-text-wrap" data-review-id={review.id ?? review.author}>
+      <span class="review-short">«{truncatedText}»</span>
+      <span class="review-full hidden">«{reviewText}»</span>
+      {isLong && <button type="button" class="review-more ml-1 text-chassis-400 hover:text-chassis-200 underline text-xs font-sans not-italic align-baseline">ещё</button>}
+    </div>
 
     <!-- Фото — оптимизируются в avif/webp -->
     {galleryMeta.length > 0 && (
       <div class="pt-2 space-y-2">
-        <div class="text-[10px] font-sans uppercase text-chassis-400">Фото ремонта / устройства:</div>
         <div class="grid grid-cols-1 gap-2">
           {galleryMeta.map((img, idx) => (
             <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900">
-              <Picture src={img} alt={galleryCaptions[idx] || `Фото #${idx+1}`} widths={[300, 600]} sizes="(max-width: 768px) 100vw, 400px" formats={["avif", "webp"]} fallbackFormat="webp" class="w-full h-auto object-cover max-h-48" loading="lazy" decoding="async" />
+              <Picture src={img} alt={galleryCaptions[idx] || ""} widths={[300, 600]} sizes="(max-width: 768px) 100vw, 400px" formats={["avif", "webp"]} fallbackFormat="webp" class="w-full h-auto object-cover max-h-48" loading="lazy" decoding="async" />
               {galleryCaptions[idx] && <div class="text-[10px] font-sans text-chassis-500 p-1.5 truncate">{galleryCaptions[idx]}</div>}
             </div>
           ))}
@@ -59,3 +74,25 @@ let galleryCaptions: string[] = (review as any).captions as string[] ?? [];
   )}
 
 </div>
+
+<script>
+  document.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest('.review-more');
+    if (!btn) return;
+    const wrap = btn.closest('.review-text-wrap');
+    if (!wrap) return;
+    const shortEl = wrap.querySelector('.review-short');
+    const fullEl = wrap.querySelector('.review-full');
+    if (!shortEl || !fullEl) return;
+    const isExpanded = !fullEl.classList.contains('hidden');
+    if (isExpanded) {
+      fullEl.classList.add('hidden');
+      shortEl.classList.remove('hidden');
+      btn.textContent = 'ещё';
+    } else {
+      shortEl.classList.add('hidden');
+      fullEl.classList.remove('hidden');
+      btn.textContent = 'свернуть';
+    }
+  });
+</script>
