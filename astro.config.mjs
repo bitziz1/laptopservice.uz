@@ -4,6 +4,19 @@ import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
   site: "https://laptopservice.uz",
+  compressHTML: true,
+  build: {
+    inlineStylesheets: "auto",
+  },
+  prefetch: {
+    prefetchAll: false,
+    defaultStrategy: "hover",
+  },
+  image: {
+    service: {
+      entrypoint: "astro/assets/services/sharp",
+    },
+  },
   integrations: [
     tailwind({
       applyBaseStyles: false,
@@ -15,4 +28,10 @@ export default defineConfig({
       lastmod: new Date(),
     }),
   ],
+  vite: {
+    build: {
+      cssCodeSplit: true,
+      assetsInlineLimit: 4096,
+    },
+  },
 });

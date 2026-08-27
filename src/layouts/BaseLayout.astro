@@ -49,6 +49,23 @@ const fullTitle = title.includes("Laptop Service") ? title : `${title} — Lapto
 <!DOCTYPE html>
 <html lang="ru" class="dark">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Performance: preconnect for third-party -->
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://mc.yandex.ru" crossorigin />
+    <link rel="dns-prefetch" href="https://mc.yandex.ru" />
+    <link rel="preconnect" href="https://mc.yandex.com" crossorigin />
+    <link rel="dns-prefetch" href="https://mc.yandex.com" />
+
+    <!-- Preload LCP-related critical assets -->
+    <link rel="preload" href="/logo.svg" as="image" type="image/svg+xml" fetchpriority="high" />
+
     <!-- Google Tag Manager -->
     <script is:inline>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -69,12 +86,6 @@ const fullTitle = title.includes("Laptop Service") ? title : `${title} — Lapto
         ym(111901353, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
     </script>
     <!-- /Yandex.Metrika counter -->
-
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{fullTitle}</title>
-    <meta name="description" content={description} />
-    <link rel="canonical" href={canonicalUrl} />
 
     <!-- Open Graph / Social -->
     <meta property="og:type" content="website" />

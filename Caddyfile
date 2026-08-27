@@ -21,17 +21,33 @@ laptopservice.uz, www.laptopservice.uz {
         X-Frame-Options "SAMEORIGIN"
         Referrer-Policy "strict-origin-when-cross-origin"
         Permissions-Policy "geolocation=(), microphone=(), camera=()"
+        # Allow compression negotiation
+        Vary "Accept-Encoding"
     }
 
-    # Cache static assets
+    # Long-term cache for fingerprinted / immutable static assets
+    # Covers Astro hashed assets, media (webp/avif/jpg/png), fonts, vectors, sitemaps, txt
     @static {
-        path /_astro/* /favicon.svg /og-image.jpg
+        path /_astro/* /media/* /fonts/* /favicon.svg /og-image.jpg *.svg *.webp *.avif *.jpg *.jpeg *.png *.woff *.woff2 *.js *.css
     }
     header @static Cache-Control "public, max-age=31536000, immutable"
+    header @static Expires "Thu, 31 Dec 2037 23:55:55 GMT"
 
-    # HTML files cache
+    # Extra long cache for versioned/hashed _astro filenames (query-style but path based)
+    @astroHashed {
+        path_regexp ^/_astro/.*\.[a-fA-F0-9]{8,}\.(css|js)$
+    }
+    header @astroHashed Cache-Control "public, max-age=31536000, immutable"
+
+    # HTML and root - must revalidate to avoid stale content after deploys
     @html {
         path *.html /
     }
     header @html Cache-Control "public, max-age=0, must-revalidate"
+
+    # Sitemaps/robots/txt - short cache but allow CDN
+    @seo {
+        path /sitemap* /robots.txt /llms*.txt /CNAME
+    }
+    header @seo Cache-Control "public, max-age=3600, must-revalidate"
 }

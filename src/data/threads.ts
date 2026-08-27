@@ -45,17 +45,19 @@ export const threadsData: ThreadItem[] = [
     media: [
       {
         src: "/media/threads/02-termo-01-360.webp",
+        srcSet: "/media/threads/02-termo-01-360.webp 360w",
         alt: "Правильный термоинтерфейс для игровых ноутбуков — нанесение Honeywell",
         type: "image",
-        width: 720,
-        height: 720,
+        width: 360,
+        height: 360,
       },
       {
         src: "/media/threads/02-termo-02-360.webp",
+        srcSet: "/media/threads/02-termo-02-360.webp 360w",
         alt: "Правильный термоинтерфейс для игровых ноутбуков — результат",
         type: "image",
-        width: 720,
-        height: 720,
+        width: 360,
+        height: 360,
       },
     ],
   },

@@ -45,7 +45,7 @@ const { class: className } = Astro.props;
             <p class="text-xs text-chassis-200 leading-[1.4] whitespace-pre-wrap break-words line-clamp-3">{thread.text}</p>
           </div>
 
-          {/* Media — компактное */}
+          {/* Media — компактное, правильно sized + fetchpriority for LCP */}
           {thread.media.length === 1 ? (
             <div class="px-2.5 pb-2.5">
               <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900">
@@ -57,6 +57,7 @@ const { class: className } = Astro.props;
                   width={thread.media[0].width}
                   height={thread.media[0].height}
                   loading={idx === 0 ? "eager" : "lazy"}
+                  fetchpriority={idx === 0 ? "high" : "low"}
                   decoding="async"
                   class="w-full h-[148px] object-cover bg-chassis-900"
                 />
@@ -69,6 +70,8 @@ const { class: className } = Astro.props;
                   <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900">
                     <img
                       src={m.src}
+                      srcset={m.srcSet}
+                      sizes="(max-width: 640px) 128px, 138px"
                       alt={m.alt}
                       width={m.width}
                       height={m.height}
