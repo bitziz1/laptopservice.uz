@@ -63,7 +63,7 @@ const homeFaq = [
         <ThreadsScroller />
       </div>
 
-      <div class="max-w-3xl space-y-5 mt-6">
+      <div class="max-w-3xl mx-auto space-y-5 mt-6">
 
         <!-- SEO / LLM fallback — оставляем все лейблы для сканирования, скрыто визуально -->
         <div class="sr-only" aria-hidden="false">
@@ -85,80 +85,32 @@ const homeFaq = [
           </div>
         </noscript>
 
-        <!-- Mobile CTA — Instagram profile style, 2 rows -->
-        <div class="sm:hidden space-y-2 pt-2">
+        <!-- CTA — Instagram profile style, 2 rows — на всю ширину до 640, дальше центрирован -->
+        <div class="space-y-2 pt-2 w-full sm:max-w-[520px] sm:mx-auto">
           <!-- Big animated call button — fills over 3s, tall -->
           <a href={`tel:${siteConfig.phones.primary}`} aria-label="Позвонить" class="relative overflow-hidden flex items-center justify-center gap-2 w-full py-4 rounded-xl border border-chassis-600 bg-chassis-800 text-chassis-100 font-bold text-sm tracking-wide group">
             <span class="absolute inset-0 bg-chassis-600 origin-left animate-[heroFill_3s_ease-out_forwards]"></span>
             <span class="relative flex items-center gap-2">
-              <img src="/phone.svg" alt="" width="16" height="16" class="w-4 h-4 object-contain invert brightness-0" aria-hidden="true" />
+              <img src="/phone.svg" alt="" width="16" height="16" class="w-4 h-4 object-contain" aria-hidden="true" />
               Позвонить: {siteConfig.phones.displayPrimary}
               <span class="ml-1">›</span>
             </span>
           </a>
           <!-- Two equal buttons: Location + Message -->
           <div class="grid grid-cols-2 gap-2">
-            <a href={siteConfig.socials.yandexMaps} target="_blank" rel="noopener noreferrer" aria-label="Локация на карте" class="flex items-center justify-center gap-1.5 py-3 rounded-xl border border-chassis-700 bg-chassis-850 hover:bg-chassis-800 text-chassis-100 text-xs font-sans font-bold transition-colors">
+            <a href="#location" aria-label="Адрес и локация" class="flex items-center justify-center gap-1.5 py-3 rounded-xl border border-chassis-700 bg-chassis-850 hover:bg-chassis-800 text-chassis-100 text-xs font-sans font-bold transition-colors">
               <span class="flex items-center gap-1">
                 <img src="/Yandex_Maps_icon.svg" alt="" width="14" height="14" class="w-3.5 h-3.5 object-contain" loading="lazy" />
                 <img src="/Google_Maps_icon.svg" alt="" width="14" height="14" class="w-3.5 h-3.5 object-contain" loading="lazy" />
                 <img src="/2gis.svg" alt="" width="14" height="14" class="w-3.5 h-3.5 object-contain" loading="lazy" />
               </span>
-              Локация на карте
+              Адрес и локация
             </a>
             <a href={siteConfig.telegram.masterUrl} target="_blank" rel="noopener noreferrer" aria-label="Сообщение в Telegram" class="flex items-center justify-center gap-1.5 py-3 rounded-xl border border-chassis-700 bg-chassis-850 hover:bg-chassis-800 text-chassis-100 text-xs font-sans font-bold transition-colors">
               <img src="/Telegram_Logo.svg" alt="" width="14" height="14" class="w-3.5 h-3.5 object-contain" loading="lazy" />
               Сообщение
             </a>
           </div>
-        </div>
-
-        <!-- Desktop CTA — hidden on mobile -->
-        <div class="hidden sm:flex flex-wrap items-center gap-3 pt-2">
-          <IconLink
-            type="telegram"
-            href={siteConfig.telegram.masterUrl}
-            label="Написать в Telegram"
-            ariaLabel="Написать в Telegram"
-            variant="button"
-            target="_blank"
-            class="px-6 py-3.5 text-sm border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 font-bold"
-          />
-          <IconLink
-            type="phone"
-            href={`tel:${siteConfig.phones.primary}`}
-            label={`Позвонить: ${siteConfig.phones.displayPrimary}`}
-            ariaLabel="Позвонить"
-            variant="button"
-            class="px-6 py-3.5 text-sm bg-chassis-900 hover:bg-chassis-850 text-chassis-200"
-          />
-          <IconLink
-            type="yandex-maps"
-            href={siteConfig.socials.yandexMaps}
-            label="Открыть в Яндекс"
-            ariaLabel="Открыть в Яндекс Картах"
-            variant="button"
-            target="_blank"
-            class="px-6 py-3.5 text-sm"
-          />
-          <IconLink
-            type="google-maps"
-            href={siteConfig.socials.googleMaps}
-            label="Открыть в Google"
-            ariaLabel="Открыть в Google Maps"
-            variant="button"
-            target="_blank"
-            class="px-6 py-3.5 text-sm"
-          />
-          <IconLink
-            type="2gis"
-            href={siteConfig.socials.twoGis}
-            label="Открыть в 2ГИС"
-            ariaLabel="Открыть в 2ГИС"
-            variant="button"
-            target="_blank"
-            class="px-6 py-3.5 text-sm"
-          />
         </div>
 
       </div>
@@ -308,17 +260,17 @@ const homeFaq = [
   <section class="py-8 bg-chassis-950/50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
       <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
-        <div class="flex items-center gap-3">
+        <div class="flex flex-wrap items-center gap-3">
           <h2 class="text-xl sm:text-2xl font-bold text-chassis-100">Отзывы клиентов</h2>
-          <a href="/reviews" class="text-xs font-sans text-chassis-300 hover:text-chassis-100 border border-chassis-700 bg-chassis-850 hover:bg-chassis-800 px-3 py-1 rounded-full transition-colors shrink-0">Оставить свой отзыв</a>
+          <div class="flex items-center gap-3 text-xs">
+            <IconLink type="yandex-maps" href={siteConfig.socials.yandexMaps} label="Яндекс Карты" ariaLabel="Открыть в Яндекс Картах" variant="inline" target="_blank" class="text-chassis-300 hover:text-chassis-100 underline" />
+            <span class="text-chassis-600">•</span>
+            <IconLink type="google-maps" href={siteConfig.socials.googleMaps} label="Google Maps" ariaLabel="Открыть в Google Maps" variant="inline" target="_blank" class="text-chassis-300 hover:text-chassis-100 underline" />
+            <span class="text-chassis-600">•</span>
+            <IconLink type="2gis" href={siteConfig.socials.twoGis} label="2ГИС" ariaLabel="Открыть в 2ГИС" variant="inline" target="_blank" class="text-chassis-300 hover:text-chassis-100 underline" />
+          </div>
         </div>
-        <div class="flex items-center gap-3 text-xs">
-          <IconLink type="yandex-maps" href={siteConfig.socials.yandexMaps} label="Яндекс Карты" ariaLabel="Открыть в Яндекс Картах" variant="inline" target="_blank" class="text-chassis-300 hover:text-chassis-100 underline" />
-          <span class="text-chassis-600">•</span>
-          <IconLink type="google-maps" href={siteConfig.socials.googleMaps} label="Google Maps" ariaLabel="Открыть в Google Maps" variant="inline" target="_blank" class="text-chassis-300 hover:text-chassis-100 underline" />
-          <span class="text-chassis-600">•</span>
-          <IconLink type="2gis" href={siteConfig.socials.twoGis} label="2ГИС" ariaLabel="Открыть в 2ГИС" variant="inline" target="_blank" class="text-chassis-300 hover:text-chassis-100 underline" />
-        </div>
+        <a href="/reviews" class="text-xs font-sans text-chassis-300 hover:text-chassis-100 underline underline-offset-2 shrink-0">Оставить свой отзыв →</a>
       </div>
       <div class="horizontal-scroller flex gap-2.5 overflow-x-auto overflow-y-hidden pb-2 snap-x snap-mandatory scroll-smooth -mx-4 px-4 sm:mx-0 sm:px-0 items-start">
         {reviewsEntries.slice(0, 8).map((entry) => {
@@ -376,7 +328,7 @@ const homeFaq = [
   </section>
 
   <!-- ADDRESS & MAP STRIP -->
-  <section class="py-12">
+  <section id="location" class="py-12 scroll-mt-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
@@ -389,7 +341,7 @@ const homeFaq = [
           </p>
           <div class="text-xs font-sans text-chassis-300 space-y-1 pt-1">
             <div>График: {siteConfig.workingHours.days} ({siteConfig.workingHours.hours})</div>
-            <div>Телефон: {siteConfig.phones.displayPrimary}</div>
+            <div>Телефон: <a href={`tel:${siteConfig.phones.primary}`} class="hover:text-chassis-100 underline decoration-chassis-600 underline-offset-2">{siteConfig.phones.displayPrimary}</a></div>
           </div>
           <div class="flex flex-wrap gap-2 pt-2">
             <IconLink
@@ -467,5 +419,27 @@ const homeFaq = [
     .horizontal-scroller::-webkit-scrollbar { display: none; }
     @keyframes heroFill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
   </style>
+
+  <script is:inline>
+    document.addEventListener('click', function(e) {
+      var btn = e.target.closest('.review-more');
+      if (!btn) return;
+      var wrap = btn.closest('.review-text-wrap');
+      if (!wrap) return;
+      var shortEl = wrap.querySelector('.review-short');
+      var fullEl = wrap.querySelector('.review-full');
+      if (!shortEl || !fullEl) return;
+      var isExpanded = !fullEl.classList.contains('hidden');
+      if (isExpanded) {
+        fullEl.classList.add('hidden');
+        shortEl.classList.remove('hidden');
+        btn.textContent = 'ещё';
+      } else {
+        shortEl.classList.add('hidden');
+        fullEl.classList.remove('hidden');
+        btn.textContent = 'свернуть';
+      }
+    });
+  </script>
 
 </BaseLayout>

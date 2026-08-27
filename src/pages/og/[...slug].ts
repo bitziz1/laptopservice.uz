@@ -70,7 +70,7 @@ for (const c of casesEntries) {
 
 export const { getStaticPaths, GET } = await OGImageRoute({
   pages: staticPages,
-  getImageOptions: (path, page) => ({
+  getImageOptions: (_path, page) => ({
     title: page.title,
     description: page.description,
     // Solid brand background

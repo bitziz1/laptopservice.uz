@@ -10,8 +10,9 @@ interface Props {
   ctaLabel?: string;
 }
 
-const { service, ctaLabel = "Написать в Telegram" } = Astro.props;
+const { service, ctaLabel = "Узнать стоимость" } = Astro.props;
 const svcMeta = ((service as any).heroImage ?? (service as any).gallery?.[0]) as ImageMetadata | undefined;
+const telegramHref = `${siteConfig.telegram.masterUrl}${siteConfig.telegram.masterUrl.includes("?") ? "&" : "?"}text=${encodeURIComponent(`Меня интересует ${service.title}. Модель ноутбука: `)}`;
 ---
 
 <div class="rounded-lg bg-chassis-850/50 overflow-hidden flex flex-col justify-between">
@@ -56,7 +57,7 @@ const svcMeta = ((service as any).heroImage ?? (service as any).gallery?.[0]) as
       </a>
       <IconLink
         type="telegram"
-        href={siteConfig.telegram.masterUrl}
+        href={telegramHref}
         label={ctaLabel}
         ariaLabel={ctaLabel}
         variant="button"

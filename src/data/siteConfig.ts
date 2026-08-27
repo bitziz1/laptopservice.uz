@@ -77,13 +77,13 @@ export const siteConfig: SiteConfig = {
     phone: "+998903587738",
     displayPhone: "+998 (90) 358-77-38",
     telegram: "@remontnoutbukov_uz",
-    telegramUrl: "https://t.me/remontnoutbukov_uz",
+    telegramUrl: "tg://resolve?domain=remontnoutbukov_uz",
   },
   telegram: {
     channel: "@laptopservice_uz",
-    channelUrl: "https://t.me/laptopservice_uz",
-    chatUrl: "https://t.me/laptop_service_chat",
-    masterUrl: "https://t.me/laptopservice_master",
+    channelUrl: "tg://resolve?domain=laptopservice_uz",
+    chatUrl: "tg://resolve?domain=laptop_service_chat",
+    masterUrl: "tg://resolve?domain=laptopservice_master",
     masterHandle: "@laptopservice_master",
   },
   socials: {

@@ -18,6 +18,8 @@ interface Props {
 
 const { service } = Astro.props;
 
+const telegramHref = `${siteConfig.telegram.masterUrl}${siteConfig.telegram.masterUrl.includes("?") ? "&" : "?"}text=${encodeURIComponent(`Меня интересует ${service.title}. Модель ноутбука: `)}`;
+
 const breadcrumbs = [
   { name: "Услуги", url: "/services" },
   { name: service.title, url: `/services/${service.slug}` },
@@ -111,9 +113,9 @@ const breadcrumbs = [
       <div class="flex items-center gap-2">
         <IconLink
           type="telegram"
-          href={siteConfig.telegram.masterUrl}
-          label="Telegram"
-          ariaLabel="Написать в Telegram"
+          href={telegramHref}
+          label="Узнать стоимость"
+          ariaLabel="Узнать стоимость в Telegram"
           variant="button"
           target="_blank"
           class="border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 font-bold"

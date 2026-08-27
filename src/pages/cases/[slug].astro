@@ -28,9 +28,7 @@ const dateStr = data.date instanceof Date ? data.date.toISOString().slice(0,10) 
 const tags: string[] = data.tags ?? [];
 const keySpecs = data.keySpecs;
 const problem = data.problem ?? "";
-const diagnosis = data.diagnosis ?? "";
 const solution = data.solution ?? "";
-const result = data.result ?? "";
 const breadcrumbs = [
   { name: "Наши работы", url: "/cases" },
   { name: device, url: `/cases/${slug}` },

@@ -9,7 +9,6 @@ interface Props {
 const { currentPath = "" } = Astro.props;
 
 const navItems = [
-  { href: "/", label: "Главная" },
   { href: "/services", label: "Услуги" },
   { href: "/builds", label: "Сборки ПК" },
   { href: "/cases", label: "Наши работы" },
@@ -35,7 +34,7 @@ const navItems = [
           fetchpriority="high"
           decoding="async"
         />
-        <div class="flex flex-col">
+        <div class="hidden min-[480px]:flex flex-col">
           <span class="font-bold text-sm sm:text-base tracking-wider text-chassis-100 uppercase">Laptop Service</span>
           <span class="text-[11px] text-chassis-400 font-sans">ул. Паркент 11 • Ташкент</span>
         </div>
@@ -60,42 +59,46 @@ const navItems = [
         })}
       </nav>
 
-      <!-- Direct Contact Actions (Telegram & Call) — desktop/tablet -->
-      <div class="hidden sm:flex items-center gap-2.5">
-        <IconLink
-          type="telegram"
-          href={siteConfig.telegram.masterUrl}
-          label="Telegram"
-          ariaLabel="Написать в Telegram {siteConfig.telegram.masterHandle}"
-          variant="button"
-          target="_blank"
-        />
-
-        <IconLink
-          type="phone"
-          href={`tel:${siteConfig.phones.primary}`}
-          label={siteConfig.phones.displayPrimary}
-          ariaLabel="Позвонить"
-          variant="button"
-          class="border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 font-bold"
-        />
-      </div>
-
-      <!-- Mobile: 1 кнопка с 2 иконками + burger -->
-      <div class="flex sm:hidden items-center gap-1.5">
-        <div class="flex items-center rounded-full border border-chassis-700 bg-chassis-850 overflow-hidden">
-          <a href={`tel:${siteConfig.phones.primary}`} aria-label="Позвонить" class="flex items-center justify-center px-3 py-1.5 hover:bg-chassis-800 transition-colors">
-            <img src="/phone.svg" alt="" width="16" height="16" class="w-4 h-4 object-contain" loading="lazy" />
-          </a>
-          <div class="w-px h-5 bg-chassis-700"></div>
-          <a href={siteConfig.telegram.masterUrl} aria-label="Написать в Telegram" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center px-3 py-1.5 hover:bg-chassis-800 transition-colors">
+      <div class="flex items-center gap-1.5">
+        <!-- 1 кнопка с 2 иконками (ТГ + телефон) — только <640 -->
+        <div class="flex sm:hidden items-center rounded border border-chassis-700 bg-chassis-850 overflow-hidden">
+          <a href={siteConfig.telegram.masterUrl} aria-label="Написать в Telegram" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 px-3 py-1.5 hover:bg-chassis-800 transition-colors">
             <img src="/Telegram_Logo.svg" alt="" width="16" height="16" class="w-4 h-4 object-contain" loading="lazy" />
+            <span class="text-[11px] font-medium text-chassis-200 whitespace-nowrap">@laptopservice_uz</span>
+          </a>
+          <div class="w-px h-5 bg-chassis-700 shrink-0"></div>
+          <a href={`tel:${siteConfig.phones.primary}`} aria-label="Позвонить" class="flex items-center gap-1.5 px-3 py-1.5 hover:bg-chassis-800 transition-colors">
+            <img src="/phone.svg" alt="" width="16" height="16" class="w-4 h-4 object-contain" loading="lazy" />
+            <span class="text-[11px] font-bold text-chassis-100 whitespace-nowrap">(93) 228-77-38</span>
           </a>
         </div>
+
+        <!-- Desktop/tablet actions — от 640, как было раньше -->
+        <div class="hidden sm:flex items-center gap-2.5">
+          <IconLink
+            type="telegram"
+            href={siteConfig.telegram.masterUrl}
+            label="Telegram"
+            ariaLabel="Написать в Telegram {siteConfig.telegram.masterHandle}"
+            variant="button"
+            target="_blank"
+          />
+
+          <IconLink
+            type="phone"
+            href={`tel:${siteConfig.phones.primary}`}
+            label={siteConfig.phones.displayPrimary}
+            ariaLabel="Позвонить"
+            variant="button"
+            class="border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 font-bold"
+          />
+        </div>
+
+        <!-- Burger — виден до 1024, скрыт на lg -->
         <button
           type="button"
           id="mobile-menu-toggle"
-          class="p-2 rounded border border-chassis-800 text-chassis-400 hover:text-chassis-100"
+          class="flex lg:hidden p-2 rounded border border-chassis-800 text-chassis-400 hover:text-chassis-100"
           aria-label="Открыть меню"
           aria-expanded="false"
           aria-controls="mobile-menu"
@@ -109,8 +112,8 @@ const navItems = [
     </div>
   </div>
 
-  <!-- Mobile Drawer Menu — только разделы -->
-  <div id="mobile-menu" class="hidden sm:hidden border-t border-chassis-800 bg-chassis-950 px-4 py-4 space-y-2">
+  <!-- Mobile Drawer Menu — только разделы, виден до lg -->
+  <div id="mobile-menu" class="hidden lg:hidden border-t border-chassis-800 bg-chassis-950 px-4 py-4 space-y-2">
     {navItems.map((item) => {
       const isActive = item.href === "/" ? currentPath === "/" || currentPath === "" : currentPath.startsWith(item.href);
       return (

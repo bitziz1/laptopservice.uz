@@ -131,4 +131,26 @@ const reviewsForCard = reviewsEntries.map((e) => ({
     </div>
 
   </div>
+
+  <script is:inline>
+    document.addEventListener('click', function(e) {
+      var btn = e.target.closest('.review-more');
+      if (!btn) return;
+      var wrap = btn.closest('.review-text-wrap');
+      if (!wrap) return;
+      var shortEl = wrap.querySelector('.review-short');
+      var fullEl = wrap.querySelector('.review-full');
+      if (!shortEl || !fullEl) return;
+      var isExpanded = !fullEl.classList.contains('hidden');
+      if (isExpanded) {
+        fullEl.classList.add('hidden');
+        shortEl.classList.remove('hidden');
+        btn.textContent = 'ещё';
+      } else {
+        shortEl.classList.add('hidden');
+        fullEl.classList.remove('hidden');
+        btn.textContent = 'свернуть';
+      }
+    });
+  </script>
 </BaseLayout>

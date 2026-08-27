@@ -40,8 +40,8 @@ const truncatedText = isLong ? reviewText.slice(0, 200).trim() + "…" : reviewT
       </span>
     </div>
 
-    <div class="flex items-center gap-1 text-xs text-chassis-300 font-sans">
-      <span>★★★★★</span>
+    <div class="flex items-center gap-1 text-xs font-sans">
+      <span class="text-amber-400">★★★★★</span>
       <span class="text-chassis-400 ml-1">{review.date}</span>
     </div>
 
@@ -74,25 +74,3 @@ const truncatedText = isLong ? reviewText.slice(0, 200).trim() + "…" : reviewT
   )}
 
 </div>
-
-<script>
-  document.addEventListener('click', (e) => {
-    const btn = (e.target as HTMLElement).closest('.review-more');
-    if (!btn) return;
-    const wrap = btn.closest('.review-text-wrap');
-    if (!wrap) return;
-    const shortEl = wrap.querySelector('.review-short');
-    const fullEl = wrap.querySelector('.review-full');
-    if (!shortEl || !fullEl) return;
-    const isExpanded = !fullEl.classList.contains('hidden');
-    if (isExpanded) {
-      fullEl.classList.add('hidden');
-      shortEl.classList.remove('hidden');
-      btn.textContent = 'ещё';
-    } else {
-      shortEl.classList.add('hidden');
-      fullEl.classList.remove('hidden');
-      btn.textContent = 'свернуть';
-    }
-  });
-</script>

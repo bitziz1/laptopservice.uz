@@ -2,8 +2,6 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import PriceTable from "@/components/PriceTable.astro";
-import IconLink from "@/components/IconLink.astro";
-import { siteConfig } from "@/data/siteConfig";
 
 const breadcrumbs = [
   { name: "Диагностика и цены", url: "/prices" },
@@ -48,32 +46,15 @@ const breadcrumbs = [
       </p>
     </section>
 
-    <!-- Direct CTA -->
+    <!-- Direct CTA — сильный призыв -->
     <div class="rounded-lg border border-chassis-700 bg-chassis-950 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="text-xs text-chassis-300 text-center sm:text-left space-y-1">
-        <div class="font-bold text-chassis-100">Передать технику на диагностику?</div>
-        <div>Привезите ноутбук на Паркент 11 — диагностика бесплатно, фиксируем акт приёма.</div>
+        <div class="font-bold text-chassis-100 text-sm">Хотите решить свою проблему?</div>
+        <div>Оставьте контакты — подскажем, что делать дальше и сориентируем по срокам.</div>
       </div>
-
-      <div class="flex items-center gap-2">
-        <IconLink
-          type="telegram"
-          href={siteConfig.telegram.masterUrl}
-          label="Telegram"
-          ariaLabel="Написать в Telegram"
-          variant="button"
-          target="_blank"
-          class="border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 font-bold"
-        />
-        <IconLink
-          type="phone"
-          href={`tel:${siteConfig.phones.primary}`}
-          label={siteConfig.phones.displayPrimary}
-          ariaLabel="Позвонить"
-          variant="button"
-          class="border-chassis-700 bg-chassis-900 hover:bg-chassis-800 text-chassis-200"
-        />
-      </div>
+      <a href="/contacts" class="px-6 py-3 rounded-lg border border-chassis-600 bg-chassis-800 hover:bg-chassis-700 text-chassis-100 text-sm font-bold transition-colors shrink-0">
+        Перейти в контакты →
+      </a>
     </div>
 
   </div>
