@@ -42,14 +42,6 @@ const solutionText = (caseItem as any).solution ?? "";
           {caseItem.title}
         </a>
       </h3>
-
-      <p class="text-xs text-chassis-400 line-clamp-2 leading-relaxed">
-        <span class="text-chassis-300 font-medium">Симптом:</span> {problemText}
-      </p>
-
-      <p class="text-xs text-chassis-400 line-clamp-2 leading-relaxed">
-        <span class="text-chassis-300 font-medium">Решение:</span> {solutionText.split("\n")[0] ?? ""}
-      </p>
     </div>
 
     <div class="flex items-center justify-between">
