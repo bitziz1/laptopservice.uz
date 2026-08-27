@@ -78,7 +78,7 @@ export const buildsData: BuildItem[] = [
     },
     complexity: "hard",
     sourceUrl: "https://t.me/laptopservice_uz",
-    images: ["/media/builds/rtx-case-video-editing.png", "/media/builds/rtx-case-video-editing-2.png"],
+    images: ["/media/builds/rtx-case-video-editing-360.webp", "/media/builds/rtx-case-video-editing-2-360.webp"],
     tags: ["RTX 4090", "Ryzen 9", "AI", "Stable Diffusion", "Blender"],
   },
   {

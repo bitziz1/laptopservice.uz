@@ -59,7 +59,7 @@ export const casesData: CaseItem[] = [
     schemaType: "HowTo",
     summaryForSocial: "Lenovo Legion 5 Pro с ошибкой Code 43 на RTX 3070 вернулся в строй! Заменили банку видеопамяти GDDR6 BGA-методом. Подробности в кейсах на сайте.",
     tags: ["Lenovo", "BGA", "RTX 3070", "Ошибка 43", "MATS"],
-    images: ["/media/cases/repair-chipset-mask-reball.png", "/media/cases/repair-chipset-mask-reball-2.png"]
+    images: ["/media/cases/repair-chipset-mask-reball-360.webp", "/media/cases/repair-chipset-mask-reball-2-360.webp"]
   },
   {
     id: "case-03",
