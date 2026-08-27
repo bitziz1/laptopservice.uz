@@ -3,16 +3,11 @@ title: "ASUS TUF Gaming A15: Короткое замыкание по линии
 device: "ASUS TUF Gaming A15 (FA506)"
 category: "Компонентный ремонт платы"
 date: 2026-08-12
-tags: ["ASUS", "КЗ 19V", "Компонентный ремонт"]
+tags: ["ASUS", "КЗ 19V", "Компонентный ремонт платы"]
 heroImage: ./hero.jpg
 gallery:
   - ./photo-01.jpg
   - ./photo-02.jpg
-keySpecs:
-  - label: "Линия неисправности"
-    value: "B+ (19V) силовая шина"
-  - label: "Замененные компоненты"
-    value: "Мосфет 4C09N + SMD керамика 10uF 25V"
 schemaType: "HowTo"
 summaryForSocial: "ASUS TUF спасён от замены платы! КЗ по 19V — заменили мосфет и керамику."
 ---

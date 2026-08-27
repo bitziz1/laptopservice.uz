@@ -4,15 +4,6 @@ device: "ASUS TUF Gaming A15 (FA506)"
 category: "Компонентный ремонт платы"
 date: 2026-08-12
 tags: ["ASUS", "КЗ 19V", "Компонентный ремонт", "Пайка SMD", "TUF Gaming"]
-keySpecs:
-  - label: "Линия неисправности"
-    value: "B+ (19V) силовая шина"
-  - label: "Замененные компоненты"
-    value: "Мосфет 4C09N + SMD керамика 10uF 25V"
-  - label: "Срок ремонта"
-    value: "4 часа"
-  - label: "Температура GPU после теста"
-    value: "72°C"
 schemaType: "HowTo"
 summaryForSocial: "ASUS TUF Gaming A15 спасён от замены платы! Причина: КЗ по линии 19V. Заменили пробитый мосфет и фильтрующую керамику. Смотрите полный разбор на laptopservice.uz/cases/asus-tuf-a15-korotkoe-zamykanie-19v"
 ---

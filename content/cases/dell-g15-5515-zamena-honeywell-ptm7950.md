@@ -4,13 +4,6 @@ device: "Dell G15 5515 Ryzen Edition"
 category: "Профилактика и охлаждение"
 date: 2026-07-10
 tags: ["Dell", "Honeywell PTM7950", "Троттлинг", "Чистка", "Ryzen"]
-keySpecs:
-  - label: "Снижение температуры"
-    value: "-22°C под 100% нагрузкой"
-  - label: "Термоинтерфейс"
-    value: "Honeywell PTM7950 + Fehonda Thermal Putty"
-  - label: "Результат FPS"
-    value: "Стабильный фреймрейт без микрофризов"
 schemaType: "HowTo"
 summaryForSocial: "Минус 22 градуса на Dell G15 5515! Заменили засохшую пасту на фазовый термоинтерфейс Honeywell PTM7950. Ноутбук больше не греется и не шумит."
 ---

@@ -4,11 +4,6 @@ device: "ASUS ROG Strix G17 (G713)"
 category: "BGA-пайка и реболлинг"
 date: 2026-05-18
 tags: ["ASUS", "BGA", "PCH", "Intel", "ROG Strix"]
-keySpecs:
-  - label: "Установленный чип"
-    value: "Intel HM570 Chipset (BGA)"
-  - label: "Причина поломки"
-    value: "Статический пробой через USB-hub"
 schemaType: "HowTo"
 summaryForSocial: "Замена BGA хаба Intel HM570 на ASUS ROG Strix. Восстановили работу клавиатуры и всех портов USB. Работаем на ул. Паркент 11."
 ---

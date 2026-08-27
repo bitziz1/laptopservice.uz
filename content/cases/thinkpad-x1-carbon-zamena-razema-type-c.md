@@ -4,11 +4,6 @@ device: "Lenovo ThinkPad X1 Carbon Gen 9"
 category: "Разъемы и пайка"
 date: 2026-05-30
 tags: ["ThinkPad", "Type-C", "Thunderbolt", "JBC", "Lenovo"]
-keySpecs:
-  - label: "Тип разъема"
-    value: "Thunderbolt 4 / USB4 Type-C (24 pin)"
-  - label: "Оборудование"
-    value: "Нижний подогрев + индукционный паяльник JBC"
 schemaType: "HowTo"
 summaryForSocial: "Замена разбитого порта Type-C на ThinkPad X1 Carbon. Идеальная микропайка без перегрева платы. Подробнее на сайте."
 ---

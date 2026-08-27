@@ -4,13 +4,6 @@ device: "HP Victus 16 (d0000)"
 category: "Прошивка BIOS / EC"
 date: 2026-06-25
 tags: ["HP", "BIOS", "Clean ME", "RT809H", "Victus"]
-keySpecs:
-  - label: "Микросхема"
-    value: "SPI Flash Winbond 25Q128 (1.8V)"
-  - label: "Программатор"
-    value: "RT809H"
-  - label: "Время старта"
-    value: "4 секунды (вместо 120 сек)"
 schemaType: "HowTo"
 summaryForSocial: "HP Victus 16 долго включался? Восстановили поврежденный ME-регион BIOS на программаторе. Старт системы за 4 секунды!"
 ---

@@ -4,11 +4,6 @@ device: "Dell XPS 15 9500"
 category: "Компонентный ремонт платы"
 date: 2026-05-02
 tags: ["Dell", "MEC5105", "Vertyanov", "XPS 15", "Мультиконтроллер"]
-keySpecs:
-  - label: "Контроллер"
-    value: "Microchip MEC5105 BGA"
-  - label: "Программатор"
-    value: "Vertyanov JIG v3"
 schemaType: "HowTo"
 summaryForSocial: "Dell XPS 15 с циклическим перезапуском: замена и прошивка BGA-мультиконтроллера MEC5105. сервисном центре Laptop Service на Паркент 11."
 ---

@@ -4,13 +4,6 @@ device: "Apple MacBook Air 13\" M1 (A2337)"
 category: "Восстановление после залития"
 date: 2026-07-28
 tags: ["Apple", "MacBook Air", "Залитие", "Микропайка", "CD3217"]
-keySpecs:
-  - label: "Контроллер"
-    value: "CD3217 Type-C Power Delivery"
-  - label: "Восстановление"
-    value: "Микропайка дорожек под микроскопом"
-  - label: "Сохранность данных"
-    value: "100% данных сохранены"
 schemaType: "HowTo"
 summaryForSocial: "MacBook Air M1 после сладкого кофе! Спасли плату от коррозии: заменили CD3217, восстановили дорожки шины питания. Все данные владельца сохранены."
 ---

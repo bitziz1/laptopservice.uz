@@ -12,11 +12,8 @@ export const GET: APIRoute = async () => {
 
   const casesList = cases
     .map((c, i) => {
-      const slug = (c.data as any).slug ?? c.id.replace(/\.md$/, "");
-      const specs = (c.data as any).keySpecs
-        ? (c.data as any).keySpecs.map((s: any) => `${s.label}: ${s.value}`).join("; ")
-        : "";
-      return `${i + 1}. **${c.data.title}:** ${c.data.device} — ${c.data.category} — https://laptopservice.uz/cases/${slug}${specs ? ` — ${specs}` : ""}`;
+const slug = (c.data as any).slug ?? c.id.replace(/\.md$/, "");
+       return `${i + 1}. **${c.data.title}:** ${c.data.device} — ${c.data.category} — https://laptopservice.uz/cases/${slug}`;
     })
     .join("\n");
 
