@@ -30,10 +30,14 @@ export interface Props {
   }[];
 }
 
+const currentPath = Astro.url.pathname;
+const ogSlug = currentPath === '/' ? 'index' : currentPath.replace(/^\/|\/$/g, '');
+const defaultOg = `${siteConfig.url}/og/${ogSlug}.png`;
+
 const {
   title = siteConfig.siteName,
   description = "Ремонт ноутбуков в Ташкенте (ул. Паркент 11). BGA-пайка, чистка от пыли, замена термоинтерфейсов, восстановление после залития. Согласование стоимости до ремонта.",
-  image = `${siteConfig.url}/og-image.jpg`,
+  image = defaultOg,
   canonicalUrl = Astro.url.href,
   type = "General",
   serviceData,
@@ -42,7 +46,6 @@ const {
   breadcrumbs,
 } = Astro.props;
 
-const currentPath = Astro.url.pathname;
 const fullTitle = title.includes("Laptop Service") ? title : `${title} — Laptop Service`;
 ---
 
