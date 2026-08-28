@@ -2,8 +2,8 @@
 handle: "laptopservice_uz"
 date: 2026-01-29
 gallery:
-  - /content/threads/02-termo-01.jpg
-  - /content/threads/02-termo-02.jpg
+  - /content/threads/termo-29jan2026-01.jpg
+  - /content/threads/termo-29jan2026-02.jpg
 alts:
   - "Правильный термоинтерфейс для игровых ноутбуков — нанесение Honeywell"
   - "Правильный термоинтерфейс для игровых ноутбуков — результат"

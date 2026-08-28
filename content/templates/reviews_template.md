@@ -5,7 +5,7 @@ rating: 5
 date: 2026-03-24
 device: Ноутбук
 gallery:
-  - /content/reviews/photo.jpg
+  - /content/reviews/photo-24mar2026.jpg
 captions:
   - Описание к фото
 ---

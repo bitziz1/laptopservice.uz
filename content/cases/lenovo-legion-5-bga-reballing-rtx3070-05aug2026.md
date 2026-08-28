@@ -4,9 +4,6 @@ device: "Lenovo Legion 5 Pro (16ACH6H)"
 category: "BGA-пайка и реболлинг"
 date: 2026-08-05
 tags: ["Lenovo", "BGA", "RTX 3070", "Ошибка 43", "MATS"]
-gallery:
-  - /content/cases/lenovo-legion-5-bga-reballing-rtx3070-1.png
-  - /content/cases/lenovo-legion-5-bga-reballing-rtx3070-2.png
 schemaType: "HowTo"
 summaryForSocial: "Lenovo Legion 5 Pro с ошибкой Code 43 на RTX 3070 вернулся в строй! Заменили банку видеопамяти GDDR6 BGA-методом. Подробности в кейсах на сайте."
 ---

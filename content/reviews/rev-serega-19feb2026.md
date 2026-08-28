@@ -4,7 +4,7 @@ source: "Яндекс Карты"
 rating: 5
 date: 2026-02-19
 device: "Ноутбук"
-avatar: /content/reviews/avatars/Serёga.webp
+avatar: /content/reviews/avatars/Serёga-19feb2026.webp
 ---
 
 Отличный сервис! Рекомендую.

@@ -2,7 +2,7 @@
 handle: "laptopservice_uz"
 date: 2026-06-16
 gallery:
-  - /content/threads/03-cooler.png
+  - /content/threads/cooler-16jun2026.png
 alts:
   - "Кулер ноутбука отмыт до заводского состояния"
 ---

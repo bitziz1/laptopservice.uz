@@ -4,9 +4,9 @@ source: Яндекс Карты
 rating: 5
 date: 2026-03-24T00:00:00.000Z
 device: Asus ROG Strix
-avatar: /content/reviews/avatars/Сергей Д..webp
+avatar: /content/reviews/avatars/Сергей Д.-24mar2026.webp
 gallery:
-  - /content/reviews/rev-sergey-d.webp
+  - /content/reviews/rev-sergey-d-24mar2026.webp
 captions:
   - Плата после обслуживания
 ---

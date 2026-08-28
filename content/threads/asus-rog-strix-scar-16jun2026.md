@@ -2,7 +2,7 @@
 handle: "laptopservice_uz"
 date: 2026-06-16
 gallery:
-  - /content/threads/01-before-after.jpg
+  - /content/threads/asus-rog-strix-scar-16jun2026.jpg
 alts:
   - "Asus ROG Strix Scar 17 — до и после чистки и восстановления системы питания"
 ---

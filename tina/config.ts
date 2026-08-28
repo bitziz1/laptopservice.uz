@@ -21,11 +21,49 @@ const slugify = (str: string) =>
     .replace(/--+/g, "-")
     .slice(0, 80) || "untitled";
 
+// Date suffix: -DDmmmYYYY (-26aug2026), if day unknown -mmmYYYY (-aug2026), if month unknown -YYYY (-2026)
+const MONTHS = ["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"] as const;
+const dateSuffix = (dateVal: any): string => {
+  if (!dateVal) return "";
+  // Handle raw string partial dates before Date parsing
+  if (typeof dateVal === "string") {
+    const raw = dateVal.trim();
+    if (/^\d{4}$/.test(raw)) return `-${raw}`; // -YYYY
+    if (/^\d{4}-\d{2}$/.test(raw)) {
+      const [y,m] = raw.split("-");
+      const idx = parseInt(m, 10) - 1;
+      if (idx >= 0 && idx < 12) return `-${MONTHS[idx]}${y}`; // -mmmYYYY
+    }
+    // If string like 2026-08 but Tina may store ISO datetime, fallback to full parsing below
+  }
+  const d = new Date(dateVal);
+  if (isNaN(d.getTime())) return "";
+  const day = String(d.getDate()).padStart(2, "0");
+  const mon = MONTHS[d.getMonth()];
+  const year = d.getFullYear();
+  return `-${day}${mon}${year}`; // -DDmmmYYYY
+};
+
+// Strip existing date suffix (-DDmmmYYYY / -mmmYYYY / -YYYY / legacy -YYYY-MM-DD / -YYYY) for idempotent slugify
+// Only valid month abbrevs are stripped for -mmmYYYY / -DDmmmYYYY to avoid clipping names like rtx3070
+const MONTHS_PATTERN = MONTHS.join("|"); // jan|feb|...
+const stripDateSuffix = (s: string): string => {
+  const reFull = new RegExp(`-\\d{2}(?:${MONTHS_PATTERN})\\d{4}$`, "i");
+  const reMonth = new RegExp(`-(?:${MONTHS_PATTERN})\\d{4}$`, "i");
+  return s
+    .replace(reFull, "") // -DDmmmYYYY
+    .replace(reMonth, "") // -mmmYYYY
+    .replace(/-\d{4}$/, "") // -YYYY (also covers legacy rev-*-2017)
+    .replace(/^\d{4}-\d{2}-\d{2}-/, ""); // legacy prefix YYYY-MM-DD-
+};
+
 const filenameSlugify = (values: any, fallback: string) => {
   const src = values?.title ?? values?.author ?? values?.handle ?? fallback;
   if (!src || typeof src !== "string") return fallback;
   const s = slugify(src);
-  return s || fallback;
+  const clean = stripDateSuffix(s);
+  const suffix = dateSuffix(values?.date);
+  return (clean || fallback) + suffix;
 };
 
 export default defineConfig({
@@ -55,6 +93,7 @@ export default defineConfig({
         ui: {
           router: ({ document }) => `/builds/${document._sys.filename}`,
           filename: {
+            // slug = title + -DDmmmYYYY (-04aug2026 / -aug2026 / -2026)
             slugify: (values: any) => filenameSlugify(values, "novaya-sborka"),
           },
         },
@@ -125,6 +164,7 @@ export default defineConfig({
         ui: {
           router: ({ document }) => `/cases/${document._sys.filename}`,
           filename: {
+            // slug = title + -DDmmmYYYY
             slugify: (values: any) => filenameSlugify(values, "novyi-keys"),
           },
         },
@@ -172,15 +212,24 @@ export default defineConfig({
         ui: {
           router: ({ document }) => `/`,
           filename: {
+            // slug = handle/body-base + -DDmmmYYYY (suffix, not prefix)
             slugify: (values: any) => {
-              const date = values?.date ? new Date(values.date).toISOString().slice(0, 10) : new Date().toISOString().slice(0, 10);
-              // body is rich-text, try handle first
-              const raw = values?.handle ?? "novyi-post";
-              const base = typeof raw === "string" ? raw : "novyi-post";
-              const s = slugify(base);
-              // prefix with date like existing files 2026-08-26-tea-spill
-              if (s === "laptopservice-uz") return `${date}-post`;
-              return `${date}-${s}`;
+              const suffix = dateSuffix(values?.date) || dateSuffix(new Date());
+              // Prefer handle if it's descriptive; fallback to body excerpt or "post"
+              let raw: string = "post";
+              const handleSlug = values?.handle ? slugify(values.handle) : "";
+              if (handleSlug && handleSlug !== "laptopservice-uz" && handleSlug !== "laptopservice-uz") {
+                raw = values.handle;
+              } else if (values?.body) {
+                // body may be rich-text JSON or string — try to extract text
+                if (typeof values.body === "string") raw = values.body.slice(0, 80);
+                else if (Array.isArray(values.body) && values.body[0]?.children?.[0]?.text) raw = values.body[0].children[0].text.slice(0, 80);
+                else raw = "post";
+              } else if (values?.handle) raw = values.handle;
+              const s = slugify(raw);
+              const clean = stripDateSuffix(s) || "post";
+              const base = clean === "laptopservice-uz" ? "post" : clean;
+              return base + suffix;
             },
           },
         },
@@ -201,11 +250,14 @@ export default defineConfig({
         ui: {
           router: ({ document }) => `/reviews`,
           filename: {
+            // slug = rev-author + -DDmmmYYYY
             slugify: (values: any) => {
               const src = values?.author ?? "novyi-otzyv";
-              // prefix rev- for reviews like existing files rev-sergey-d
               const s = slugify(src);
-              return s.startsWith("rev-") ? s : `rev-${s}`;
+              const base = s.startsWith("rev-") ? s : `rev-${s}`;
+              const clean = stripDateSuffix(base);
+              const suffix = dateSuffix(values?.date);
+              return clean + suffix;
             },
           },
         },

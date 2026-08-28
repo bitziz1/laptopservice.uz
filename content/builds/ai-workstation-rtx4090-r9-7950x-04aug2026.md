@@ -21,8 +21,8 @@ tags:
   - Stable Diffusion
   - Blender
 gallery:
-  - /content/builds/ai-workstation-rtx4090-r9-7950x-1.png
-  - /content/builds/ai-workstation-rtx4090-r9-7950x-2.png
+  - /content/builds/ai-workstation-rtx4090-r9-7950x-1-04aug2026.png
+  - /content/builds/ai-workstation-rtx4090-r9-7950x-2-04aug2026.png
 ---
 
 Высокопроизводительная станция для локального запуска LLM (Llama 3, Qwen), Stable Diffusion XL и рендера в Blender/Cinema 4D. 24 ГБ видеопамяти RTX 4090 позволяют держать модели до 30B параметров в VRAM. Система охлаждения рассчитана на длительную нагрузку.

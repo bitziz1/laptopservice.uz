@@ -4,10 +4,10 @@ device: "ASUS TUF Gaming A15 (FA506)"
 category: "Компонентный ремонт платы"
 date: 2026-08-12
 tags: ["ASUS", "КЗ 19V", "Компонентный ремонт платы"]
-heroImage: /content/cases/hero.jpg
+heroImage: /content/cases/hero-12aug2026.jpg
 gallery:
-  - /content/cases/photo-01.jpg
-  - /content/cases/photo-02.jpg
+  - /content/cases/photo-01-12aug2026.jpg
+  - /content/cases/photo-02-12aug2026.jpg
 schemaType: "HowTo"
 summaryForSocial: "ASUS TUF спасён от замены платы! КЗ по 19V — заменили мосфет и керамику."
 ---

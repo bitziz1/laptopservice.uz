@@ -2,7 +2,7 @@
 handle: "laptopservice_uz"
 date: 2026-08-26
 gallery:
-  - /content/threads/photo_2026-08-26_16-57-10.jpg
+  - /content/threads/tea-spill-26aug2026.jpg
 alts:
   - "Вручную вычищаем дорожки платы залитого сладким чаем ноутбука"
 ---

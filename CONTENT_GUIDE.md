@@ -7,8 +7,8 @@
 ## 0. Быстрый старт (TinaCMS, локально)
 
 1. **Установка (один раз):** `npm ci` → `npm run dev:tina` (поднимает `tinacms dev -c "astro dev"`). Админка: `http://localhost:4321/admin`, сайт: `http://localhost:4321`.
-2. **Создание:** в админке `Сборки / Кейсы / Лента / Отзывы` → `Create New` → заполни поля → внизу поле **Filename** (единственное место для слага, автогенерируется из `Title`/`Author` с транслитом кириллицы, можно поправить латиницей) → `Save`.
-3. **Картинки:** в поле `Обложка`/`Галерея` → `Upload` → выбери `jpg/png` (до 4000px) → путь запишется как `/content/<collection>/file.jpg` (colocated рядом с `.md`). Порядок — drag ☰, удаление — 🗑.
+2. **Создание:** в админке `Сборки / Кейсы / Лента / Отзывы` → `Create New` → заполни `Title`/`Author`+`Date` → внизу поле **Filename** автогенерируется как `base-дата` (транслит кириллицы + суффикс `-DDmmmYYYY`), можно поправить латиницей **с сохранением суффикса** → `Save`. Формат суффикса: `-26aug2026` (день известен), `-aug2026` (день неизвестен), `-2026` (месяц неизвестен). Месяцы — англ. `jan feb mar apr may jun jul aug sep oct nov dec` в нижнем регистре.
+3. **Картинки:** в поле `Обложка`/`Галерея` → `Upload` → выбери `jpg/png` (до 4000px) → путь запишется как `/content/<collection>/file-DDmmmYYYY.jpg` (colocated рядом с `.md`, **имя фото тоже с датой**). Порядок — drag ☰, удаление — 🗑.
 4. **Проверка:** `npm run build` (astro check + 29 страниц + 138 картинок `avif/webp`, диаграммы Mermaid — клиентский `mermaid@11`). Пуш: `git add content/ tina/tina-lock.json` → `commit` → `push origin/master` → деплой GH Pages.
 
 **Не трогай:** `public/`, `src/assets/`, `dist/`, `src/data/`, `.obsidian/` (игнорируется). `tina/__generated__/` и `public/admin/` — генерируются, в git не коммить. `tina/tina-lock.json` — **коммить** (нужен для `git pull` на других ПК).
@@ -42,34 +42,40 @@ npm run build      # проверка + сборка 29 страниц (dist/)
 
 ---
 
-## 2. Структура `content/` (filename = slug)
+## 2. Структура `content/` (filename = slug + дата)
+
+> **Стандарт слага (везде обязателен):** `filename = base + суффикс_даты` где суффикс — `-DDmmmYYYY` (`-26aug2026`), если день неизвестен — `-mmmYYYY` (`-aug2026`), если месяц неизвестен — `-YYYY` (`-2026`). Месяцы — англ. 3-буквы нижний регистр: `jan feb mar apr may jun jul aug sep oct nov dec`. Дата берётся из поля `date` в `frontmatter`. **Это касается и `.md`, и фото (`.jpg/.png/.webp`) рядом.** Legacy-префикс `2026-08-26-` у `threads` миграции убран — теперь суффикс.
 
 ```
 content/
-  templates/                 # примеры для ручного копирования (не используются Tina, но актуальны)
+  templates/                 # примеры для ручного копирования (актуальны, суффикс -DDmmmYYYY показан)
     cases_template.md
     builds_template.md
     threads_template.md
     reviews_template.md
   cases/
-    asus-tuf-a15-korotkoe-zamykanie-19v.md
-    lenovo-legion-5-bga-reballing-rtx3070-1.png
+    asus-tuf-a15-korotkoe-zamykanie-19v-12aug2026.md
+    asus-tuf-a15-korotkoe-zamykanie-19v-12aug2026-01.jpg
   builds/
-    ai-workstation-rtx4090-r9-7950x.md
-    ai-workstation-rtx4090-r9-7950x-1.png
+    ai-workstation-rtx4090-r9-7950x-04aug2026.md
+    ai-workstation-rtx4090-r9-7950x-1-04aug2026.png
+    ai-workstation-rtx4090-r9-7950x-2-04aug2026.png
   threads/
-    2026-08-26-tea-spill.md
-    photo_2026-08-26_16-57-10.jpg
+    tea-spill-26aug2026.md
+    tea-spill-26aug2026.jpg
+    asus-rog-strix-scar-16jun2026.md
+    asus-rog-strix-scar-16jun2026.jpg
   reviews/
-    rev-sergey-d.md
-    avatars/Сергей Д..webp
+    rev-sergey-d-24mar2026.md
+    rev-sergey-d-24mar2026.webp
+    avatars/Сергей Д.-24mar2026.webp
 ```
 
-**Filename = URL:** `content/cases/asus-tuf.md` → `/cases/asus-tuf/`, `content/builds/gaming-1080p-rtx4060.md` → `/builds/gaming-1080p-rtx4060/`. Отдельного поля `slug` **нет** — имя файла и есть слаг. Переименовал файл — сменился URL (делай 301 в `Caddyfile` если уже индексирован).
+**Filename = URL:** `content/cases/asus-tuf-12aug2026.md` → `/cases/asus-tuf-12aug2026/`, `content/builds/gaming-1080p-rtx4060-10aug2026.md` → `/builds/gaming-1080p-rtx4060-10aug2026/`. Отдельного поля `slug` **нет** — имя файла и есть слаг. Переименовал файл — сменился URL (делай 301 в `Caddyfile` если уже индексирован). **Суффикс даты обязателен** — без него билд невалиден по гайду, Tina его добавляет автоматически.
 
-**Кириллица в Filename:** Tina `tina/config.ts:6` `slugify` транслитерирует (`тестовый заголовок` → `testovyi-zagolovok`, `Сергей Д.` → `rev-sergey-d`), пустого `"-.md"` не бывает. Поле `Filename` внизу формы Tina — единственное место для слага, автозаполняется из `Title`/`Author`, можно поправить латиницей вручную. Агент пишет сразу латинский `content/.../<slug>.md`.
+**Кириллица в Filename:** Tina `tina/config.ts:6` `slugify` транслитерирует (`тестовый заголовок` → `testovyi-zagolovok`, `Сергей Д.` → `rev-sergey-d`), пустого `"-.md"` не бывает. Затем `tina/config.ts:24` `dateSuffix()` добавляет `-DDmmmYYYY` / `-mmmYYYY` / `-YYYY`. Поле `Filename` внизу формы Tina — единственное место для слага, автозаполняется из `Title`/`Author`/`handle`+`date`, можно поправить латиницей вручную **но суффикс сохраняй**. Агент пишет сразу латинский `content/.../<slug>-DDmmmYYYY.md`. При смене `date` — переименуй файл и фото чтобы суффикс совпадал с `date`.
 
-**Картинки:** путь **абсолютный** `/content/<collection>/file.jpg` (например `/content/cases/photo.jpg`), файл лежит рядом с `.md` (`content/cases/photo.jpg`). Tina `tina/config.ts:15` `mediaRoot: "content"` так и сохраняет. Старые `./photo.jpg` уже смигрированы.
+**Картинки:** путь **абсолютный** `/content/<collection>/file-DDmmmYYYY.jpg` (например `/content/cases/photo-12aug2026.jpg`), файл лежит рядом с `.md` (`content/cases/photo-12aug2026.jpg`). Tina `tina/config.ts:mediaRoot: "content"` так сохраняет. Если у поста несколько фото — добавь индекс перед суффиксом: `slug-1-DDmmmYYYY.jpg`, `slug-2-DDmmmYYYY.jpg` или `slug-DDmmmYYYY-01.jpg`. Для `threads`/`reviews` аватар/галерея — аналогично: `tea-spill-26aug2026.jpg`, `rev-sergey-d-24mar2026.webp`, `avatars/Сергей Д.-24mar2026.webp`. Старые `./photo.jpg` и `2026-08-26-xxx` смигрированы в суффикс.
 
 ---
 
@@ -144,10 +150,10 @@ graph TD
 | `handle` | нет | `laptopservice_uz` |
 | `date` | **да** | `2026-06-16` |
 | `dateLabel` | нет | `"16 июня 2026"` |
-| `gallery` | нет | `[/content/threads/01-before-after.jpg]` |
+| `gallery` | нет | `[/content/threads/asus-rog-strix-scar-16jun2026.jpg]` |
 | `alts` | нет | `["До и после"]` 1:1 к `gallery` |
 
-Body = текст поста (1-3 строки, `line-clamp-3`).
+Body = текст поста (1-3 строки, `line-clamp-3`). **Filename:** `slug-DDmmmYYYY.md` (напр. `tea-spill-26aug2026.md`, `termo-29jan2026.md`). Фото: `slug-DDmmmYYYY.jpg` / `slug-DDmmmYYYY-01.jpg`.
 
 ### 3.4 `reviews` → `/reviews`
 
@@ -158,22 +164,23 @@ Body = текст поста (1-3 строки, `line-clamp-3`).
 | `rating` | нет | `5` |
 | `date` | **да** | `2026-03-24` |
 | `device` | нет | `"Ноутбук"` |
-| `avatar` | нет | `/content/reviews/avatars/Сергей Д..webp` |
-| `gallery` | нет | `[/content/reviews/photo.jpg]` |
+| `avatar` | нет | `/content/reviews/avatars/Сергей Д.-24mar2026.webp` |
+| `gallery` | нет | `[/content/reviews/rev-sergey-d-24mar2026.webp]` |
 | `captions` | нет | `["Фото ремонта"]` 1:1 |
 
-Body = текст отзыва.
+Body = текст отзыва. **Filename:** `rev-author-DDmmmYYYY.md` (напр. `rev-sergey-d-24mar2026.md`, `rev-aleksandr-t-10jul2017.md`). Аватар/галерея тоже с суффиксом.
 
 ---
 
-## 4. Картинки
+## 4. Картинки (стандарт именования с датой)
 
-- **Куда:** рядом с `.md` (`/content/<collection>/file.jpg`), путь **абсолютный** `/content/...` (Tina так сохраняет).
+- **Куда:** рядом с `.md` (`/content/<collection>/file-DDmmmYYYY.jpg`), путь **абсолютный** `/content/...` (Tina так сохраняет).
+- **Именование (обязательно):** `<slug>-DDmmmYYYY.ext` или `<slug>-<idx>-DDmmmYYYY.ext` (напр. `ai-workstation-rtx4090-r9-7950x-1-04aug2026.png`, `tea-spill-26aug2026.jpg`, `rev-sergey-d-24mar2026.webp`, `Сергей Д.-24mar2026.webp`). Суффикс берётся из `date` того `.md` к которому относится фото: `-26aug2026` / `-aug2026` / `-2026` (мес. `jan feb mar apr may jun jul aug sep oct nov dec`).
 - **Формат:** `jpg/png/webp` оригинал до 4000px. Sharp → `dist/_astro/*.avif|webp`.
-- **В Tina:** `Обложка`/`Галерея` → `Upload` → drag ☰, delete 🗑. Порядок в `gallery` = порядок в карусели.
-- **У агента:** `heroImage: /content/cases/photo.jpg`, `gallery: [/content/cases/photo-01.jpg, /content/cases/photo-02.jpg]`, `alts`/`captions` строго 1:1.
+- **В Tina:** `Обложка`/`Галерея` → `Upload` → переименуй файл заранее с суффиксом даты (или Tina предложит имя — поправь чтобы добавить `-DDmmmYYYY` перед `.jpg`) → drag ☰, delete 🗑. Порядок в `gallery` = порядок в карусели.
+- **У агента:** `heroImage: /content/cases/photo-12aug2026.jpg`, `gallery: [/content/cases/photo-12aug2026-01.jpg, /content/cases/photo-12aug2026-02.jpg]`, `alts`/`captions` строго 1:1. Для `threads`/`reviews` — аналогично с суффиксом.
 
-**Не делай:** `public/`, `src/assets/`, `dist/`.
+**Не делай:** `public/`, `src/assets/`, `dist/`, фото без суффикса даты.
 
 ---
 
@@ -205,7 +212,7 @@ graph TD
 | **OG** | `og/[...slug].ts` `astro-og-canvas` | `title, description` |
 | **Sitemap/Robots/llms** | `astro.config.mjs` `@astrojs/sitemap`, `robots.txt.ts`, `llms*.txt.ts` | `id, date` |
 
-**Filename = slug.** Поменял имя файла — старый URL → 301 в `Caddyfile`.
+**Filename = slug + дата.** Поменял имя файла — старый URL → 301 в `Caddyfile`. Суффикс `-DDmmmYYYY` обязателен.
 
 ---
 
@@ -214,8 +221,8 @@ graph TD
 ### Человек (TinaCMS, локально)
 
 1. `npm run dev:tina` → `http://localhost:4321/admin` → коллекция → `Create New`.
-2. Заполни `Title`/`Device`/`Category`/`Date` → `Filename` внизу автозаполнится транслитом, поправь латиницей если нужно.
-3. `Обложка`/`Галерея` → Upload / drag. `Alts`/`Captions` 1:1.
+2. Заполни `Title`/`Device`/`Category`/`Date` → `Filename` внизу автозаполнится как `slug-DDmmmYYYY` (транслит + дата: `-26aug2026` / `-aug2026` / `-2026`), поправь латиницей если нужно **с сохранением суффикса**.
+3. `Обложка`/`Галерея` → Upload → **файл должен уже иметь суффикс даты** (переименуй до загрузки: `photo-12aug2026.jpg`) / drag. `Alts`/`Captions` 1:1.
 4. Тело — `## Проблема` и т.д. + ```mermaid` при необходимости.
 5. `Save` → `git status` → `git add content/ tina/tina-lock.json` → `commit` → `push`.
 
@@ -223,29 +230,29 @@ graph TD
 
 ```json
 {
-  "file": "content/cases/<filename>.md",
+  "file": "content/cases/asus-tuf-a15-korotkoe-zamykanie-19v-12aug2026.md",
   "frontmatter": {
     "title": "ASUS TUF Gaming A15: КЗ по 19V (60-80 симв)",
     "device": "ASUS TUF Gaming A15 (FA506)",
     "category": "Компонентный ремонт платы",
     "date": "2026-08-12",
     "tags": ["ASUS","КЗ 19V"],
-    "heroImage": "/content/cases/photo.jpg",
-    "gallery": ["/content/cases/photo-01.jpg"],
+    "heroImage": "/content/cases/asus-tuf-a15-korotkoe-zamykanie-19v-12aug2026-01.jpg",
+    "gallery": ["/content/cases/asus-tuf-a15-korotkoe-zamykanie-19v-12aug2026-02.jpg"],
     "keySpecs": [{"label":"Линия","value":"19V"}],
     "schemaType": "HowTo"
   },
   "body": "## Проблема\n...\n```mermaid\ngraph TD\nA-->B\n```\n",
-  "images": [{"path":"content/cases/photo.jpg","maxWidth":4000}]
+  "images": [{"path":"content/cases/asus-tuf-a15-korotkoe-zamykanie-19v-12aug2026-01.jpg","maxWidth":4000}]
 }
 ```
-Пишет только `content/**/*.md` + оригиналы рядом, `tina/tina-lock.json` коммитится.
+Пишет только `content/**/*.md` + оригиналы рядом с суффиксом даты (`-DDmmmYYYY` / `-mmmYYYY` / `-YYYY`), `tina/tina-lock.json` коммитится. Примеры: `content/threads/tea-spill-26aug2026.md` + `/content/threads/tea-spill-26aug2026.jpg`, `content/reviews/rev-sergey-d-24mar2026.md` + `avatars/Сергей Д.-24mar2026.webp`.
 
 ### Редактирование / удаление
 
-- Открой файл в `tina/admin` или `content/.../*.md`, правь, `Save`.
-- Переименовал файл → сменился URL.
-- Удалил файл → страница исчезнет из `sitemap`/`og` после билда.
+- Открой файл в `tina/admin` или `content/.../*.md`, правь, `Save`. Если меняешь `date` — **переименуй файл и все его фото** чтобы суффикс `-DDmmmYYYY` совпадал (напр. `-12aug2026` → `-13aug2026`).
+- Переименовал файл → сменился URL (суффикс даты — часть URL, меняй только когда меняешь дату).
+- Удалил файл → страница исчезнет из `sitemap`/`og` после билда. Удали и его фото `-DDmmmYYYY.*`.
 
 ### Проверка
 
@@ -266,14 +273,15 @@ npm run build   # astro check + 29 страниц, Tina не участвует 
 
 ---
 
-## 9. Чек-лист
+## 9. Чек-лист (стандарт -DDmmmYYYY)
 
-- [ ] Файл `content/{cases,builds,threads,reviews}/<slug>.md` (латиница, `slugify` из `Title`)
+- [ ] Файл `content/{cases,builds,threads,reviews}/<slug>-DDmmmYYYY.md` (латиница, `slug` + `-26aug2026` / `-aug2026` / `-2026`)
+- [ ] Суффикс даты в имени файла = `date` в `frontmatter` (`2026-08-12` → `-12aug2026`, `2026-08` → `-aug2026`, `2026` → `-2026`)
 - [ ] `title`, `date`, `device`/`category`/`purpose` заполнены
-- [ ] `heroImage`/`gallery` указывают на `/content/...` рядом с `.md`
+- [ ] `heroImage`/`gallery`/`avatar` указывают на `/content/.../<slug>-DDmmmYYYY.*` рядом с `.md` (фото тоже с суффиксом, индексы `-1-`, `-2-` перед суффиксом)
 - [ ] `alts`/`captions` 1:1 к `gallery`
-- [ ] `npm run build` без ошибок, `dist/sitemap-index.xml` содержит URL
-- [ ] Проверил `/cases/<slug>`, `/builds/<slug>` + Mermaid
+- [ ] `npm run build` без ошибок, `dist/sitemap-index.xml` содержит URL с суффиксом
+- [ ] Проверил `/cases/<slug>-DDmmmYYYY`, `/builds/<slug>-DDmmmYYYY` + Mermaid
 
 ---
 
