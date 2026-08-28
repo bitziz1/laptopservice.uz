@@ -1,0 +1,101 @@
+---
+---
+
+<script>
+  const themeVariables = {
+    primaryColor: "#19BD9B",
+    primaryTextColor: "#ECEFF4",
+    primaryBorderColor: "#323844",
+    lineColor: "#464E5E",
+    secondaryColor: "#252A33",
+    tertiaryColor: "#1D2128",
+    background: "#111317",
+    mainBkg: "#1D2128",
+    nodeBorder: "#323844",
+    clusterBkg: "#171A20",
+    titleColor: "#ECEFF4",
+    edgeLabelBackground: "#171A20",
+    textColor: "#D5DBE4",
+  };
+
+  let mermaidInstance: any = null;
+
+  async function getMermaid() {
+    if (mermaidInstance) return mermaidInstance;
+    const mod = await import("mermaid");
+    const m = (mod as any).default ?? mod;
+    m.initialize({
+      startOnLoad: false,
+      theme: "dark",
+      themeVariables,
+      securityLevel: "strict",
+      fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+    });
+    mermaidInstance = m;
+    return m;
+  }
+
+  async function renderMermaids() {
+    // Astro/Shiki renders ```mermaid as <pre data-language="mermaid"><code> or <pre><code class="language-mermaid">
+    const blocks = document.querySelectorAll('pre[data-language="mermaid"], pre > code.language-mermaid');
+    if (blocks.length === 0) return;
+    const mermaid = await getMermaid();
+    for (let i = 0; i < blocks.length; i++) {
+      const el = blocks[i] as HTMLElement;
+      // Handle both <pre data-language="mermaid"> and <code.language-mermaid>
+      const pre = el.tagName.toLowerCase() === "pre" ? el : (el.parentElement as HTMLElement | null);
+      const codeEl = el.tagName.toLowerCase() === "code" ? el : (el.querySelector("code") as HTMLElement | null) ?? el;
+      if (!pre) continue;
+      if (pre.dataset.mermaidRendered === "true") continue;
+      const source = codeEl.textContent ?? pre.textContent ?? "";
+      if (!source.trim()) continue;
+
+      const container = document.createElement("div");
+      container.className = "mermaid not-prose my-6 rounded-lg border border-chassis-800 bg-chassis-850 p-4 overflow-x-auto";
+      const id = `mermaid-${Date.now()}-${i}-${Math.random().toString(36).slice(2, 6)}`;
+      try {
+        const { svg } = await mermaid.render(id, source);
+        container.innerHTML = svg;
+        const svgEl = container.querySelector("svg") as unknown as HTMLElement | null;
+        if (svgEl) {
+          svgEl.style.maxWidth = "100%";
+          svgEl.style.height = "auto";
+        }
+        pre.replaceWith(container);
+        container.dataset.mermaidRendered = "true";
+      } catch (e) {
+        console.error("[mermaid] render error", e);
+        pre.classList.add("mermaid-error");
+        pre.title = String(e);
+      }
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => renderMermaids());
+  } else {
+    renderMermaids();
+  }
+
+  document.addEventListener("astro:page-load", () => renderMermaids());
+  document.addEventListener("astro:after-swap", () => renderMermaids());
+
+  if (typeof window !== "undefined" && "MutationObserver" in window) {
+    const observer = new MutationObserver(() => {
+      const hasUnrendered = document.querySelector('pre[data-language="mermaid"], pre > code.language-mermaid');
+      if (hasUnrendered) renderMermaids();
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
+</script>
+
+<style is:global>
+  /* Ensure mermaid inside prose doesn't get prose code styles */
+  .prose .mermaid {
+    margin: 1.5rem 0;
+  }
+  .prose .mermaid svg {
+    display: block;
+    margin: 0 auto;
+  }
+</style>

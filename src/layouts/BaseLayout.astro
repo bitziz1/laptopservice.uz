@@ -3,6 +3,7 @@ import { siteConfig } from "@/data/siteConfig";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import SchemaOrg from "@/components/SchemaOrg.astro";
+import Mermaid from "@/components/Mermaid.astro";
 import "@/styles/global.css";
 
 export interface Props {
@@ -145,5 +146,6 @@ const fullTitle = title.includes("Laptop Service") ? title : `${title} — Lapto
     </main>
 
     <Footer />
+    <Mermaid />
   </body>
 </html>

@@ -4,8 +4,10 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "astro dev",
+    "dev:tina": "tinacms dev -c \"astro dev\"",
     "start": "astro dev",
     "build": "astro check && astro build",
+    "build:tina": "tinacms build",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -16,8 +18,13 @@
     "@tailwindcss/typography": "^0.5.16",
     "astro": "^5.3.0",
     "astro-og-canvas": "^0.13.0",
+    "mermaid": "^11.17.2",
     "sharp": "^0.35.4",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.7.3"
+  },
+  "devDependencies": {
+    "@tinacms/cli": "^2.6.1",
+    "tinacms": "^3.12.1"
   }
 }

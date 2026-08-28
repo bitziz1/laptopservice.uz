@@ -15,7 +15,18 @@ dist/
 Thumbs.db
 *.log
 agent_session/
-# Obsidian
-.obsidian/
-content/.obsidian/
+# Obsidian — keep plugins/templates, ignore per-user workspace cache
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/hotkeys.json
+.obsidian/appearance.json
+content/.obsidian/workspace.json
+content/.obsidian/workspace-mobile.json
+content/.obsidian/hotkeys.json
+content/.obsidian/appearance.json
+
+# TinaCMS — generated admin (Variant A local-only)
+public/admin/
+tina/__generated__/
+.tina/
 
