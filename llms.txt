@@ -22,7 +22,6 @@ Laptop Service (также известный как RemontNoutbukov) — спе
 - [Наши работы](https://laptopservice.uz/cases): Реальные примеры из практики сервисного центра.
   - [ASUS TUF Gaming A15: Короткое замыкание по линии 19V после скачка в сети](https://laptopservice.uz/cases/asus-tuf-a15-korotkoe-zamykanie-19v-12aug2026) — ASUS TUF Gaming A15 (FA506) — Компонентный ремонт платы
   - [Lenovo Legion 5 Pro: Ошибка Code 43 на RTX 3070 и замена видеопамяти VRAM](https://laptopservice.uz/cases/lenovo-legion-5-bga-reballing-rtx3070-05aug2026) — Lenovo Legion 5 Pro (16ACH6H) — BGA-пайка и реболлинг
-  - [MacBook Air M1 (A2337): Восстановление цепей питания Type-C и шины PPBUS после залития кофе](https://laptopservice.uz/cases/macbook-air-m1-vosstanovlenie-posle-kofe-28jul2026) — Apple MacBook Air 13" M1 (A2337) — Восстановление после залития
   - [MSI Katana GF66: Усиление вырванных шарниров и монолитная полимерная реконструкция топкейса](https://laptopservice.uz/cases/msi-katana-gf66-vosstanovlenie-petel-korpusa-19jul2026) — MSI Katana GF66 (11UE) — Ремонт петель и корпуса
   - [Dell G15 5515: Устранение перегрева Ryzen 7 и падения FPS заменой термоинтерфейса на Honeywell PTM7950](https://laptopservice.uz/cases/dell-g15-5515-zamena-honeywell-ptm7950-10jul2026) — Dell G15 5515 Ryzen Edition — Профилактика и охлаждение
   - [HP Victus 16: Долгая инициализация (2 минуты до логотипа) и очистка ME-региона BIOS](https://laptopservice.uz/cases/hp-victus-16-proshivka-bios-clean-me-25jun2026) — HP Victus 16 (d0000) — Прошивка BIOS / EC
@@ -49,4 +48,4 @@ Laptop Service (также известный как RemontNoutbukov) — спе
 ## Дополнительно
 - [Полный машиночитаемый контекст компании](https://laptopservice.uz/llms-full.txt): Детальное описание для языковых моделей, включая примеры работ, параметры оборудования и регламенты.
 
-*Сгенерировано при билде 2026-08-28 из 10 кейсов и 3 сборок. Сайт: https://laptopservice.uz*
+*Сгенерировано при билде 2026-08-28 из 9 кейсов и 3 сборок. Сайт: https://laptopservice.uz*
