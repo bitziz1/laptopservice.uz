@@ -2,6 +2,32 @@ import { defineConfig } from "tinacms";
 
 const branch = process.env.HEAD || process.env.GITHUB_REF_NAME || "master";
 
+// Transliterate Cyrillic → Latin for filename/slug (prevents empty "-.md" on Cyrillic titles)
+const slugify = (str: string) =>
+  str
+    .toString()
+    .toLowerCase()
+    // transliterate RU
+    .replace(/[а-яё]/g, (char) => {
+      const map: Record<string, string> = {
+        а: "a", б: "b", в: "v", г: "g", д: "d", е: "e", ё: "yo", ж: "zh", з: "z", и: "i", й: "y", к: "k", л: "l", м: "m", н: "n", о: "o", п: "p", р: "r", с: "s", т: "t", у: "u", ф: "f", х: "h", ц: "ts", ч: "ch", ш: "sh", щ: "sch", ъ: "", ы: "y", ь: "", э: "e", ю: "yu", я: "ya",
+      };
+      return map[char] ?? char;
+    })
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .replace(/--+/g, "-")
+    .slice(0, 80) || "untitled";
+
+const filenameSlugify = (values: any, fallback: string) => {
+  const src = values?.title ?? values?.author ?? values?.handle ?? fallback;
+  if (!src || typeof src !== "string") return fallback;
+  const s = slugify(src);
+  return s || fallback;
+};
+
 export default defineConfig({
   branch,
   clientId: null, // local-only, no Tina Cloud
@@ -28,6 +54,9 @@ export default defineConfig({
         format: "md",
         ui: {
           router: ({ document }) => `/builds/${document._sys.filename}`,
+          filename: {
+            slugify: (values: any) => filenameSlugify(values, "novaya-sborka"),
+          },
         },
         fields: [
           { type: "string", name: "title", label: "Название", isTitle: true, required: true },
@@ -95,6 +124,9 @@ export default defineConfig({
         format: "md",
         ui: {
           router: ({ document }) => `/cases/${document._sys.filename}`,
+          filename: {
+            slugify: (values: any) => filenameSlugify(values, "novyi-keys"),
+          },
         },
         fields: [
           { type: "string", name: "title", label: "Заголовок", isTitle: true, required: true },
@@ -129,7 +161,6 @@ export default defineConfig({
           },
           { type: "string", name: "schemaType", label: "Schema", options: [{ value: "HowTo", label: "HowTo" }, { value: "Article", label: "Article" }] },
           { type: "string", name: "summaryForSocial", label: "Опис. для соцсетей", ui: { component: "textarea" } },
-          { type: "string", name: "slug", label: "Слаг (опц.)" },
           { type: "rich-text", name: "body", label: "Тело (## Проблема и т.д.)", isBody: true },
         ],
       },
@@ -140,6 +171,18 @@ export default defineConfig({
         format: "md",
         ui: {
           router: ({ document }) => `/`,
+          filename: {
+            slugify: (values: any) => {
+              const date = values?.date ? new Date(values.date).toISOString().slice(0, 10) : new Date().toISOString().slice(0, 10);
+              // body is rich-text, try handle first
+              const raw = values?.handle ?? "novyi-post";
+              const base = typeof raw === "string" ? raw : "novyi-post";
+              const s = slugify(base);
+              // prefix with date like existing files 2026-08-26-tea-spill
+              if (s === "laptopservice-uz") return `${date}-post`;
+              return `${date}-${s}`;
+            },
+          },
         },
         fields: [
           { type: "string", name: "handle", label: "Хэндл", required: false },
@@ -157,6 +200,14 @@ export default defineConfig({
         format: "md",
         ui: {
           router: ({ document }) => `/reviews`,
+          filename: {
+            slugify: (values: any) => {
+              const src = values?.author ?? "novyi-otzyv";
+              // prefix rev- for reviews like existing files rev-sergey-d
+              const s = slugify(src);
+              return s.startsWith("rev-") ? s : `rev-${s}`;
+            },
+          },
         },
         fields: [
           { type: "string", name: "author", label: "Автор", isTitle: true, required: true },
