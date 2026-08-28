@@ -20,20 +20,20 @@ Laptop Service (также известный как RemontNoutbukov) — спе
 - [Ремонт петель и корпуса](https://laptopservice.uz/services/remont-petel-korpusa): Полимерное армирование стоек корпуса и регулировка натяжения шарниров.
 - [Апгрейд](https://laptopservice.uz/services/upgrade-noutbuka): Установка NVMe SSD и модулей памяти RAM с клонированием системы. Также, при желании, можем установить ваши комплектующие.
 - [Наши работы](https://laptopservice.uz/cases): Реальные примеры из практики сервисного центра.
-  - [ASUS TUF Gaming A15: Короткое замыкание по линии 19V после скачка в сети](https://laptopservice.uz/cases/asus-tuf-a15-korotkoe-zamykanie-19v) — ASUS TUF Gaming A15 (FA506) — Компонентный ремонт платы
-  - [Lenovo Legion 5 Pro: Ошибка Code 43 на RTX 3070 и замена видеопамяти VRAM](https://laptopservice.uz/cases/lenovo-legion-5-bga-reballing-rtx3070) — Lenovo Legion 5 Pro (16ACH6H) — BGA-пайка и реболлинг
-  - [MacBook Air M1 (A2337): Восстановление цепей питания Type-C и шины PPBUS после залития кофе](https://laptopservice.uz/cases/macbook-air-m1-vosstanovlenie-posle-kofe) — Apple MacBook Air 13" M1 (A2337) — Восстановление после залития
-  - [MSI Katana GF66: Усиление вырванных шарниров и монолитная полимерная реконструкция топкейса](https://laptopservice.uz/cases/msi-katana-gf66-vosstanovlenie-petel-korpusa) — MSI Katana GF66 (11UE) — Ремонт петель и корпуса
-  - [Dell G15 5515: Устранение перегрева Ryzen 7 и падения FPS заменой термоинтерфейса на Honeywell PTM7950](https://laptopservice.uz/cases/dell-g15-5515-zamena-honeywell-ptm7950) — Dell G15 5515 Ryzen Edition — Профилактика и охлаждение
-  - [HP Victus 16: Долгая инициализация (2 минуты до логотипа) и очистка ME-региона BIOS](https://laptopservice.uz/cases/hp-victus-16-proshivka-bios-clean-me) — HP Victus 16 (d0000) — Прошивка BIOS / EC
-  - [Acer Nitro 5: Не заряжает аккумулятор, мигает оранжевым индикатором — ремонт чарджера BQ24781](https://laptopservice.uz/cases/acer-nitro-5-vosstanovlenie-shemy-charedzhera) — Acer Nitro 5 (AN515-57) — Компонентный ремонт платы
-  - [Lenovo ThinkPad X1 Carbon Gen 9: Замена разбитого разъема Thunderbolt 4 Type-C](https://laptopservice.uz/cases/thinkpad-x1-carbon-zamena-razema-type-c) — Lenovo ThinkPad X1 Carbon Gen 9 — Разъемы и пайка
-  - [ASUS ROG Strix G17: Не работают все порты USB и клавиатура — замена хаба Intel HM570](https://laptopservice.uz/cases/asus-rog-strix-zamena-hub-pch-hm570) — ASUS ROG Strix G17 (G713) — BGA-пайка и реболлинг
-  - [Dell XPS 15 9500: Циклический перезапуск и замена мультиконтроллера MEC5105](https://laptopservice.uz/cases/dell-xps-15-9500-vosstanovlenie-pitaniya-multikontrollera) — Dell XPS 15 9500 — Компонентный ремонт платы
+  - [ASUS TUF Gaming A15: Короткое замыкание по линии 19V после скачка в сети](https://laptopservice.uz/cases/asus-tuf-a15-korotkoe-zamykanie-19v-12aug2026) — ASUS TUF Gaming A15 (FA506) — Компонентный ремонт платы
+  - [Lenovo Legion 5 Pro: Ошибка Code 43 на RTX 3070 и замена видеопамяти VRAM](https://laptopservice.uz/cases/lenovo-legion-5-bga-reballing-rtx3070-05aug2026) — Lenovo Legion 5 Pro (16ACH6H) — BGA-пайка и реболлинг
+  - [MacBook Air M1 (A2337): Восстановление цепей питания Type-C и шины PPBUS после залития кофе](https://laptopservice.uz/cases/macbook-air-m1-vosstanovlenie-posle-kofe-28jul2026) — Apple MacBook Air 13" M1 (A2337) — Восстановление после залития
+  - [MSI Katana GF66: Усиление вырванных шарниров и монолитная полимерная реконструкция топкейса](https://laptopservice.uz/cases/msi-katana-gf66-vosstanovlenie-petel-korpusa-19jul2026) — MSI Katana GF66 (11UE) — Ремонт петель и корпуса
+  - [Dell G15 5515: Устранение перегрева Ryzen 7 и падения FPS заменой термоинтерфейса на Honeywell PTM7950](https://laptopservice.uz/cases/dell-g15-5515-zamena-honeywell-ptm7950-10jul2026) — Dell G15 5515 Ryzen Edition — Профилактика и охлаждение
+  - [HP Victus 16: Долгая инициализация (2 минуты до логотипа) и очистка ME-региона BIOS](https://laptopservice.uz/cases/hp-victus-16-proshivka-bios-clean-me-25jun2026) — HP Victus 16 (d0000) — Прошивка BIOS / EC
+  - [Acer Nitro 5: Не заряжает аккумулятор, мигает оранжевым индикатором — ремонт чарджера BQ24781](https://laptopservice.uz/cases/acer-nitro-5-vosstanovlenie-shemy-charedzhera-14jun2026) — Acer Nitro 5 (AN515-57) — Компонентный ремонт платы
+  - [Lenovo ThinkPad X1 Carbon Gen 9: Замена разбитого разъема Thunderbolt 4 Type-C](https://laptopservice.uz/cases/thinkpad-x1-carbon-zamena-razema-type-c-30may2026) — Lenovo ThinkPad X1 Carbon Gen 9 — Разъемы и пайка
+  - [ASUS ROG Strix G17: Не работают все порты USB и клавиатура — замена хаба Intel HM570](https://laptopservice.uz/cases/asus-rog-strix-zamena-hub-pch-hm570-18may2026) — ASUS ROG Strix G17 (G713) — BGA-пайка и реболлинг
+  - [Dell XPS 15 9500: Циклический перезапуск и замена мультиконтроллера MEC5105](https://laptopservice.uz/cases/dell-xps-15-9500-vosstanovlenie-pitaniya-multikontrollera-02may2026) — Dell XPS 15 9500 — Компонентный ремонт платы
 - [Сборки ПК](https://laptopservice.uz/builds): Профессиональные сборки от мастеров — знаем нюансы, сами обслуживаем, предупреждаем о рисках заранее.
-  - [Оптимальная сборка для игр в Full HD — RTX 4060 + Ryzen 5 5600](https://laptopservice.uz/builds/gaming-1080p-rtx4060-r5-5600) — Игры (Full HD / 144 Гц)
-  - [Рабочая станция для AI / 3D-рендера — RTX 4090 + Ryzen 9 7950X](https://laptopservice.uz/builds/ai-workstation-rtx4090-r9-7950x) — AI, нейросети и 3D-рендер
-  - [Компактная офисная сборка — Core i5-12400 (UHD 730) без дискретной GPU](https://laptopservice.uz/builds/office-compact-i5-12400-uhd730) — Офис и учёба
+  - [Оптимальная сборка для игр в Full HD — RTX 4060 + Ryzen 5 5600](https://laptopservice.uz/builds/gaming-1080p-rtx4060-r5-5600-10aug2026) — Игры (Full HD / 144 Гц)
+  - [Рабочая станция для AI / 3D-рендера — RTX 4090 + Ryzen 9 7950X](https://laptopservice.uz/builds/ai-workstation-rtx4090-r9-7950x-04aug2026) — AI, нейросети и 3D-рендер
+  - [Компактная офисная сборка — Core i5-12400 (UHD 730) без дискретной GPU](https://laptopservice.uz/builds/office-compact-i5-12400-uhd730-22jul2026) — Офис и учёба
 - [Диагностика и цены](https://laptopservice.uz/prices): Бесплатная диагностика, порядок согласования стоимости.
 - [Отзывы клиентов](https://laptopservice.uz/reviews): Реальные отзывы с Яндекс Карт и Google Maps. Оставить отзыв — на Яндекс Картах и Google Maps.
 - [Контакты и схема проезда](https://laptopservice.uz/contacts): Адрес, Яндекс Карты / Google Maps, режим работы, руководитель сервиса.
