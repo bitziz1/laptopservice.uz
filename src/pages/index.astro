@@ -165,21 +165,24 @@ const homeFaq = [
       <div class="horizontal-scroller flex gap-2.5 overflow-x-auto overflow-y-hidden pb-2 snap-x snap-mandatory scroll-smooth -mx-4 px-4 sm:mx-0 sm:px-0">
         {buildsEntries.map((entry) => {
           const slug = entry.id.replace(/\.md$/, "");
-          const gallery = entry.data.gallery ?? [];
+          const heroImage = (entry.data as any).heroImage as any;
+          const gallery = (entry.data.gallery ?? []) as any[];
+          const allImages = heroImage ? [heroImage, ...gallery] : gallery;
+          const previewImages = allImages.slice(0, 2);
           return (
           <a href={`/builds/${slug}`} class="group shrink-0 snap-start w-[290px] sm:w-[310px] bg-chassis-850 border border-chassis-800 rounded-[14px] overflow-hidden flex flex-col p-3.5 hover:border-chassis-700 hover:bg-chassis-800/60 transition-colors text-left">
             <div class="flex items-center gap-2 mb-2">
               <img src="/logo.svg" alt="" width="20" height="20" class="w-5 h-5 rounded-full bg-chassis-900 border border-chassis-800 shrink-0" loading="lazy" />
               <span class="text-[10px] font-sans font-bold uppercase tracking-wider text-chassis-500">{entry.data.purposeLabel}</span>
             </div>
-            {gallery.length === 1 && (
+            {previewImages.length === 1 && (
               <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900 mb-2.5">
-                <Picture src={gallery[0]} alt={entry.data.title} widths={[300, 600]} sizes="(max-width: 640px) 290px, 310px" formats={["avif", "webp"]} fallbackFormat="webp" loading="lazy" decoding="async" class="w-full h-[110px] object-cover" />
+                <Picture src={previewImages[0]} alt={entry.data.title} widths={[300, 600]} sizes="(max-width: 640px) 290px, 310px" formats={["avif", "webp"]} fallbackFormat="webp" loading="lazy" decoding="async" class="w-full h-[110px] object-cover" />
               </div>
             )}
-            {gallery.length === 2 && (
+            {previewImages.length >= 2 && (
               <div class="grid grid-cols-2 gap-1.5 mb-2.5">
-                {gallery.map((img) => (
+                {previewImages.map((img) => (
                   <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900">
                     <Picture src={img} alt={entry.data.title} widths={[180, 360]} sizes="140px" formats={["avif", "webp"]} fallbackFormat="webp" loading="lazy" decoding="async" class="w-full h-[90px] object-cover" />
                   </div>
