@@ -106,9 +106,19 @@ const fullTitle = title.includes("Laptop Service") ? title : `${title} — Lapto
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={image} />
 
-    <!-- Favicon -->
+    <!-- Favicon & App Icons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
     <meta name="theme-color" content="#171A20" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Laptop Service" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="application-name" content="Laptop Service" />
+    <meta name="msapplication-TileColor" content="#171A20" />
+    <meta name="msapplication-TileImage" content="/apple-touch-icon.png" />
 
     <!-- Hreflang -->
     <link rel="alternate" hreflang="ru" href={canonicalUrl} />
