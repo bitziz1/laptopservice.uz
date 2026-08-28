@@ -61,7 +61,7 @@ const purposes = [
     <!-- Grid — MD из content/builds/*.md (Obsidian) -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="builds-grid">
       {buildsEntries.map((entry) => {
-        const slug = entry.data.slug ?? entry.id.replace(/\.md$/, "");
+        const slug = entry.id.replace(/\.md$/, "");
         const build = { ...entry.data, slug, date: entry.data.date.toISOString().slice(0,10) } as any;
         return (
         <div data-purpose={entry.data.purpose} class="build-card">

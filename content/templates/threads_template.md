@@ -2,7 +2,7 @@
 handle: "laptopservice_uz"
 date: 2026-08-26
 gallery:
-  - ./photo.jpg
+  - /content/threads/photo.jpg
 alts:
   - "Вручную вычищаем дорожки платы залитого сладким чаем ноутбука"
 ---

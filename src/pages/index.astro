@@ -164,7 +164,7 @@ const homeFaq = [
       </div>
       <div class="horizontal-scroller flex gap-2.5 overflow-x-auto overflow-y-hidden pb-2 snap-x snap-mandatory scroll-smooth -mx-4 px-4 sm:mx-0 sm:px-0">
         {buildsEntries.map((entry) => {
-          const slug = entry.data.slug ?? entry.id.replace(/\.md$/, "");
+          const slug = entry.id.replace(/\.md$/, "");
           const gallery = entry.data.gallery ?? [];
           return (
           <a href={`/builds/${slug}`} class="group shrink-0 snap-start w-[290px] sm:w-[310px] bg-chassis-850 border border-chassis-800 rounded-[14px] overflow-hidden flex flex-col p-3.5 hover:border-chassis-700 hover:bg-chassis-800/60 transition-colors text-left">
@@ -210,7 +210,7 @@ const homeFaq = [
     </div>
     <div class="horizontal-scroller flex gap-2.5 overflow-x-auto overflow-y-hidden pb-2 snap-x snap-mandatory scroll-smooth -mx-4 px-4 sm:mx-0 sm:px-0">
       {casesEntries.slice(0, 8).map((entry) => {
-          const slug = entry.data.slug ?? entry.id.replace(/\.md$/, "");
+          const slug = entry.id.replace(/\.md$/, "");
           const gallery = entry.data.gallery ?? [];
           const heroImage = entry.data.heroImage;
           const allImages = heroImage ? [heroImage, ...gallery] : gallery;

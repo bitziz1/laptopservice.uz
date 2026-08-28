@@ -12,14 +12,14 @@ export const GET: APIRoute = async () => {
 
   const casesList = cases
     .map((c, i) => {
-const slug = (c.data as any).slug ?? c.id.replace(/\.md$/, "");
-       return `${i + 1}. **${c.data.title}:** ${c.data.device} — ${c.data.category} — https://laptopservice.uz/cases/${slug}`;
+      const slug = c.id.replace(/\.md$/, "");
+      return `${i + 1}. **${c.data.title}:** ${c.data.device} — ${c.data.category} — https://laptopservice.uz/cases/${slug}`;
     })
     .join("\n");
 
   const buildsList = builds
     .map((b, i) => {
-      const slug = (b.data as any).slug ?? b.id.replace(/\.md$/, "");
+      const slug = b.id.replace(/\.md$/, "");
       const comps = b.data.components
         ? Object.entries(b.data.components)
             .filter(([, v]) => v)

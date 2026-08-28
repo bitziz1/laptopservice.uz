@@ -11,14 +11,14 @@ export const GET: APIRoute = async () => {
 
   const casesList = cases
     .map((c) => {
-      const slug = (c.data as any).slug ?? c.id.replace(/\.md$/, "");
+      const slug = c.id.replace(/\.md$/, "");
       return `- [${c.data.title}](https://laptopservice.uz/cases/${slug}) — ${c.data.device} — ${c.data.category}`;
     })
     .join("\n");
 
   const buildsList = builds
     .map((b) => {
-      const slug = (b.data as any).slug ?? b.id.replace(/\.md$/, "");
+      const slug = b.id.replace(/\.md$/, "");
       return `- [${b.data.title}](https://laptopservice.uz/builds/${slug}) — ${b.data.purposeLabel}`;
     })
     .join("\n");

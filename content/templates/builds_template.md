@@ -15,9 +15,9 @@ components:
   cooler: "DeepCool AG400"
 complexity: "medium"
 tags: ["RTX 4060", "Ryzen 5", "Full HD"]
-heroImage: ./cover.jpg
+heroImage: /content/builds/cover.jpg
 gallery:
-  - ./photo-01.jpg
+  - /content/builds/photo-01.jpg
 ---
 
 Дополнительный текст сборки в markdown (по желанию). Hero и gallery оптимизируются автоматически.

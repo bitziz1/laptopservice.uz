@@ -10,7 +10,7 @@ import { formatDateRu } from "@/utils/formatDate";
 export async function getStaticPaths() {
   const entries = await getCollection("cases");
   return entries.map((entry) => {
-    const slug = (entry.data as any).slug ?? entry.id.replace(/\.md$/, "");
+    const slug = entry.id.replace(/\.md$/, "");
     return {
       params: { slug },
       props: { entry, slug },

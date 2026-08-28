@@ -9,12 +9,10 @@ export const collections = {
     loader: glob({ pattern: "**/*.md", base: "./content/cases" }),
     schema: ({ image }) =>
       z.object({
-        slug: z.string().optional(), // if not provided, use filename
         title: z.string(),
         device: z.string(),
         category: z.string(),
         date: z.coerce.date(),
-        // allow body sections to hold problem/diagnosis/solution/result - keep frontmatter optional for simple Obsidian editing
         problem: z.string().optional(),
         diagnosis: z.string().optional(),
         solution: z.string().optional(),
@@ -22,9 +20,6 @@ export const collections = {
         tags: z.array(z.string()).default([]),
         heroImage: image().optional(),
         gallery: z.array(image()).optional(),
-        // legacy compatibility: old string paths
-        images: z.array(z.string()).optional(),
-        image: z.string().optional(),
         keySpecs: z
           .array(z.object({ label: z.string(), value: z.string() }))
           .optional(),
@@ -37,7 +32,6 @@ export const collections = {
     loader: glob({ pattern: "**/*.md", base: "./content/builds" }),
     schema: ({ image }) =>
       z.object({
-        slug: z.string().optional(),
         title: z.string(),
         purpose: z.enum(["gaming", "ai-work", "office", "rendering"]),
         purposeLabel: z.string(),
@@ -60,8 +54,6 @@ export const collections = {
         tags: z.array(z.string()).default([]),
         heroImage: image().optional(),
         gallery: z.array(image()).optional(),
-        // legacy
-        images: z.array(z.string()).optional(),
       }),
   }),
 
@@ -72,19 +64,8 @@ export const collections = {
         handle: z.string().default("laptopservice_uz"),
         date: z.coerce.date(),
         dateLabel: z.string().optional(),
-        // images as ImageMetadata[] - original png/jpg colocated with md
         gallery: z.array(image()).optional(),
-        // alt texts for gallery, same order
         alts: z.array(z.string()).optional(),
-        media: z
-          .array(
-            z.object({
-              image: image().optional(),
-              src: z.string().optional(),
-              alt: z.string().optional(),
-            })
-          )
-          .optional(),
       }),
   }),
 
@@ -100,13 +81,8 @@ export const collections = {
         date: z.coerce.date(),
         device: z.string().default("Ноутбук"),
         avatar: image().optional(),
-        // gallery for review photos
         gallery: z.array(image()).optional(),
         captions: z.array(z.string()).optional(),
-        // legacy photos array with src strings
-        photos: z
-          .array(z.object({ src: z.string().optional(), caption: z.string().optional() }))
-          .optional(),
       }),
   }),
 };

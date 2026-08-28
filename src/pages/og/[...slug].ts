@@ -48,19 +48,19 @@ for (const s of servicesData) {
     description: s.shortDescription?.slice(0, 120) ?? s.title,
   };
 }
-// Dynamic builds — из content/builds/*.md (Obsidian)
+// Dynamic builds — из content/builds/*.md
 const buildsEntries = await getCollection("builds");
 for (const b of buildsEntries) {
-  const slug = (b.data as any).slug ?? b.id.replace(/\.md$/, "");
+  const slug = b.id.replace(/\.md$/, "");
   staticPages[`builds/${slug}`] = {
     title: b.data.title,
     description: b.data.description.slice(0, 120),
   };
 }
-// Dynamic cases — из content/cases/*.md (Obsidian)
+// Dynamic cases — из content/cases/*.md
 const casesEntries = await getCollection("cases");
 for (const c of casesEntries) {
-  const slug = (c.data as any).slug ?? c.id.replace(/\.md$/, "");
+  const slug = c.id.replace(/\.md$/, "");
   const problem = (c.data as any).problem ?? "";
   staticPages[`cases/${slug}`] = {
     title: c.data.title,
