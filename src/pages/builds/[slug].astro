@@ -85,13 +85,19 @@ const componentLabels: Record<string, string> = {
 
 const componentEntries = Object.entries(build.components ?? {}) as [string, string][];
 
-const productJsonLd = {
+const articleJsonLd = {
   "@context": "https://schema.org",
-  "@type": "Product",
-  name: build.title,
+  "@type": "TechArticle",
+  headline: build.title,
   description: build.description,
-  category: build.purposeLabel,
-  brand: { "@type": "Brand", name: siteConfig.brandName },
+  image: `${siteConfig.url}/og/${slug}.png`,
+  author: { "@type": "Organization", name: siteConfig.brandName, url: siteConfig.url },
+  publisher: { "@type": "Organization", name: siteConfig.brandName, logo: { "@type": "ImageObject", url: `${siteConfig.url}/favicon.svg` } },
+  datePublished: build.date,
+  dateModified: build.date,
+  mainEntityOfPage: { "@type": "WebPage", "@id": `${siteConfig.url}/builds/${slug}` },
+  keywords: build.tags.join(", "),
+  articleSection: build.purposeLabel,
 };
 
 const galleryImages: any[] = (() => {
@@ -161,8 +167,8 @@ const { Content } = await render(entry);
       </>
     )}
 
-    <!-- JSON-LD Product -->
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(productJsonLd)} />
+    <!-- JSON-LD TechArticle — no Product snippet requirements (offers/review/aggregateRating) -->
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
 
     {isTina && tinaPayload ? null : (
       <div class="flex flex-wrap gap-2 pt-2 hidden">{/* placeholder to keep layout */}</div>

@@ -35,10 +35,10 @@ const {
   breadcrumbs,
 } = Astro.props;
 
-// 1. LocalBusiness / ElectronicsRepairShop Schema
+// 1. LocalBusiness Schema — Review snippet allowlist требует именно LocalBusiness (ElectronicsRepairShop как подтип часто флаг как <parent_node>)
 const localBusinessSchema = {
   "@context": "https://schema.org",
-  "@type": "ElectronicsRepairShop",
+  "@type": ["LocalBusiness", "ElectronicsRepairShop"],
   "@id": `${siteConfig.url}/#organization`,
   "name": "Laptop Service — Ремонт ноутбуков в Ташкенте",
   "alternateName": ["RemontNoutbukov", "Laptop Service Tashkent"],
@@ -81,10 +81,11 @@ const localBusinessSchema = {
   ],
   "aggregateRating": {
     "@type": "AggregateRating",
-    "ratingValue": "5.0",
-    "reviewCount": "52",
-    "bestRating": "5",
-    "worstRating": "1"
+    "ratingValue": 5.0,
+    "reviewCount": 52,
+    "ratingCount": 52,
+    "bestRating": 5,
+    "worstRating": 1
   }
 };
 
