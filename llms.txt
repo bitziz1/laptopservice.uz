@@ -44,9 +44,10 @@ Laptop Service (также известный как RemontNoutbukov) — спе
 - [Telegram-канал](https://t.me/laptopservice_uz): Ежедневные публикации из мастерской.
 - [Telegram-чат](https://t.me/laptop_service_chat): Чат мастеров и обсуждения.
 - [Instagram](https://www.instagram.com/laptopservice_uz): Фото и видео рабочего процесса.
+- [Threads](https://www.threads.com/@laptopservice_uz): Лента работ и короткие заметки из сервиса.
 - [Facebook](https://www.facebook.com/RemontNoutbukov.uz): Официальная страница в Facebook.
 
 ## Дополнительно
 - [Полный машиночитаемый контекст компании](https://laptopservice.uz/llms-full.txt): Детальное описание для языковых моделей, включая примеры работ, параметры оборудования и регламенты.
 
-*Сгенерировано при билде 2026-08-28 из 9 кейсов и 4 сборок. Сайт: https://laptopservice.uz*
+*Сгенерировано при билде 2026-08-29 из 9 кейсов и 4 сборок. Сайт: https://laptopservice.uz*
