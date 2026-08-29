@@ -1,10 +1,11 @@
 ---
-handle: "laptopservice_uz"
-date: 2026-06-16
+handle: laptopservice_uz
+date: 2026-06-16T00:00:00.000Z
 gallery:
   - /content/threads/asus-rog-strix-scar-16jun2026.jpg
 alts:
-  - "Asus ROG Strix Scar 17 — до и после чистки и восстановления системы питания"
+  - Asus ROG Strix Scar 17 — до и после чистки и восстановления системы питания
+url: 'https://t.me/laptopservice_uz/29'
 ---
 
 Лето конечно хорошо, но про свои ноутбуки тоже не надо забывать 😉
