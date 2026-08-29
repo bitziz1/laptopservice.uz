@@ -5,6 +5,8 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import IconLink from "@/components/IconLink.astro";
 import ThreadsScroller from "@/components/ThreadsScroller.astro";
 import FaqAccordion from "@/components/FaqAccordion.astro";
+import VisualThreadsHome from "@/components/VisualThreadsHome";
+import VisualReviews from "@/components/VisualReviews";
 import { siteConfig } from "@/data/siteConfig";
 import { servicesData } from "@/data/services";
 import { formatDateRu } from "@/utils/formatDate";
@@ -16,6 +18,22 @@ const reviewsEntries = await getCollection("reviews");
 casesEntries.sort((a,b)=> b.data.date.getTime() - a.data.date.getTime());
 buildsEntries.sort((a,b)=> b.data.date.getTime() - a.data.date.getTime());
 reviewsEntries.sort((a,b)=> b.data.date.getTime() - a.data.date.getTime());
+
+// Tina live: тредсы и отзывы на главной — подсветка в админке на руте "/" (router threads -> "/", reviews -> "/reviews")
+const THREADS_TINA_QUERY = `query{ threadsConnection{ edges{ node{ id _sys{ filename relativePath } handle date gallery alts url body } } } }`;
+const REVIEWS_TINA_QUERY = `query{ reviewsConnection{ edges{ node{ id _sys{ filename relativePath } author source rating date device avatar gallery captions body } } } }`;
+let tinaThreadsPayload: any = null;
+let tinaReviewsPayload: any = null;
+let isTinaThreads = false;
+let isTinaReviews = false;
+try {
+  const r = await fetch("http://localhost:4001/graphql", { method:"POST", headers:{ "Content-Type":"application/json"}, body: JSON.stringify({ query: THREADS_TINA_QUERY })});
+  if(r.ok){ const j:any = await r.json(); if(j.data?.threadsConnection){ tinaThreadsPayload = { query: THREADS_TINA_QUERY, variables: {}, data: j.data }; isTinaThreads = true; } }
+} catch {}
+try {
+  const r = await fetch("http://localhost:4001/graphql", { method:"POST", headers:{ "Content-Type":"application/json"}, body: JSON.stringify({ query: REVIEWS_TINA_QUERY })});
+  if(r.ok){ const j:any = await r.json(); if(j.data?.reviewsConnection){ tinaReviewsPayload = { query: REVIEWS_TINA_QUERY, variables: {}, data: j.data }; isTinaReviews = true; } }
+} catch {}
 
 const homeFaq = [
   {
@@ -60,7 +78,11 @@ const homeFaq = [
 
       <!-- Threads лента — на всю ширину страницы -->
       <div class="mt-6 max-w-7xl">
-        <ThreadsScroller />
+        {isTinaThreads && tinaThreadsPayload ? (
+          <VisualThreadsHome client:load query={tinaThreadsPayload.query} variables={tinaThreadsPayload.variables} data={tinaThreadsPayload.data} />
+        ) : (
+          <ThreadsScroller />
+        )}
       </div>
 
       <div class="max-w-3xl mx-auto space-y-5 mt-6">
@@ -283,6 +305,9 @@ const homeFaq = [
         </div>
         <a href="/reviews" class="text-xs font-sans text-chassis-300 hover:text-chassis-100 underline underline-offset-2 shrink-0">Оставить свой отзыв →</a>
       </div>
+      {isTinaReviews && tinaReviewsPayload ? (
+        <VisualReviews client:load query={tinaReviewsPayload.query} variables={tinaReviewsPayload.variables} data={tinaReviewsPayload.data} variant="home" />
+      ) : (
       <div class="horizontal-scroller flex gap-2.5 overflow-x-auto overflow-y-hidden pb-2 snap-x snap-mandatory scroll-smooth -mx-4 px-4 sm:mx-0 sm:px-0 items-start">
         {reviewsEntries.slice(0, 8).map((entry) => {
           const gallery = entry.data.gallery ?? [];
@@ -326,6 +351,7 @@ const homeFaq = [
           </div>
         )})}
       </div>
+      )}
     </div>
   </section>
 

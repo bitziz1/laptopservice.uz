@@ -1,0 +1,70 @@
+fragment BuildsParts on Builds {
+  __typename
+  title
+  purpose
+  purposeLabel
+  date
+  description
+  components {
+    __typename
+    cpu
+    motherboard
+    ram
+    gpu
+    storage
+    psu
+    case
+    cooler
+  }
+  complexity
+  tags
+  heroImage
+  gallery
+  body
+}
+
+fragment CasesParts on Cases {
+  __typename
+  title
+  device
+  category
+  date
+  problem
+  diagnosis
+  solution
+  result
+  tags
+  heroImage
+  gallery
+  keySpecs {
+    __typename
+    label
+    value
+  }
+  schemaType
+  summaryForSocial
+  body
+}
+
+fragment ThreadsParts on Threads {
+  __typename
+  handle
+  date
+  gallery
+  alts
+  url
+  body
+}
+
+fragment ReviewsParts on Reviews {
+  __typename
+  author
+  source
+  rating
+  date
+  device
+  avatar
+  gallery
+  captions
+  body
+}

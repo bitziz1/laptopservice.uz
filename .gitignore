@@ -21,6 +21,9 @@ content/.obsidian/
 
 # TinaCMS — generated admin (Variant A local-only)
 public/admin/
-tina/__generated__/
+tina/__generated__/.cache/
+tina/__generated__/_graphql.json
+tina/__generated__/_schema.json
+tina/__generated__/_lookup.json
 .tina/
 

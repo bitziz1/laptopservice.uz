@@ -4,8 +4,13 @@ import { getCollection, render } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import IconLink from "@/components/IconLink.astro";
+import TinaBody from "@/components/TinaBody.astro";
+import VisualCase from "@/components/VisualCase";
 import { siteConfig } from "@/data/siteConfig";
 import { formatDateRu } from "@/utils/formatDate";
+import client from "../../../tina/__generated__/client";
+
+const CASE_QUERY = `query($relativePath:String!){ cases(relativePath:$relativePath){ title device category date problem diagnosis solution result tags heroImage gallery keySpecs{ label value } schemaType summaryForSocial body } }`;
 
 export async function getStaticPaths() {
   const entries = await getCollection("cases");
@@ -20,15 +25,47 @@ export async function getStaticPaths() {
 
 const { entry, slug } = Astro.props as { entry: any; slug: string };
 
-const data = entry.data;
-const title = data.title;
-const device = data.device;
-const category = data.category;
-const dateStr = data.date instanceof Date ? data.date.toISOString().slice(0,10) : String(data.date);
-const tags: string[] = data.tags ?? [];
-const keySpecs = data.keySpecs;
-const problem = data.problem ?? "";
-const solution = data.solution ?? "";
+// Tina live query with fallback to astro:content
+let tinaData: any = null;
+let tinaError: string | null = null;
+const tinaVariables = { relativePath: `${slug}.md` };
+let tinaPayload: any = null;
+try {
+  const gqlRes = await fetch("http://localhost:4001/graphql", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ query: CASE_QUERY, variables: tinaVariables }),
+  });
+  if (gqlRes.ok) {
+    const json: any = await gqlRes.json();
+    if (json?.data?.cases) {
+      tinaData = json.data.cases;
+      tinaPayload = { query: CASE_QUERY, variables: tinaVariables, data: json.data };
+    } else tinaError = json?.errors?.[0]?.message ?? "no data";
+  } else tinaError = `http ${gqlRes.status}`;
+} catch (e: any) {
+  tinaError = e?.message ?? String(e);
+  try {
+    const res = await client.queries.cases({ relativePath: `${slug}.md` });
+    tinaData = res?.data?.cases ?? null;
+    if (tinaData) {
+      tinaPayload = { query: res.query, variables: res.variables, data: res.data };
+      tinaError = null;
+    }
+  } catch {}
+}
+const isTina = !!tinaData;
+const raw = isTina ? tinaData : entry.data;
+
+const data = raw;
+const title = raw.title;
+const device = raw.device;
+const category = raw.category;
+const dateStr = raw.date instanceof Date ? raw.date.toISOString().slice(0, 10) : String(raw.date).slice(0, 10);
+const tags: string[] = raw.tags ?? [];
+const keySpecs = raw.keySpecs;
+const problem = raw.problem ?? "";
+const solution = raw.solution ?? "";
 const breadcrumbs = [
   { name: "Наши работы", url: "/cases" },
   { name: device, url: `/cases/${slug}` },
@@ -42,9 +79,16 @@ const solutionSteps = solution
     text: line.replace(/^\d+\.\s*/, ""),
   }));
 
+const galleryTinaStrings: string[] = isTina
+  ? (() => {
+      const g = (tinaData.gallery ?? []) as string[];
+      const h = (tinaData.heroImage ?? null) as string | null;
+      return h ? [h, ...g].filter(Boolean) : g.filter(Boolean);
+    })()
+  : [];
 const galleryImages: any[] = (() => {
-  const g = data.gallery ?? [];
-  const h = data.heroImage ?? null;
+  const g = (entry.data.gallery ?? []);
+  const h = (entry.data.heroImage ?? null) as any;
   return h ? [h, ...g] : g;
 })();
 const { Content } = await render(entry);
@@ -61,62 +105,56 @@ const { Content } = await render(entry);
     
     <Breadcrumbs items={breadcrumbs} />
 
-    <!-- Case Header -->
-    <header class="space-y-3">
-      <div class="flex flex-wrap items-center gap-2 text-xs font-sans">
-        <span class="text-chassis-400 font-bold uppercase tracking-wider">
-          {category}
-        </span>
-        <span class="text-chassis-400">•</span>
-        <time datetime={dateStr} class="text-chassis-400">{formatDateRu(dateStr)}</time>
-      </div>
-
-      <h1 class="text-xl sm:text-3xl font-extrabold text-chassis-100 tracking-tight leading-tight">
-        {title}
-      </h1>
-
-      <div class="text-xs font-sans text-chassis-300">
-        Устройство: <strong class="text-chassis-100">{device}</strong>
-      </div>
-    </header>
-
-    <!-- Gallery — оптимизируется в avif/webp с fallback webp -->
-    {galleryImages.length > 0 && (
-      <div class={galleryImages.length === 1 ? "rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900" : "grid grid-cols-1 sm:grid-cols-2 gap-3"}>
-        {galleryImages.map((img: any) => (
-          <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900">
-            <Picture src={img} alt={title} widths={[400, 800, 1200]} sizes="(max-width: 768px) 100vw, 800px" formats={["avif", "webp"]} fallbackFormat="webp" class="w-full h-auto object-contain" loading="lazy" decoding="async" />
+    {isTina && tinaPayload ? (
+      <VisualCase client:load query={tinaPayload.query} variables={tinaPayload.variables} data={tinaPayload.data} />
+    ) : (
+      <>
+        <header class="space-y-3">
+          <div class="flex flex-wrap items-center gap-2 text-xs font-sans">
+            <span class="text-chassis-400 font-bold uppercase tracking-wider">{category}</span>
+            <span class="text-chassis-400">•</span>
+            <time datetime={dateStr} class="text-chassis-400">{formatDateRu(dateStr)}</time>
+            {import.meta.env.DEV && <span class="text-chassis-500 text-[10px]">{tinaError ? `Tina err: ${tinaError}` : "Tina offline"}</span>}
           </div>
-        ))}
-      </div>
-    )}
+          <h1 class="text-xl sm:text-3xl font-extrabold text-chassis-100 tracking-tight leading-tight">{title}</h1>
+          <div class="text-xs font-sans text-chassis-300">Устройство: <strong class="text-chassis-100">{device}</strong></div>
+        </header>
 
-    <!-- Specs Box -->
-    {keySpecs && (
-      <div class="py-2 space-y-3">
-        <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider">Параметры ремонта</div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-          {keySpecs.map((spec: any) => (
-            <div class="space-y-1">
-              <span class="text-chassis-400 block text-[11px] uppercase tracking-wider">{spec.label}</span>
-              <span class="text-chassis-200 font-bold font-mono">{spec.value}</span>
+        {galleryImages.length > 0 && (
+          <div class={galleryImages.length === 1 ? "rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900" : "grid grid-cols-1 sm:grid-cols-2 gap-3"}>
+            {galleryImages.map((img: any) => (
+              <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900">
+                <Picture src={img} alt={title} widths={[400, 800, 1200]} sizes="(max-width: 768px) 100vw, 800px" formats={["avif", "webp"]} fallbackFormat="webp" class="w-full h-auto object-contain" loading="lazy" decoding="async" />
+              </div>
+            ))}
+          </div>
+        )}
+
+        {keySpecs && (
+          <div class="py-2 space-y-3">
+            <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider">Параметры ремонта</div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+              {keySpecs.map((spec: any) => (
+                <div class="space-y-1">
+                  <span class="text-chassis-400 block text-[11px] uppercase tracking-wider">{spec.label}</span>
+                  <span class="text-chassis-200 font-bold font-mono">{spec.value}</span>
+                </div>
+              ))}
             </div>
+          </div>
+        )}
+
+        <article class="prose prose-invert max-w-none prose-sm sm:prose-base prose-headings:text-chassis-100 prose-p:text-chassis-300 prose-strong:text-chassis-100 prose-li:text-chassis-300">
+          <Content />
+        </article>
+
+        <div class="flex flex-wrap gap-2 pt-2">
+          {tags.map((tag: string) => (
+            <span class="text-[11px] font-sans text-sky-400">#{tag}</span>
           ))}
         </div>
-      </div>
+      </>
     )}
-
-    <!-- Тело MD — секции ## Проблема и т.д. -->
-    <article class="prose prose-invert max-w-none prose-sm sm:prose-base prose-headings:text-chassis-100 prose-p:text-chassis-300 prose-strong:text-chassis-100 prose-li:text-chassis-300">
-      <Content />
-    </article>
-
-    <!-- Tags -->
-    <div class="flex flex-wrap gap-2 pt-2">
-      {tags.map((tag: string) => (
-        <span class="text-[11px] font-sans text-sky-400">#{tag}</span>
-      ))}
-    </div>
 
     <!-- CTA -->
     <div class="rounded-lg border border-chassis-700 bg-chassis-950 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">

@@ -1,0 +1,77 @@
+---
+interface Props { content: any; }
+const { content } = Astro.props as Props;
+
+// Minimal Tina rich-text JSON -> HTML renderer, no React.
+// Supports: root, p, h1-h6, blockquote, table, hr, ul/ol/li, a, em/strong/code, thematic_break
+function renderNode(node: any): string {
+  if (!node) return "";
+  if (typeof node.text === "string") {
+    let t = escapeHtml(node.text);
+    if (node.bold) t = `<strong>${t}</strong>`;
+    if (node.italic) t = `<em>${t}</em>`;
+    if (node.code) t = `<code>${t}</code>`;
+    return t;
+  }
+  const type = node.type || "";
+  const children = (node.children || []).map(renderNode).join("");
+  switch (type) {
+    case "h1": return `<h1>${children}</h1>`;
+    case "h2": return `<h2>${children}</h2>`;
+    case "h3": return `<h3>${children}</h3>`;
+    case "h4": return `<h4>${children}</h4>`;
+    case "h5": return `<h5>${children}</h5>`;
+    case "h6": return `<h6>${children}</h6>`;
+    case "p": return `<p>${children}</p>`;
+    case "blockquote": return `<blockquote>${children}</blockquote>`;
+    case "code": return `<pre><code>${children}</code></pre>`;
+    case "code_block": return `<pre><code>${children}</code></pre>`;
+    case "ul": return `<ul>${children}</ul>`;
+    case "ol": return `<ol>${children}</ol>`;
+    case "li": return `<li>${children}</li>`;
+    case "a": {
+      const href = node.url || node.href || "#";
+      return `<a href="${escapeAttr(href)}">${children}</a>`;
+    }
+    case "img": {
+      const url = node.url || "";
+      const alt = node.alt || "";
+      const caption = node.caption || "";
+      return `<img src="${escapeAttr(url)}" alt="${escapeAttr(alt)}" title="${escapeAttr(caption)}" loading="lazy" />`;
+    }
+    case "hr": return `<hr/>`;
+    case "thematicBreak": return `<hr/>`;
+    case "break": return `<br/>`;
+    case "table": return `<table>${children}</table>`;
+    case "thead": return `<thead>${children}</thead>`;
+    case "tbody": return `<tbody>${children}</tbody>`;
+    case "tr": return `<tr>${children}</tr>`;
+    case "th": return `<th>${children}</th>`;
+    case "td": return `<td>${children}</td>`;
+    default:
+      // unknown container – render children (covers root)
+      if (children) return children;
+      // fallback for leaf with no type
+      return "";
+  }
+}
+function escapeHtml(s: string){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;") }
+function escapeAttr(s: string){ return String(s).replace(/"/g,"&quot;") }
+
+let html = "";
+try {
+  if (!content) html = "";
+  else if (typeof content === "string") {
+    // Should not happen for Tina JSON, but render as plain
+    html = `<p>${escapeHtml(content)}</p>`;
+  } else if (Array.isArray(content)) {
+    html = content.map(renderNode).join("");
+  } else if (content.type === "root" || Array.isArray(content.children)) {
+    html = renderNode(content);
+  } else if (typeof content === "object") {
+    // Иногда body уже массив children
+    html = renderNode({ type: "root", children: Array.isArray(content.children) ? content.children : [content] });
+  }
+} catch { html = ""; }
+---
+<div class="tina-body" set:html={html} />

@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import ReviewCard from "@/components/ReviewCard.astro";
+import VisualReviews from "@/components/VisualReviews";
 import IconLink from "@/components/IconLink.astro";
 import { siteConfig } from "@/data/siteConfig";
 
@@ -24,6 +25,14 @@ const reviewsForCard = reviewsEntries.map((e) => ({
   gallery: e.data.gallery ?? [],
   captions: e.data.captions ?? [],
 }));
+
+const REVIEWS_TINA_QUERY = `query{ reviewsConnection{ edges{ node{ id _sys{ filename relativePath } author source rating date device avatar gallery captions body } } } }`;
+let tinaReviewsPayload: any = null;
+let isTinaReviews = false;
+try {
+  const r = await fetch("http://localhost:4001/graphql", { method:"POST", headers:{ "Content-Type":"application/json"}, body: JSON.stringify({ query: REVIEWS_TINA_QUERY })});
+  if(r.ok){ const j:any = await r.json(); if(j.data?.reviewsConnection){ tinaReviewsPayload = { query: REVIEWS_TINA_QUERY, variables: {}, data: j.data }; isTinaReviews = true; } }
+} catch {}
 ---
 
 <BaseLayout
@@ -96,11 +105,15 @@ const reviewsForCard = reviewsEntries.map((e) => ({
     </div>
 
     <!-- Grid — MD из content/reviews/*.md (Obsidian) — разная высота карточек -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 items-start auto-rows-auto">
-      {reviewsForCard.map((review) => (
-        <ReviewCard review={review as any} />
-      ))}
-    </div>
+    {isTinaReviews && tinaReviewsPayload ? (
+      <VisualReviews client:load query={tinaReviewsPayload.query} variables={tinaReviewsPayload.variables} data={tinaReviewsPayload.data} variant="page" />
+    ) : (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 items-start auto-rows-auto">
+        {reviewsForCard.map((review) => (
+          <ReviewCard review={review as any} />
+        ))}
+      </div>
+    )}
 
     <!-- Direct CTA -->
     <div class="rounded-lg border border-chassis-700 bg-chassis-950 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">

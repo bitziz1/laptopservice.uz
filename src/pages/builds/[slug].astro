@@ -4,7 +4,14 @@ import { getCollection, render } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import IconLink from "@/components/IconLink.astro";
+import TinaBody from "@/components/TinaBody.astro";
+import VisualBuild from "@/components/VisualBuild";
 import { siteConfig } from "@/data/siteConfig";
+
+// Tina Visual Editing: try to fetch via Tina GraphQL when dev server running, fallback to astro:content for production (gh-pages)
+import client from "../../../tina/__generated__/client";
+
+const BUILD_QUERY = `query($relativePath:String!){ builds(relativePath:$relativePath){ title purpose purposeLabel date description components{ cpu motherboard ram gpu storage psu case cooler } complexity tags heroImage gallery body } }`;
 
 export async function getStaticPaths() {
   const entries = await getCollection("builds");
@@ -18,7 +25,48 @@ export async function getStaticPaths() {
 }
 
 const { entry, slug } = Astro.props as { entry: any; slug: string };
-const build = { ...entry.data, slug, date: entry.data.date instanceof Date ? entry.data.date.toISOString().slice(0,10) : String(entry.data.date) };
+
+// Try Tina query – succeeds only when `tinacms dev` GraphQL on 4001 is running; on prod (gh-pages build) it fails fast and falls back to astro:content
+let tinaData: any = null;
+let tinaError: string | null = null;
+const tinaVariables = { relativePath: `${slug}.md` };
+let tinaPayload: any = null;
+try {
+  const gqlRes = await fetch("http://localhost:4001/graphql", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ query: BUILD_QUERY, variables: tinaVariables }),
+  });
+  if (gqlRes.ok) {
+    const json: any = await gqlRes.json();
+    if (json?.data?.builds) {
+      tinaData = json.data.builds;
+      tinaPayload = { query: BUILD_QUERY, variables: tinaVariables, data: json.data };
+    } else tinaError = json?.errors?.[0]?.message ?? "no data";
+  } else tinaError = `http ${gqlRes.status}`;
+} catch (e: any) {
+  tinaError = e?.message ?? String(e);
+  try {
+    const res = await client.queries.builds({ relativePath: `${slug}.md` });
+    tinaData = res?.data?.builds ?? null;
+    if (tinaData) {
+      tinaPayload = { query: res.query, variables: res.variables, data: res.data };
+      tinaError = null;
+    }
+  } catch {}
+}
+
+const isTina = !!tinaData;
+const raw = isTina ? tinaData : entry.data;
+const build = {
+  ...raw,
+  slug,
+  // Tina returns date as ISO string, astro returns Date
+  date: raw.date instanceof Date ? raw.date.toISOString().slice(0, 10) : String(raw.date).slice(0, 10),
+  // Normalize components/tags for Tina (may have null)
+  components: raw.components ?? {},
+  tags: raw.tags ?? [],
+};
 
 const breadcrumbs = [
   { name: "Сборки ПК", url: "/builds" },
@@ -47,6 +95,14 @@ const productJsonLd = {
   brand: { "@type": "Brand", name: siteConfig.brandName },
 };
 
+const galleryTinaStrings: string[] = isTina
+  ? (() => {
+      const g = (tinaData.gallery ?? []) as string[];
+      const h = (tinaData.heroImage ?? null) as string | null;
+      return h ? [h, ...g].filter(Boolean) : g.filter(Boolean);
+    })()
+  : [];
+
 const galleryImages: any[] = (() => {
   const g = entry.data.gallery ?? [];
   const h = entry.data.heroImage ?? null;
@@ -63,72 +119,63 @@ const { Content } = await render(entry);
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
     <Breadcrumbs items={breadcrumbs} />
 
-    <header class="space-y-4">
-      <div class="flex flex-wrap items-center gap-2 text-xs">
-        <span class="text-chassis-400 font-bold uppercase tracking-wider">
-          {build.purposeLabel}
-        </span>
-        <span class="text-chassis-400">• {build.date}</span>
-      </div>
-
-      <h1 class="text-2xl sm:text-4xl font-extrabold text-chassis-100 tracking-tight leading-tight">
-        {build.title}
-      </h1>
-
-      <p class="text-sm sm:text-base text-chassis-300 leading-relaxed">
-        {build.description}
-      </p>
-    </header>
-
-    {galleryImages.length > 0 && (
-      <div class={galleryImages.length === 1 ? "rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900" : "grid grid-cols-1 sm:grid-cols-2 gap-3"}>
-        {galleryImages.map((img: any) => (
-          <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900">
-            <Picture src={img} alt={build.title} widths={[400, 800]} sizes="(max-width: 768px) 100vw, 800px" formats={["avif", "webp"]} fallbackFormat="webp" class="w-full h-auto object-contain" loading="lazy" decoding="async" />
+    {isTina && tinaPayload ? (
+      <VisualBuild client:load query={tinaPayload.query} variables={tinaPayload.variables} data={tinaPayload.data} />
+    ) : (
+      <>
+        <header class="space-y-4">
+          <div class="flex flex-wrap items-center gap-2 text-xs">
+            <span class="text-chassis-400 font-bold uppercase tracking-wider">{build.purposeLabel}</span>
+            <span class="text-chassis-400">• {build.date}</span>
+            {import.meta.env.DEV && <span class="text-chassis-500 text-[10px]">{tinaError ? `Tina err: ${tinaError}` : "Tina offline"}</span>}
           </div>
-        ))}
-      </div>
-    )}
+          <h1 class="text-2xl sm:text-4xl font-extrabold text-chassis-100 tracking-tight leading-tight">{build.title}</h1>
+          <p class="text-sm sm:text-base text-chassis-300 leading-relaxed">{build.description}</p>
+        </header>
 
-    {Content && (
-      <article class="prose prose-invert max-w-none prose-sm sm:prose-base prose-headings:text-chassis-100 prose-p:text-chassis-300">
-        <Content />
-      </article>
-    )}
-
-    <!-- Components Table -->
-    <section class="py-2 space-y-4">
-      <h2 class="text-sm font-bold text-chassis-200 uppercase font-sans tracking-wider">
-        Состав
-      </h2>
-
-      <div class="space-y-4 text-xs font-mono">
-        {componentEntries.map(([key, value]) => (
-          <div class="flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-3">
-            <span class="text-chassis-400 shrink-0 sm:w-40 font-sans font-bold uppercase text-[11px] tracking-wider">
-              {componentLabels[key] ?? key}
-            </span>
-            <span class="text-chassis-200 leading-relaxed">{value}</span>
+        {galleryImages.length > 0 && (
+          <div class={galleryImages.length === 1 ? "rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900" : "grid grid-cols-1 sm:grid-cols-2 gap-3"}>
+            {galleryImages.map((img: any) => (
+              <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900">
+                <Picture src={img} alt={build.title} widths={[400, 800]} sizes="(max-width: 768px) 100vw, 800px" formats={["avif", "webp"]} fallbackFormat="webp" class="w-full h-auto object-contain" loading="lazy" decoding="async" />
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        )}
 
-      <p class="text-xs text-chassis-400 leading-relaxed">
-        Комплектующие подбираются из наличия в Ташкенте с возможностью замены на аналог по согласованию.
-      </p>
-    </section>
+        {Content && (
+          <article class="prose prose-invert max-w-none prose-sm sm:prose-base prose-headings:text-chassis-100 prose-p:text-chassis-300">
+            <Content />
+          </article>
+        )}
+
+        <section class="py-2 space-y-4">
+          <h2 class="text-sm font-bold text-chassis-200 uppercase font-sans tracking-wider">Состав</h2>
+          <div class="space-y-4 text-xs font-mono">
+            {componentEntries.map(([key, value]) => (
+              <div class="flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-3">
+                <span class="text-chassis-400 shrink-0 sm:w-40 font-sans font-bold uppercase text-[11px] tracking-wider">{componentLabels[key] ?? key}</span>
+                <span class="text-chassis-200 leading-relaxed">{value}</span>
+              </div>
+            ))}
+          </div>
+          <p class="text-xs text-chassis-400 leading-relaxed">Комплектующие подбираются из наличия в Ташкенте с возможностью замены на аналог по согласованию.</p>
+        </section>
+
+        <div class="flex flex-wrap gap-2 pt-2">
+          {build.tags.map((tag: string) => (
+            <span class="text-[11px] font-sans text-sky-400">#{tag}</span>
+          ))}
+        </div>
+      </>
+    )}
 
     <!-- JSON-LD Product -->
     <script is:inline type="application/ld+json" set:html={JSON.stringify(productJsonLd)} />
 
-    <!-- Tags -->
-    <div class="flex flex-wrap gap-2 pt-2">
-      {build.tags.map((tag: string) => (
-        <span class="text-[11px] font-sans text-sky-400">
-          #{tag}
-        </span>
-      ))}
-    </div>
+    {isTina && tinaPayload ? null : (
+      <div class="flex flex-wrap gap-2 pt-2 hidden">{/* placeholder to keep layout */}</div>
+    )}
 
     <!-- CTA -->
     <div class="rounded-lg border border-chassis-700 bg-chassis-950 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
