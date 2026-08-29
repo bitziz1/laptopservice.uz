@@ -63,7 +63,6 @@ export const collections = {
       z.object({
         handle: z.string().default("laptopservice_uz"),
         date: z.coerce.date(),
-        dateLabel: z.string().optional(),
         gallery: z.array(image()).optional(),
         alts: z.array(z.string()).optional(),
         url: z.string().url().optional(),

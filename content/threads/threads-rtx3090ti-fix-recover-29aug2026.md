@@ -1,7 +1,6 @@
 ---
 handle: laptopservice_uz
 date: 2026-08-29T09:32:07.420Z
-dateLabel: 29 августа 2026
 gallery:
   - /content/threads/photo_2026-08-29_14-28-55.jpg
 alts:

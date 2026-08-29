@@ -256,7 +256,6 @@ export default defineConfig({
         fields: [
           { type: "string", name: "handle", label: "Хэндл", required: false },
           { type: "datetime", name: "date", label: "Дата", required: true },
-          { type: "string", name: "dateLabel", label: "Подпись даты" },
           { type: "image", name: "gallery", label: "Галерея", list: true },
           { type: "string", name: "alts", label: "Alt-тексты", list: true, description: "1:1 к gallery" },
           { type: "string", name: "url", label: "Ссылка на публикацию", description: "Кнопка «Публикация» ведёт сюда, если пусто — в Telegram" },

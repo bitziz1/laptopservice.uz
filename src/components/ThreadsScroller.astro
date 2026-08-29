@@ -1,7 +1,7 @@
 ---
 import { Picture } from "astro:assets";
 import { getCollection } from "astro:content";
-import { formatDateRu } from "@/utils/formatDate";
+import { formatThreadsDate } from "@/utils/formatDate";
 import { siteConfig } from "@/data/siteConfig";
 
 interface Props {
@@ -38,7 +38,7 @@ function galleryWithAlts(entry: (typeof threads)[number]) {
     {threads.map((entry, idx) => {
       const gallery = galleryWithAlts(entry);
       const dateIso = entry.data.date.toISOString().slice(0, 10);
-      const dateLabel = entry.data.dateLabel ?? formatDateRu(dateIso);
+      const dateLabel = formatThreadsDate(dateIso);
       const handle = entry.data.handle ?? "laptopservice_uz";
       const text = entry.body?.trim() ?? "";
       const postUrl = (entry.data as any).url ?? siteConfig.telegram.channelUrl;
