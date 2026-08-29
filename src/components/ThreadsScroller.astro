@@ -31,9 +31,6 @@ function galleryWithAlts(entry: (typeof threads)[number]) {
   <div
     id="threads-scroller"
     class="threads-scroller flex gap-2 overflow-x-auto overflow-y-hidden pb-1 snap-x snap-mandatory scroll-smooth -mx-4 px-4 sm:mx-0 sm:px-0"
-    role="feed"
-    aria-label="Лента работ в стиле Threads — коллекция ссылок с превью"
-    tabindex="0"
   >
     {threads.map((entry, idx) => {
       const gallery = galleryWithAlts(entry);
@@ -43,15 +40,15 @@ function galleryWithAlts(entry: (typeof threads)[number]) {
       const text = entry.body?.trim() ?? "";
       const postUrl = (entry.data as any).url ?? siteConfig.telegram.channelUrl;
       return (
-        <article
-          class="threads-card shrink-0 snap-start w-[260px] sm:w-[300px] bg-chassis-850 border border-chassis-800 rounded-[14px] overflow-hidden flex flex-col cursor-pointer hover:border-chassis-700 hover:bg-chassis-800/60 transition-colors"
-          role="button"
-          tabindex="0"
-          aria-posinset={idx + 1}
-          aria-setsize={threads.length}
+        <a
+          href={postUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="threads-card shrink-0 snap-start w-[260px] sm:w-[300px] bg-chassis-850 border border-chassis-800 rounded-[14px] overflow-hidden flex flex-col hover:border-chassis-700 hover:bg-chassis-800/60 transition-colors text-left no-underline"
           data-thread-id={entry.id}
           data-thread-text={text}
           data-thread-url={postUrl}
+          aria-label={`${handle} — ${text.slice(0,60)}`}
         >
           {/* Header — компактный, без ⋯ */}
           <div class="flex items-center gap-2 p-2.5 pb-1.5">
@@ -60,7 +57,7 @@ function galleryWithAlts(entry: (typeof threads)[number]) {
               <div class="flex items-center gap-1 flex-wrap leading-none">
                 <span class="text-xs font-bold text-chassis-100 leading-none">{handle}</span>
                 <span class="inline-flex items-center justify-center w-3 h-3 rounded-full bg-sky-500 text-white text-[8px] leading-none">✓</span>
-                <span class="text-chassis-600 text-[11px]">·</span>
+                <span class="text-chassis-500 text-[11px]">·</span>
                 <time datetime={dateIso} class="text-[11px] text-chassis-400 font-sans">{dateLabel}</time>
               </div>
               <div class="text-[10px] text-chassis-500 font-sans leading-none mt-0.5">Laptop Service · Ташкент</div>
@@ -79,8 +76,8 @@ function galleryWithAlts(entry: (typeof threads)[number]) {
                 <Picture
                   src={gallery[0].img}
                   alt={gallery[0].alt}
-                  widths={[360, 720, 1080]}
-                  sizes="(max-width: 640px) 260px, 280px"
+                  widths={[320, 560]}
+                  sizes="(max-width: 640px) 260px, 300px"
                   formats={["avif", "webp"]}
                   fallbackFormat="webp"
                   loading={idx === 0 ? "eager" : "lazy"}
@@ -98,7 +95,7 @@ function galleryWithAlts(entry: (typeof threads)[number]) {
                     <Picture
                       src={img}
                       alt={alt}
-                      widths={[180, 360, 720]}
+                      widths={[140, 280]}
                       sizes="(max-width: 640px) 128px, 138px"
                       formats={["avif", "webp"]}
                       fallbackFormat="webp"
@@ -111,7 +108,7 @@ function galleryWithAlts(entry: (typeof threads)[number]) {
               </div>
             </div>
           ) : null}
-        </article>
+        </a>
       );
     })}
   </div>
@@ -247,6 +244,11 @@ function galleryWithAlts(entry: (typeof threads)[number]) {
         hideSticker();
         return;
       }
+      // second click on same card while sticker visible → allow native navigation to post
+      if (isStickerVisible() && anchorCard === card) {
+        hideSticker();
+        return; // don't preventDefault, follow <a href>
+      }
       e.preventDefault();
       const x = (e as MouseEvent).clientX;
       const y = (e as MouseEvent).clientY;
@@ -255,20 +257,14 @@ function galleryWithAlts(entry: (typeof threads)[number]) {
     scroller.addEventListener('touchend', (e) => {
       const card = (e.target as HTMLElement).closest('.threads-card') as HTMLElement | null;
       if (!card) return;
+      // if sticker already on this card, let click handler handle navigation
+      if (isStickerVisible() && anchorCard === card) return;
       const touch = (e as TouchEvent).changedTouches[0];
       if (!touch) return;
+      // prevent synthetic click -> show sticker only
+      e.preventDefault();
       showAtAnchor(card, touch.clientX, touch.clientY);
-    }, { passive: true });
-    scroller.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        const card = (e.target as HTMLElement).closest('.threads-card') as HTMLElement | null;
-        if (card) {
-          e.preventDefault();
-          const rect = card.getBoundingClientRect();
-          showAtAnchor(card, rect.left + rect.width / 2, rect.top + rect.height / 2);
-        }
-      }
-    });
+    }, { passive: false });
     // клик вне — скрыть
     document.addEventListener('click', (e) => {
       const target = e.target as HTMLElement;

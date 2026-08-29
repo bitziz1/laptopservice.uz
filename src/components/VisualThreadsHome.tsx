@@ -52,7 +52,7 @@ export default function VisualThreadsHome(props: { query: string; variables: any
                       {handle}
                     </span>
                     <span className="inline-flex items-center justify-center w-3 h-3 rounded-full bg-sky-500 text-white text-[8px] leading-none">✓</span>
-                    <span className="text-chassis-600 text-[11px]">·</span>
+                    <span className="text-chassis-500 text-[11px]">·</span>
                     <time dateTime={dateIso} className="text-[11px] text-chassis-400 font-sans" data-tina-field={tinaField(node, "date")}>
                       {dateLabel}
                     </time>

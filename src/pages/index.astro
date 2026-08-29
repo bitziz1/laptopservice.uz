@@ -162,7 +162,7 @@ const homeFaq = [
             <p class="text-xs text-chassis-400 leading-relaxed line-clamp-2 mt-1.5">{service.shortDescription}</p>
             <div class="mt-2 space-y-1">
               {service.symptoms.slice(0, 2).map((s) => (
-                <div class="text-[11px] text-chassis-500 flex gap-1.5 leading-tight"><span class="text-chassis-600 shrink-0">—</span><span class="line-clamp-1">{s}</span></div>
+                <div class="text-[11px] text-chassis-500 flex gap-1.5 leading-tight"><span class="text-chassis-400 shrink-0">—</span><span class="line-clamp-1">{s}</span></div>
               ))}
             </div>
             <span class="mt-auto pt-3 ml-auto self-end text-right text-[11px] font-sans font-bold text-chassis-300 group-hover:text-chassis-100">Подробнее →</span>
@@ -199,14 +199,14 @@ const homeFaq = [
             </div>
             {previewImages.length === 1 && (
               <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900 mb-2.5">
-                <Picture src={previewImages[0]} alt={entry.data.title} widths={[300, 600]} sizes="(max-width: 640px) 290px, 310px" formats={["avif", "webp"]} fallbackFormat="webp" loading="lazy" decoding="async" class="w-full h-[110px] object-cover" />
+                <Picture src={previewImages[0]} alt={entry.data.title} widths={[310, 620]} sizes="(max-width: 640px) 290px, 310px" formats={["avif", "webp"]} fallbackFormat="webp" loading="lazy" decoding="async" class="w-full h-[110px] object-cover" />
               </div>
             )}
             {previewImages.length >= 2 && (
               <div class="grid grid-cols-2 gap-1.5 mb-2.5">
                 {previewImages.map((img) => (
                   <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900">
-                    <Picture src={img} alt={entry.data.title} widths={[180, 360]} sizes="140px" formats={["avif", "webp"]} fallbackFormat="webp" loading="lazy" decoding="async" class="w-full h-[90px] object-cover" />
+                    <Picture src={img} alt={entry.data.title} widths={[140, 280]} sizes="140px" formats={["avif", "webp"]} fallbackFormat="webp" loading="lazy" decoding="async" class="w-full h-[90px] object-cover" />
                   </div>
                 ))}
               </div>
@@ -214,9 +214,9 @@ const homeFaq = [
             <h3 class="text-sm font-bold text-chassis-100 leading-tight line-clamp-2 group-hover:underline underline-offset-2">{entry.data.title}</h3>
             <p class="text-xs text-chassis-400 leading-relaxed line-clamp-2 mt-1.5">{entry.data.description}</p>
             <div class="mt-2 space-y-1 font-mono text-[11px]">
-              {entry.data.components?.cpu && <div class="flex gap-1.5 leading-tight"><span class="text-chassis-600 shrink-0">CPU:</span><span class="text-chassis-400 line-clamp-1">{entry.data.components.cpu}</span></div>}
-              {entry.data.components?.gpu && <div class="flex gap-1.5 leading-tight"><span class="text-chassis-600 shrink-0">GPU:</span><span class="text-chassis-400 line-clamp-1">{entry.data.components.gpu}</span></div>}
-              {entry.data.components?.ram && <div class="flex gap-1.5 leading-tight"><span class="text-chassis-600 shrink-0">RAM:</span><span class="text-chassis-400 line-clamp-1">{entry.data.components.ram}</span></div>}
+              {entry.data.components?.cpu && <div class="flex gap-1.5 leading-tight"><span class="text-chassis-400 shrink-0">CPU:</span><span class="text-chassis-400 line-clamp-1">{entry.data.components.cpu}</span></div>}
+              {entry.data.components?.gpu && <div class="flex gap-1.5 leading-tight"><span class="text-chassis-400 shrink-0">GPU:</span><span class="text-chassis-400 line-clamp-1">{entry.data.components.gpu}</span></div>}
+              {entry.data.components?.ram && <div class="flex gap-1.5 leading-tight"><span class="text-chassis-400 shrink-0">RAM:</span><span class="text-chassis-400 line-clamp-1">{entry.data.components.ram}</span></div>}
             </div>
             <span class="mt-auto pt-3 ml-auto self-end text-right text-[11px] font-sans font-bold text-chassis-300 group-hover:text-chassis-100">Смотреть характеристики →</span>
           </a>
@@ -244,20 +244,20 @@ const homeFaq = [
           <div class="flex items-center gap-2 mb-2">
             <img src="/logo.svg" alt="" width="20" height="20" class="w-5 h-5 rounded-full bg-chassis-900 border border-chassis-800 shrink-0" loading="lazy" />
             <span class="text-[10px] font-sans font-bold uppercase tracking-wider text-chassis-500 line-clamp-1">{entry.data.category}</span>
-            <span class="text-chassis-600 text-[11px]">·</span>
+            <span class="text-chassis-500 text-[11px]">·</span>
             <time datetime={entry.data.date.toISOString().slice(0,10)} class="text-[11px] font-sans text-chassis-400 shrink-0">{formatDateRu(entry.data.date.toISOString().slice(0,10))}</time>
           </div>
           <div class="text-[11px] font-sans text-chassis-500 mb-1 line-clamp-1">Устройство: <span class="text-chassis-300 font-bold">{entry.data.device}</span></div>
           {allImages.length === 1 && (
               <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900 mb-2.5">
-                <Picture src={allImages[0]} alt={entry.data.title} widths={[300, 600]} sizes="(max-width: 640px) 300px, 320px" formats={["avif", "webp"]} fallbackFormat="webp" loading="lazy" decoding="async" class="w-full h-[110px] object-cover" />
+                <Picture src={allImages[0]} alt={entry.data.title} widths={[320, 640]} sizes="(max-width: 640px) 300px, 320px" formats={["avif", "webp"]} fallbackFormat="webp" loading="lazy" decoding="async" class="w-full h-[110px] object-cover" />
               </div>
             )}
           {allImages.length === 2 && (
             <div class="grid grid-cols-2 gap-1.5 mb-2.5">
               {allImages.map((img) => (
                   <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900">
-                    <Picture src={img} alt={entry.data.title} widths={[180, 360]} sizes="140px" formats={["avif", "webp"]} fallbackFormat="webp" loading="lazy" decoding="async" class="w-full h-[90px] object-cover" />
+                    <Picture src={img} alt={entry.data.title} widths={[140, 280]} sizes="140px" formats={["avif", "webp"]} fallbackFormat="webp" loading="lazy" decoding="async" class="w-full h-[90px] object-cover" />
                   </div>
                 ))}
             </div>
@@ -297,9 +297,9 @@ const homeFaq = [
           <h2 class="text-xl sm:text-2xl font-bold text-chassis-100">Отзывы клиентов</h2>
           <div class="flex items-center gap-3 text-xs">
             <IconLink type="yandex-maps" href={siteConfig.socials.yandexMaps} label="Яндекс Карты" ariaLabel="Открыть в Яндекс Картах" variant="inline" target="_blank" class="text-chassis-300 hover:text-chassis-100 underline" />
-            <span class="text-chassis-600">•</span>
+            <span class="text-chassis-500">•</span>
             <IconLink type="google-maps" href={siteConfig.socials.googleMaps} label="Google Maps" ariaLabel="Открыть в Google Maps" variant="inline" target="_blank" class="text-chassis-300 hover:text-chassis-100 underline" />
-            <span class="text-chassis-600">•</span>
+            <span class="text-chassis-500">•</span>
             <IconLink type="2gis" href={siteConfig.socials.twoGis} label="2ГИС" ariaLabel="Открыть в 2ГИС" variant="inline" target="_blank" class="text-chassis-300 hover:text-chassis-100 underline" />
           </div>
         </div>
@@ -409,16 +409,13 @@ const homeFaq = [
         </div>
 
         <div class="lg:col-span-6 space-y-4">
-          <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900 h-[240px]">
-            <iframe
-              src="https://yandex.ru/map-widget/v1/org/81659688745/?ll=69.3148%2C41.3144&z=16&l=map"
-              width="100%"
-              height="100%"
-              style="border:0;"
-              loading="lazy"
-              title="Карта — Laptop Service, Паркент 11"
-              class="w-full h-full"
-            ></iframe>
+          <div id="map-facade-index" class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900 h-[240px] relative">
+            <div class="map-placeholder absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center bg-chassis-900">
+              <div class="text-xs text-chassis-300 leading-relaxed">Интерактивная карта загружается по клику — экономит ~900 мс и 10 cookie</div>
+              <button type="button" data-load-map="map-facade-index" data-src="https://yandex.ru/map-widget/v1/org/81659688745/?ll=69.3148%2C41.3144&z=16&l=map" class="px-5 py-2.5 rounded-xl bg-chassis-800 hover:bg-chassis-700 border border-chassis-600 text-chassis-100 text-xs font-bold transition-colors">Загрузить карту</button>
+              <div class="flex gap-2 text-[11px] text-chassis-400"><a href="https://yandex.com/maps/org/laptop_service/81659688745" target="_blank" rel="noopener" class="underline hover:text-chassis-200">Яндекс Карты</a><span>•</span><a href="https://maps.google.com/?q=41.3144,69.3148" target="_blank" rel="noopener" class="underline hover:text-chassis-200">Google Maps</a></div>
+            </div>
+            <noscript><iframe src="https://yandex.ru/map-widget/v1/org/81659688745/?ll=69.3148%2C41.3144&z=16&l=map" width="100%" height="100%" style="border:0;" title="Карта — Laptop Service, Паркент 11" class="w-full h-full" loading="lazy"></iframe></noscript>
           </div>
           <div class="rounded border border-chassis-800 bg-chassis-900 p-6 space-y-3">
             <div class="text-xs font-sans text-chassis-400 uppercase">Прямая связь</div>
@@ -458,6 +455,11 @@ const homeFaq = [
   </style>
 
   <script is:inline>
+    // Map facade — click to load iframe
+    (function(){function loadMap(id,src){var c=document.getElementById(id);if(!c||c.dataset.loaded)return;var f=document.createElement('iframe');f.src=src;f.width='100%';f.height='100%';f.style.border='0';f.loading='lazy';f.title='Карта — Laptop Service, Паркент 11';f.className='w-full h-full';c.innerHTML='';c.appendChild(f);c.dataset.loaded='1';}
+    document.addEventListener('click',function(e){var b=e.target.closest('[data-load-map]');if(!b)return;loadMap(b.getAttribute('data-load-map'),b.getAttribute('data-src'));});
+    var fac=document.getElementById('map-facade-index');if(fac) fac.addEventListener('click',function(e){if(e.target.closest('a')||e.target.closest('button'))return;var btn=fac.querySelector('[data-load-map]');if(btn) loadMap(btn.getAttribute('data-load-map'),btn.getAttribute('data-src'));});
+    })();
     document.addEventListener('click', function(e) {
       var btn = e.target.closest('.review-more');
       if (!btn) return;

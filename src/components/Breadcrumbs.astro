@@ -21,7 +21,7 @@ const { items } = Astro.props;
       const isLast = idx === items.length - 1;
       return (
         <li class="flex items-center gap-1.5">
-          <span class="text-chassis-600">/</span>
+          <span class="text-chassis-500">/</span>
           {isLast ? (
             <span class="text-chassis-200 font-medium truncate max-w-[200px] sm:max-w-md" aria-current="page">
               {item.name}

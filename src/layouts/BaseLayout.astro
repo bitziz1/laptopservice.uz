@@ -58,37 +58,25 @@ const fullTitle = title.includes("Laptop Service") ? title : `${title} — Lapto
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
 
-    <!-- Performance: preconnect for third-party -->
-    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+    <!-- Performance: preconnect kept but scripts deferred -->
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-    <link rel="preconnect" href="https://mc.yandex.ru" crossorigin />
     <link rel="dns-prefetch" href="https://mc.yandex.ru" />
-    <link rel="preconnect" href="https://mc.yandex.com" crossorigin />
     <link rel="dns-prefetch" href="https://mc.yandex.com" />
 
     <!-- Preload LCP-related critical assets -->
     <link rel="preload" href="/logo.svg" as="image" type="image/svg+xml" fetchpriority="high" />
 
-    <!-- Google Tag Manager -->
-    <script is:inline>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-MHDMSHWH');</script>
-    <!-- End Google Tag Manager -->
-
-    <!-- Yandex.Metrika counter -->
+    <!-- Google Tag Manager + Yandex.Metrika — deferred until idle/interaction to unblock LCP/TBT -->
     <script is:inline>
-        (function(m,e,t,r,i,k,a){
-            m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-            m[i].l=1*new Date();
-            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-        })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111901353', 'ym');
-
-        ym(111901353, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+    (()=>{let g=false,y=false;function loadGTM(){if(g)return;g=true;(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-MHDMSHWH');}
+    function loadYM(){if(y)return;y=true;(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,'script','https://mc.yandex.ru/metrika/tag.js?id=111901353','ym');ym(111901353,'init',{ssr:true,webvisor:true,clickmap:true,ecommerce:"dataLayer",referrer:document.referrer,url:location.href,accurateTrackBounce:true,trackLinks:true});}
+    function loadAll(){loadGTM();loadYM();}
+    const idle=window.requestIdleCallback?(cb)=>requestIdleCallback(cb,{timeout:3500}):(cb)=>setTimeout(cb,3500);
+    idle(loadAll);
+    ['scroll','mousemove','touchstart','click','keydown'].forEach(ev=>window.addEventListener(ev,loadAll,{once:true,passive:true}));
+    setTimeout(loadAll,5000);
+    })();
     </script>
-    <!-- /Yandex.Metrika counter -->
 
     <!-- Open Graph / Social -->
     <meta property="og:type" content="website" />
