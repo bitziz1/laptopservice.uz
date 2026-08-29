@@ -4,7 +4,6 @@ import { getCollection, render } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import IconLink from "@/components/IconLink.astro";
-import TinaBody from "@/components/TinaBody.astro";
 import VisualBuild from "@/components/VisualBuild";
 import { siteConfig } from "@/data/siteConfig";
 
@@ -94,14 +93,6 @@ const productJsonLd = {
   category: build.purposeLabel,
   brand: { "@type": "Brand", name: siteConfig.brandName },
 };
-
-const galleryTinaStrings: string[] = isTina
-  ? (() => {
-      const g = (tinaData.gallery ?? []) as string[];
-      const h = (tinaData.heroImage ?? null) as string | null;
-      return h ? [h, ...g].filter(Boolean) : g.filter(Boolean);
-    })()
-  : [];
 
 const galleryImages: any[] = (() => {
   const g = entry.data.gallery ?? [];
