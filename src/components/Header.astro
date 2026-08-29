@@ -127,6 +127,12 @@ const navItems = [
         </a>
       );
     })}
+    <div class="pt-2 border-t border-chassis-800 flex items-center gap-2 flex-wrap">
+      <IconLink type="threads" href={siteConfig.socials.threads} ariaLabel="Threads" variant="icon-only" target="_blank" />
+      <IconLink type="instagram" href={siteConfig.socials.instagram} ariaLabel="Instagram" variant="icon-only" target="_blank" />
+      <IconLink type="telegram" href={siteConfig.telegram.channelUrl} ariaLabel="Telegram" variant="icon-only" target="_blank" />
+      <IconLink type="facebook" href={siteConfig.socials.facebook} ariaLabel="Facebook" variant="icon-only" target="_blank" />
+    </div>
   </div>
 </header>
 

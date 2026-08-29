@@ -22,7 +22,7 @@ const slugify = (str: string) =>
     .slice(0, 80) || "untitled";
 
 // Date suffix: -DDmmmYYYY (-26aug2026), if day unknown -mmmYYYY (-aug2026), if month unknown -YYYY (-2026)
-const MONTHS = ["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"] as const;
+const MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"] as const;
 const dateSuffix = (dateVal: any): string => {
   if (!dateVal) return "";
   // Handle raw string partial dates before Date parsing
@@ -30,7 +30,7 @@ const dateSuffix = (dateVal: any): string => {
     const raw = dateVal.trim();
     if (/^\d{4}$/.test(raw)) return `-${raw}`; // -YYYY
     if (/^\d{4}-\d{2}$/.test(raw)) {
-      const [y,m] = raw.split("-");
+      const [y, m] = raw.split("-");
       const idx = parseInt(m, 10) - 1;
       if (idx >= 0 && idx < 12) return `-${MONTHS[idx]}${y}`; // -mmmYYYY
     }
@@ -171,16 +171,18 @@ export default defineConfig({
         fields: [
           { type: "string", name: "title", label: "Заголовок", isTitle: true, required: true },
           { type: "string", name: "device", label: "Устройство", required: true },
-          { type: "string", name: "category", label: "Категория", required: true, options: [
-            { value: "Компонентный ремонт платы", label: "Компонентный ремонт" },
-            { value: "BGA-пайка и реболлинг", label: "BGA-пайка" },
-            { value: "Восстановление после залития", label: "После залития" },
-            { value: "Ремонт петель и корпуса", label: "Петли/корпус" },
-            { value: "Профилактика и охлаждение", label: "Профилактика" },
-            { value: "Прошивка BIOS / EC", label: "BIOS/EC" },
-            { value: "Разъемы и пайка", label: "Разъемы" },
-            { value: "Диагностика", label: "Диагностика" },
-          ]},
+          {
+            type: "string", name: "category", label: "Категория", required: true, options: [
+              { value: "Компонентный ремонт платы", label: "Компонентный ремонт" },
+              { value: "BGA-пайка и реболлинг", label: "BGA-пайка" },
+              { value: "Восстановление после залития", label: "После залития" },
+              { value: "Ремонт петель и корпуса", label: "Петли/корпус" },
+              { value: "Профилактика и охлаждение", label: "Профилактика" },
+              { value: "Прошивка BIOS / EC", label: "BIOS/EC" },
+              { value: "Разъемы и пайка", label: "Разъемы" },
+              { value: "Диагностика", label: "Диагностика" },
+            ]
+          },
           { type: "datetime", name: "date", label: "Дата", required: true },
           { type: "string", name: "problem", label: "Проблема (frontmatter, optional)", ui: { component: "textarea" } },
           { type: "string", name: "diagnosis", label: "Диагностика", ui: { component: "textarea" } },
@@ -210,25 +212,43 @@ export default defineConfig({
         path: "content/threads",
         format: "md",
         ui: {
-          router: ({ document }) => `/`,
+          router: () => `/`,
           filename: {
             // slug = handle/body-base + -DDmmmYYYY (suffix, not prefix)
             slugify: (values: any) => {
               const suffix = dateSuffix(values?.date) || dateSuffix(new Date());
-              // Prefer handle if it's descriptive; fallback to body excerpt or "post"
-              let raw: string = "post";
+              const extractText = (body: any): string => {
+                if (!body) return "";
+                if (typeof body === "string") return body;
+                if (Array.isArray(body)) {
+                  const texts: string[] = [];
+                  for (const node of body) {
+                    if (node?.children) {
+                      for (const child of node.children) {
+                        if (child?.text) texts.push(child.text);
+                      }
+                    } else if (node?.text) texts.push(node.text);
+                  }
+                  return texts.join(" ");
+                }
+                return "";
+              };
+              let raw = extractText(values?.body).slice(0, 80).trim();
               const handleSlug = values?.handle ? slugify(values.handle) : "";
-              if (handleSlug && handleSlug !== "laptopservice-uz" && handleSlug !== "laptopservice-uz") {
-                raw = values.handle;
-              } else if (values?.body) {
-                // body may be rich-text JSON or string — try to extract text
-                if (typeof values.body === "string") raw = values.body.slice(0, 80);
-                else if (Array.isArray(values.body) && values.body[0]?.children?.[0]?.text) raw = values.body[0].children[0].text.slice(0, 80);
+              const isGenericHandle = handleSlug === "laptopservice-uz" || handleSlug === "laptopservice-uz";
+              if (!raw) {
+                if (handleSlug && !isGenericHandle) raw = values.handle;
                 else raw = "post";
-              } else if (values?.handle) raw = values.handle;
+              }
+              // если тело начинается с generic handle — всё равно berём тело
               const s = slugify(raw);
               const clean = stripDateSuffix(s) || "post";
-              const base = clean === "laptopservice-uz" ? "post" : clean;
+              let base = clean === "laptopservice-uz" ? "post" : clean;
+              // если всё ещё post и есть тело — попробуй взять первые слова из тела
+              if (base === "post" && raw === "post") {
+                base = "post";
+              }
+              // коллизию в один день разруливаем: Tina не добавляет суффикс уникальности, поэтому ручной slug всё равно предпочтительнее
               return base + suffix;
             },
           },
@@ -239,6 +259,7 @@ export default defineConfig({
           { type: "string", name: "dateLabel", label: "Подпись даты" },
           { type: "image", name: "gallery", label: "Галерея", list: true },
           { type: "string", name: "alts", label: "Alt-тексты", list: true, description: "1:1 к gallery" },
+          { type: "string", name: "url", label: "Ссылка на публикацию", description: "Кнопка «Публикация» ведёт сюда, если пусто — в Telegram" },
           { type: "rich-text", name: "body", label: "Текст поста", isBody: true },
         ],
       },
@@ -248,7 +269,7 @@ export default defineConfig({
         path: "content/reviews",
         format: "md",
         ui: {
-          router: ({ document }) => `/reviews`,
+          router: () => `/reviews`,
           filename: {
             // slug = rev-author + -DDmmmYYYY
             slugify: (values: any) => {

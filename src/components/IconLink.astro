@@ -14,7 +14,7 @@
  *   rel      — rel атрибут (по умолчанию 'noopener noreferrer' для _blank)
  */
 
-export type IconType = "telegram" | "telegram-channel" | "phone" | "instagram" | "facebook" | "google-maps" | "yandex-maps" | "2gis";
+export type IconType = "telegram" | "telegram-channel" | "phone" | "instagram" | "facebook" | "threads" | "google-maps" | "yandex-maps" | "2gis";
 
 export type IconVariant = "button" | "inline" | "icon-only";
 
@@ -47,6 +47,7 @@ const iconMap: Record<IconType, string> = {
   phone: "/phone.svg",
   instagram: "/Instagram_logo.svg",
   facebook: "/Facebook_logo.svg",
+  threads: "/Threads_logo.svg",
   "google-maps": "/Google_Maps_icon.svg",
   "yandex-maps": "/Yandex_Maps_icon.svg",
   "2gis": "/2gis.svg",
@@ -59,6 +60,7 @@ const defaultAriaLabels: Record<IconType, string> = {
   phone: "Позвонить",
   instagram: "Instagram: laptopservice_uz",
   facebook: "Facebook: RemontNoutbukov.uz",
+  threads: "Threads: @laptopservice_uz",
   "google-maps": "Открыть в Google Maps",
   "yandex-maps": "Открыть в Яндекс Картах",
   "2gis": "Открыть в 2ГИС",

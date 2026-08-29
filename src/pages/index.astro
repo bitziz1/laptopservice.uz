@@ -245,7 +245,16 @@ const homeFaq = [
         </a>
         )})}
     </div>
-    <div class="flex justify-center pt-1">
+    <div class="flex justify-center pt-1 gap-2 flex-wrap">
+      <IconLink
+        type="threads"
+        href={siteConfig.socials.threads}
+        label="Мы в Threads — @laptopservice_uz"
+        ariaLabel="Мы в Threads — @laptopservice_uz"
+        variant="button"
+        target="_blank"
+        class="px-6 py-3 text-sm bg-chassis-900 hover:bg-chassis-850 text-chassis-200 font-bold"
+      />
       <IconLink
         type="telegram"
         href={siteConfig.telegram.masterUrl}

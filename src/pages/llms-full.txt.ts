@@ -43,6 +43,7 @@ export const GET: APIRoute = async () => {
 - **Telegram сервиса:** https://t.me/laptopservice_master (@laptopservice_master)
 - **Telegram канал (Source of Truth):** https://t.me/laptopservice_uz (@laptopservice_uz)
 - **Telegram чат:** https://t.me/laptop_service_chat
+- **Threads:** https://www.threads.com/@laptopservice_uz (@laptopservice_uz)
 - **Физический адрес:** Узбекистан, г. Ташкент, ул. Паркент, дом 11
 - **Ориентиры:** Напротив центрального входа Паркентского базара, магазин «Радиодетали»
 - **Координаты GPS:** 41.3155525 N, 69.322636 E

@@ -66,6 +66,7 @@ export const collections = {
         dateLabel: z.string().optional(),
         gallery: z.array(image()).optional(),
         alts: z.array(z.string()).optional(),
+        url: z.string().url().optional(),
       }),
   }),
 

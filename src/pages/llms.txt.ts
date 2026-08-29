@@ -64,6 +64,7 @@ ${buildsList
 - [Telegram-канал](https://t.me/laptopservice_uz): Ежедневные публикации из мастерской.
 - [Telegram-чат](https://t.me/laptop_service_chat): Чат мастеров и обсуждения.
 - [Instagram](https://www.instagram.com/laptopservice_uz): Фото и видео рабочего процесса.
+- [Threads](https://www.threads.com/@laptopservice_uz): Лента работ и короткие заметки из сервиса.
 - [Facebook](https://www.facebook.com/RemontNoutbukov.uz): Официальная страница в Facebook.
 
 ## Дополнительно
