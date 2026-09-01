@@ -44,62 +44,75 @@ try {
     
     <Breadcrumbs items={breadcrumbs} />
 
-    <header class="max-w-3xl space-y-3">
-      <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider">
-        Верифицированные отзывы
-      </div>
+    <!-- Две колонки: слева — инфо и кнопки, справа — виджет отзывов -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+      <!-- Левая колонка -->
+      <div class="space-y-6">
+        <div class="space-y-3">
+          <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider">
+            Верифицированные отзывы
+          </div>
 
-      <h1 class="text-2xl sm:text-4xl font-extrabold text-chassis-100 tracking-tight">
-        Отзывы клиентов сервисного центра
-      </h1>
+          <h1 class="text-2xl sm:text-4xl font-extrabold text-chassis-100 tracking-tight">
+            Отзывы клиентов сервисного центра
+          </h1>
 
-      <p class="text-xs sm:text-sm text-chassis-300 leading-relaxed">
-        Реальные отзывы посетителей из профилей на Яндекс Картах, Google Maps и 2GIS с фотографиями выполненных работ и замеров.
-      </p>
-    </header>
+          <p class="text-xs sm:text-sm text-chassis-300 leading-relaxed">
+            Реальные отзывы посетителей из профилей на Яндекс Картах, Google Maps и 2GIS с фотографиями выполненных работ и замеров.
+          </p>
+        </div>
 
-    <!-- Rating Summary + Оставить отзыв -->
-    <div class="space-y-4">
-      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 py-2">
-        <div class="flex items-center gap-4 text-xs font-sans">
-          <div class="text-2xl sm:text-3xl font-bold text-chassis-100">5.0</div>
-          <div class="text-chassis-300">
-            <div>★★★★★ (Отличная оценка)</div>
-            <div class="text-chassis-400 text-[11px]">Профили на картах Ташкента</div>
+        <div class="space-y-4">
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-4 py-2">
+            <div class="flex items-center gap-4 text-xs font-sans">
+              <div class="text-2xl sm:text-3xl font-bold text-chassis-100">5.0</div>
+              <div class="text-chassis-300">
+                <div>★★★★★ (Отличная оценка)</div>
+                <div class="text-chassis-400 text-[11px]">Профили на картах Ташкента</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <div class="text-sm font-bold text-chassis-100">Оставить свой отзыв</div>
+            <div class="flex flex-col gap-3">
+              <IconLink
+                type="yandex-maps"
+                href={siteConfig.socials.yandexMaps}
+                label="Оставить отзыв на Яндекс Картах"
+                ariaLabel="Оставить отзыв на Яндекс Картах"
+                variant="button"
+                target="_blank"
+                class="px-6 py-3.5 text-sm font-bold justify-center"
+              />
+              <IconLink
+                type="google-maps"
+                href={siteConfig.socials.googleMaps}
+                label="Оставить отзыв на Google Maps"
+                ariaLabel="Оставить отзыв на Google Maps"
+                variant="button"
+                target="_blank"
+                class="px-6 py-3.5 text-sm font-bold justify-center"
+              />
+              <IconLink
+                type="2gis"
+                href={siteConfig.socials.twoGis}
+                label="Оставить отзыв в 2ГИС"
+                ariaLabel="Оставить отзыв в 2ГИС"
+                variant="button"
+                target="_blank"
+                class="px-6 py-3.5 text-sm font-bold justify-center"
+              />
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="space-y-2">
-        <div class="text-sm font-bold text-chassis-100">Оставить свой отзыв</div>
-        <div class="flex flex-col sm:flex-row gap-3">
-          <IconLink
-            type="yandex-maps"
-            href={siteConfig.socials.yandexMaps}
-            label="Оставить отзыв на Яндекс Картах"
-            ariaLabel="Оставить отзыв на Яндекс Картах"
-            variant="button"
-            target="_blank"
-            class="px-6 py-3.5 text-sm font-bold flex-1 justify-center"
-          />
-          <IconLink
-            type="google-maps"
-            href={siteConfig.socials.googleMaps}
-            label="Оставить отзыв на Google Maps"
-            ariaLabel="Оставить отзыв на Google Maps"
-            variant="button"
-            target="_blank"
-            class="px-6 py-3.5 text-sm font-bold flex-1 justify-center"
-          />
-          <IconLink
-            type="2gis"
-            href={siteConfig.socials.twoGis}
-            label="Оставить отзыв в 2ГИС"
-            ariaLabel="Оставить отзыв в 2ГИС"
-            variant="button"
-            target="_blank"
-            class="px-6 py-3.5 text-sm font-bold flex-1 justify-center"
-          />
+      <!-- Правая колонка — виджет отзывов Яндекс Карт -->
+      <div class="rounded-xl overflow-hidden border border-chassis-800 bg-chassis-900 p-2 sm:p-3 lg:sticky lg:top-6">
+        <div style="width:100%;max-width:560px;height:800px;overflow:hidden;position:relative;margin:0 auto;">
+          <iframe style="width:100%;height:100%;border:1px solid #e6e6e6;border-radius:8px;box-sizing:border-box" src="https://yandex.ru/maps-reviews-widget/81659688745?comments"></iframe>
+          <a href="https://yandex.uz/maps/org/laptop_service/81659688745/" target="_blank" style="box-sizing:border-box;text-decoration:none;color:#b3b3b3;font-size:10px;font-family:YS Text,sans-serif;padding:0 20px;position:absolute;bottom:8px;width:100%;text-align:center;left:0;overflow:hidden;text-overflow:ellipsis;display:block;max-height:14px;white-space:nowrap;padding:0 16px;box-sizing:border-box">Laptop Service на карте Ташкента — Яндекс Карты</a>
         </div>
       </div>
     </div>

@@ -1,10 +1,8 @@
 ---
-import { Picture } from "astro:assets";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import IconLink from "@/components/IconLink.astro";
 import { siteConfig } from "@/data/siteConfig";
-import mapFacadeImg from "@/assets/service_on_yandex_maps.png";
 
 const breadcrumbs = [
   { name: "Контакты", url: "/contacts" },
@@ -71,15 +69,13 @@ const breadcrumbs = [
           />
         </div>
       </div>
-      <div id="map-facade-contacts" class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900 h-[220px] lg:h-[200px] relative cursor-pointer select-none" data-map-src="https://yandex.ru/map-widget/v1/org/81659688745/?ll=69.3148%2C41.3144&z=16&l=map" data-map-href="https://yandex.com/maps/org/laptop_service/81659688745" role="button" tabindex="0" aria-label="Открыть в Яндекс Картах — прокрутка или жест загрузит интерактивную карту">
-        <Picture src={mapFacadeImg} alt="Карта — Laptop Service, Паркент 11, нажмите для открытия в Яндекс Картах" widths={[400, 640, 800]} sizes="(max-width: 1024px) 100vw, 640px" formats={["avif", "webp"]} fallbackFormat="webp" loading="lazy" decoding="async" class="w-full h-full object-cover" />
-        <div class="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent pointer-events-none"></div>
-        <div class="absolute bottom-2 left-2 right-2 flex items-center justify-between gap-2 pointer-events-none">
-          <span class="text-[11px] leading-none bg-black/60 backdrop-blur px-2.5 py-1.5 rounded-full text-white border border-white/15">Нажмите — Яндекс Карты • прокрутка/жест — интерактив</span>
+      <div class="rounded-xl overflow-hidden border border-chassis-800 bg-chassis-900 h-[380px] sm:h-[420px] lg:h-[440px] relative">
+        <div style="position:relative;overflow:hidden;width:100%;height:100%;">
+          <a href="https://yandex.uz/maps/org/laptop_service/81659688745/?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:0px;">Laptop Service</a>
+          <a href="https://yandex.uz/maps/10335/tashkent/category/computer_repairs_and_services/184105768/?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:14px;">Компьютерный ремонт и услуги в Ташкенте</a>
+          <iframe src="https://yandex.uz/map-widget/v1/org/laptop_service/81659688745/?ll=69.322802%2C41.315757&z=17" width="100%" height="100%" frameborder="1" allowfullscreen="true" style="position:relative;width:100%;height:100%;border:0;" title="Карта — Laptop Service, Паркент 11, Ташкент"></iframe>
         </div>
-        <noscript><iframe src="https://yandex.ru/map-widget/v1/org/81659688745/?ll=69.3148%2C41.3144&z=16&l=map" width="100%" height="100%" style="border:0;" title="Карта — Laptop Service, Паркент 11" class="w-full h-full" loading="lazy"></iframe></noscript>
       </div>
-      <script is:inline>(function(){var fac=document.getElementById('map-facade-contacts'); if(!fac) return; var src=fac.getAttribute('data-map-src'); var href=fac.getAttribute('data-map-href'); var loaded=false; function loadInteractive(e){ if(loaded) return; loaded=true; if(e){ e.preventDefault(); e.stopPropagation(); } fac.removeAttribute('role'); fac.removeAttribute('tabindex'); fac.style.cursor='auto'; var f=document.createElement('iframe'); f.src=src; f.width='100%'; f.height='100%'; f.style.border='0'; f.loading='lazy'; f.title='Карта — Laptop Service, Паркент 11'; f.className='w-full h-full'; fac.innerHTML=''; fac.appendChild(f); fac.dataset.loaded='1'; fac.removeEventListener('wheel', onWheel); fac.removeEventListener('touchmove', onTouchMove); fac.removeEventListener('touchstart', onTouchStart); } function openExternal(){ if(loaded) return; window.open(href,'_blank','noopener'); } fac.addEventListener('click', function(e){ if(loaded) return; e.preventDefault(); openExternal(); }); fac.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); if(!loaded) openExternal(); }}); function onWheel(e){ if(loaded) return; e.preventDefault(); loadInteractive(e); } var sx=0,sy=0; function onTouchStart(e){ if(loaded) return; var t=e.touches[0]; sx=t.clientX; sy=t.clientY; } function onTouchMove(e){ if(loaded) return; var t=e.touches[0]; if(Math.abs(t.clientX-sx)>8||Math.abs(t.clientY-sy)>8) loadInteractive(e); } fac.addEventListener('wheel', onWheel, {passive:false}); fac.addEventListener('touchstart', onTouchStart, {passive:true}); fac.addEventListener('touchmove', onTouchMove, {passive:false}); var down=false; fac.addEventListener('mousedown', function(){ down=true; }); fac.addEventListener('mousemove', function(e){ if(down&&!loaded){ loadInteractive(e); down=false; }}); fac.addEventListener('mouseup', function(){ down=false; }); fac.addEventListener('mouseleave', function(){ down=false; }); })();</script>
     </section>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-xs">
