@@ -30,6 +30,8 @@ Laptop Service (также известный как RemontNoutbukov) — спе
   - [ASUS ROG Strix G17: Не работают все порты USB и клавиатура — замена хаба Intel HM570](https://laptopservice.uz/cases/asus-rog-strix-zamena-hub-pch-hm570-18may2026) — ASUS ROG Strix G17 (G713) — BGA-пайка и реболлинг
   - [Dell XPS 15 9500: Циклический перезапуск и замена мультиконтроллера MEC5105](https://laptopservice.uz/cases/dell-xps-15-9500-vosstanovlenie-pitaniya-multikontrollera-02may2026) — Dell XPS 15 9500 — Компонентный ремонт платы
 - [Сборки ПК](https://laptopservice.uz/builds): Профессиональные сборки от мастеров — знаем нюансы, сами обслуживаем, предупреждаем о рисках заранее.
+  - [Мощная игровая сборка на Core Ultra 5 245K + RTX 5060 с водянкой — $1700](https://laptopservice.uz/builds/moschnaya-igrovaya-ultra5-245k-rtx5060-30aug2026) — Игры • Топовые AAA • $1700
+  - [Топовая сборка для 4K — Core Ultra 5 245K + RTX 5070 с водянкой — $2150](https://laptopservice.uz/builds/moschnaya-igrovaya-ultra5-245k-rtx5070-30aug2026) — Игры 4K • Рендер • $2150
   - [Бюджетная игровая сборка от Александра — i5-12400F + RTX 5050 за ~$1000](https://laptopservice.uz/builds/byudzhetnaya-igrovaya-sborka-i5-12400f-rtx5050-aleksandr-27aug2026) — Игры • Бюджет ~$1000
   - [Оптимальная сборка для игр в Full HD — RTX 4060 + Ryzen 5 5600](https://laptopservice.uz/builds/gaming-1080p-rtx4060-r5-5600-10aug2026) — Игры (Full HD / 144 Гц)
   - [Рабочая станция для AI / 3D-рендера — RTX 4090 + Ryzen 9 7950X](https://laptopservice.uz/builds/ai-workstation-rtx4090-r9-7950x-04aug2026) — AI, нейросети и 3D-рендер
@@ -50,4 +52,4 @@ Laptop Service (также известный как RemontNoutbukov) — спе
 ## Дополнительно
 - [Полный машиночитаемый контекст компании](https://laptopservice.uz/llms-full.txt): Детальное описание для языковых моделей, включая примеры работ, параметры оборудования и регламенты.
 
-*Сгенерировано при билде 2026-08-29 из 9 кейсов и 4 сборок. Сайт: https://laptopservice.uz*
+*Сгенерировано при билде 2026-09-01 из 9 кейсов и 6 сборок. Сайт: https://laptopservice.uz*
