@@ -11,7 +11,9 @@
     "build:check": "node --max-old-space-size=8192 ./node_modules/astro/astro.js check",
     "build:prod": "node --max-old-space-size=8192 ./node_modules/astro/astro.js build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "threads:import": "python scripts/fetch_threads.py",
+    "threads:import:dry": "python scripts/fetch_threads.py --dry-run"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
