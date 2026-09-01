@@ -8,6 +8,7 @@
 
 1. **Установка (один раз):** `npm ci` → `npm run dev:tina` (поднимает `tinacms dev -c "astro dev"`). Админка: `http://localhost:4321/admin`, сайт: `http://localhost:4321`.
 2. **Создание:** в админке `Сборки / Кейсы / Лента / Отзывы` → `Create New` → заполни `Title`/`Author`+`Date` → внизу поле **Filename** автогенерируется как `base-дата` (транслит кириллицы + суффикс `-DDmmmYYYY`), можно поправить латиницей **с сохранением суффикса** → `Save`. Формат суффикса: `-26aug2026` (день известен), `-aug2026` (день неизвестен), `-2026` (месяц неизвестен). Месяцы — англ. `jan feb mar apr may jun jul aug sep oct nov dec` в нижнем регистре.
+   - **Автоматика для ленты:** `python scripts/fetch_threads.py https://www.threads.com/share/BBR4vE0M6h/ --date 2026-08-30` (см. §7 «Автоматический импорт Threads») — создаст `content/threads/<slug>-DDmmmYYYY.md` + скачает `og:image` без ручной заливки.
 3. **Картинки:** в поле `Обложка`/`Галерея` → `Upload` → выбери `jpg/png` (до 4000px) → путь запишется как `/content/<collection>/file-DDmmmYYYY.jpg` (colocated рядом с `.md`, **имя фото тоже с датой**). Порядок — drag ☰, удаление — 🗑.
 4. **Проверка:** `npm run build` (astro check + 29 страниц + 138 картинок `avif/webp`, диаграммы Mermaid — клиентский `mermaid@11`). Пуш: `git add content/ tina/tina-lock.json` → `commit` → `push origin/master` → деплой GH Pages.
 
@@ -17,6 +18,8 @@
 npm run dev:tina   # Tina + Astro (http://localhost:4321/admin + http://localhost:4321)
 npm run dev        # только Astro без админки
 npm run build      # проверка + сборка 29 страниц (dist/)
+npm run threads:import -- https://www.threads.com/share/BBR4vE0M6h/ --date 2026-08-30  # автоимпорт ленты
+npm run threads:import:dry  # проверка без записи
 ```
 
 ---
@@ -247,6 +250,57 @@ graph TD
 }
 ```
 Пишет только `content/**/*.md` + оригиналы рядом с суффиксом даты (`-DDmmmYYYY` / `-mmmYYYY` / `-YYYY`), `tina/tina-lock.json` коммитится. Примеры: `content/threads/tea-spill-26aug2026.md` + `/content/threads/tea-spill-26aug2026.jpg`, `content/reviews/rev-sergey-d-24mar2026.md` + `avatars/Сергей Д.-24mar2026.webp`.
+
+### Автоматический импорт Threads из `threads.com/share/*` (рекомендуемый для ленты)
+
+Скрипт `scripts/fetch_threads.py` вытаскивает текст/картинку/канонический URL из SSR `og:description` / `og:image` / `og:url` share-ссылки (без API-ключа, без Playwright) и сразу создаёт `content/threads/<slug>-DDmmmYYYY.md` + скачивает фото.
+
+**Что делает:**
+- `slug` = `slugify(body[:80])` + `dateSuffix(date)` как в `tina/config.ts:6` / `tina/config.ts:24` (транслит, суффикс `-DDmmmYYYY` обязателен).
+- `date` берётся из `--date YYYY-MM-DD` (дата сообщения в Threads), иначе из `article:published_time` в HTML, иначе `today`.
+- `gallery` = один `og:image` → `/content/threads/<slug>.jpg` (для карусели — расширь `all_images` в `scripts/fetch_threads.py:36`).
+- `alts[0]` = первые 80 символов `body`, `url` = канонический `https://www.threads.com/@laptopservice_uz/post/<id>`.
+- Идемпотентно: если `content/threads/<slug>.md` уже есть — добавляет `-2`, `-3` перед суффиксом.
+
+**Установка:** Python 3.10+ в системе есть. Зависимостей нет (только stdlib `urllib`).
+
+**Использование:**
+
+```bash
+# один пост — дата = дата сообщения (как в чате: 30.08 0:48 → 2026-08-30)
+python scripts/fetch_threads.py https://www.threads.com/share/BBR4vE0M6h/ --date 2026-08-30
+# пачкой
+python scripts/fetch_threads.py https://www.threads.com/share/BAh1FFA_8M/ --date 2026-08-30 https://www.threads.com/share/_eq_ppozf/ --date 2026-09-01
+# из файла (каждая строка: URL [YYYY-MM-DD])
+python scripts/fetch_threads.py --file urls.txt
+# проверка без записи
+python scripts/fetch_threads.py --dry-run
+# npm-алиасы (package.json:6)
+npm run threads:import -- https://www.threads.com/share/BBR4vE0M6h/ --date 2026-08-30
+npm run threads:import:dry
+```
+
+Пример `urls.txt`:
+```
+https://www.threads.com/share/BBR4vE0M6h/ 2026-08-30
+https://www.threads.com/share/BAh1FFA_8M/ 2026-08-30
+https://www.threads.com/share/_eq_ppozf/ 2026-09-01
+```
+
+**Проверено на 3 постах (30.08–01.09.2026):**
+- `BBR4vE0M6h` → `ugadayte-chto-eto-30aug2026.md/jpg` — `Угадайте, что это 👀` → `DcoSkzHAi-O`
+- `BAh1FFA_8M` → `u-nas-slezy-s-glaz-nadeemsya-hozyain-ne-byl-allergikom-30aug2026` — `у нас слезы с глаз😭` → `DcqLoVKglry`
+- `_eq_ppozf` → `termopasta-dolzhna-byt-pastoy-a-ne-suhoy-korkoy-01sep2026` — `Термопаста должна быть пастой…` → `DctUQqbgsqE`
+
+**После импорта:**
+```bash
+npm run build   # 29 страниц, ~204 изображения (sharp → avif/webp), проверка frontmatter
+git add content/threads/*.md content/threads/*.jpg
+git commit -m "feat(threads): add 3 posts via fetch_threads"
+git push
+```
+
+**Частые ошибки:** `download failed` → `og:image` протух (подпись `oh`/`oe` живёт ~часы), перезапусти — скрипт скачает заново; `UnicodeEncodeError` в PowerShell — в скрипте уже `sys.stdout.reconfigure(encoding='utf-8')`.
 
 ### Редактирование / удаление
 
