@@ -3,7 +3,7 @@ title: "Мощная игровая сборка на Core Ultra 5 245K + RTX 50
 purpose: "gaming"
 purposeLabel: "Игры • Топовые AAA • $1700"
 date: 2026-08-30
-description: "Сборка от Александра на современном Intel Core Ultra 5 245K + MSI RTX 5060, 32GB DDR5 6000, MSI B860 Gaming Plus WiFi и СЖО Montech 360 мм. Для топовых игр без компромиссов — уже мощнее связки i5-12400F + RTX 5050, низкие температуры и эстетика."
+description: "Сборка от Александра на современном Intel Core Ultra 5 245K + MSI RTX 5060, 32GB DDR5 6000, MSI B860 Gaming Plus WiFi и СЖО Montech 360 мм. Для топовых игр без компромиссов — уже мощнее связки i5-12400F + RTX 5050 из [бюджетной сборки за $1000](/builds/byudzhetnaya-igrovaya-sborka-i5-12400f-rtx5050-aleksandr-27aug2026/), низкие температуры и эстетика."
 components:
   cpu: "Intel Core Ultra 5 245K (14 ядер / 14 потоков, до 5.2 ГГц, LGA1851, Arrow Lake)"
   motherboard: "MSI B860 Gaming Plus WIFI (LGA1851, DDR5, PCIe 5.0, WiFi 6E)"
@@ -16,15 +16,13 @@ components:
 complexity: "medium"
 tags: ["RTX 5060", "Core Ultra 5 245K", "B860", "DDR5 32GB", "Montech", "MSI", "Игровая сборка", "СЖО 360", "Александр", "1700$"]
 heroImage: /content/builds/by-alex-2/moschnaya-igrovaya-ultra5-245k-rtx5060-30aug2026.jpg
-gallery:
-  - /content/builds/by-alex-2/moschnaya-igrovaya-ultra5-245k-rtx5060-30aug2026.jpg
 ---
 
 ## Кому подойдёт — со слов Александра
 
 Как говорит Александр: *«Мощная сборка для игр, средняя — 5050 это из новых топовая но бюджетная, 5060 и кор ультра 5 и DDR5 32ГБ уже мощнее»*.
 
-Это сборка **для топовых игр** на ультра-настройках в Full HD и 2K: **Cyberpunk 2077, Alan Wake 2, Hogwarts Legacy, Warzone, Fortnite, Dota 2/CS2 на 144+ FPS**. Если предыдущая сборка за $1000 на i5-12400F + RTX 5050 была «топовой бюджетной», то эта — следующий уровень без переплаты за i7/i9.
+Это сборка **для топовых игр** на ультра-настройках в Full HD и 2K: **Cyberpunk 2077, Alan Wake 2, Hogwarts Legacy, Warzone, Fortnite, Dota 2/CS2 на 144+ FPS**. Если [предыдущая сборка за $1000 на i5-12400F + RTX 5050](/builds/byudzhetnaya-igrovaya-sborka-i5-12400f-rtx5050-aleksandr-27aug2026/) была «топовой бюджетной», то эта — следующий уровень без переплаты за i7/i9.
 
 > *«На современном кор ультра, с водянкой, для топовых игр»* — Александр, 30.08.2026
 
