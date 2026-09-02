@@ -1,6 +1,6 @@
 ---
 handle: "laptopservice_uz"
-date: 2026-09-01
+date: 2026-08-31
 gallery:
   - /content/threads/termopasta-dolzhna-byt-pastoy-a-ne-suhoy-korkoy-01sep2026.jpg
 alts:
