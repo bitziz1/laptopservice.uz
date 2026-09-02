@@ -46,15 +46,15 @@ Laptop Service (также известный как RemontNoutbukov) — спе
 - [Апгрейд](https://laptopservice.uz/services/upgrade-noutbuka): Установка NVMe SSD и модулей памяти RAM с клонированием системы. Также, при желании, можем установить ваши комплектующие.
 - [Наши работы](https://laptopservice.uz/cases): Реальные примеры из практики сервисного центра.
 ${casesList
-  .split("\n")
-  .map((l) => `  ${l}`)
-  .join("\n")}
+      .split("\n")
+      .map((l) => `  ${l}`)
+      .join("\n")}
 - [Сборки ПК](https://laptopservice.uz/builds): Профессиональные сборки от мастеров — знаем нюансы, сами обслуживаем, предупреждаем о рисках заранее.
 ${buildsList
-  .split("\n")
-  .map((l) => `  ${l}`)
-  .join("\n")}
-- [Диагностика и цены](https://laptopservice.uz/prices): Бесплатная диагностика, порядок согласования стоимости.
+      .split("\n")
+      .map((l) => `  ${l}`)
+      .join("\n")}
+- [Цены](https://laptopservice.uz/prices): Бесплатная диагностика, порядок согласования стоимости.
 - [Отзывы клиентов](https://laptopservice.uz/reviews): Реальные отзывы с Яндекс Карт и Google Maps. Оставить отзыв — на Яндекс Картах и Google Maps.
 - [Контакты и схема проезда](https://laptopservice.uz/contacts): Адрес, Яндекс Карты / Google Maps, режим работы, руководитель сервиса.
 

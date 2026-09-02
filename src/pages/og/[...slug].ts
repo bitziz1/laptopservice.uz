@@ -32,7 +32,7 @@ const staticPages: Record<string, { title: string; description: string }> = {
     description: 'ул. Паркент 11, +998 (93) 228-77-38 · Telegram @laptopservice_master',
   },
   'prices': {
-    title: 'Диагностика и цены',
+    title: 'Цены',
     description: 'Бесплатная диагностика, согласование стоимости до ремонта.',
   },
   'reviews': {

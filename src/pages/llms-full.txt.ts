@@ -22,9 +22,9 @@ export const GET: APIRoute = async () => {
       const slug = b.id.replace(/\.md$/, "");
       const comps = b.data.components
         ? Object.entries(b.data.components)
-            .filter(([, v]) => v)
-            .map(([k, v]) => `${k}: ${v}`)
-            .join("; ")
+          .filter(([, v]) => v)
+          .map(([k, v]) => `${k}: ${v}`)
+          .join("; ")
         : "";
       return `${i + 1}. **${b.data.title}:** ${b.data.purposeLabel} — https://laptopservice.uz/builds/${slug}${comps ? ` — ${comps}` : ""}`;
     })
@@ -73,16 +73,16 @@ ${buildsList}
 
 ## 6. Отзывы — ${reviews.length} отзывов
 Всего отзывов в коллекции: ${reviews.length}. Примеры: ${reviews
-    .slice(0, 3)
-    .map((r) => `${r.data.author} (${r.data.source})`)
-    .join(", ")}.
+      .slice(0, 3)
+      .map((r) => `${r.data.author} (${r.data.source})`)
+      .join(", ")}.
 
 ## 7. Навигация сайта
 - Главная (/) — сервис, порядок работы
 - Услуги (/services) — не включается/греется/залит/петли
 - Наши работы (/cases) — ${cases.length} реальных примеров
 - Сборки ПК (/builds) — ${builds.length} сборок
-- Диагностика и цены (/prices)
+- Цены (/prices)
 - Отзывы (/reviews) — ${reviews.length} отзывов
 - Контакты (/contacts)
 
