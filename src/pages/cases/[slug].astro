@@ -124,7 +124,7 @@ const { Content } = await render(entry);
         {galleryImages.length > 0 && (
           galleryImages.length === 1 ? (
             <figure class="rounded-xl overflow-hidden border border-chassis-800 bg-chassis-900 cursor-zoom-in group" data-case-gallery data-case-img data-caption={captions[0] || ""}>
-              <Picture src={galleryImages[0]} alt={captions[0] || title} widths={[400, 800, 1200]} sizes="(max-width: 768px) 100vw, 800px" formats={["avif", "webp"]} fallbackFormat="webp" class="w-full h-auto object-contain cursor-zoom-in group-hover:opacity-95 transition" loading="lazy" decoding="async" />
+              <Picture src={galleryImages[0]} alt={captions[0] || title} widths={[800]} sizes="(max-width: 768px) 100vw, 800px" formats={["webp"]} fallbackFormat="webp" class="w-full h-auto object-contain cursor-zoom-in group-hover:opacity-95 transition" loading="lazy" decoding="async" />
               {captions[0] && <figcaption class="px-3 py-2 text-[11px] leading-snug text-chassis-300 bg-chassis-950/60 border-t border-chassis-800">{captions[0]}</figcaption>}
             </figure>
           ) : (
@@ -139,7 +139,7 @@ const { Content } = await render(entry);
                 {galleryImages.map((img: any, i: number) => (
                   <figure class="shrink-0 snap-start w-[88vw] sm:w-[520px] rounded-xl overflow-hidden border border-chassis-800 bg-chassis-900 cursor-zoom-in flex flex-col group" data-case-img data-caption={captions[i] || ""}>
                     <div class="relative flex-1 bg-chassis-900">
-                      <Picture src={img} alt={captions[i] || title} widths={[400, 600, 800]} sizes="(max-width: 640px) 88vw, 520px" formats={["avif", "webp"]} fallbackFormat="webp" class="w-full h-[240px] sm:h-[340px] object-contain sm:object-cover cursor-zoom-in group-hover:opacity-95 transition" loading="lazy" decoding="async" />
+                      <Picture src={img} alt={captions[i] || title} widths={[520, 800]} sizes="(max-width: 640px) 88vw, 520px" formats={["webp"]} fallbackFormat="webp" class="w-full h-[240px] sm:h-[340px] object-contain sm:object-cover cursor-zoom-in group-hover:opacity-95 transition" loading="lazy" decoding="async" />
                     </div>
                     {captions[i] ? (
                       <figcaption class="px-3 py-2.5 text-[11px] leading-snug text-chassis-300 bg-chassis-950/70 border-t border-chassis-800 line-clamp-2">{captions[i]}</figcaption>
