@@ -173,3 +173,4 @@ result: "Обе карты завелись, Код 43 ушёл, банки па
 *   **Спецификация эталона:** [ASUS ROG Strix RTX 3090 Ti LC OC Edition](https://rog.asus.com/ru/graphics-cards/graphics-cards/rog-strix/rog-strix-lc-rtx3090ti-o24g-gaming-model/)
 
 Приносите карту на бесплатную диагностику на ул. Паркент — вернём ей заводскую прохладу и стабильность.
+<!-- rebuild 2026-09-02T18:00:50Z workflow fix -->
