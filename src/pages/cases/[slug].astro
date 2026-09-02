@@ -9,7 +9,7 @@ import { siteConfig } from "@/data/siteConfig";
 import { formatDateRu } from "@/utils/formatDate";
 import client from "../../../tina/__generated__/client";
 
-const CASE_QUERY = `query($relativePath:String!){ cases(relativePath:$relativePath){ title device category date problem diagnosis solution result tags heroImage gallery keySpecs{ label value } schemaType summaryForSocial body } }`;
+const CASE_QUERY = `query($relativePath:String!){ cases(relativePath:$relativePath){ title device category date problem diagnosis solution result tags heroImage gallery captions keySpecs{ label value } schemaType summaryForSocial body } }`;
 
 export async function getStaticPaths() {
   const entries = await getCollection("cases");
@@ -83,6 +83,15 @@ const galleryImages: any[] = (() => {
   const h = (entry.data.heroImage ?? null) as any;
   return h ? [h, ...g] : g;
 })();
+const captions: string[] = (() => {
+  const c = (entry.data.captions ?? []) as string[];
+  const hasHero = !!entry.data.heroImage;
+  // captions correspond to gallery (without hero). If hasHero, captions[0] is for gallery[0], not hero.
+  // Build captionsForImages aligned with galleryImages: first caption empty for hero, then gallery captions.
+  if (!hasHero) return c;
+  // hero has no caption in array, pad
+  return ["", ...c];
+})();
 const { Content } = await render(entry);
 ---
 
@@ -113,13 +122,36 @@ const { Content } = await render(entry);
         </header>
 
         {galleryImages.length > 0 && (
-          <div class={galleryImages.length === 1 ? "rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900" : "grid grid-cols-1 sm:grid-cols-2 gap-3"}>
-            {galleryImages.map((img: any) => (
-              <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900">
-                <Picture src={img} alt={title} widths={[400, 800, 1200]} sizes="(max-width: 768px) 100vw, 800px" formats={["avif", "webp"]} fallbackFormat="webp" class="w-full h-auto object-contain" loading="lazy" decoding="async" />
+          galleryImages.length === 1 ? (
+            <figure class="rounded-xl overflow-hidden border border-chassis-800 bg-chassis-900 cursor-zoom-in group" data-case-gallery data-case-img data-caption={captions[0] || ""}>
+              <Picture src={galleryImages[0]} alt={captions[0] || title} widths={[400, 800, 1200]} sizes="(max-width: 768px) 100vw, 800px" formats={["avif", "webp"]} fallbackFormat="webp" class="w-full h-auto object-contain cursor-zoom-in group-hover:opacity-95 transition" loading="lazy" decoding="async" />
+              {captions[0] && <figcaption class="px-3 py-2 text-[11px] leading-snug text-chassis-300 bg-chassis-950/60 border-t border-chassis-800">{captions[0]}</figcaption>}
+            </figure>
+          ) : (
+            <div class="relative" data-case-gallery-wrap>
+              <button type="button" data-case-prev aria-label="Назад" class="hidden md:flex absolute left-1 lg:-left-4 top-1/2 -translate-y-1/2 z-10 w-9 h-9 items-center justify-center rounded-full bg-black/70 backdrop-blur-md border border-white/15 text-white hover:bg-black/85 transition shadow-lg disabled:opacity-30 disabled:pointer-events-none">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+              </button>
+              <button type="button" data-case-next aria-label="Вперед" class="hidden md:flex absolute right-1 lg:-right-4 top-1/2 -translate-y-1/2 z-10 w-9 h-9 items-center justify-center rounded-full bg-black/70 backdrop-blur-md border border-white/15 text-white hover:bg-black/85 transition shadow-lg disabled:opacity-30 disabled:pointer-events-none">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+              <div class="case-gallery-scroller flex gap-3 overflow-x-auto overflow-y-hidden pb-2 snap-x snap-mandatory scroll-smooth -mx-4 px-4 sm:mx-0 sm:px-0" data-case-gallery>
+                {galleryImages.map((img: any, i: number) => (
+                  <figure class="shrink-0 snap-start w-[88vw] sm:w-[520px] rounded-xl overflow-hidden border border-chassis-800 bg-chassis-900 cursor-zoom-in flex flex-col group" data-case-img data-caption={captions[i] || ""}>
+                    <div class="relative flex-1 bg-chassis-900">
+                      <Picture src={img} alt={captions[i] || title} widths={[400, 600, 800]} sizes="(max-width: 640px) 88vw, 520px" formats={["avif", "webp"]} fallbackFormat="webp" class="w-full h-[240px] sm:h-[340px] object-contain sm:object-cover cursor-zoom-in group-hover:opacity-95 transition" loading="lazy" decoding="async" />
+                    </div>
+                    {captions[i] ? (
+                      <figcaption class="px-3 py-2.5 text-[11px] leading-snug text-chassis-300 bg-chassis-950/70 border-t border-chassis-800 line-clamp-2">{captions[i]}</figcaption>
+                    ) : (
+                      <figcaption class="sr-only">{title} — фото {i+1}</figcaption>
+                    )}
+                  </figure>
+                ))}
               </div>
-            ))}
-          </div>
+              <div class="mt-1 text-[10px] font-sans text-chassis-500 text-center sm:text-right">Нажмите на фото для увеличения • {galleryImages.length} фото</div>
+            </div>
+          )
         )}
 
         {keySpecs && (
@@ -136,7 +168,11 @@ const { Content } = await render(entry);
           </div>
         )}
 
-        <article class="prose prose-invert max-w-none prose-sm sm:prose-base prose-headings:text-chassis-100 prose-p:text-chassis-300 prose-strong:text-chassis-100 prose-li:text-chassis-300">
+        <article class="prose prose-invert max-w-none prose-sm sm:prose-base prose-headings:text-chassis-100 prose-p:text-chassis-300 prose-strong:text-chassis-100 prose-li:text-chassis-300 prose-a:text-sky-400 prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl prose-img:border prose-img:border-chassis-800 prose-img:cursor-zoom-in prose-figcaption:text-[11px] prose-figcaption:text-chassis-400 prose-figcaption:text-center prose-figcaption:mt-2
+          prose-p:leading-relaxed
+          [&_img]:mx-auto [&_img]:block [&_img]:max-h-[480px] [&_img]:w-auto [&_img]:object-contain"
+          data-case-body
+        >
           <Content />
         </article>
 
@@ -151,7 +187,7 @@ const { Content } = await render(entry);
     <!-- CTA -->
     <div class="rounded-lg border border-chassis-700 bg-chassis-950 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="text-xs text-chassis-300 text-center sm:text-left space-y-1">
-        <div class="font-bold text-chassis-100">Похожая проблема с ноутбуком {device}?</div>
+        <div class="font-bold text-chassis-100">Похожая проблема с {device}?</div>
         <div>Привезите устройство на диагностику на ул. Паркент 11 или отправьте доставкой.</div>
       </div>
 
@@ -177,4 +213,137 @@ const { Content } = await render(entry);
     </div>
 
   </div>
+
+  <!-- Lightbox единый для галереи и для изображений в статье -->
+  <div id="case-lightbox" class="hidden fixed inset-0 z-[100] bg-black/85 backdrop-blur-sm items-center justify-center p-4 cursor-zoom-out" aria-hidden="true">
+    <figure class="flex flex-col items-center max-w-[95vw] max-h-[92vh]">
+      <img id="case-lightbox-img" src="" alt="" class="max-w-[95vw] max-h-[82vh] object-contain rounded-xl border border-white/10 shadow-2xl" />
+      <figcaption id="case-lightbox-caption" class="mt-3 max-w-[90vw] text-center text-xs sm:text-sm text-white/80 leading-snug px-2 hidden"></figcaption>
+    </figure>
+    <button type="button" id="case-lightbox-close" aria-label="Закрыть" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/60 border border-white/15 text-white flex items-center justify-center hover:bg-black/80 transition">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </button>
+  </div>
+
+  <style>
+    .case-gallery-scroller { scrollbar-width:none; -ms-overflow-style:none; -webkit-overflow-scrolling:touch; }
+    .case-gallery-scroller::-webkit-scrollbar { display:none; }
+    /* Prose inline images — compact + zoom */
+    [data-case-body] :global(img) { border-radius: 0.75rem; border: 1px solid rgb(41 47 60); cursor: zoom-in; transition: opacity .15s; }
+    [data-case-body] :global(img:hover) { opacity: .92; }
+    [data-case-body] :global(p:has(img)) { margin-top: 1.25em; margin-bottom: 0.5em; }
+    [data-case-body] :global(em:has(img)) { display:block; }
+  </style>
+
+  <script is:inline>
+    (function(){
+      var gallery = document.querySelector('[data-case-gallery]');
+      var wrap = document.querySelector('[data-case-gallery-wrap]');
+      var body = document.querySelector('[data-case-body]');
+      var lightbox = document.getElementById('case-lightbox');
+      var lightboxImg = document.getElementById('case-lightbox-img');
+      var lightboxCaption = document.getElementById('case-lightbox-caption');
+      var closeBtn = document.getElementById('case-lightbox-close');
+      if(!lightbox || !lightboxImg) return;
+      function open(src, alt, caption){
+        lightboxImg.src = src;
+        lightboxImg.alt = alt || '';
+        if(lightboxCaption){
+          var cap = caption || alt || '';
+          if(cap){ lightboxCaption.textContent = cap; lightboxCaption.classList.remove('hidden'); }
+          else { lightboxCaption.textContent = ''; lightboxCaption.classList.add('hidden'); }
+        }
+        lightbox.classList.remove('hidden');
+        lightbox.classList.add('flex');
+        lightbox.setAttribute('aria-hidden','false');
+        document.body.style.overflow = 'hidden';
+      }
+      function close(){
+        lightbox.classList.add('hidden');
+        lightbox.classList.remove('flex');
+        lightbox.setAttribute('aria-hidden','true');
+        document.body.style.overflow = '';
+        lightboxImg.src = '';
+        if(lightboxCaption){ lightboxCaption.textContent=''; lightboxCaption.classList.add('hidden'); }
+      }
+      // Gallery click (figure[data-case-img] + img inside)
+      document.addEventListener('click', function(e){
+        var fig = e.target.closest('[data-case-img]');
+        if(fig){
+          var img = fig.querySelector('img') || fig;
+          var src = (img.currentSrc || img.src);
+          if(img.srcset){
+            try{
+              var cands = img.srcset.split(',').map(function(s){ return s.trim().split(' ')[0]; });
+              if(cands.length) src = cands[cands.length-1];
+            }catch{}
+          }
+          var cap = fig.getAttribute('data-caption') || img.alt || '';
+          open(src, img.alt, cap);
+          e.preventDefault();
+          return;
+        }
+        // Body prose images (inline markdown)
+        var proseImg = e.target.closest('[data-case-body] img');
+        if(proseImg){
+          var src2 = proseImg.currentSrc || proseImg.src;
+          if(proseImg.srcset){
+            try{
+              var c2 = proseImg.srcset.split(',').map(function(s){ return s.trim().split(' ')[0]; });
+              if(c2.length) src2 = c2[c2.length-1];
+            }catch{}
+          }
+          // caption: use alt, or next sibling em/figcaption text if exists
+          var cap2 = proseImg.alt || '';
+          // try to find following <em> inside same <p> or next element
+          var parentP = proseImg.closest('p');
+          if(parentP){
+            var em = parentP.querySelector('em');
+            if(em && em !== proseImg){ cap2 = em.textContent.trim() || cap2; }
+            // also check next sibling element after img's paragraph
+            var next = parentP.nextElementSibling;
+            if(next && next.tagName.toLowerCase()==='p' && next.querySelector('em') && !cap2) cap2 = next.textContent.trim();
+          }
+          open(src2, proseImg.alt, cap2);
+          e.preventDefault();
+          return;
+        }
+        if(e.target.closest('#case-lightbox')){
+          close();
+        }
+      });
+      document.addEventListener('keydown', function(e){ if(e.key==='Escape' && !lightbox.classList.contains('hidden')) close(); });
+      if(closeBtn) closeBtn.addEventListener('click', function(e){ e.stopPropagation(); close(); });
+
+      // Desktop arrows for case gallery
+      if(wrap){
+        var scroller = wrap.querySelector('.case-gallery-scroller');
+        var prev = wrap.querySelector('[data-case-prev]');
+        var next = wrap.querySelector('[data-case-next]');
+        if(scroller && prev && next){
+          function update(){
+            var need = scroller.scrollWidth > scroller.clientWidth + 8;
+            var atStart = scroller.scrollLeft <= 4;
+            var atEnd = scroller.scrollLeft + scroller.clientWidth >= scroller.scrollWidth - 4;
+            prev.disabled = atStart;
+            next.disabled = atEnd;
+            if(!need){ prev.style.display='none'; next.style.display='none'; } else { prev.style.display=''; next.style.display=''; }
+          }
+          function by(dir){
+            var card = scroller.querySelector('figure.shrink-0, .shrink-0');
+            var amount = card ? card.offsetWidth + 12 : scroller.clientWidth * 0.85;
+            scroller.scrollBy({left: dir*amount, behavior:'smooth'});
+          }
+          prev.addEventListener('click', function(){ by(-1); });
+          next.addEventListener('click', function(){ by(1); });
+          scroller.addEventListener('scroll', update, {passive:true});
+          window.addEventListener('resize', update);
+          var ro = new ResizeObserver(update);
+          ro.observe(scroller);
+          setTimeout(update, 120);
+          requestAnimationFrame(update);
+        }
+      }
+    })();
+  </script>
 </BaseLayout>

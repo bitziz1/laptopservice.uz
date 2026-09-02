@@ -1,6 +1,6 @@
 # Инструкция по контенту — Laptop Service (для человека и агента)
 
-> **Принцип: человек/агент пишет только `*.md` файлы в `content/` с оригинальными `jpg/png/webp` рядом. Всё остальное — SEO, sitemap, OG-картинки, `llms.txt`, оптимизация изображений (`avif/webp`), диаграммы Mermaid — генерируется при `npm run build` (SSG). Редактирование — локально через TinaCMS (`npm run dev:tina`) или напрямую `content/**/*.md`, публикация — `git commit` → `git push` → GH Pages.**
+> **Принцип: человек/агент пишет только `*.md` файлы в `content/` с оригинальными `jpg/png/webp` рядом. Всё остальное — SEO, sitemap, OG-картинки, `llms.txt`, оптимизация изображений (`avif/webp`) — генерируется при `npm run build` (SSG). Редактирование — локально через TinaCMS (`npm run dev:tina`) или напрямую `content/**/*.md`, публикация — `git commit` → `git push` → GH Pages.**
 
 ---
 
@@ -10,7 +10,7 @@
 2. **Создание:** в админке `Сборки / Кейсы / Лента / Отзывы` → `Create New` → заполни `Title`/`Author`+`Date` → внизу поле **Filename** автогенерируется как `base-дата` (транслит кириллицы + суффикс `-DDmmmYYYY`), можно поправить латиницей **с сохранением суффикса** → `Save`. Формат суффикса: `-26aug2026` (день известен), `-aug2026` (день неизвестен), `-2026` (месяц неизвестен). Месяцы — англ. `jan feb mar apr may jun jul aug sep oct nov dec` в нижнем регистре.
    - **Автоматика для ленты:** `python scripts/fetch_threads.py https://www.threads.com/share/BBR4vE0M6h/ --date 2026-08-30` (см. §7 «Автоматический импорт Threads») — создаст `content/threads/<slug>-DDmmmYYYY.md` + скачает `og:image` без ручной заливки.
 3. **Картинки:** в поле `Обложка`/`Галерея` → `Upload` → выбери `jpg/png` (до 4000px) → путь запишется как `/content/<collection>/file-DDmmmYYYY.jpg` (colocated рядом с `.md`, **имя фото тоже с датой**). Порядок — drag ☰, удаление — 🗑.
-4. **Проверка:** `npm run build` (astro check + 29 страниц + 138 картинок `avif/webp`, диаграммы Mermaid — клиентский `mermaid@11`). Пуш: `git add content/ tina/tina-lock.json` → `commit` → `push origin/master` → деплой GH Pages.
+4. **Проверка:** `npm run build` (astro check + 29 страниц + 138 картинок `avif/webp`). Пуш: `git add content/ tina/tina-lock.json` → `commit` → `push origin/master` → деплой GH Pages.
 
 **Не трогай:** `public/`, `src/assets/`, `dist/`, `src/data/`, `.obsidian/` (игнорируется). `tina/__generated__/` и `public/admin/` — генерируются, в git не коммить. `tina/tina-lock.json` — **коммить** (нужен для `git pull` на других ПК).
 
@@ -26,15 +26,15 @@ npm run threads:import:dry  # проверка без записи
 
 ## 1. Стек и что генерируется при билде
 
-- **SSG Astro 5.18 + `astro:content` + `sharp` + `mermaid@11`** — статика, без БД, `output: static`.
+- **SSG Astro 5.18 + `astro:content` + `sharp`** — статика, без БД, `output: static`.
 - **Контент:** `content/cases/*.md`, `content/builds/*.md`, `content/threads/*.md`, `content/reviews/*.md` → `src/content.config.ts` (строгая `zod` схема, `image()`).
 - **Картинки:** `image()` → `astro:assets` → Sharp → `dist/_astro/*.avif` + `*.webp` + `srcset` (`widths`, `sizes`) + `fallbackFormat="webp"`. Оригиналы не попадают в `dist`. Путь — **абсолютный** `/content/<collection>/file.jpg` (colocated, один уровень).
   - `threads`: `widths=[360,720,1080]` / `[180,360,720]`
   - `cases/builds`: `widths=[400,800,1200]` / `[400,600]`
   - `reviews`: `widths=[300,600]`
-- **Диаграммы:** ````mermaid` в теле `*.md` → клиентский `src/components/Mermaid.astro:1` (`mermaid@11`, `theme: dark`, `primaryColor: #19BD9B`, lazy `import()` только если есть `pre[data-language="mermaid"]`) → SVG в `prose` (`not-prose` контейнер `border-chassis-800 bg-chassis-850`).
+- **Схемы/диаграммы — как картинки:** если нужна схема, сгенерируй её локально (например, `mermaid CLI` → `mmdc -i scheme.mmd -o scheme.png`, `draw.io`, `Excalidraw`) и добавь как обычное изображение рядом с `.md` (`/content/<collection>/scheme-DDmmmYYYY.png`), вставь в body как `![Alt](/content/.../scheme-DDmmmYYYY.png)`. Клиентский рендер `mermaid` в проекте отключён — схемы хранятся только как `jpg/png/webp/svg`.
 - **SEO (автомат):**
-  - `BaseLayout.astro` — `<title>`, `<meta description>`, `canonical`, `og:*`, `hreflang`, `preload /logo.svg`, `<Mermaid />`
+  - `BaseLayout.astro` — `<title>`, `<meta description>`, `canonical`, `og:*`, `hreflang`, `preload /logo.svg`
   - `SchemaOrg.astro` — `ElectronicsRepairShop`, `HowTo` (из `solution`), `BreadcrumbList`
   - `astro.config.mjs` — `@astrojs/sitemap` → `dist/sitemap-index.xml` (`filter !/404`)
   - `src/pages/og/[...slug].ts` — `astro-og-canvas` → `dist/og/**/*.png` (бренд `#19BD9B`)
@@ -122,13 +122,8 @@ gallery: [/content/cases/photo-01.jpg]
 1. ...
 ## Результат
 ...
-
-```mermaid
-graph TD
-  A-->B
 ```
-```
-Рендер в `cases/[slug].astro:110` `<Content />` (`prose`, Mermaid → SVG). Если `problem/solution` пусты — берётся тело.
+Рендер в `cases/[slug].astro:110` `<Content />` (`prose`). Если `problem/solution` пусты — берётся тело.
 
 ### 3.2 `builds` → `/builds` + `/builds/[slug]`
 
@@ -144,7 +139,7 @@ graph TD
 | `tags` | `string[]` | нет | `["RTX 4090"]` |
 | `heroImage/gallery` | `image` | нет | `/content/builds/cover.jpg` |
 
-Тело — доп. markdown + mermaid.
+Тело — доп. markdown (текст + обычные картинки `![alt](/content/...jpg)`).
 
 ### 3.3 `threads` → лента на `/` (`ThreadsScroller.astro`)
 
@@ -187,20 +182,16 @@ Body = текст отзыва. **Filename:** `rev-author-DDmmmYYYY.md` (нап�
 
 ---
 
-## 5. Диаграммы Mermaid
+## 5. Схемы и диаграммы — только как картинки
 
-В любом `content/**/*.md` теле:
+Клиентский рендер `mermaid` удалён из проекта (нет `src/components/Mermaid.astro`, нет зависимости `mermaid`). Если нужна схема:
 
-````md
-```mermaid
-graph TD
-  A[AC Adapter 19V] --> B{DC Jack}
-  B -->|19V OK| C[Charger BQ24781]
-  C --> D[3V/5V LDO]
-```
-````
+1. Нарисуй локально: `mermaid CLI` (`mmdc -i diagram.mmd -o diagram.png -b transparent`), `draw.io`, `Excalidraw`, `Figma` — любой инструмент.
+2. Экспортируй в `png/svg/jpg` (до 4000px, светлый/тёмный фон — на твой выбор, но учитывай тёмную тему сайта `chassis-850`).
+3. Положи рядом с `.md` как обычную картинку с суффиксом даты: `/content/cases/scheme-12aug2026.png` или `/content/builds/diagram-04aug2026.jpg`.
+4. Вставь в тело как `![Подпись схемы](/content/cases/scheme-12aug2026.png)` — Sharp оптимизирует в `avif/webp` как любую другую картинку.
 
-Рендер — `src/components/Mermaid.astro` (тёмная тема `#19BD9B` на `chassis-850`, responsive, lazy).
+**Не используй** блоки ````mermaid` в `content/**/*.md` — они не рендерятся и останутся как код.
 
 ---
 
@@ -226,7 +217,7 @@ graph TD
 1. `npm run dev:tina` → `http://localhost:4321/admin` → коллекция → `Create New`.
 2. Заполни `Title`/`Device`/`Category`/`Date` → `Filename` внизу автозаполнится как `slug-DDmmmYYYY` (транслит + дата: `-26aug2026` / `-aug2026` / `-2026`), поправь латиницей если нужно **с сохранением суффикса**.
 3. `Обложка`/`Галерея` → Upload → **файл должен уже иметь суффикс даты** (переименуй до загрузки: `photo-12aug2026.jpg`) / drag. `Alts`/`Captions` 1:1.
-4. Тело — `## Проблема` и т.д. + ```mermaid` при необходимости.
+4. Тело — `## Проблема` и т.д. (+ обычные картинки `![alt](/content/...jpg)` по ходу повествования).
 5. `Save` → `git status` → `git add content/ tina/tina-lock.json` → `commit` → `push`.
 
 ### Агент
@@ -245,7 +236,7 @@ graph TD
     "keySpecs": [{"label":"Линия","value":"19V"}],
     "schemaType": "HowTo"
   },
-  "body": "## Проблема\n...\n```mermaid\ngraph TD\nA-->B\n```\n",
+  "body": "## Проблема\n...\n![Схема](/content/cases/scheme-12aug2026.png)\n",
   "images": [{"path":"content/cases/asus-tuf-a15-korotkoe-zamykanie-19v-12aug2026-01.jpg","maxWidth":4000}]
 }
 ```
@@ -335,7 +326,7 @@ npm run build   # astro check + 29 страниц, Tina не участвует 
 - [ ] `heroImage`/`gallery`/`avatar` указывают на `/content/.../<slug>-DDmmmYYYY.*` рядом с `.md` (фото тоже с суффиксом, индексы `-1-`, `-2-` перед суффиксом)
 - [ ] `alts`/`captions` 1:1 к `gallery`
 - [ ] `npm run build` без ошибок, `dist/sitemap-index.xml` содержит URL с суффиксом
-- [ ] Проверил `/cases/<slug>-DDmmmYYYY`, `/builds/<slug>-DDmmmYYYY` + Mermaid
+- [ ] Проверил `/cases/<slug>-DDmmmYYYY`, `/builds/<slug>-DDmmmYYYY` (картинки и схемы-как-картинки отображаются)
 
 ---
 
@@ -350,5 +341,5 @@ npm run build   # astro check + 29 страниц, Tina не участвует 
 | Шаблоны | `content/templates/*.md` | копировать (пример) |
 | Tina схема | `tina/config.ts` | нет (транслит Filename) |
 | Коллекции | `src/content.config.ts` | нет |
-| Mermaid | `src/components/Mermaid.astro` | нет |
+| Схемы | `*.png/*.jpg` рядом с `.md` (`![alt](/content/...png)`) | **да** (генерируй локально, вставляй как картинку) |
 | SEO/layout | `src/layouts/BaseLayout.astro` | нет |

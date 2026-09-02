@@ -20,6 +20,7 @@ export const collections = {
         tags: z.array(z.string()).default([]),
         heroImage: image().optional(),
         gallery: z.array(image()).optional(),
+        captions: z.array(z.string()).optional(),
         keySpecs: z
           .array(z.object({ label: z.string(), value: z.string() }))
           .optional(),

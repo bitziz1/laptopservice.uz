@@ -45,6 +45,7 @@ export const CasesPartsFragmentDoc = gql`
   tags
   heroImage
   gallery
+  captions
   keySpecs {
     __typename
     label

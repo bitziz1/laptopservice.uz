@@ -333,6 +333,7 @@ export type Cases = Node & Document & {
   tags?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   heroImage?: Maybe<Scalars['String']['output']>;
   gallery?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  captions?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   keySpecs?: Maybe<Array<Maybe<CasesKeySpecs>>>;
   schemaType?: Maybe<Scalars['String']['output']>;
   summaryForSocial?: Maybe<Scalars['String']['output']>;
@@ -359,6 +360,7 @@ export type CasesFilter = {
   tags?: InputMaybe<StringFilter>;
   heroImage?: InputMaybe<ImageFilter>;
   gallery?: InputMaybe<ImageFilter>;
+  captions?: InputMaybe<StringFilter>;
   keySpecs?: InputMaybe<CasesKeySpecsFilter>;
   schemaType?: InputMaybe<StringFilter>;
   summaryForSocial?: InputMaybe<StringFilter>;
@@ -619,6 +621,7 @@ export type CasesMutation = {
   tags?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   heroImage?: InputMaybe<Scalars['String']['input']>;
   gallery?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  captions?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   keySpecs?: InputMaybe<Array<InputMaybe<CasesKeySpecsMutation>>>;
   schemaType?: InputMaybe<Scalars['String']['input']>;
   summaryForSocial?: InputMaybe<Scalars['String']['input']>;
@@ -716,6 +719,7 @@ export type CasesFilter = {
   tags?: StringFilter | null | undefined;
   heroImage?: ImageFilter | null | undefined;
   gallery?: ImageFilter | null | undefined;
+  captions?: StringFilter | null | undefined;
   keySpecs?: CasesKeySpecsFilter | null | undefined;
   schemaType?: StringFilter | null | undefined;
   summaryForSocial?: StringFilter | null | undefined;
@@ -755,7 +759,7 @@ export type ReviewsFilter = {
 
 export type BuildsPartsFragment = { __typename: 'Builds', title: string, purpose: string, purposeLabel: string, date: string, description: string, complexity: string | null, tags: Array<string | null> | null, heroImage: string | null, gallery: Array<string | null> | null, body: any, components: { __typename: 'BuildsComponents', cpu: string | null, motherboard: string | null, ram: string | null, gpu: string | null, storage: string | null, psu: string | null, case: string | null, cooler: string | null } | null };
 
-export type CasesPartsFragment = { __typename: 'Cases', title: string, device: string, category: string, date: string, problem: string | null, diagnosis: string | null, solution: string | null, result: string | null, tags: Array<string | null> | null, heroImage: string | null, gallery: Array<string | null> | null, schemaType: string | null, summaryForSocial: string | null, body: any, keySpecs: Array<{ __typename: 'CasesKeySpecs', label: string | null, value: string | null } | null> | null };
+export type CasesPartsFragment = { __typename: 'Cases', title: string, device: string, category: string, date: string, problem: string | null, diagnosis: string | null, solution: string | null, result: string | null, tags: Array<string | null> | null, heroImage: string | null, gallery: Array<string | null> | null, captions: Array<string | null> | null, schemaType: string | null, summaryForSocial: string | null, body: any, keySpecs: Array<{ __typename: 'CasesKeySpecs', label: string | null, value: string | null } | null> | null };
 
 export type ThreadsPartsFragment = { __typename: 'Threads', handle: string | null, date: string, gallery: Array<string | null> | null, alts: Array<string | null> | null, url: string | null, body: any };
 
@@ -785,7 +789,7 @@ export type CasesQueryVariables = Exact<{
 }>;
 
 
-export type CasesQuery = { cases: { __typename: 'Cases', id: string, title: string, device: string, category: string, date: string, problem: string | null, diagnosis: string | null, solution: string | null, result: string | null, tags: Array<string | null> | null, heroImage: string | null, gallery: Array<string | null> | null, schemaType: string | null, summaryForSocial: string | null, body: any, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, keySpecs: Array<{ __typename: 'CasesKeySpecs', label: string | null, value: string | null } | null> | null } };
+export type CasesQuery = { cases: { __typename: 'Cases', id: string, title: string, device: string, category: string, date: string, problem: string | null, diagnosis: string | null, solution: string | null, result: string | null, tags: Array<string | null> | null, heroImage: string | null, gallery: Array<string | null> | null, captions: Array<string | null> | null, schemaType: string | null, summaryForSocial: string | null, body: any, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, keySpecs: Array<{ __typename: 'CasesKeySpecs', label: string | null, value: string | null } | null> | null } };
 
 export type CasesConnectionQueryVariables = Exact<{
   before?: string | null | undefined;
@@ -797,7 +801,7 @@ export type CasesConnectionQueryVariables = Exact<{
 }>;
 
 
-export type CasesConnectionQuery = { casesConnection: { totalCount: number, pageInfo: { hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges: Array<{ cursor: string, node: { __typename: 'Cases', id: string, title: string, device: string, category: string, date: string, problem: string | null, diagnosis: string | null, solution: string | null, result: string | null, tags: Array<string | null> | null, heroImage: string | null, gallery: Array<string | null> | null, schemaType: string | null, summaryForSocial: string | null, body: any, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, keySpecs: Array<{ __typename: 'CasesKeySpecs', label: string | null, value: string | null } | null> | null } | null } | null> | null } };
+export type CasesConnectionQuery = { casesConnection: { totalCount: number, pageInfo: { hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges: Array<{ cursor: string, node: { __typename: 'Cases', id: string, title: string, device: string, category: string, date: string, problem: string | null, diagnosis: string | null, solution: string | null, result: string | null, tags: Array<string | null> | null, heroImage: string | null, gallery: Array<string | null> | null, captions: Array<string | null> | null, schemaType: string | null, summaryForSocial: string | null, body: any, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, keySpecs: Array<{ __typename: 'CasesKeySpecs', label: string | null, value: string | null } | null> | null } | null } | null> | null } };
 
 export type ThreadsQueryVariables = Exact<{
   relativePath: string;
@@ -877,6 +881,7 @@ export const CasesPartsFragmentDoc = gql`
   tags
   heroImage
   gallery
+  captions
   keySpecs {
     __typename
     label

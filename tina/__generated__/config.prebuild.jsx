@@ -194,6 +194,7 @@ var config_default = defineConfig({
           { type: "string", name: "tags", label: "\u0422\u0435\u0433\u0438", list: true },
           { type: "image", name: "heroImage", label: "\u041E\u0431\u043B\u043E\u0436\u043A\u0430" },
           { type: "image", name: "gallery", label: "\u0413\u0430\u043B\u0435\u0440\u0435\u044F", list: true },
+          { type: "string", name: "captions", label: "\u041F\u043E\u0434\u043F\u0438\u0441\u0438 \u043A \u0444\u043E\u0442\u043E", list: true, description: "1:1 \u043A gallery (\u043F\u043E\u0434\u043F\u0438\u0441\u044C \u043F\u043E\u0434 \u043A\u0430\u0436\u0434\u044B\u043C \u0444\u043E\u0442\u043E \u0432 \u043A\u0430\u0440\u0443\u0441\u0435\u043B\u0438)" },
           {
             type: "object",
             name: "keySpecs",

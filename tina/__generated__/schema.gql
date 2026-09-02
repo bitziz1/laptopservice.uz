@@ -205,6 +205,7 @@ type Cases implements Node & Document {
   tags: [String]
   heroImage: String
   gallery: [String]
+  captions: [String]
   keySpecs: [CasesKeySpecs]
   schemaType: String
   summaryForSocial: String
@@ -231,6 +232,7 @@ input CasesFilter {
   tags: StringFilter
   heroImage: ImageFilter
   gallery: ImageFilter
+  captions: StringFilter
   keySpecs: CasesKeySpecsFilter
   schemaType: StringFilter
   summaryForSocial: StringFilter
@@ -401,6 +403,7 @@ input CasesMutation {
   tags: [String]
   heroImage: String
   gallery: [String]
+  captions: [String]
   keySpecs: [CasesKeySpecsMutation]
   schemaType: String
   summaryForSocial: String

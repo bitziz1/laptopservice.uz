@@ -36,6 +36,7 @@ fragment CasesParts on Cases {
   tags
   heroImage
   gallery
+  captions
   keySpecs {
     __typename
     label

@@ -191,6 +191,7 @@ export default defineConfig({
           { type: "string", name: "tags", label: "Теги", list: true },
           { type: "image", name: "heroImage", label: "Обложка" },
           { type: "image", name: "gallery", label: "Галерея", list: true },
+          { type: "string", name: "captions", label: "Подписи к фото", list: true, description: "1:1 к gallery (подпись под каждым фото в карусели)" },
           {
             type: "object",
             name: "keySpecs",
