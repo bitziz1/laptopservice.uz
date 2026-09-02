@@ -36,7 +36,7 @@ Laptop Service (также известный как RemontNoutbukov) — спе
   - [Оптимальная сборка для игр в Full HD — RTX 4060 + Ryzen 5 5600](https://laptopservice.uz/builds/gaming-1080p-rtx4060-r5-5600-10aug2026) — Игры (Full HD / 144 Гц)
   - [Рабочая станция для AI / 3D-рендера — RTX 4090 + Ryzen 9 7950X](https://laptopservice.uz/builds/ai-workstation-rtx4090-r9-7950x-04aug2026) — AI, нейросети и 3D-рендер
   - [Компактная офисная сборка — Core i5-12400 (UHD 730) без дискретной GPU](https://laptopservice.uz/builds/office-compact-i5-12400-uhd730-22jul2026) — Офис и учёба
-- [Диагностика и цены](https://laptopservice.uz/prices): Бесплатная диагностика, порядок согласования стоимости.
+- [Цены](https://laptopservice.uz/prices): Бесплатная диагностика, порядок согласования стоимости.
 - [Отзывы клиентов](https://laptopservice.uz/reviews): Реальные отзывы с Яндекс Карт и Google Maps. Оставить отзыв — на Яндекс Картах и Google Maps.
 - [Контакты и схема проезда](https://laptopservice.uz/contacts): Адрес, Яндекс Карты / Google Maps, режим работы, руководитель сервиса.
 
