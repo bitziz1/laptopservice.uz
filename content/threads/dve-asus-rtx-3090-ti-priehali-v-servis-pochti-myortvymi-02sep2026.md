@@ -18,3 +18,5 @@ Hotspot — 74,8°C.
 Что с ними было и как удалось их восстановить — в полном кейсе 👇
 
 https://laptopservice.uz/cases/vosstanovlenie-dvuh-asus-rog-strix-rtx-3090-ti-lc-240-02sep2026/
+
+<!-- test incremental 2026-09-02T18:47:58Z -->
