@@ -31,16 +31,17 @@
 - **Программаторы:** RT809H, Vertyanov JIG v3
 - **Расходники:** Honeywell PTM7950, Kester/Amtech, жидкий металл
 
-## 4. Примеры работ (Наши работы) — 9 кейсов
-1. **ASUS TUF Gaming A15: Короткое замыкание по линии 19V после скачка в сети:** ASUS TUF Gaming A15 (FA506) — Компонентный ремонт платы — https://laptopservice.uz/cases/asus-tuf-a15-korotkoe-zamykanie-19v-12aug2026
-2. **Lenovo Legion 5 Pro: Ошибка Code 43 на RTX 3070 и замена видеопамяти VRAM:** Lenovo Legion 5 Pro (16ACH6H) — BGA-пайка и реболлинг — https://laptopservice.uz/cases/lenovo-legion-5-bga-reballing-rtx3070-05aug2026
-3. **MSI Katana GF66: Усиление вырванных шарниров и монолитная полимерная реконструкция топкейса:** MSI Katana GF66 (11UE) — Ремонт петель и корпуса — https://laptopservice.uz/cases/msi-katana-gf66-vosstanovlenie-petel-korpusa-19jul2026
-4. **Dell G15 5515: Устранение перегрева Ryzen 7 и падения FPS заменой термоинтерфейса на Honeywell PTM7950:** Dell G15 5515 Ryzen Edition — Профилактика и охлаждение — https://laptopservice.uz/cases/dell-g15-5515-zamena-honeywell-ptm7950-10jul2026
-5. **HP Victus 16: Долгая инициализация (2 минуты до логотипа) и очистка ME-региона BIOS:** HP Victus 16 (d0000) — Прошивка BIOS / EC — https://laptopservice.uz/cases/hp-victus-16-proshivka-bios-clean-me-25jun2026
-6. **Acer Nitro 5: Не заряжает аккумулятор, мигает оранжевым индикатором — ремонт чарджера BQ24781:** Acer Nitro 5 (AN515-57) — Компонентный ремонт платы — https://laptopservice.uz/cases/acer-nitro-5-vosstanovlenie-shemy-charedzhera-14jun2026
-7. **Lenovo ThinkPad X1 Carbon Gen 9: Замена разбитого разъема Thunderbolt 4 Type-C:** Lenovo ThinkPad X1 Carbon Gen 9 — Разъемы и пайка — https://laptopservice.uz/cases/thinkpad-x1-carbon-zamena-razema-type-c-30may2026
-8. **ASUS ROG Strix G17: Не работают все порты USB и клавиатура — замена хаба Intel HM570:** ASUS ROG Strix G17 (G713) — BGA-пайка и реболлинг — https://laptopservice.uz/cases/asus-rog-strix-zamena-hub-pch-hm570-18may2026
-9. **Dell XPS 15 9500: Циклический перезапуск и замена мультиконтроллера MEC5105:** Dell XPS 15 9500 — Компонентный ремонт платы — https://laptopservice.uz/cases/dell-xps-15-9500-vosstanovlenie-pitaniya-multikontrollera-02may2026
+## 4. Примеры работ (Наши работы) — 10 кейсов
+1. **Восстановление двух ASUS ROG Strix RTX 3090 Ti LC 240: Code 43, не определяется и ТО водянки:** 2× ASUS ROG Strix GeForce RTX 3090 Ti LC 240 (GA102-350-A1, 24GB GDDR6X) — Компонентный ремонт платы — https://laptopservice.uz/cases/vosstanovlenie-dvuh-asus-rog-strix-rtx-3090-ti-lc-240-02sep2026
+2. **ASUS TUF Gaming A15: Короткое замыкание по линии 19V после скачка в сети:** ASUS TUF Gaming A15 (FA506) — Компонентный ремонт платы — https://laptopservice.uz/cases/asus-tuf-a15-korotkoe-zamykanie-19v-12aug2026
+3. **Lenovo Legion 5 Pro: Ошибка Code 43 на RTX 3070 и замена видеопамяти VRAM:** Lenovo Legion 5 Pro (16ACH6H) — BGA-пайка и реболлинг — https://laptopservice.uz/cases/lenovo-legion-5-bga-reballing-rtx3070-05aug2026
+4. **MSI Katana GF66: Усиление вырванных шарниров и монолитная полимерная реконструкция топкейса:** MSI Katana GF66 (11UE) — Ремонт петель и корпуса — https://laptopservice.uz/cases/msi-katana-gf66-vosstanovlenie-petel-korpusa-19jul2026
+5. **Dell G15 5515: Устранение перегрева Ryzen 7 и падения FPS заменой термоинтерфейса на Honeywell PTM7950:** Dell G15 5515 Ryzen Edition — Профилактика и охлаждение — https://laptopservice.uz/cases/dell-g15-5515-zamena-honeywell-ptm7950-10jul2026
+6. **HP Victus 16: Долгая инициализация (2 минуты до логотипа) и очистка ME-региона BIOS:** HP Victus 16 (d0000) — Прошивка BIOS / EC — https://laptopservice.uz/cases/hp-victus-16-proshivka-bios-clean-me-25jun2026
+7. **Acer Nitro 5: Не заряжает аккумулятор, мигает оранжевым индикатором — ремонт чарджера BQ24781:** Acer Nitro 5 (AN515-57) — Компонентный ремонт платы — https://laptopservice.uz/cases/acer-nitro-5-vosstanovlenie-shemy-charedzhera-14jun2026
+8. **Lenovo ThinkPad X1 Carbon Gen 9: Замена разбитого разъема Thunderbolt 4 Type-C:** Lenovo ThinkPad X1 Carbon Gen 9 — Разъемы и пайка — https://laptopservice.uz/cases/thinkpad-x1-carbon-zamena-razema-type-c-30may2026
+9. **ASUS ROG Strix G17: Не работают все порты USB и клавиатура — замена хаба Intel HM570:** ASUS ROG Strix G17 (G713) — BGA-пайка и реболлинг — https://laptopservice.uz/cases/asus-rog-strix-zamena-hub-pch-hm570-18may2026
+10. **Dell XPS 15 9500: Циклический перезапуск и замена мультиконтроллера MEC5105:** Dell XPS 15 9500 — Компонентный ремонт платы — https://laptopservice.uz/cases/dell-xps-15-9500-vosstanovlenie-pitaniya-multikontrollera-02may2026
 
 *Даты показываются словами («12 августа 2026»), в разметке ISO YYYY-MM-DD.*
 
@@ -58,7 +59,7 @@
 ## 7. Навигация сайта
 - Главная (/) — сервис, порядок работы
 - Услуги (/services) — не включается/греется/залит/петли
-- Наши работы (/cases) — 9 реальных примеров
+- Наши работы (/cases) — 10 реальных примеров
 - Сборки ПК (/builds) — 6 сборок
 - Цены (/prices)
 - Отзывы (/reviews) — 18 отзывов

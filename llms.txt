@@ -20,6 +20,7 @@ Laptop Service (также известный как RemontNoutbukov) — спе
 - [Ремонт петель и корпуса](https://laptopservice.uz/services/remont-petel-korpusa): Полимерное армирование стоек корпуса и регулировка натяжения шарниров.
 - [Апгрейд](https://laptopservice.uz/services/upgrade-noutbuka): Установка NVMe SSD и модулей памяти RAM с клонированием системы. Также, при желании, можем установить ваши комплектующие.
 - [Наши работы](https://laptopservice.uz/cases): Реальные примеры из практики сервисного центра.
+  - [Восстановление двух ASUS ROG Strix RTX 3090 Ti LC 240: Code 43, не определяется и ТО водянки](https://laptopservice.uz/cases/vosstanovlenie-dvuh-asus-rog-strix-rtx-3090-ti-lc-240-02sep2026) — 2× ASUS ROG Strix GeForce RTX 3090 Ti LC 240 (GA102-350-A1, 24GB GDDR6X) — Компонентный ремонт платы
   - [ASUS TUF Gaming A15: Короткое замыкание по линии 19V после скачка в сети](https://laptopservice.uz/cases/asus-tuf-a15-korotkoe-zamykanie-19v-12aug2026) — ASUS TUF Gaming A15 (FA506) — Компонентный ремонт платы
   - [Lenovo Legion 5 Pro: Ошибка Code 43 на RTX 3070 и замена видеопамяти VRAM](https://laptopservice.uz/cases/lenovo-legion-5-bga-reballing-rtx3070-05aug2026) — Lenovo Legion 5 Pro (16ACH6H) — BGA-пайка и реболлинг
   - [MSI Katana GF66: Усиление вырванных шарниров и монолитная полимерная реконструкция топкейса](https://laptopservice.uz/cases/msi-katana-gf66-vosstanovlenie-petel-korpusa-19jul2026) — MSI Katana GF66 (11UE) — Ремонт петель и корпуса
@@ -52,4 +53,4 @@ Laptop Service (также известный как RemontNoutbukov) — спе
 ## Дополнительно
 - [Полный машиночитаемый контекст компании](https://laptopservice.uz/llms-full.txt): Детальное описание для языковых моделей, включая примеры работ, параметры оборудования и регламенты.
 
-*Сгенерировано при билде 2026-09-02 из 9 кейсов и 6 сборок. Сайт: https://laptopservice.uz*
+*Сгенерировано при билде 2026-09-02 из 10 кейсов и 6 сборок. Сайт: https://laptopservice.uz*
