@@ -137,6 +137,14 @@ const fullTitle = title.includes("Laptop Service") ? title : `${title} — Lapto
     <noscript><div><img src="https://mc.yandex.ru/watch/111901353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
     <!-- /Yandex.Metrika counter -->
 
+    <!-- Top Notification Bar — brand color #00bb9c -->
+    <div class="w-full" style="background:#00bb9c">
+      <div class="max-w-7xl mx-auto px-4 py-2.5 text-center text-white text-xs sm:text-sm leading-tight">
+        <span>⏳ Нужна помощь?</span>
+        <a href={siteConfig.telegram.masterUrl} target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 decoration-white/80 hover:decoration-white font-bold hover:opacity-90 transition-opacity">Написать в Telegram</a>
+      </div>
+    </div>
+
     <Header currentPath={currentPath} />
 
     <main id="main-content" class="flex-1">

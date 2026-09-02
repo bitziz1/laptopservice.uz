@@ -341,18 +341,15 @@ const homeFaq = [
   <!-- REVIEWS — threads-like horizontal scroller -->
   <section class="py-8 bg-chassis-950/50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
-      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
-        <div class="flex flex-wrap items-center gap-3">
-          <h2 class="text-xl sm:text-2xl font-bold text-chassis-100">Отзывы клиентов</h2>
-          <div class="flex items-center gap-3 text-xs">
-            <IconLink type="yandex-maps" href={siteConfig.socials.yandexMaps} label="Яндекс Карты" ariaLabel="Открыть в Яндекс Картах" variant="inline" target="_blank" class="text-chassis-300 hover:text-chassis-100 underline" />
-            <span class="text-chassis-500">•</span>
-            <IconLink type="google-maps" href={siteConfig.socials.googleMaps} label="Google Maps" ariaLabel="Открыть в Google Maps" variant="inline" target="_blank" class="text-chassis-300 hover:text-chassis-100 underline" />
-            <span class="text-chassis-500">•</span>
-            <IconLink type="2gis" href={siteConfig.socials.twoGis} label="2ГИС" ariaLabel="Открыть в 2ГИС" variant="inline" target="_blank" class="text-chassis-300 hover:text-chassis-100 underline" />
-          </div>
+      <div class="flex flex-wrap items-center gap-3">
+        <h2 class="text-xl sm:text-2xl font-bold text-chassis-100">Отзывы клиентов</h2>
+        <div class="flex items-center gap-3 text-xs">
+          <IconLink type="yandex-maps" href={siteConfig.socials.yandexMaps} label="Яндекс Карты" ariaLabel="Открыть в Яндекс Картах" variant="inline" target="_blank" class="text-chassis-300 hover:text-chassis-100 underline" />
+          <span class="text-chassis-500">•</span>
+          <IconLink type="google-maps" href={siteConfig.socials.googleMaps} label="Google Maps" ariaLabel="Открыть в Google Maps" variant="inline" target="_blank" class="text-chassis-300 hover:text-chassis-100 underline" />
+          <span class="text-chassis-500">•</span>
+          <IconLink type="2gis" href={siteConfig.socials.twoGis} label="2ГИС" ariaLabel="Открыть в 2ГИС" variant="inline" target="_blank" class="text-chassis-300 hover:text-chassis-100 underline" />
         </div>
-        <a href="/reviews" class="text-xs font-sans text-chassis-300 hover:text-chassis-100 underline underline-offset-2 shrink-0">Оставить свой отзыв →</a>
       </div>
       {isTinaReviews && tinaReviewsPayload ? (
         <VisualReviews client:load query={tinaReviewsPayload.query} variables={tinaReviewsPayload.variables} data={tinaReviewsPayload.data} variant="home" />
@@ -409,6 +406,13 @@ const homeFaq = [
         </div>
       </div>
       )}
+      <div class="flex justify-center pt-2">
+        <a href="/reviews" class="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 rounded-xl border border-chassis-700 bg-chassis-900 hover:bg-chassis-800 text-chassis-100 font-bold text-sm transition-colors">
+          <span class="text-amber-400">★</span>
+          Оставить свой отзыв
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
     </div>
   </section>
 
