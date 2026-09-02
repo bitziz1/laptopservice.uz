@@ -28,12 +28,21 @@ jobs:
           cache: 'npm'
           cache-dependency-path: package-lock.json
 
+      - name: Cache Node Modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            node-modules-${{ runner.os }}-
+
       - name: Cache Astro Assets
         uses: actions/cache@v4
         with:
           path: |
             .astro
             node_modules/.astro
+            node_modules/.cache/sharp
           key: astro-assets-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('astro.config.mjs') }}
           restore-keys: |
             astro-assets-${{ runner.os }}-
@@ -42,7 +51,7 @@ jobs:
         run: npm ci --prefer-offline
 
       - name: Build site
-        run: npm run build
+        run: npm run build:prod
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
