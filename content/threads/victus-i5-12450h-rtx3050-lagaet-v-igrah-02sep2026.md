@@ -1,10 +1,11 @@
 ---
 handle: "laptopservice_uz"
-date: 2026-09-02
+date: 2026-09-03
 gallery:
   - /content/threads/photo_2026-09-02_19-20-33.jpg
 alts:
   - "Victus i5 12450H RTX 3050 — нанесение термоинтерфейса"
+url: https://www.threads.com/share/BAUkABCEAI/
 ---
 
 Лагает в играх, а внутри вот такое 👀
