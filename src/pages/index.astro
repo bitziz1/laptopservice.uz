@@ -301,9 +301,9 @@ const homeFaq = [
                   <Picture src={allImages[0]} alt={entry.data.title} widths={[320, 640]} sizes="(max-width: 640px) 300px, 320px" formats={["avif", "webp"]} fallbackFormat="webp" loading="lazy" decoding="async" class="w-full h-[110px] object-cover" />
                 </div>
               )}
-            {allImages.length === 2 && (
+            {allImages.length >= 2 && (
               <div class="grid grid-cols-2 gap-1.5 mb-2.5">
-                {allImages.map((img) => (
+                {allImages.slice(0,2).map((img) => (
                     <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900">
                       <Picture src={img} alt={entry.data.title} widths={[140, 280]} sizes="140px" formats={["avif", "webp"]} fallbackFormat="webp" loading="lazy" decoding="async" class="w-full h-[90px] object-cover" />
                     </div>
