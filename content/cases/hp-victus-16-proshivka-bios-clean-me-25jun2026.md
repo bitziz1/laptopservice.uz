@@ -4,6 +4,7 @@ device: "HP Victus 16 (d0000)"
 category: "Прошивка BIOS / EC"
 date: 2026-06-25
 tags: ["HP", "BIOS", "Clean ME", "RT809H", "Victus"]
+heroImage: /content/cases/hp-victus-16-proshivka-bios-clean-me-25jun2026.avif
 schemaType: "HowTo"
 summaryForSocial: "HP Victus 16 долго включался? Восстановили поврежденный ME-регион BIOS на программаторе. Старт системы за 4 секунды!"
 ---

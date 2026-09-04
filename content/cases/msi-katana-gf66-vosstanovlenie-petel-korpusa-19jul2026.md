@@ -4,6 +4,7 @@ device: "MSI Katana GF66 (11UE)"
 category: "Ремонт петель и корпуса"
 date: 2026-07-19
 tags: ["MSI", "Петли", "Корпус", "Реконструкция", "Katana"]
+heroImage: /content/cases/msi-katana-gf66-vosstanovlenie-petel-korpusa-19jul2026.jpg
 schemaType: "HowTo"
 summaryForSocial: "Ремонт вырванных петель на MSI Katana GF66. Сделали полимерное армирование и ослабили шарниры. Крышка теперь открывается мягко и без риска поломки."
 ---

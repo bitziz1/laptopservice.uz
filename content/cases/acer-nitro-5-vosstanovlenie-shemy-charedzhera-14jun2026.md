@@ -4,6 +4,7 @@ device: "Acer Nitro 5 (AN515-57)"
 category: "Компонентный ремонт платы"
 date: 2026-06-14
 tags: ["Acer", "Чарджер", "Батарея", "BQ24781", "Nitro 5"]
+heroImage: /content/cases/acer-nitro-5-vosstanovlenie-shemy-charedzhera-14jun2026.jpg
 schemaType: "HowTo"
 summaryForSocial: "Acer Nitro 5 перестал заряжаться. Отремонтировали цепь управления зарядом BQ24781. Аккумулятор снова держит заряд."
 ---
