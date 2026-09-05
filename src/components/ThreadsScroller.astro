@@ -58,6 +58,9 @@ function galleryWithAlts(entry: (typeof threads)[number]) {
         const handle = entry.data.handle ?? "laptopservice_uz";
         const text = entry.body?.trim() ?? "";
         const postUrl = (entry.data as any).url ?? siteConfig.telegram.channelUrl;
+        const videoUrl = (entry.data as any).video as string | undefined;
+        const videoPoster = videoUrl ? videoUrl.replace(/\.mp4$/, ".jpg") : undefined;
+        const hasVideo = !!videoUrl;
         return (
           <a
             href={postUrl}
@@ -85,10 +88,29 @@ function galleryWithAlts(entry: (typeof threads)[number]) {
               <p class="text-xs text-chassis-200 leading-[1.4] whitespace-pre-wrap break-words line-clamp-3">{text}</p>
             </div>
 
-            {/* Media — строго из content/threads/*.md gallery (оригиналы jpg/png) */}
-            {gallery.length === 1 ? (
+            {/* Media — квадрат 1:1, центр-кроп, экономит место */}
+            {hasVideo ? (
               <div class="px-2.5 pb-2.5">
-                <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900">
+                <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900 relative aspect-square">
+                  <video
+                    src={videoUrl}
+                    poster={videoPoster}
+                    autoplay
+                    muted
+                    loop
+                    playsinline
+                    preload="metadata"
+                    aria-label={gallery[0]?.alt ?? text.slice(0, 80)}
+                    class="w-full h-full object-cover object-center bg-chassis-900"
+                  />
+                  <span class="absolute bottom-1.5 right-1.5 bg-black/60 backdrop-blur-sm text-white text-[10px] px-1.5 py-0.5 rounded-full flex items-center gap-1">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.14v14l11-7z"/></svg> 0:05
+                  </span>
+                </div>
+              </div>
+            ) : gallery.length === 1 ? (
+              <div class="px-2.5 pb-2.5">
+                <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900 aspect-square">
                   <Picture
                     src={gallery[0].img}
                     alt={gallery[0].alt}
@@ -99,7 +121,7 @@ function galleryWithAlts(entry: (typeof threads)[number]) {
                     loading={idx === 0 ? "eager" : "lazy"}
                     decoding="async"
                     fetchpriority={idx === 0 ? "high" : "low"}
-                    class="w-full h-[148px] object-cover bg-chassis-900"
+                    class="w-full h-full object-cover object-center bg-chassis-900"
                   />
                 </div>
               </div>
@@ -107,17 +129,17 @@ function galleryWithAlts(entry: (typeof threads)[number]) {
               <div class="px-2.5 pb-2.5">
                 <div class="grid grid-cols-2 gap-1.5">
                   {gallery.map(({ img, alt }) => (
-                    <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900">
+                    <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900 aspect-square">
                       <Picture
                         src={img}
                         alt={alt}
-                        widths={[140, 280]}
-                        sizes="(max-width: 640px) 128px, 138px"
+                        widths={[260, 360]}
+                        sizes="(max-width: 640px) 128px, 146px"
                         formats={["avif", "webp"]}
                         fallbackFormat="webp"
                         loading="lazy"
                         decoding="async"
-                        class="w-full h-[110px] object-cover"
+                        class="w-full h-full object-cover object-center"
                       />
                     </div>
                   ))}

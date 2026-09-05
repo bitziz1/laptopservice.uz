@@ -387,6 +387,7 @@ export type Threads = Node & Document & {
   gallery?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   alts?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   url?: Maybe<Scalars['String']['output']>;
+  video?: Maybe<Scalars['String']['output']>;
   body?: Maybe<Scalars['JSON']['output']>;
   id: Scalars['ID']['output'];
   _sys: SystemInfo;
@@ -399,6 +400,7 @@ export type ThreadsFilter = {
   gallery?: InputMaybe<ImageFilter>;
   alts?: InputMaybe<StringFilter>;
   url?: InputMaybe<StringFilter>;
+  video?: InputMaybe<StringFilter>;
   body?: InputMaybe<RichTextFilter>;
 };
 
@@ -634,6 +636,7 @@ export type ThreadsMutation = {
   gallery?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   alts?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   url?: InputMaybe<Scalars['String']['input']>;
+  video?: InputMaybe<Scalars['String']['input']>;
   body?: InputMaybe<Scalars['JSON']['input']>;
 };
 
@@ -732,6 +735,7 @@ export type ThreadsFilter = {
   gallery?: ImageFilter | null | undefined;
   alts?: StringFilter | null | undefined;
   url?: StringFilter | null | undefined;
+  video?: StringFilter | null | undefined;
   body?: RichTextFilter | null | undefined;
 };
 
@@ -761,7 +765,7 @@ export type BuildsPartsFragment = { __typename: 'Builds', title: string, purpose
 
 export type CasesPartsFragment = { __typename: 'Cases', title: string, device: string, category: string, date: string, problem: string | null, diagnosis: string | null, solution: string | null, result: string | null, tags: Array<string | null> | null, heroImage: string | null, gallery: Array<string | null> | null, captions: Array<string | null> | null, schemaType: string | null, summaryForSocial: string | null, body: any, keySpecs: Array<{ __typename: 'CasesKeySpecs', label: string | null, value: string | null } | null> | null };
 
-export type ThreadsPartsFragment = { __typename: 'Threads', handle: string | null, date: string, gallery: Array<string | null> | null, alts: Array<string | null> | null, url: string | null, body: any };
+export type ThreadsPartsFragment = { __typename: 'Threads', handle: string | null, date: string, gallery: Array<string | null> | null, alts: Array<string | null> | null, url: string | null, video: string | null, body: any };
 
 export type ReviewsPartsFragment = { __typename: 'Reviews', author: string, source: string | null, rating: number | null, date: string, device: string | null, avatar: string | null, gallery: Array<string | null> | null, captions: Array<string | null> | null, body: any };
 
@@ -808,7 +812,7 @@ export type ThreadsQueryVariables = Exact<{
 }>;
 
 
-export type ThreadsQuery = { threads: { __typename: 'Threads', id: string, handle: string | null, date: string, gallery: Array<string | null> | null, alts: Array<string | null> | null, url: string | null, body: any, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
+export type ThreadsQuery = { threads: { __typename: 'Threads', id: string, handle: string | null, date: string, gallery: Array<string | null> | null, alts: Array<string | null> | null, url: string | null, video: string | null, body: any, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
 
 export type ThreadsConnectionQueryVariables = Exact<{
   before?: string | null | undefined;
@@ -820,7 +824,7 @@ export type ThreadsConnectionQueryVariables = Exact<{
 }>;
 
 
-export type ThreadsConnectionQuery = { threadsConnection: { totalCount: number, pageInfo: { hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges: Array<{ cursor: string, node: { __typename: 'Threads', id: string, handle: string | null, date: string, gallery: Array<string | null> | null, alts: Array<string | null> | null, url: string | null, body: any, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
+export type ThreadsConnectionQuery = { threadsConnection: { totalCount: number, pageInfo: { hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges: Array<{ cursor: string, node: { __typename: 'Threads', id: string, handle: string | null, date: string, gallery: Array<string | null> | null, alts: Array<string | null> | null, url: string | null, video: string | null, body: any, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
 
 export type ReviewsQueryVariables = Exact<{
   relativePath: string;
@@ -900,6 +904,7 @@ export const ThreadsPartsFragmentDoc = gql`
   gallery
   alts
   url
+  video
   body
 }
     `;

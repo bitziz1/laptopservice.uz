@@ -54,6 +54,7 @@ fragment ThreadsParts on Threads {
   gallery
   alts
   url
+  video
   body
 }
 

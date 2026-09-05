@@ -256,6 +256,7 @@ type Threads implements Node & Document {
   gallery: [String]
   alts: [String]
   url: String
+  video: String
   body: JSON
   id: ID!
   _sys: SystemInfo!
@@ -268,6 +269,7 @@ input ThreadsFilter {
   gallery: ImageFilter
   alts: StringFilter
   url: StringFilter
+  video: StringFilter
   body: RichTextFilter
 }
 
@@ -416,6 +418,7 @@ input ThreadsMutation {
   gallery: [String]
   alts: [String]
   url: String
+  video: String
   body: JSON
 }
 

@@ -260,6 +260,7 @@ var config_default = defineConfig({
           { type: "image", name: "gallery", label: "\u0413\u0430\u043B\u0435\u0440\u0435\u044F", list: true },
           { type: "string", name: "alts", label: "Alt-\u0442\u0435\u043A\u0441\u0442\u044B", list: true, description: "1:1 \u043A gallery" },
           { type: "string", name: "url", label: "\u0421\u0441\u044B\u043B\u043A\u0430 \u043D\u0430 \u043F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u044E", description: "\u041A\u043D\u043E\u043F\u043A\u0430 \xAB\u041F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u044F\xBB \u0432\u0435\u0434\u0451\u0442 \u0441\u044E\u0434\u0430, \u0435\u0441\u043B\u0438 \u043F\u0443\u0441\u0442\u043E \u2014 \u0432 Telegram" },
+          { type: "string", name: "video", label: "\u0412\u0438\u0434\u0435\u043E (mp4)", description: "\u041F\u0443\u0442\u044C \u043A \u0432\u0438\u0434\u0435\u043E \u0432 /content/threads/...mp4 (\u043E\u043F\u0442\u0438\u043C\u0438\u0437\u0438\u0440\u043E\u0432\u0430\u043D\u043E ffmpeg, muted autoplay). \u041E\u0441\u0442\u0430\u0432\u044C \u043F\u0443\u0441\u0442\u044B\u043C \u0435\u0441\u043B\u0438 \u0442\u043E\u043B\u044C\u043A\u043E \u0444\u043E\u0442\u043E." },
           { type: "rich-text", name: "body", label: "\u0422\u0435\u043A\u0441\u0442 \u043F\u043E\u0441\u0442\u0430", isBody: true }
         ]
       },

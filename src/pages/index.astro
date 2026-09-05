@@ -21,7 +21,7 @@ buildsEntries.sort((a,b)=> b.data.date.getTime() - a.data.date.getTime());
 reviewsEntries.sort((a,b)=> b.data.date.getTime() - a.data.date.getTime());
 
 // Tina live: тредсы и отзывы на главной — подсветка в админке на руте "/" (router threads -> "/", reviews -> "/reviews")
-const THREADS_TINA_QUERY = `query{ threadsConnection{ edges{ node{ id _sys{ filename relativePath } handle date gallery alts url body } } } }`;
+const THREADS_TINA_QUERY = `query{ threadsConnection{ edges{ node{ id _sys{ filename relativePath } handle date gallery alts url video body } } } }`;
 const REVIEWS_TINA_QUERY = `query{ reviewsConnection{ edges{ node{ id _sys{ filename relativePath } author source rating date device avatar gallery captions body } } } }`;
 let tinaThreadsPayload: any = null;
 let tinaReviewsPayload: any = null;

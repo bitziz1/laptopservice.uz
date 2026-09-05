@@ -67,6 +67,7 @@ export const collections = {
         gallery: z.array(image()).optional(),
         alts: z.array(z.string()).optional(),
         url: z.string().url().optional(),
+        video: z.string().optional(),
       }),
   }),
 

@@ -97,6 +97,9 @@ export default function VisualThreadsHome(props: { query: string; variables: any
             const gallery: string[] = node.gallery ?? [];
             const alts: string[] = node.alts ?? [];
             const postUrl = node.url ?? siteConfig.telegram.channelUrl;
+            const videoUrl: string | undefined = node.video;
+            const hasVideo = !!videoUrl;
+            const posterUrl = hasVideo ? videoUrl.replace(/\.mp4$/, ".jpg") : undefined;
             const textForAlt = extractText(node.body);
             return (
               <a
@@ -128,18 +131,36 @@ export default function VisualThreadsHome(props: { query: string; variables: any
                     <TinaMarkdown content={node.body} />
                   </div>
                 </div>
-                {gallery.length === 1 ? (
+                {hasVideo ? (
+                  <div className="px-2.5 pb-2.5" data-tina-field={tinaField(node, "video")}>
+                    <div className="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900 relative aspect-square">
+                      <video
+                        src={videoUrl}
+                        poster={posterUrl ?? gallery[0]}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                        className="w-full h-full object-cover object-center bg-chassis-900"
+                      />
+                      <span className="absolute bottom-1.5 right-1.5 bg-black/60 backdrop-blur-sm text-white text-[10px] px-1.5 py-0.5 rounded-full flex items-center gap-1">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.14v14l11-7z" /></svg> 0:05
+                      </span>
+                    </div>
+                  </div>
+                ) : gallery.length === 1 ? (
                   <div className="px-2.5 pb-2.5" data-tina-field={tinaField(node, "gallery")}>
-                    <div className="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900">
-                      <img src={gallery[0]} alt={alts[0] ?? textForAlt} className="w-full h-[148px] object-cover bg-chassis-900" loading="lazy" />
+                    <div className="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900 aspect-square">
+                      <img src={gallery[0]} alt={alts[0] ?? textForAlt} className="w-full h-full object-cover object-center bg-chassis-900" loading="lazy" />
                     </div>
                   </div>
                 ) : gallery.length > 1 ? (
                   <div className="px-2.5 pb-2.5" data-tina-field={tinaField(node, "gallery")}>
                     <div className="grid grid-cols-2 gap-1.5">
                       {gallery.map((src: string, i: number) => (
-                        <div key={src} className="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900">
-                          <img src={src} alt={alts[i] ?? textForAlt} className="w-full h-[110px] object-cover" loading="lazy" />
+                        <div key={src} className="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900 aspect-square">
+                          <img src={src} alt={alts[i] ?? textForAlt} className="w-full h-full object-cover object-center" loading="lazy" />
                         </div>
                       ))}
                     </div>

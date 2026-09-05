@@ -64,6 +64,7 @@ export const ThreadsPartsFragmentDoc = gql`
   gallery
   alts
   url
+  video
   body
 }
     `;

@@ -260,6 +260,7 @@ export default defineConfig({
           { type: "image", name: "gallery", label: "Галерея", list: true },
           { type: "string", name: "alts", label: "Alt-тексты", list: true, description: "1:1 к gallery" },
           { type: "string", name: "url", label: "Ссылка на публикацию", description: "Кнопка «Публикация» ведёт сюда, если пусто — в Telegram" },
+          { type: "string", name: "video", label: "Видео (mp4)", description: "Путь к видео в /content/threads/...mp4 (оптимизировано ffmpeg, muted autoplay). Оставь пустым если только фото." },
           { type: "rich-text", name: "body", label: "Текст поста", isBody: true },
         ],
       },
