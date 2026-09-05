@@ -66,7 +66,7 @@ function galleryWithAlts(entry: (typeof threads)[number]) {
             href={postUrl}
             target="_blank"
             rel="noopener noreferrer"
-            class="threads-card shrink-0 snap-start w-[260px] sm:w-[300px] bg-chassis-850 border border-chassis-800 rounded-[14px] overflow-hidden flex flex-col hover:border-chassis-700 hover:bg-chassis-800/60 transition-colors text-left no-underline"
+            class="threads-card shrink-0 snap-start w-[272px] sm:w-[300px] bg-chassis-850 border border-chassis-800 rounded-[14px] overflow-hidden flex flex-col hover:border-chassis-700 hover:bg-chassis-800/60 transition-colors text-left no-underline"
             aria-label={`${handle} — ${text.slice(0,60)}`}
           >
             {/* Header — дата фиксирована в правом верхнем углу, не переносится */}
@@ -78,7 +78,7 @@ function galleryWithAlts(entry: (typeof threads)[number]) {
                     <span class="text-xs font-bold text-chassis-100 leading-none">{handle}</span>
                     <span class="inline-flex items-center justify-center w-3 h-3 rounded-full bg-sky-500 text-white text-[8px] leading-none shrink-0">✓</span>
                   </div>
-                  <div class="text-[10px] text-chassis-500 font-sans leading-none mt-0.5">Laptop Service · Ташкент</div>
+                  <div class="text-[10px] text-chassis-500 font-sans leading-none mt-0.5 whitespace-nowrap">Laptop Service · Ташкент</div>
                 </div>
               </div>
               <time datetime={dateIso} class="text-[11px] text-chassis-400 font-sans shrink-0 whitespace-nowrap leading-none mt-1">{dateLabel}</time>
@@ -120,7 +120,7 @@ function galleryWithAlts(entry: (typeof threads)[number]) {
                     src={gallery[0].img}
                     alt={gallery[0].alt}
                     widths={[320, 560]}
-                    sizes="(max-width: 640px) 260px, 300px"
+                    sizes="(max-width: 640px) 272px, 300px"
                     formats={["avif", "webp"]}
                     fallbackFormat="webp"
                     loading={idx === 0 ? "eager" : "lazy"}

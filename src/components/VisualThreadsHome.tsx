@@ -150,7 +150,7 @@ export default function VisualThreadsHome(props: { query: string; variables: any
                 href={postUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="threads-card shrink-0 snap-start w-[260px] sm:w-[300px] bg-chassis-850 border border-chassis-800 rounded-[14px] overflow-hidden flex flex-col hover:border-chassis-700 hover:bg-chassis-800/60 transition-colors text-left no-underline"
+                className="threads-card shrink-0 snap-start w-[272px] sm:w-[300px] bg-chassis-850 border border-chassis-800 rounded-[14px] overflow-hidden flex flex-col hover:border-chassis-700 hover:bg-chassis-800/60 transition-colors text-left no-underline"
                 aria-label={`${handle} — ${textForAlt.slice(0, 60)}`}
               >
                 <div className="flex items-start justify-between gap-2 p-2.5 pb-1.5">
@@ -163,7 +163,7 @@ export default function VisualThreadsHome(props: { query: string; variables: any
                         </span>
                         <span className="inline-flex items-center justify-center w-3 h-3 rounded-full bg-sky-500 text-white text-[8px] leading-none shrink-0">✓</span>
                       </div>
-                      <div className="text-[10px] text-chassis-500 font-sans leading-none mt-0.5">Laptop Service · Ташкент</div>
+                      <div className="text-[10px] text-chassis-500 font-sans leading-none mt-0.5 whitespace-nowrap">Laptop Service · Ташкент</div>
                     </div>
                   </div>
                   <time dateTime={dateIso} className="text-[11px] text-chassis-400 font-sans shrink-0 whitespace-nowrap leading-none mt-1" data-tina-field={tinaField(node, "date")}>
