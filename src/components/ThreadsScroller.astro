@@ -88,10 +88,10 @@ function galleryWithAlts(entry: (typeof threads)[number]) {
               <p class="text-xs text-chassis-200 leading-[1.4] whitespace-pre-wrap break-words line-clamp-3">{text}</p>
             </div>
 
-            {/* Media — квадрат 1:1, центр-кроп, autoplay везде */}
+            {/* Media — 16:9 для 1 медиа (экономия высоты), 2 квадрата для 2 медиа */}
             {hasVideo ? (
               <div class="px-2.5 pb-2.5">
-                <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900 relative aspect-square">
+                <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900 relative aspect-video">
                   <video
                     src={videoUrl}
                     poster={videoPoster}
@@ -114,7 +114,7 @@ function galleryWithAlts(entry: (typeof threads)[number]) {
               </div>
             ) : gallery.length === 1 ? (
               <div class="px-2.5 pb-2.5">
-                <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900 aspect-square">
+                <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900 aspect-video">
                   <Picture
                     src={gallery[0].img}
                     alt={gallery[0].alt}

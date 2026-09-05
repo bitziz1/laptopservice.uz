@@ -176,7 +176,7 @@ export default function VisualThreadsHome(props: { query: string; variables: any
                 </div>
                 {hasVideo ? (
                   <div className="px-2.5 pb-2.5" data-tina-field={tinaField(node, "video")}>
-                    <div className="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900 relative aspect-square">
+                    <div className="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900 relative aspect-video">
                       <video
                         src={videoUrl}
                         poster={posterUrl ?? gallery[0]}
@@ -201,7 +201,7 @@ export default function VisualThreadsHome(props: { query: string; variables: any
                   </div>
                 ) : gallery.length === 1 ? (
                   <div className="px-2.5 pb-2.5" data-tina-field={tinaField(node, "gallery")}>
-                    <div className="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900 aspect-square">
+                    <div className="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900 aspect-video">
                       <img src={gallery[0]} alt={alts[0] ?? textForAlt} className="w-full h-full object-cover object-center bg-chassis-900" loading="lazy" />
                     </div>
                   </div>
