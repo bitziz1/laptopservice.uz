@@ -25,7 +25,7 @@ export default defineConfig({
     }),
     sitemap({
       filter: (page) => !page.includes("/404") && !page.includes("/yandex"),
-      changefreq: "weekly",
+      changefreq: "daily",
       priority: 0.7,
       lastmod: new Date(),
     }),
