@@ -53,6 +53,49 @@ export default function VisualThreadsHome(props: { query: string; variables: any
     };
   }, [updateButtons, threads.length]);
 
+  // Autoplay videos everywhere (Tina live)
+  useEffect(() => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const videos = el.querySelectorAll<HTMLVideoElement>(".threads-video");
+    if (!videos.length) return;
+    const tryPlay = (v: HTMLVideoElement) => {
+      v.muted = true;
+      (v as any).defaultMuted = true;
+      (v as any).playsInline = true;
+      const p = v.play();
+      if (p && typeof (p as any).catch === "function") (p as Promise<void>).catch(() => {});
+    };
+    videos.forEach((v) => {
+      if (v.readyState >= 1) tryPlay(v);
+      else v.addEventListener("loadedmetadata", () => tryPlay(v), { once: true });
+      v.addEventListener("canplay", () => tryPlay(v), { once: true });
+    });
+    const onFirstInteract = () => videos.forEach(tryPlay);
+    window.addEventListener("touchstart", onFirstInteract, { once: true, passive: true } as any);
+    window.addEventListener("click", onFirstInteract, { once: true } as any);
+    let io: IntersectionObserver | null = null;
+    if ("IntersectionObserver" in window) {
+      io = new IntersectionObserver(
+        (entries) => entries.forEach((e) => {
+          const v = e.target as HTMLVideoElement;
+          if (e.isIntersecting) tryPlay(v);
+          else v.pause();
+        }),
+        { threshold: 0.25 },
+      );
+      videos.forEach((v) => io!.observe(v));
+    }
+    const onVis = () => { if (!document.hidden) videos.forEach(tryPlay); };
+    document.addEventListener("visibilitychange", onVis);
+    return () => {
+      window.removeEventListener("touchstart", onFirstInteract as any);
+      window.removeEventListener("click", onFirstInteract as any);
+      document.removeEventListener("visibilitychange", onVis);
+      if (io) io.disconnect();
+    };
+  }, [threads.length]);
+
   const scrollBy = (dir: number) => {
     const el = scrollerRef.current;
     if (!el) return;
@@ -141,10 +184,17 @@ export default function VisualThreadsHome(props: { query: string; variables: any
                         muted
                         loop
                         playsInline
-                        preload="metadata"
-                        className="w-full h-full object-cover object-center bg-chassis-900"
+                        // @ts-ignore webkit legacy
+                        webkit-playsinline="true"
+                        x-webkit-airplay="deny"
+                        // @ts-ignore
+                        disablePictureInPicture
+                        // @ts-ignore
+                        disableRemotePlayback
+                        preload="auto"
+                        className="threads-video w-full h-full object-cover object-center bg-chassis-900 pointer-events-none"
                       />
-                      <span className="absolute bottom-1.5 right-1.5 bg-black/60 backdrop-blur-sm text-white text-[10px] px-1.5 py-0.5 rounded-full flex items-center gap-1">
+                      <span className="absolute bottom-1.5 right-1.5 bg-black/60 backdrop-blur-sm text-white text-[10px] px-1.5 py-0.5 rounded-full flex items-center gap-1 pointer-events-none">
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.14v14l11-7z" /></svg> 0:05
                       </span>
                     </div>

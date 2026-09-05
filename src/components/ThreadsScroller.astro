@@ -88,7 +88,7 @@ function galleryWithAlts(entry: (typeof threads)[number]) {
               <p class="text-xs text-chassis-200 leading-[1.4] whitespace-pre-wrap break-words line-clamp-3">{text}</p>
             </div>
 
-            {/* Media — квадрат 1:1, центр-кроп, экономит место */}
+            {/* Media — квадрат 1:1, центр-кроп, autoplay везде */}
             {hasVideo ? (
               <div class="px-2.5 pb-2.5">
                 <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900 relative aspect-square">
@@ -99,11 +99,15 @@ function galleryWithAlts(entry: (typeof threads)[number]) {
                     muted
                     loop
                     playsinline
-                    preload="metadata"
+                    webkit-playsinline
+                    x-webkit-airplay="deny"
+                    disablepictureinpicture
+                    disableremoteplayback
+                    preload="auto"
                     aria-label={gallery[0]?.alt ?? text.slice(0, 80)}
-                    class="w-full h-full object-cover object-center bg-chassis-900"
+                    class="threads-video w-full h-full object-cover object-center bg-chassis-900 pointer-events-none"
                   />
-                  <span class="absolute bottom-1.5 right-1.5 bg-black/60 backdrop-blur-sm text-white text-[10px] px-1.5 py-0.5 rounded-full flex items-center gap-1">
+                  <span class="absolute bottom-1.5 right-1.5 bg-black/60 backdrop-blur-sm text-white text-[10px] px-1.5 py-0.5 rounded-full flex items-center gap-1 pointer-events-none">
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.14v14l11-7z"/></svg> 0:05
                   </span>
                 </div>
@@ -163,6 +167,8 @@ function galleryWithAlts(entry: (typeof threads)[number]) {
   @media (prefers-reduced-motion: reduce) {
     .threads-scroller { scroll-behavior: auto; }
   }
+  /* hide native play overlay on mobile when autoplay */
+  .threads-video::-webkit-media-controls-start-playback-button { display: none; -webkit-appearance: none; }
 </style>
 
 <script>
@@ -213,4 +219,50 @@ function galleryWithAlts(entry: (typeof threads)[number]) {
       updateButtons();
     });
   }
+
+  // Autoplay threads videos everywhere (incl. iOS) — force muted play + IntersectionObserver
+  (function () {
+    const videos = document.querySelectorAll<HTMLVideoElement>('.threads-video');
+    if (!videos.length) return;
+    const tryPlay = (v: HTMLVideoElement) => {
+      v.muted = true;
+      v.defaultMuted = true;
+      // @ts-ignore
+      v.playsInline = true;
+      const p = v.play();
+      if (p && typeof p.catch === 'function') p.catch(() => {});
+    };
+    // initial attempt after metadata
+    videos.forEach((v) => {
+      if (v.readyState >= 1) tryPlay(v);
+      else v.addEventListener('loadedmetadata', () => tryPlay(v), { once: true });
+      v.addEventListener('canplay', () => tryPlay(v), { once: true });
+    });
+    // retry on first user interaction (iOS low-power)
+    const onFirstInteract = () => {
+      videos.forEach(tryPlay);
+      window.removeEventListener('touchstart', onFirstInteract);
+      window.removeEventListener('click', onFirstInteract);
+    };
+    window.addEventListener('touchstart', onFirstInteract, { once: true, passive: true });
+    window.addEventListener('click', onFirstInteract, { once: true });
+    // pause offscreen, play onscreen to save battery
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            const v = e.target as HTMLVideoElement;
+            if (e.isIntersecting) tryPlay(v);
+            else v.pause();
+          });
+        },
+        { threshold: 0.25 },
+      );
+      videos.forEach((v) => io.observe(v));
+    }
+    // also retry after visibility change
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) videos.forEach(tryPlay);
+    });
+  })();
 </script>
