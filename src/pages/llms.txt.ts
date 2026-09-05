@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 import { siteConfig } from "@/data/siteConfig";
+import { servicesData } from "@/data/services";
 
 export const GET: APIRoute = async () => {
   const cases = await getCollection("cases");
@@ -11,16 +12,20 @@ export const GET: APIRoute = async () => {
 
   const casesList = cases
     .map((c) => {
-      const slug = c.id.replace(/\.md$/, "");
+      const slug = c.id.split("/").pop()!.replace(/\.md$/, "");
       return `- [${c.data.title}](https://laptopservice.uz/cases/${slug}) — ${c.data.device} — ${c.data.category}`;
     })
     .join("\n");
 
   const buildsList = builds
     .map((b) => {
-      const slug = b.id.replace(/\.md$/, "");
+      const slug = b.id.split("/").pop()!.replace(/\.md$/, "");
       return `- [${b.data.title}](https://laptopservice.uz/builds/${slug}) — ${b.data.purposeLabel}`;
     })
+    .join("\n");
+
+  const servicesList = servicesData
+    .map((s) => `- [${s.title}](https://laptopservice.uz/services/${s.slug}): ${s.shortDescription}`)
     .join("\n");
 
   const body = `# Laptop Service
@@ -38,12 +43,10 @@ Laptop Service (также известный как RemontNoutbukov) — спе
 ## Основные разделы
 - [Главная страница](https://laptopservice.uz/): Информация о сервисном центре, порядке работы (бесплатная диагностика, акт) и контактах.
 - [Услуги сервисного центра](https://laptopservice.uz/services): Ноутбук не включается, перегревается, не заряжается, залит, сломаны петли — приезжайте, посмотрим и поможем.
-- [Аппаратная диагностика](https://laptopservice.uz/services/diagnostika): Проверка платы на осциллографе, тепловизоре и лабораторном блоке питания.
-- [BGA-пайка и замена чипов](https://laptopservice.uz/services/bga-payka-reballing): Реболлинг и замена видеочипов NVIDIA/AMD, хабов PCH Intel/AMD, устранение ошибки Code 43.
-- [Чистка и замена термопасты](https://laptopservice.uz/services/zamena-termopasty): Профилактика системы охлаждения с нанесением фазового термоинтерфейса Honeywell PTM7950.
-- [Восстановление после залития](https://laptopservice.uz/services/remont-posle-zalitiya): Ультразвуковая отмывка от окислов, микропайка сгнивших проводников 0.02мм под микроскопом.
-- [Ремонт петель и корпуса](https://laptopservice.uz/services/remont-petel-korpusa): Полимерное армирование стоек корпуса и регулировка натяжения шарниров.
-- [Апгрейд](https://laptopservice.uz/services/upgrade-noutbuka): Установка NVMe SSD и модулей памяти RAM с клонированием системы. Также, при желании, можем установить ваши комплектующие.
+${servicesList
+      .split("\n")
+      .map((l) => `  ${l}`)
+      .join("\n")}
 - [Наши работы](https://laptopservice.uz/cases): Реальные примеры из практики сервисного центра.
 ${casesList
       .split("\n")

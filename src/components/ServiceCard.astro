@@ -12,7 +12,7 @@ interface Props {
 
 const { service, ctaLabel = "Узнать стоимость" } = Astro.props;
 const svcMeta = ((service as any).heroImage ?? (service as any).gallery?.[0]) as ImageMetadata | undefined;
-const telegramHref = `${siteConfig.telegram.masterUrl}${siteConfig.telegram.masterUrl.includes("?") ? "&" : "?"}text=${encodeURIComponent(`Меня интересует ${service.title}. Модель ноутбука: `)}`;
+const telegramHref = `${siteConfig.telegram.masterUrl}${siteConfig.telegram.masterUrl.includes("?") ? "&" : "?"}text=${encodeURIComponent(`Меня интересует ${service.title}. Модель устройства: `)}`;
 ---
 
 <div class="rounded-lg bg-chassis-850/50 overflow-hidden flex flex-col justify-between">

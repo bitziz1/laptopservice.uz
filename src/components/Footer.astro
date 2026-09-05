@@ -1,9 +1,21 @@
 ---
 import { siteConfig } from "@/data/siteConfig";
-import { servicesData } from "@/data/services";
 import IconLink from "@/components/IconLink.astro";
 
 const currentYear = new Date().getFullYear();
+
+const footerServices = [
+  { title: "Ремонт материнской платы ноутбука", slug: "remont-materinskoy-platy-noutbuka" },
+  { title: "Замена BGA чипсета", slug: "zamena-bga-chipseta" },
+  { title: "Ремонт после залития", slug: "remont-posle-zalitiya" },
+  { title: "Ремонт материнской платы компьютера", slug: "remont-materinskoy-platy-pk" },
+  { title: "Ремонт моноблока", slug: "remont-monobloka" },
+  { title: "Ремонт блока питания ноутбука", slug: "remont-bloka-pitaniya-noutbuka" },
+  { title: "Диагностика", slug: "diagnostika" },
+  { title: "Ремонт видеокарты", slug: "remont-videokarty-kompyutera" },
+  { title: "Переустановка Windows", slug: "pereustanovka-windows" },
+  { title: "Замена аккумулятора ноутбука", slug: "zamena-akkumulyatora-noutbuka" },
+];
 ---
 
 <footer class="mt-auto border-t border-chassis-800 bg-chassis-950 text-chassis-400">
@@ -24,17 +36,27 @@ const currentYear = new Date().getFullYear();
         </p>
       </div>
 
-      <!-- Col 2: Services -->
+      <!-- Col 2: Services — фиксированный список 10 (не автогенерация) -->
       <div>
         <h3 class="text-xs font-sans font-bold text-chassis-200 uppercase tracking-wider mb-3">Услуги</h3>
         <ul class="space-y-2 text-xs">
-          {servicesData.map((service) => (
+          {footerServices.map((s) => (
             <li>
-              <a href={`/services/${service.slug}`} class="hover:text-chassis-100 transition-colors">
-                {service.title}
+              <a href={`/services/${s.slug}`} class="hover:text-chassis-100 transition-colors">
+                {s.title}
               </a>
             </li>
           ))}
+          <li>
+            <a href="/services" class="font-bold hover:text-chassis-100 transition-colors">
+              Все услуги →
+            </a>
+          </li>
+          <li>
+            <a href="/sitemap" class="hover:text-chassis-100 transition-colors">
+              Карта сайта
+            </a>
+          </li>
           <li>
             <a href="/builds" class="hover:text-chassis-100 transition-colors">
               Сборка ПК под задачу

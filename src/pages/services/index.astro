@@ -12,8 +12,8 @@ const breadcrumbs = [
 ---
 
 <BaseLayout
-  title="Услуги ремонта ноутбуков в Ташкенте"
-  description="Компонентный ремонт материнских плат, BGA-пайка, чистка от пыли с заменой термоинтерфейса, ультразвуковая чистка после залития на ул. Паркент 11."
+  title="Услуги ремонта ноутбуков в Ташкенте — Laptop Service"
+  description="Laptop Service (laptopservice.uz) в Ташкенте — компонентный ремонт плат, BGA-пайка, чистка, восстановление после залития. Telegram @laptopservice_master."
   breadcrumbs={breadcrumbs}
 >
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
@@ -21,21 +21,77 @@ const breadcrumbs = [
     <Breadcrumbs items={breadcrumbs} />
 
     <div class="max-w-3xl space-y-3">
-      <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider">Сервисный центр</div>
+      <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider">Laptop Service • <a href="https://laptopservice.uz" class="hover:text-chassis-200 underline underline-offset-2">laptopservice.uz</a> • <a href="https://t.me/laptopservice_master" target="_blank" class="hover:text-chassis-200 underline underline-offset-2">Telegram</a></div>
       <h1 class="text-2xl sm:text-4xl font-extrabold text-chassis-100 tracking-tight">
-        Услуги по ремонту ноутбуков и компьютеров
+        Услуги по ремонту ноутбуков и компьютеров в Ташкенте
       </h1>
       <p class="text-xs sm:text-sm text-chassis-300 leading-relaxed">
-        Проблемы с вашим ноутбуком? Привозите, посмотрим и поможем.
+        От диагностики и BGA-пайки до восстановления данных и доставки техники — выбирайте услугу или <a href="/contacts" class="text-sky-400 hover:underline">свяжитесь через контакты</a> / Telegram. Точная стоимость только после диагностики в Laptop Service.
       </p>
     </div>
 
-    <!-- Services Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-      {servicesData.map((service) => (
-        <ServiceCard service={service} />
-      ))}
+    <!-- Filter chips — клиентская фильтрация, без пагинации для индексации и LLM -->
+    <div class="flex flex-wrap gap-2" id="service-filters">
+      <button type="button" data-filter="all" class="filter-btn active px-3 py-1.5 rounded-full border text-xs font-sans font-bold transition-colors bg-chassis-800 border-chassis-600 text-chassis-100">Все услуги</button>
+      <button type="button" data-filter="plata" class="filter-btn px-3 py-1.5 rounded-full border text-xs font-sans font-bold transition-colors bg-chassis-900 border-chassis-800 text-chassis-400 hover:text-chassis-200">Платы и BGA</button>
+      <button type="button" data-filter="pitanie" class="filter-btn px-3 py-1.5 rounded-full border text-xs font-sans font-bold transition-colors bg-chassis-900 border-chassis-800 text-chassis-400 hover:text-chassis-200">Питание и разъёмы</button>
+      <button type="button" data-filter="ohlazhdenie" class="filter-btn px-3 py-1.5 rounded-full border text-xs font-sans font-bold transition-colors bg-chassis-900 border-chassis-800 text-chassis-400 hover:text-chassis-200">Охлаждение и корпус</button>
+      <button type="button" data-filter="monoblok" class="filter-btn px-3 py-1.5 rounded-full border text-xs font-sans font-bold transition-colors bg-chassis-900 border-chassis-800 text-chassis-400 hover:text-chassis-200">Моноблоки</button>
+      <button type="button" data-filter="monitor" class="filter-btn px-3 py-1.5 rounded-full border text-xs font-sans font-bold transition-colors bg-chassis-900 border-chassis-800 text-chassis-400 hover:text-chassis-200">Мониторы</button>
+      <button type="button" data-filter="dannye" class="filter-btn px-3 py-1.5 rounded-full border text-xs font-sans font-bold transition-colors bg-chassis-900 border-chassis-800 text-chassis-400 hover:text-chassis-200">Данные</button>
+      <button type="button" data-filter="pk" class="filter-btn px-3 py-1.5 rounded-full border text-xs font-sans font-bold transition-colors bg-chassis-900 border-chassis-800 text-chassis-400 hover:text-chassis-200">ПК</button>
+      <button type="button" data-filter="soft" class="filter-btn px-3 py-1.5 rounded-full border text-xs font-sans font-bold transition-colors bg-chassis-900 border-chassis-800 text-chassis-400 hover:text-chassis-200">Софт и доставка</button>
     </div>
+
+    <!-- Services Grid — все карточки на одной странице для SEO/LLM -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="services-grid">
+      {servicesData.map((service) => {
+        // кластер для фильтра без изменения модели данных
+        const plata = ["remont-materinskoy-platy-noutbuka","zamena-bga-chipseta","zamena-videokarty-gpu","remont-materinskoy-platy-pk","remont-videokarty-kompyutera","diagnostika","bga-payka-reballing","remont-posle-zalitiya","chistka-platy-posle-zalitiya","remont-cepi-pitaniya","zamena-multikontrollera","proshivka-bios-ec","remont-materinskoy-platy-monobloka"];
+        const pitanie = ["zamena-razema-pitaniya","zamena-razema-type-c","zamena-razema-hdmi-usb","zamena-razema-klaviatury","remont-bloka-pitaniya-noutbuka","remont-bloka-pitaniya-pk","remont-ups","remont-bloka-pitaniya-monobloka"];
+        const ohlazhdenie = ["zamena-termopasty","chistka-noutbuka-ot-pyli","remont-sistemy-ohlazhdeniya","remont-petel-korpusa","remont-shleyfa-matritsy","zamena-invertora-matritsy","zamena-matritsy-ekrana","zamena-klaviatury-noutbuka","zamena-akkumulyatora-noutbuka","remont-tachpada","upgrade-noutbuka","zamena-sistemy-ohlazhdeniya-processora"];
+        const monoblok = ["remont-monobloka","diagnostika-monobloka","remont-materinskoy-platy-monobloka","zamena-matritsy-monobloka","remont-bloka-pitaniya-monobloka","sborka-razborka-monobloka","chistka-monobloka-ot-pyli","remont-monobloka-posle-zalitiya","zamena-nakopitelya-monobloka","remont-videokarty-monobloka"];
+        const monitor = ["remont-monitora-pitaniya","remont-monitora-podsvetki","remont-monitora","zamena-matritsy-monitora","sborka-razborka-monitora","zamena-razema-monitora"];
+        const dannye = ["vosstanovlenie-dannyh-hdd","vosstanovlenie-dannyh-posle-udaleniya","remont-zhestkogo-diska","testirovanie-nakopiteley"];
+        const pk = ["chistka-sistemnogo-bloka","remont-opticheskogo-privoda","sborka-pk-na-zakaz"];
+        const soft = ["pereustanovka-windows","zamena-cmos-batarei","proshivka-bios-ec","ustanovka-drayverov","udalenie-virusov","ustanovka-antivirusa","snyatie-parolya-bios","snyatie-parolya-os","tekhnicheskoe-zaklyuchenie","vyezd-mastera-tashkent","dostavka-tekhniki-v-servis"];
+        let cat = "soft";
+        if (plata.includes(service.slug)) cat = "plata";
+        else if (pitanie.includes(service.slug)) cat = "pitanie";
+        else if (ohlazhdenie.includes(service.slug)) cat = "ohlazhdenie";
+        else if (monoblok.includes(service.slug)) cat = "monoblok";
+        else if (monitor.includes(service.slug)) cat = "monitor";
+        else if (dannye.includes(service.slug)) cat = "dannye";
+        else if (pk.includes(service.slug)) cat = "pk";
+        return (
+          <div data-cat={cat} class="service-card">
+            <ServiceCard service={service} />
+          </div>
+        );
+      })}
+    </div>
+
+    <script is:inline>
+      (function(){
+        const btns = document.querySelectorAll('#service-filters .filter-btn');
+        const cards = document.querySelectorAll('#services-grid .service-card');
+        btns.forEach(btn=>{
+          btn.addEventListener('click', ()=>{
+            const f = btn.getAttribute('data-filter');
+            btns.forEach(b=>{
+              b.classList.remove('bg-chassis-800','border-chassis-600','text-chassis-100','active');
+              b.classList.add('bg-chassis-900','border-chassis-800','text-chassis-400');
+            });
+            btn.classList.remove('bg-chassis-900','border-chassis-800','text-chassis-400');
+            btn.classList.add('bg-chassis-800','border-chassis-600','text-chassis-100','active');
+            cards.forEach(c=>{
+              const cat = c.getAttribute('data-cat');
+              (f==='all' || cat===f) ? c.style.display='' : c.style.display='none';
+            });
+          });
+        });
+      })();
+    </script>
 
     <!-- Builds Banner -->
     <div class="rounded-lg border border-chassis-700 bg-chassis-850 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">

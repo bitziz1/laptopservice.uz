@@ -51,34 +51,51 @@ npm run threads:import:dry  # проверка без записи
 
 ```
 content/
-  templates/                 # примеры для ручного копирования (актуальны, суффикс -DDmmmYYYY показан)
+  templates/                 # примеры для ручного копирования (суффикс -DDmmmYYYY)
     cases_template.md
     builds_template.md
     threads_template.md
     reviews_template.md
   cases/
-    asus-tuf-a15-korotkoe-zamykanie-19v-12aug2026.md
-    asus-tuf-a15-korotkoe-zamykanie-19v-12aug2026-01.jpg
+    2026_08/
+      asus-tuf-a15-korotkoe-zamykanie-19v-12aug2026/
+        asus-tuf-a15-korotkoe-zamykanie-19v-12aug2026.md
+        asus-tuf-a15-korotkoe-zamykanie-19v-12aug2026.png
+    2026_09/
+      vosstanovlenie-dvuh-asus-rog-strix-rtx-3090-ti-lc-240-02sep2026/
+        vosstanovlenie-dvuh-asus-rog-strix-rtx-3090-ti-lc-240-02sep2026.md
+        vosstanovlenie-dvuh-asus-rog-strix-rtx-3090-ti-lc-240-*.jpg
   builds/
-    ai-workstation-rtx4090-r9-7950x-04aug2026.md
-    ai-workstation-rtx4090-r9-7950x-1-04aug2026.png
-    ai-workstation-rtx4090-r9-7950x-2-04aug2026.png
+    2026_08/
+      ai-workstation-rtx4090-r9-7950x-04aug2026/
+        ai-workstation-rtx4090-r9-7950x-04aug2026.md
+        ai-workstation-rtx4090-r9-7950x-1-04aug2026.png
+        ai-workstation-rtx4090-r9-7950x-2-04aug2026.png
   threads/
-    tea-spill-26aug2026.md
-    tea-spill-26aug2026.jpg
-    asus-rog-strix-scar-16jun2026.md
-    asus-rog-strix-scar-16jun2026.jpg
+    2026_08/
+      tea-spill-26aug2026/
+        tea-spill-26aug2026.md
+        tea-spill-26aug2026.jpg
+    2026_09/
+      rtx3090ti-gta6-resurrected-04sep2026/
+        rtx3090ti-gta6-resurrected-04sep2026.md
+        rtx3090ti-gta6-resurrected-04sep2026.jpg
+        vosstanovlenie-...-14-02sep2026.jpg
   reviews/
-    rev-sergey-d-24mar2026.md
-    rev-sergey-d-24mar2026.webp
-    avatars/Сергей Д.-24mar2026.webp
+    2026_03/
+      rev-sergey-d-24mar2026/
+        rev-sergey-d-24mar2026.md
+        rev-sergey-d-24mar2026.webp
+        Сергей Д.-24mar2026.webp   # аватар в той же папке
 ```
 
-**Filename = URL:** `content/cases/asus-tuf-12aug2026.md` → `/cases/asus-tuf-12aug2026/`, `content/builds/gaming-1080p-rtx4060-10aug2026.md` → `/builds/gaming-1080p-rtx4060-10aug2026/`. Отдельного поля `slug` **нет** — имя файла и есть слаг. Переименовал файл — сменился URL (делай 301 в `Caddyfile` если уже индексирован). **Суффикс даты обязателен** — без него билд невалиден по гайду, Tina его добавляет автоматически.
+**Структура — 1 сущность = 1 папка по месяцам `YYYY_MM`:** каждая сборка/кейс/тред/отзыв живёт в `content/<collection>/YYYY_MM/<slug>/` где `YYYY_MM` берётся из поля `date` (`2026-09-04` → `2026_09`, `2026-08` → `2026_08`). Имя папки = имя md = slug+суффикс даты, фото лежат внутри той же папки.
 
-**Кириллица в Filename:** Tina `tina/config.ts:6` `slugify` транслитерирует (`тестовый заголовок` → `testovyi-zagolovok`, `Сергей Д.` → `rev-sergey-d`), пустого `"-.md"` не бывает. Затем `tina/config.ts:24` `dateSuffix()` добавляет `-DDmmmYYYY` / `-mmmYYYY` / `-YYYY`. Поле `Filename` внизу формы Tina — единственное место для слага, автозаполняется из `Title`/`Author`/`handle`+`date`, можно поправить латиницей вручную **но суффикс сохраняй**. Агент пишет сразу латинский `content/.../<slug>-DDmmmYYYY.md`. При смене `date` — переименуй файл и фото чтобы суффикс совпадал с `date`.
+**Filename = URL (без месяца):** `content/cases/2026_08/asus-tuf-12aug2026/asus-tuf-12aug2026.md` → `/cases/asus-tuf-12aug2026/`, `content/builds/2026_08/gaming-...-10aug2026/gaming-...-10aug2026.md` → `/builds/gaming-...-10aug2026/`. Папка `2026_08` — только для порядка в репозитории, в URL не попадает. Отдельного поля `slug` **нет** — basename файла и есть слаг (без пути). Переименовал файл/папку — сменился URL (делай 301 в `Caddyfile` если уже индексирован). **Суффикс даты обязателен** — без него билд невалиден.
 
-**Картинки:** путь **абсолютный** `/content/<collection>/file-DDmmmYYYY.jpg` (например `/content/cases/photo-12aug2026.jpg`), файл лежит рядом с `.md` (`content/cases/photo-12aug2026.jpg`). Tina `tina/config.ts:mediaRoot: "content"` так сохраняет. Если у поста несколько фото — добавь индекс перед суффиксом: `slug-1-DDmmmYYYY.jpg`, `slug-2-DDmmmYYYY.jpg` или `slug-DDmmmYYYY-01.jpg`. Для `threads`/`reviews` аватар/галерея — аналогично: `tea-spill-26aug2026.jpg`, `rev-sergey-d-24mar2026.webp`, `avatars/Сергей Д.-24mar2026.webp`. Старые `./photo.jpg` и `2026-08-26-xxx` смигрированы в суффикс.
+**Кириллица в Filename:** Tina `tina/config.ts:6` `slugify` транслитерирует (`тестовый заголовок` → `testovyi-zagolovok`, `Сергей Д.` → `rev-sergey-d`), пустого `"-.md"` не бывает. Затем `tina/config.ts:24` `dateSuffix()` добавляет `-DDmmmYYYY` / `-mmmYYYY` / `-YYYY`. Поле `Filename` внизу формы Tina — единственное место для слага, автозаполняется из `Title`/`Author`/`handle`+`date`, можно поправить латиницей вручную **но суффикс сохраняй**. Агент пишет сразу латинский `content/.../YYYY_MM/<slug>/<slug>-DDmmmYYYY.md`. При смене `date` — перенеси папку в другой `YYYY_MM` и переименуй файл+фото чтобы суффикс совпадал с `date`.
+
+**Картинки:** путь **абсолютный** `/content/<collection>/YYYY_MM/<slug>/file` (напр. `/content/cases/2026_09/vosstanovlenie-...-02sep2026/vosstanovlenie-...-01-02sep2026.jpg`), файл лежит в той же папке что и `.md`. Tina `tina/config.ts:mediaRoot: "content"` так сохраняет. Если у поста несколько фото — держи их в той же папке: `slug-1-DDmmmYYYY.jpg`, `slug-DDmmmYYYY-01.jpg`. Для `threads`/`reviews` аватар/галерея тоже внутри папки сущности: `/content/threads/2026_09/rtx3090ti-.../rtx3090ti-...jpg`, `/content/reviews/2026_03/rev-sergey-d-24mar2026/Сергей Д.-24mar2026.webp`. Автомат `scripts/fetch_threads.py` теперь создаёт `content/threads/YYYY_MM/<slug>/<slug>.md` + фото внутри.
 
 ---
 

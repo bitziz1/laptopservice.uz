@@ -182,17 +182,19 @@ def create_thread_md(share_url: str, date_str: str = None, dry_run=False):
         clean = "post"
     base = clean
     slug = base + suffix
-    # handle collision: if file exists, add -1, -2
-    dest_md = Path(f"content/threads/{slug}.md")
+    month_folder = f"{date_obj.year}_{date_obj.month:02d}"
+    dest_dir = Path(f"content/threads/{month_folder}/{slug}")
+    dest_md = dest_dir / f"{slug}.md"
     counter=1
     orig_slug=slug
     while dest_md.exists() and not dry_run:
         counter+=1
         slug = f"{base}-{counter}{suffix}"
-        dest_md = Path(f"content/threads/{slug}.md")
+        dest_dir = Path(f"content/threads/{month_folder}/{slug}")
+        dest_md = dest_dir / f"{slug}.md"
     print(f" parsed body: {body[:120]!r}")
     print(f" canonical: {canonical}")
-    print(f" date: {date_iso} -> slug: {slug}")
+    print(f" date: {date_iso} -> slug: {slug} -> {month_folder}/{slug}")
     print(f" images found: {len(all_images)}")
     for im in all_images[:3]:
         print(f"  img: {im[:100]}...")
@@ -211,8 +213,8 @@ def create_thread_md(share_url: str, date_str: str = None, dry_run=False):
                 img_name = f"{slug}{ext}"
             else:
                 img_name = f"{slug}-{idx+1:02d}{ext}"
-            dest_img = Path(f"content/threads/{img_name}")
-            gallery.append(f"/content/threads/{img_name}")
+            dest_img = dest_dir / img_name
+            gallery.append(f"/content/threads/{month_folder}/{slug}/{img_name}")
             alts.append(body[:80] if idx==0 else "")
             if not dry_run:
                 try:

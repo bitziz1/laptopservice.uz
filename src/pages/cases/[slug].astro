@@ -14,7 +14,7 @@ const CASE_QUERY = `query($relativePath:String!){ cases(relativePath:$relativePa
 export async function getStaticPaths() {
   const entries = await getCollection("cases");
   return entries.map((entry) => {
-    const slug = entry.id.replace(/\.md$/, "");
+    const slug = entry.id.split("/").pop()!.replace(/\.md$/, "");
     return {
       params: { slug },
       props: { entry, slug },
@@ -27,7 +27,8 @@ const { entry, slug } = Astro.props as { entry: any; slug: string };
 // Tina live query with fallback to astro:content
 let tinaData: any = null;
 let tinaError: string | null = null;
-const tinaVariables = { relativePath: `${slug}.md` };
+const tinaRelativePath = `${(entry as any).id}.md`;
+const tinaVariables = { relativePath: tinaRelativePath };
 let tinaPayload: any = null;
 try {
   const gqlRes = await fetch("http://localhost:4001/graphql", {
@@ -45,7 +46,7 @@ try {
 } catch (e: any) {
   tinaError = e?.message ?? String(e);
   try {
-    const res = await client.queries.cases({ relativePath: `${slug}.md` });
+    const res = await client.queries.cases({ relativePath: tinaRelativePath });
     tinaData = res?.data?.cases ?? null;
     if (tinaData) {
       tinaPayload = { query: res.query, variables: res.variables, data: res.data };

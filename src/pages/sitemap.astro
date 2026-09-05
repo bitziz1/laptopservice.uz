@@ -1,0 +1,82 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import { servicesData } from "@/data/services";
+import { getCollection } from "astro:content";
+
+const breadcrumbs = [
+  { name: "Карта сайта", url: "/sitemap" },
+];
+
+const cases = await getCollection("cases");
+const builds = await getCollection("builds");
+
+// группировка услуг как на /services
+const groups: { title: string; slugs: string[] }[] = [
+  { title: "Платы и BGA", slugs: ["remont-materinskoy-platy-noutbuka","zamena-bga-chipseta","zamena-videokarty-gpu","remont-materinskoy-platy-pk","remont-videokarty-kompyutera","diagnostika","bga-payka-reballing","remont-posle-zalitiya","chistka-platy-posle-zalitiya","remont-cepi-pitaniya","zamena-multikontrollera","proshivka-bios-ec","remont-materinskoy-platy-monobloka"] },
+  { title: "Моноблоки", slugs: ["remont-monobloka","diagnostika-monobloka","remont-materinskoy-platy-monobloka","zamena-matritsy-monobloka","remont-bloka-pitaniya-monobloka","sborka-razborka-monobloka","chistka-monobloka-ot-pyli","remont-monobloka-posle-zalitiya","zamena-nakopitelya-monobloka","remont-videokarty-monobloka"] },
+  { title: "Питание и разъёмы", slugs: ["zamena-razema-pitaniya","zamena-razema-type-c","zamena-razema-hdmi-usb","zamena-razema-klaviatury","remont-bloka-pitaniya-noutbuka","remont-bloka-pitaniya-pk","remont-ups","remont-bloka-pitaniya-monobloka"] },
+  { title: "Охлаждение и корпус", slugs: ["zamena-termopasty","chistka-noutbuka-ot-pyli","remont-sistemy-ohlazhdeniya","remont-petel-korpusa","remont-shleyfa-matritsy","zamena-invertora-matritsy","zamena-matritsy-ekrana","zamena-klaviatury-noutbuka","zamena-akkumulyatora-noutbuka","remont-tachpada","upgrade-noutbuka","zamena-sistemy-ohlazhdeniya-processora","zamena-cmos-batarei"] },
+  { title: "Мониторы", slugs: ["remont-monitora-pitaniya","remont-monitora-podsvetki","zamena-matritsy-monitora","sborka-razborka-monitora","zamena-razema-monitora"] },
+  { title: "ПК", slugs: ["chistka-sistemnogo-bloka","remont-zhestkogo-diska","remont-opticheskogo-privoda","sborka-pk-na-zakaz"] },
+  { title: "Данные", slugs: ["vosstanovlenie-dannyh-hdd","vosstanovlenie-dannyh-posle-udaleniya","remont-zhestkogo-diska","testirovanie-nakopiteley"] },
+  { title: "Софт и доставка", slugs: ["pereustanovka-windows","ustanovka-drayverov","udalenie-virusov","ustanovka-antivirusa","snyatie-parolya-bios","snyatie-parolya-os","tekhnicheskoe-zaklyuchenie","vyezd-mastera-tashkent","dostavka-tekhniki-v-servis"] },
+];
+
+const serviceBySlug = new Map(servicesData.map(s => [s.slug, s]));
+---
+
+<BaseLayout
+  title="Карта сайта — Laptop Service Ташкент"
+  description="Карта сайта Laptop Service: все услуги, примеры работ, сборки ПК, контакты. Паркент 11, Ташкент."
+  breadcrumbs={breadcrumbs}
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-10">
+    <Breadcrumbs items={breadcrumbs} />
+    <header class="space-y-3">
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-chassis-100 tracking-tight">Карта сайта</h1>
+      <p class="text-xs sm:text-sm text-chassis-400 leading-relaxed">
+        Полный список разделов. Все услуги доступны также на <a href="/services" class="text-sky-400 hover:underline">/services</a>, XML-карта — <a href="/sitemap-index.xml" class="text-sky-400 hover:underline">/sitemap-index.xml</a>.
+      </p>
+    </header>
+
+    <section class="space-y-2">
+      <h2 class="text-sm font-bold text-chassis-200 uppercase tracking-wider">Основные разделы</h2>
+      <ul class="grid grid-cols-1 sm:grid-cols-2 gap-1 text-xs">
+        <li><a href="/" class="text-sky-400 hover:underline">Главная</a></li>
+        <li><a href="/services" class="text-sky-400 hover:underline">Все услуги ({servicesData.length})</a></li>
+        <li><a href="/cases" class="text-sky-400 hover:underline">Наши работы ({cases.length})</a></li>
+        <li><a href="/builds" class="text-sky-400 hover:underline">Сборки ПК ({builds.length})</a></li>
+        <li><a href="/about" class="text-sky-400 hover:underline">О сервисном центре</a></li>
+        <li><a href="/contacts" class="text-sky-400 hover:underline">Контакты и проезд</a></li>
+        <li><a href="/prices" class="text-sky-400 hover:underline">Цены</a></li>
+        <li><a href="/reviews" class="text-sky-400 hover:underline">Отзывы</a></li>
+      </ul>
+    </section>
+
+    {groups.map(group => (
+      <section class="space-y-2">
+        <h2 class="text-sm font-bold text-chassis-200 uppercase tracking-wider">{group.title} ({group.slugs.length})</h2>
+        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-1 text-xs">
+          {group.slugs.map(slug => {
+            const s = serviceBySlug.get(slug);
+            return s ? (
+              <li><a href={`/services/${s.slug}`} class="text-chassis-300 hover:text-chassis-100 hover:underline">{s.title}</a></li>
+            ) : (
+              <li class="text-chassis-500">{slug} — не найдено</li>
+            );
+          })}
+        </ul>
+      </section>
+    ))}
+
+    <section class="space-y-2">
+      <h2 class="text-sm font-bold text-chassis-200 uppercase tracking-wider">Все услуги списком</h2>
+      <ul class="grid grid-cols-1 sm:grid-cols-2 gap-1 text-xs">
+        {servicesData.map(s => (
+          <li><a href={`/services/${s.slug}`} class="text-chassis-300 hover:text-chassis-100 hover:underline">{s.title}</a></li>
+        ))}
+      </ul>
+    </section>
+  </div>
+</BaseLayout>

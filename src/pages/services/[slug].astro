@@ -18,7 +18,7 @@ interface Props {
 
 const { service } = Astro.props;
 
-const telegramHref = `${siteConfig.telegram.masterUrl}${siteConfig.telegram.masterUrl.includes("?") ? "&" : "?"}text=${encodeURIComponent(`Меня интересует ${service.title}. Модель ноутбука: `)}`;
+const telegramHref = `${siteConfig.telegram.masterUrl}${siteConfig.telegram.masterUrl.includes("?") ? "&" : "?"}text=${encodeURIComponent(`Меня интересует ${service.title}. Модель устройства: `)}`;
 
 const breadcrumbs = [
   { name: "Услуги", url: "/services" },
@@ -28,7 +28,7 @@ const breadcrumbs = [
 
 <BaseLayout
   title={`${service.title} в Ташкенте`}
-  description={`${service.shortDescription} Сервисный центр Laptop Service на ул. Паркент 11. Опыт 20 лет, согласование стоимости до ремонта.`}
+  description={`${service.shortDescription} Laptop Service (laptopservice.uz) в Ташкенте — опыт 20 лет, Telegram @laptopservice_master, согласование до ремонта.`}
   type="Service"
   serviceData={{
     name: service.title,
@@ -44,7 +44,7 @@ const breadcrumbs = [
     <!-- Service Header -->
     <header class="space-y-4">
       <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider">
-        Услуга сервисного центра • ул. Паркент 11
+        Laptop Service • laptopservice.uz • <a href="/contacts" class="hover:text-chassis-200 underline underline-offset-2">Контакты</a>
       </div>
 
       <h1 class="text-2xl sm:text-4xl font-extrabold text-chassis-100 tracking-tight leading-tight">
@@ -98,6 +98,28 @@ const breadcrumbs = [
               <h3 class="text-xs font-bold text-chassis-100">{item.question}</h3>
               <p class="text-xs text-chassis-400 leading-relaxed">{item.answer}</p>
             </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {service.slug === "remont-monobloka" && (
+      <section class="space-y-3">
+        <h2 class="text-sm font-bold text-chassis-200 uppercase font-sans tracking-wider">Что мы чиним в моноблоках</h2>
+        <p class="text-xs text-chassis-400 leading-relaxed">Моноблок — гибрид монитора и системника в одном корпусе. Выбирайте конкретную услугу кластера — каждая страница заточена под свой запрос и содержит детали по разборке на клею/болтах, диагностике и срокам в Ташкенте.</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          {[
+            {slug:"diagnostika-monobloka", title:"Диагностика моноблока"},
+            {slug:"remont-materinskoy-platy-monobloka", title:"Ремонт платы моноблока"},
+            {slug:"zamena-matritsy-monobloka", title:"Замена матрицы моноблока"},
+            {slug:"remont-bloka-pitaniya-monobloka", title:"Ремонт блока питания"},
+            {slug:"sborka-razborka-monobloka", title:"Сборка и разборка на клею/болтах"},
+            {slug:"chistka-monobloka-ot-pyli", title:"Чистка от пыли"},
+            {slug:"remont-monobloka-posle-zalitiya", title:"После залития"},
+            {slug:"zamena-nakopitelya-monobloka", title:"Замена HDD/SSD"},
+            {slug:"remont-videokarty-monobloka", title:"Ремонт видеокарты"},
+          ].map(item => (
+            <a href={`/services/${item.slug}`} class="text-xs text-sky-400 hover:text-sky-300 hover:underline flex gap-1.5"><span>—</span><span>{item.title} →</span></a>
           ))}
         </div>
       </section>
