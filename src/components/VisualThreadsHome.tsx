@@ -153,21 +153,22 @@ export default function VisualThreadsHome(props: { query: string; variables: any
                 className="threads-card shrink-0 snap-start w-[260px] sm:w-[300px] bg-chassis-850 border border-chassis-800 rounded-[14px] overflow-hidden flex flex-col hover:border-chassis-700 hover:bg-chassis-800/60 transition-colors text-left no-underline"
                 aria-label={`${handle} — ${textForAlt.slice(0, 60)}`}
               >
-                <div className="flex items-center gap-2 p-2.5 pb-1.5">
-                  <img src="/logo.svg" alt="Laptop Service" width={24} height={24} className="w-6 h-6 rounded-full bg-chassis-900 border border-chassis-800 shrink-0" />
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-1 flex-wrap leading-none">
-                      <span className="text-xs font-bold text-chassis-100 leading-none" data-tina-field={tinaField(node, "handle")}>
-                        {handle}
-                      </span>
-                      <span className="inline-flex items-center justify-center w-3 h-3 rounded-full bg-sky-500 text-white text-[8px] leading-none">✓</span>
-                      <span className="text-chassis-500 text-[11px]">·</span>
-                      <time dateTime={dateIso} className="text-[11px] text-chassis-400 font-sans" data-tina-field={tinaField(node, "date")}>
-                        {dateLabel}
-                      </time>
+                <div className="flex items-start justify-between gap-2 p-2.5 pb-1.5">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <img src="/logo.svg" alt="Laptop Service" width={24} height={24} className="w-6 h-6 rounded-full bg-chassis-900 border border-chassis-800 shrink-0" />
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-1 leading-none">
+                        <span className="text-xs font-bold text-chassis-100 leading-none" data-tina-field={tinaField(node, "handle")}>
+                          {handle}
+                        </span>
+                        <span className="inline-flex items-center justify-center w-3 h-3 rounded-full bg-sky-500 text-white text-[8px] leading-none shrink-0">✓</span>
+                      </div>
+                      <div className="text-[10px] text-chassis-500 font-sans leading-none mt-0.5">Laptop Service · Ташкент</div>
                     </div>
-                    <div className="text-[10px] text-chassis-500 font-sans leading-none mt-0.5">Laptop Service · Ташкент</div>
                   </div>
+                  <time dateTime={dateIso} className="text-[11px] text-chassis-400 font-sans shrink-0 whitespace-nowrap leading-none mt-1" data-tina-field={tinaField(node, "date")}>
+                    {dateLabel}
+                  </time>
                 </div>
                 <div className="px-2.5 pb-1.5" data-tina-field={tinaField(node, "body")}>
                   <div className="text-xs text-chassis-200 leading-[1.4] whitespace-pre-wrap break-words line-clamp-3">
