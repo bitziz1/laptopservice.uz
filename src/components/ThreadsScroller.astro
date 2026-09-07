@@ -89,25 +89,22 @@ function galleryWithAlts(entry: (typeof threads)[number]) {
               <p class="text-xs text-chassis-200 leading-[1.4] whitespace-pre-wrap break-words line-clamp-3">{text}</p>
             </div>
 
-            {/* Media — 16:9 для 1 медиа (экономия высоты), 2 квадрата для 2 медиа */}
+            {/* Media — 16:9 для 1 медиа (Telegram-style: muted autoplay, light preload) */}
             {hasVideo ? (
               <div class="px-2.5 pb-2.5">
                 <div class="rounded-lg overflow-hidden border border-chassis-800 bg-chassis-900 relative aspect-video">
                   <video
-                    src={videoUrl}
                     poster={videoPoster}
                     autoplay
                     muted
                     loop
                     playsinline
-                    webkit-playsinline
-                    x-webkit-airplay="deny"
-                    disablepictureinpicture
-                    disableremoteplayback
-                    preload="auto"
+                    preload={idx === 0 ? "auto" : "metadata"}
                     aria-label={gallery[0]?.alt ?? text.slice(0, 80)}
                     class="threads-video w-full h-full object-cover object-center bg-chassis-900 pointer-events-none"
-                  />
+                  >
+                    <source src={videoUrl} type="video/mp4" />
+                  </video>
                   <span class="absolute bottom-1.5 right-1.5 bg-black/60 backdrop-blur-sm text-white text-[10px] px-1.5 py-0.5 rounded-full flex items-center gap-1 pointer-events-none">
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.14v14l11-7z"/></svg> 0:05
                   </span>
@@ -221,49 +218,44 @@ function galleryWithAlts(entry: (typeof threads)[number]) {
     });
   }
 
-  // Autoplay threads videos everywhere (incl. iOS) — force muted play + IntersectionObserver
+  // Telegram-inspired: muted autoplay, preload only first, pause offscreen to save battery
   (function () {
     const videos = document.querySelectorAll<HTMLVideoElement>('.threads-video');
     if (!videos.length) return;
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
     const tryPlay = (v: HTMLVideoElement) => {
       v.muted = true;
-      v.defaultMuted = true;
       // @ts-ignore
       v.playsInline = true;
       const p = v.play();
-      if (p && typeof p.catch === 'function') p.catch(() => {});
+      if (p && typeof (p as any).catch === 'function') (p as Promise<void>).catch(() => {});
     };
-    // initial attempt after metadata
-    videos.forEach((v) => {
-      if (v.readyState >= 1) tryPlay(v);
-      else v.addEventListener('loadedmetadata', () => tryPlay(v), { once: true });
-      v.addEventListener('canplay', () => tryPlay(v), { once: true });
+    videos.forEach((v, i) => {
+      const preload = i === 0 ? 'auto' : 'metadata';
+      v.preload = preload;
+      v.setAttribute('preload', preload);
+      // Safari poster background fallback like telegram does
+      if (isSafari && v.poster && v.parentElement) {
+        const el = v.parentElement as HTMLElement;
+        el.style.background = "url('" + v.poster.replace(/'/g, "%27") + "') center / cover no-repeat";
+        el.style.lineHeight = '0';
+      }
+      if (v.readyState >= 2) tryPlay(v);
+      else v.addEventListener('canplay', () => tryPlay(v), { once: true });
     });
-    // retry on first user interaction (iOS low-power)
-    const onFirstInteract = () => {
-      videos.forEach(tryPlay);
-      window.removeEventListener('touchstart', onFirstInteract);
-      window.removeEventListener('click', onFirstInteract);
-    };
-    window.addEventListener('touchstart', onFirstInteract, { once: true, passive: true });
-    window.addEventListener('click', onFirstInteract, { once: true });
-    // pause offscreen, play onscreen to save battery
     if ('IntersectionObserver' in window) {
       const io = new IntersectionObserver(
         (entries) => {
           entries.forEach((e) => {
             const v = e.target as HTMLVideoElement;
-            if (e.isIntersecting) tryPlay(v);
-            else v.pause();
+            if (e.isIntersecting) {
+              if (v.paused) tryPlay(v);
+            } else v.pause();
           });
         },
-        { threshold: 0.25 },
+        { threshold: 0.5 },
       );
       videos.forEach((v) => io.observe(v));
     }
-    // also retry after visibility change
-    document.addEventListener('visibilitychange', () => {
-      if (!document.hidden) videos.forEach(tryPlay);
-    });
   })();
 </script>

@@ -3,7 +3,7 @@ import path from 'path';
 
 const srcRoot = 'content';
 const destRoot = 'dist/content';
-const exts = new Set(['.jpg','.jpeg','.png','.webp','.avif','.gif','.svg']);
+const exts = new Set(['.jpg','.jpeg','.png','.webp','.avif','.gif','.svg','.mp4','.webm','.mov','.m4v','.mp3','.ogg']);
 
 function ensureDir(p){ fs.mkdirSync(p, {recursive:true}); }
 
@@ -29,4 +29,30 @@ if(!fs.existsSync(srcRoot)){ console.log('no content dir'); process.exit(0); }
 ensureDir(destRoot);
 walk(srcRoot);
 console.log(`copy-content-images: copied ${copied} images -> ${destRoot} (skipped ${skipped} non-images)`);
-// also copy public/content if exists? nothing
+// Mirror videos to public/content for `astro dev` (public is served at root)
+// Only videos need mirroring - images via Astro, so keep public clean
+try {
+  const publicRoot = 'public/content';
+  ensureDir(publicRoot);
+  const videoExts = new Set(['.mp4','.webm','.mov','.m4v']);
+  function mirrorVideos(srcDir, pubDir){
+    const entries = fs.readdirSync(srcDir, {withFileTypes:true});
+    for(const e of entries){
+      const src = path.join(srcDir, e.name);
+      const dest = path.join(pubDir, e.name);
+      if(e.isDirectory()){
+        mirrorVideos(src, dest);
+      } else if(videoExts.has(path.extname(e.name).toLowerCase())){
+        ensureDir(path.dirname(dest));
+        fs.copyFileSync(src, dest);
+        // also copy poster jpg with same basename if exists (mp4 -> jpg)
+        const base = dest.slice(0, -path.extname(dest).length);
+        const posterSrc = src.slice(0, -path.extname(src).length) + '.jpg';
+        const posterDest = base + '.jpg';
+        if(fs.existsSync(posterSrc)) fs.copyFileSync(posterSrc, posterDest);
+      }
+    }
+  }
+  mirrorVideos(srcRoot, publicRoot);
+  console.log(`mirrored videos to ${publicRoot}`);
+} catch(e){ console.warn('mirror to public failed', e.message); }
