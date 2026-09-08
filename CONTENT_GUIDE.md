@@ -20,6 +20,8 @@ npm run dev        # только Astro без админки
 npm run build      # проверка + сборка 29 страниц (dist/)
 npm run threads:import -- https://www.threads.com/share/BBR4vE0M6h/ --date 2026-08-30  # автоимпорт ленты
 npm run threads:import:dry  # проверка без записи
+npm run reviews:import      # автоимпорт отзывов с Яндекс Карт (новые → content/reviews/)
+npm run reviews:import:dry  # проверка без записи (dry-run)
 ```
 
 ---
@@ -307,6 +309,54 @@ git add content/threads/*.md content/threads/*.jpg
 git commit -m "feat(threads): add 3 posts via fetch_threads"
 git push
 ```
+
+### Автоматический импорт отзывов с Яндекс Карт
+
+Скрипт `scripts/fetch_reviews.py` парсит SSR-страницу `https://yandex.uz/maps/org/laptop_service/81659688745/reviews/` (без API-ключа, только `urllib` + regex на `business-review-view`) и создаёт недостающие `content/reviews/YYYY_MM/<slug>/<slug>.md` + скачивает аватары.
+
+**Что делает:**
+- Парсит 18 отзывов с Яндекс Карт (на 08.09.2026: 22 оценки / 18 отзывов, рейтинг 5.0): `author`, `datePublished` (ISO → `YYYY-MM-DD`), `reviewBody` (`spoiler-view__text-container`), `ratingValue`, `avatar` (`avatars.mds.yandex.net/get-yapic/.../islands-68` → скачивает `islands-200` 200×200).
+- `slug` = `rev-` + `slugify(author)` + `dateSuffix(date)` как в `tina/config.ts:276` (транслит кириллицы, суффикс `-DDmmmYYYY` обязателен). Пример: `Umid Iskandarov` + `2026-09-07` → `rev-umid-iskandarov-07sep2026`.
+- `device` — по умолчанию `Ноутбук`, эвристика по тексту (`asus`/`lenovo`/`игров`/`компьютер`) + переопределения `DEVICE_OVERRIDES` (напр. `{"Umid Iskandarov":"Lenovo"}` — у Умида был Lenovo замена клавиатуры).
+- `avatar` — если на Яндексе аватар-заглушка (`_id_*` буква) → поле не добавляется; иначе скачивает 200×200 (`PNG`/`JPG`) в ту же папку как `<Автор>-DDmmmYYYY.<ext>` и пишет `avatar: /content/reviews/YYYY_MM/<slug>/<Автор>-DDmmmYYYY.<ext>`.
+- Идемпотентно: проверяет `author+date` (exact), `slug`, и fuzzy-дубликат (тот же автор, дата ±1 день + совпадение текста) — уже существующие пропускаются. Для `Тимур Расулев` локально `14jun2026` vs Яндекс `13jun2026` (UTC vs Tashkent `UTC+5`) — считается дубликатом и пропускается.
+- Папка `YYYY_MM` берётся из `date`: `2026-09-07` → `2026_09`.
+
+**Установка:** Python 3.10+, зависимостей нет (только stdlib `urllib`, `pathlib`, `re`).
+
+**Использование:**
+
+```bash
+# все новые отзывы (проверяет дубликаты по имени+дате)
+python scripts/fetch_reviews.py
+
+# проверка без записи
+python scripts/fetch_reviews.py --dry-run
+npm run reviews:import:dry
+
+# принудительно перезаписать / лимит
+python scripts/fetch_reviews.py --force --limit 2
+
+# другой URL (yandex.ru / yandex.com / yandex.uz)
+python scripts/fetch_reviews.py --url https://yandex.ru/maps/org/laptop_service/81659688745/reviews/ --dry-run
+
+# npm-алиасы (package.json)
+npm run reviews:import
+npm run reviews:import:dry
+```
+
+**Проверено 08.09.2026:**
+- Яндекс: 18 отзывов (Олег Маклаков, **Umid Iskandarov**, Тимур Расулев, Сергей Д., Serёga, Хаким Д., Aleksandr M, Rustam M., **Iroda**, JT, Сардорбек Жоравоев, Агата Агатовна, Евгений В., Гасан Джалилов, Nigora Abdullakhodjaeva, Ilhom Tashpulatov, **John D.**, **руслан ефимов**). Локально было 19 (5 legacy 2017 + 14 общих). Скрипт нашёл 4 новых: `Umid Iskandarov 07sep2026` → `Lenovo` (без аватара, заглушка), `Iroda 07jul2026` → `Iroda-07jul2026.png`, `John D. 04sep2025` → `John D.-04sep2025.jpg`, `руслан ефимов 03feb2026` → `руслан ефимов-03feb2026.jpg`. `Тимур Расулев 13jun2026` пропущен как fuzzy-дубликат `14jun2026`.
+
+**После импорта:**
+```bash
+npm run build   # проверка frontmatter + ~23 отзыва, аватары Sharp → avif/webp
+git add content/reviews/2026_09/rev-umid-iskandarov-07sep2026/ content/reviews/2026_07/rev-iroda-07jul2026/ content/reviews/2025_09/rev-john-d-04sep2025/ content/reviews/2026_02/rev-ruslan-efimov-03feb2026/
+git commit -m "feat(reviews): import 4 from Yandex via fetch_reviews"
+git push
+```
+
+**Частые ошибки:** `HTTP Error 403` — Яндекс отдал капчу, повтори через минуту с другим `User-Agent`; аватар `islands-68` 404 → скрипт уже пробует `islands-200`; дубликат по дате ±1 день пропускается — если нужно принудительно, `--force`.
 
 **Частые ошибки:** `download failed` → `og:image` протух (подпись `oh`/`oe` живёт ~часы), перезапусти — скрипт скачает заново; `UnicodeEncodeError` в PowerShell — в скрипте уже `sys.stdout.reconfigure(encoding='utf-8')`.
 

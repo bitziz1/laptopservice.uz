@@ -12,8 +12,10 @@
     "build:prod": "node --max-old-space-size=8192 ./node_modules/astro/astro.js build && node scripts/copy-content-images.mjs",
     "preview": "astro preview",
     "astro": "astro",
-    "threads:import": "python scripts/fetch_threads.py",
-    "threads:import:dry": "python scripts/fetch_threads.py --dry-run"
+    "threads:import": "python3 scripts/fetch_threads.py",
+    "threads:import:dry": "python3 scripts/fetch_threads.py --dry-run",
+    "reviews:import": "python3 scripts/fetch_reviews.py",
+    "reviews:import:dry": "python3 scripts/fetch_reviews.py --dry-run"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
