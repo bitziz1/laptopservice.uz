@@ -1,5 +1,5 @@
 ---
-author: "Денис С"
+author: "Денис Смирнов"
 source: "remontnoutbukov.uz"
 rating: 5
 date: 2017-09-15
