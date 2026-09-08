@@ -7,7 +7,7 @@ gallery:
 alts:
   - "Прогоревший участок платы HP Victus на входном питании"
   - "Восстановленный участок текстолита с доп-дорожкой и улучшенным теплоотводом"
-url: "https://laptopservice.uz/cases/hp-victus-progar-platy-vhodnoe-pitanie-08sep2026/"
+url: https://www.threads.com/share/Htp1m9bQo/
 ---
 
 🤯 Владельцы HP Victus, это может случиться с вашим ноутбуком без вашей вины.
