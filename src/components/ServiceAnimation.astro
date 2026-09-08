@@ -1,0 +1,183 @@
+---
+// src/components/ServiceAnimation.astro
+//
+// Зацикленная 3-сек анимация для карточки услуги.
+// - Ничего не грузится, пока карточка не появится во вьюпорте (IntersectionObserver).
+// - Видео ставится на паузу, когда карточка уходит из вьюпорта (экономия CPU/батареи
+//   при 40-50 карточках на странице).
+// - Уважает prefers-reduced-motion: тогда показывается только статичный постер.
+// - Поддерживает 3 источника видео на выбор:
+//     alphaMov  — HEVC+alpha .mov, настоящая прозрачность, но работает только в Safari/iOS
+//     webm      — предпочтительно (vp9/av1), сжат, наложен на цвет фона карточки
+//     mp4       — универсальный фолбэк (h264), тоже наложен на цвет фона карточки
+//
+// Если alphaMov не передан — компонент просто использует webm/mp4 с фоном, совпадающим
+// с фоном карточки, и выглядит бесшовно без реальной прозрачности (см. пояснение в чате).
+
+export interface Props {
+  mp4: string;
+  webm?: string;
+  alphaMov?: string;
+  poster: string;
+  alt: string;
+  class?: string;
+}
+
+const {
+  mp4,
+  webm,
+  alphaMov,
+  poster,
+  alt,
+  class: className = '',
+} = Astro.props;
+---
+
+<div class={`svc-anim ${className}`} data-svc-anim>
+  <img
+    src={poster}
+    alt={alt}
+    class="svc-anim__poster"
+    loading="lazy"
+    decoding="async"
+  />
+  <video
+    class="svc-anim__video"
+    muted
+    loop
+    playsinline
+    preload="none"
+    poster={poster}
+    aria-hidden="true"
+    data-mp4={mp4}
+    data-webm={webm}
+    data-alpha={alphaMov}
+  ></video>
+</div>
+
+<style>
+  .svc-anim {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    overflow: hidden;
+    border-radius: var(--radius-lg, 16px);
+    background: #171a20;
+  }
+
+  .svc-anim__poster,
+  .svc-anim__video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+  }
+
+  .svc-anim__poster {
+    transition: opacity 0.25s ease;
+  }
+
+  .svc-anim__video {
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  .svc-anim.is-playing .svc-anim__poster {
+    opacity: 0;
+  }
+
+  .svc-anim.is-playing .svc-anim__video {
+    opacity: 1;
+  }
+
+  /* Без JS / до гидратации — просто постер, ничего не прыгает */
+  .svc-anim:not(.js-ready) .svc-anim__video {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .svc-anim__video {
+      display: none !important;
+    }
+  }
+</style>
+
+<script>
+  const prefersReducedMotion = window.matchMedia(
+    '(prefers-reduced-motion: reduce)'
+  ).matches;
+
+  // Определяем поддержку HEVC+alpha один раз (в основном — Safari/iOS)
+  function supportsAlphaHevc(video: HTMLVideoElement): boolean {
+    return (
+      video.canPlayType('video/mp4; codecs="hvc1.1.6.L93.B0"') !== '' &&
+      /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+    );
+  }
+
+  function setupAnimation(root: HTMLElement) {
+    const video = root.querySelector('video') as HTMLVideoElement | null;
+    if (!video) return;
+
+    root.classList.add('js-ready');
+
+    if (prefersReducedMotion) return; // остаётся только постер
+
+    let sourcesLoaded = false;
+
+    const attachSources = () => {
+      if (sourcesLoaded) return;
+      sourcesLoaded = true;
+
+      const alpha = video.dataset.alpha;
+      const webm = video.dataset.webm;
+      const mp4 = video.dataset.mp4;
+
+      if (alpha && supportsAlphaHevc(video)) {
+        const s = document.createElement('source');
+        s.src = alpha;
+        s.type = 'video/mp4; codecs="hvc1"';
+        video.appendChild(s);
+      }
+      if (webm) {
+        const s = document.createElement('source');
+        s.src = webm;
+        s.type = 'video/webm';
+        video.appendChild(s);
+      }
+      if (mp4) {
+        const s = document.createElement('source');
+        s.src = mp4;
+        s.type = 'video/mp4';
+        video.appendChild(s);
+      }
+      video.load();
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            attachSources();
+            video.play().catch(() => {
+              /* автоплей может быть заблокирован — постер остаётся видимым */
+            });
+            root.classList.add('is-playing');
+          } else {
+            video.pause();
+            root.classList.remove('is-playing');
+          }
+        }
+      },
+      { rootMargin: '200px 0px', threshold: 0.15 }
+    );
+
+    observer.observe(root);
+  }
+
+  document
+    .querySelectorAll<HTMLElement>('[data-svc-anim]')
+    .forEach(setupAnimation);
+</script>

@@ -4,6 +4,7 @@ import type { ImageMetadata } from "astro";
 import type { ServiceItem } from "@/data/services";
 import { siteConfig } from "@/data/siteConfig";
 import IconLink from "@/components/IconLink.astro";
+import ServiceAnimation from "@/components/ServiceAnimation.astro";
 
 interface Props {
   service: ServiceItem;
@@ -13,10 +14,32 @@ interface Props {
 const { service, ctaLabel = "Узнать стоимость" } = Astro.props;
 const svcMeta = ((service as any).heroImage ?? (service as any).gallery?.[0]) as ImageMetadata | undefined;
 const telegramHref = `${siteConfig.telegram.masterUrl}${siteConfig.telegram.masterUrl.includes("?") ? "&" : "?"}text=${encodeURIComponent(`Меня интересует ${service.title}. Модель устройства: `)}`;
+
+// Карта анимированных услуг: только remont-videokarty-kompyutera пока
+// Видео подготовлено: фон вырезан (colorkey 0x85b180) и запечён на #171A20 для бесшовности на карточке.
+// Источники: mp4 (h264) фолбэк + webm (vp9) предпочтительно, poster — кадры из запечённого ролика.
+const animatedServices: Record<string, { mp4: string; webm: string; poster: string; alt: string }> = {
+  "remont-videokarty-kompyutera": {
+    mp4: "/videos/services/remont-videokarty-kompyutera.mp4",
+    webm: "/videos/services/remont-videokarty-kompyutera.webm",
+    poster: "/videos/services/remont-videokarty-kompyutera-poster.webp",
+    alt: "Ремонт видеокарты компьютера — анимация GPU",
+  },
+};
+const anim = animatedServices[service.slug];
 ---
 
 <div class="rounded-lg bg-chassis-850/50 overflow-hidden flex flex-col justify-between">
-  {svcMeta && (
+  {anim ? (
+    <div class="w-full bg-chassis-900">
+      <ServiceAnimation
+        mp4={anim.mp4}
+        webm={anim.webm}
+        poster={anim.poster}
+        alt={anim.alt}
+      />
+    </div>
+  ) : svcMeta && (
     <div class="w-full bg-chassis-900">
       <Picture src={svcMeta} alt={service.title} widths={[400, 600]} sizes="(max-width: 768px) 100vw, 400px" formats={["avif", "webp"]} fallbackFormat="webp" class="w-full h-auto object-contain max-h-48" loading="lazy" decoding="async" />
     </div>

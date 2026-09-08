@@ -2,8 +2,18 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import IconLink from "@/components/IconLink.astro";
+import ServiceAnimation from "@/components/ServiceAnimation.astro";
 import { servicesData, type ServiceItem } from "@/data/services";
 import { siteConfig } from "@/data/siteConfig";
+
+const animatedServices: Record<string, { mp4: string; webm: string; poster: string; alt: string }> = {
+  "remont-videokarty-kompyutera": {
+    mp4: "/videos/services/remont-videokarty-kompyutera.mp4",
+    webm: "/videos/services/remont-videokarty-kompyutera.webm",
+    poster: "/videos/services/remont-videokarty-kompyutera-poster.webp",
+    alt: "Ремонт видеокарты компьютера — анимация GPU",
+  },
+};
 
 export function getStaticPaths() {
   return servicesData.map((service) => ({
@@ -40,6 +50,17 @@ const breadcrumbs = [
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-10">
     
     <Breadcrumbs items={breadcrumbs} />
+
+    {animatedServices[service.slug] && (
+      <div class="w-full max-w-[420px] mx-auto rounded-xl overflow-hidden border border-chassis-800 bg-chassis-900">
+        <ServiceAnimation
+          mp4={animatedServices[service.slug].mp4}
+          webm={animatedServices[service.slug].webm}
+          poster={animatedServices[service.slug].poster}
+          alt={animatedServices[service.slug].alt}
+        />
+      </div>
+    )}
 
     <!-- Service Header -->
     <header class="space-y-4">
