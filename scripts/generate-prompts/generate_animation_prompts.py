@@ -85,6 +85,7 @@ def build_files(out, guide_path):
         dir_path.mkdir(parents=True, exist_ok=True)
         # attachments folder for Obsidian
         (out / "Attachments" / slug).mkdir(parents=True, exist_ok=True)
+        # Thin per-service file: only service-specific deltas, master templates via embed (minimize duplication)
         md = f"""<!-- GENERATED — single source: docs/service-animation/guide-final-v2.md — DO NOT EDIT, regenerate via generate_animation_prompts.py -->
 ---
 slug: {slug}
@@ -100,35 +101,48 @@ tags: [service-animation, {slug}]
 > **Bucket:** `{bucket}` (тёмный `#171A20` / светлый `#D1D5DB` — см. `docs/service-animation/guide-final-v2.md §3`)
 > Доминирующий тон объекта: **{tone}** → рекомендуемый бакет **{bucket}**. Проверьте глазами на первой картинке, при мягкой маске (>6% semi) смените бакет.
 
-## 1) Image prompt — copy-ready (рекомендуемый бакет)
+## Master templates (single source, не дублировать)
 
+- Image master: `![[../_templates/master-image]]` → подставьте `BACKGROUND` + `SUBJECT` ниже
+- Video master: `![[../_templates/master-video]]` → подставьте `MOTION` ниже
+
+## SUBJECT (service-specific, from guide §4)
+
+```text
+{subj}
+```
+
+## MOTION A — базовый (стабильный loop)
+
+```text
+{motA}
+```
+
+## MOTION B — виральный (anticipation/overshoot)
+
+```text
+{motB}
+```
+
+## Copy-ready (собранный, для удобства — сгенерирован, не править вручную)
+
+**Image (рекомендуемый бакет `{bucket}`):**
 ```text
 {img_recommended}
 ```
 
-### Альтернативные фоны (для теста A/B, если маска мягкая)
-
-**Тёмный `#171A20` (default):**
-```text
-{img_dark}
-```
-
-**Светлый `#D1D5DB`:**
-```text
-{img_light}
-```
-
-## 2) Video prompt — MOTION A (базовый, стабильный loop)
-
+**Video A:**
 ```text
 {vid_a}
 ```
 
-## 3) Video prompt — MOTION B (виральный, с физикой anticipation/overshoot)
-
+**Video B:**
 ```text
 {vid_b}
 ```
+
+> Примечание: copy-ready блоки выше — сгенерированы из master + SUBJECT/MOTION. При изменении master в `docs/service-animation/guide-final-v2.md` перегенерируйте: `python scripts/generate-prompts/generate_animation_prompts.py --out prompts`
+
 
 ## Как использовать
 

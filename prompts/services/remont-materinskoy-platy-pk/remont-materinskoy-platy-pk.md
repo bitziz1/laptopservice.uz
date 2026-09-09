@@ -13,8 +13,40 @@ tags: [service-animation, remont-materinskoy-platy-pk]
 > **Bucket:** `светлый` (тёмный `#171A20` / светлый `#D1D5DB` — см. `docs/service-animation/guide-final-v2.md §3`)
 > Доминирующий тон объекта: **тёмный** → рекомендуемый бакет **светлый**. Проверьте глазами на первой картинке, при мягкой маске (>6% semi) смените бакет.
 
-## 1) Image prompt — copy-ready (рекомендуемый бакет)
+## Master templates (single source, не дублировать)
 
+- Image master: `![[../_templates/master-image]]` → подставьте `BACKGROUND` + `SUBJECT` ниже
+- Video master: `![[../_templates/master-video]]` → подставьте `MOTION` ниже
+
+## SUBJECT (service-specific, from guide §4)
+
+```text
+A stylized 3D printed circuit board fragment with visible circuit traces, a
+soldering iron tip touching down on one chip, a small bright teal spark glowing
+at the contact point.
+```
+
+## MOTION A — базовый (стабильный loop)
+
+```text
+The soldering iron tip gently lowers onto the chip, a small teal spark flashes
+and pulses outward twice, then the iron lifts back up to its starting position —
+ending exactly where it began for a seamless loop.
+```
+
+## MOTION B — виральный (anticipation/overshoot)
+
+```text
+The iron hovers and dips slightly just before contact (anticipation), touches
+down, and a bright teal spark bursts and races along the nearby circuit traces
+like a tiny lightning bolt travelling through the board's veins before fading
+out. The iron lifts with a light spring-back recoil, holds for a beat, then
+lowers again to restart the loop precisely.
+```
+
+## Copy-ready (собранный, для удобства — сгенерирован, не править вручную)
+
+**Image (рекомендуемый бакет `светлый`):**
 ```text
 3D rendered icon in a clean modern tech-repair style, glossy plastic and brushed matte-graphite materials, the subject is lit by soft diffused studio lighting with realistic highlights and shadow, single accent color #19BD9B (teal-green) used for glowing highlights, energy lines, LED indicators and screen glow, neutral grey and dark graphite base materials, isometric 3/4 perspective, centered composition, no text, no logos, no watermarks.
 
@@ -29,40 +61,7 @@ at the contact point.
 Negative prompt: colored background, green background, chroma key, gradient background, vignette, color spill, green reflection, extra objects, hands, people, text, watermark
 ```
 
-### Альтернативные фоны (для теста A/B, если маска мягкая)
-
-**Тёмный `#171A20` (default):**
-```text
-3D rendered icon in a clean modern tech-repair style, glossy plastic and brushed matte-graphite materials, the subject is lit by soft diffused studio lighting with realistic highlights and shadow, single accent color #19BD9B (teal-green) used for glowing highlights, energy lines, LED indicators and screen glow, neutral grey and dark graphite base materials, isometric 3/4 perspective, centered composition, no text, no logos, no watermarks.
-
-BACKGROUND: plain uncluttered dark charcoal studio background (#171A20), evenly lit, minimal shadow, subject clearly separated from background, no other objects in frame, no gradient, no vignette, no color spill from the subject onto the background.
-
-single centered object, physically based rendering, high detail, sharp focus on thin structures (fan blades, pins, cables, hinges), neutral reflections only, playful sticker-like appeal similar to 3D emoji icon packs, crisp clean edges, subtle soft contact shadow directly under the object, product-render quality, 4k
-
-SUBJECT: A stylized 3D printed circuit board fragment with visible circuit traces, a
-soldering iron tip touching down on one chip, a small bright teal spark glowing
-at the contact point.
-
-Negative prompt: colored background, green background, chroma key, gradient background, vignette, color spill, green reflection, extra objects, hands, people, text, watermark
-```
-
-**Светлый `#D1D5DB`:**
-```text
-3D rendered icon in a clean modern tech-repair style, glossy plastic and brushed matte-graphite materials, the subject is lit by soft diffused studio lighting with realistic highlights and shadow, single accent color #19BD9B (teal-green) used for glowing highlights, energy lines, LED indicators and screen glow, neutral grey and dark graphite base materials, isometric 3/4 perspective, centered composition, no text, no logos, no watermarks.
-
-BACKGROUND: plain uncluttered light grey studio background (#D1D5DB), evenly lit, minimal shadow, subject clearly separated from background, no other objects in frame, no gradient, no vignette, no color spill from the subject onto the background.
-
-single centered object, physically based rendering, high detail, sharp focus on thin structures (fan blades, pins, cables, hinges), neutral reflections only, playful sticker-like appeal similar to 3D emoji icon packs, crisp clean edges, subtle soft contact shadow directly under the object, product-render quality, 4k
-
-SUBJECT: A stylized 3D printed circuit board fragment with visible circuit traces, a
-soldering iron tip touching down on one chip, a small bright teal spark glowing
-at the contact point.
-
-Negative prompt: colored background, green background, chroma key, gradient background, vignette, color spill, green reflection, extra objects, hands, people, text, watermark
-```
-
-## 2) Video prompt — MOTION A (базовый, стабильный loop)
-
+**Video A:**
 ```text
 Seamless perfectly looping 4-second animation of the reference image, 24fps, 640x640, camera locked and completely static, no camera movement, no camera shake.
 
@@ -77,8 +76,7 @@ and pulses outward twice, then the iron lifts back up to its starting position �
 ending exactly where it began for a seamless loop.
 ```
 
-## 3) Video prompt — MOTION B (виральный, с физикой anticipation/overshoot)
-
+**Video B:**
 ```text
 Seamless perfectly looping 4-second animation of the reference image, 24fps, 640x640, camera locked and completely static, no camera movement, no camera shake.
 
@@ -96,6 +94,9 @@ like a tiny lightning bolt travelling through the board's veins before fading
 out. The iron lifts with a light spring-back recoil, holds for a beat, then
 lowers again to restart the loop precisely.
 ```
+
+> Примечание: copy-ready блоки выше — сгенерированы из master + SUBJECT/MOTION. При изменении master в `docs/service-animation/guide-final-v2.md` перегенерируйте: `python scripts/generate-prompts/generate_animation_prompts.py --out prompts`
+
 
 ## Как использовать
 
