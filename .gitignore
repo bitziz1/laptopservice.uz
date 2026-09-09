@@ -28,3 +28,5 @@ tina/__generated__/_lookup.json
 tina/__generated__/static-media.json
 .tina/
 
+prompts/Attachments/**/*.mp4
+prompts/Attachments/**/*.png
