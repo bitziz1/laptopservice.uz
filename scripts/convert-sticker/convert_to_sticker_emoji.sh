@@ -46,7 +46,7 @@ for f in tqdm(frames):
     out_img = remove(img, session=session)
     out_img.save(out)
 "
-# Alternative: python3 scripts/matte_video_isnet.py (but inline above keeps deps)
+# Alternative: python3 scripts/service-animation/matte.py (but inline above keeps deps)
 
 ALPHA_MOV="$TMPDIR/alpha.mov"
 echo "[3/5] Assemble alpha.mov ProRes4444 640x640 24fps"

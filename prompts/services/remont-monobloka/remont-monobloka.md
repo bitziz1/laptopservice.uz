@@ -106,10 +106,10 @@ to the dim state to loop.
 4. Скачайте `*.mp4` → положите в `Attachments/remont-monobloka/raw-video.mp4` (папку можно открыть в Obsidian, drag & drop).
 5. Запустите пайплайн:
 ```bash
-./scripts/process_service.sh remont-monobloka prompts/Attachments/remont-monobloka/raw-video.mp4
+./scripts/service-animation/process_service.sh remont-monobloka prompts/Attachments/remont-monobloka/raw-video.mp4
 # выход: public/videos/services/remont-monobloka.{mp4,webm,poster.jpg,poster.webp} + /tmp/svc-anim/remont-monobloka/alpha.mov
 ```
-6. QA: `python3 scripts/check_alpha_quality.py /tmp/svc-anim/remont-monobloka/frames_out --threshold 6` (автоматически в `process_service.sh` шаг 2.5)
+6. QA: `python3 scripts/service-animation/check_alpha_quality.py /tmp/svc-anim/remont-monobloka/frames_out --threshold 6` (автоматически в `process_service.sh` шаг 2.5)
 7. Добавьте slug в `src/components/ServiceCard.astro:animatedServices` и `src/pages/services/[slug].astro:animatedServices`, `npm run build`.
 
 ## Attachments (перетащите сюда файлы в Obsidian)
@@ -122,6 +122,6 @@ to the dim state to loop.
 ## Links
 
 - Гайд: [[guide-final-v2.md|docs/service-animation/guide-final-v2.md §1-4]]
-- Пайплайн: `scripts/matte.py` / `scripts/process_service.sh` / `scripts/check_alpha_quality.py`
+- Пайплайн: `scripts/service-animation/matte.py` / `scripts/service-animation/process_service.sh` / `scripts/service-animation/check_alpha_quality.py`
 - Компонент: `src/components/ServiceAnimation.astro`
 - Карточка услуги: `/services/remont-monobloka`

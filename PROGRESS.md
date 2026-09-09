@@ -52,7 +52,7 @@
    - `src/components/BuildCard.astro`, `src/pages/builds/index.astro` (фильтр по purpose), `src/pages/builds/[slug].astro` (таблица компонентов + Schema.org Product/Offer).
    - Расширен `src/data/services.ts` → `upgrade-noutbuka`: добавлены замена матрицы/клавиатуры/аккумулятора, расширены `symptoms`/`stages`/`faq`.
    - Навигация: «Сборки ПК» в `Header`, ссылка в `Footer`, блок-preview на `pages/index.astro`, баннер на `pages/services/index.astro`.
-   - `scripts/indexnow_ping.py` дополнен URL `/builds` и слагов.
+   - `scripts/indexnow/indexnow_ping.py` дополнен URL `/builds` и слагов.
 
 10. **Контент-инструмент без AI-API (Задача C)**:
    - Переработан `scripts/telegram_ingest.py` в `scripts/content_tool.py` — CLI с командами `fetch-telegram` (реальный Telethon, сохраняет в `content/_raw/telegram/<id>/`), `make-prompt --id --type case|build` (печатает промпт), `import-result --id` (валидирует YAML → `content/cases|builds/drafts/`), `import-reviews` (парсит `content/_raw/reviews/inbox.txt` → `content/reviews/drafts/`), `publish --id --type` (перемещает в `published/` + IndexNow пинг).
@@ -74,8 +74,8 @@
 
 14. **Видео-стикеры и эмодзи с прозрачностью (сентябрь 2026)**:
     - Проблема: генеративные модели делали виньетку на `#00FF00` (градиент тёмно-синий→зелёный), `colorkey` требовал разных magic `0x85b180:0.06` vs `0x05EE0B:0.20`, теal `#19BD9B` съедался, PBR-отражения давали зелёный spill в дырках.
-    - Решение: AI-матирование по форме `rembg isnet-general-use` (≈66с/97 кадров, `scripts/matte_video_isnet.py:1`), а не по цвету. На `v1 gradient` — стабильно 63% transparent, на `v2 bright chroma` — 1-2% semi, на `v3 gray #808080` — 14% semi (низкий контраст серого GPU → мягкая маска), поэтому для серого металла рекомендован тёмный фон `#171A20`.
-    - Пайплайн: `frames_in → isnet → frames_out → ProRes4444 alpha.mov → overlay на #171A20 → libx264/libvpx-vp9` (`docs/service-animation/guide-final-v2.md:1` + `scripts/process_service.sh:1` + `scripts/matte.py:1`).
+    - Решение: AI-матирование по форме `rembg isnet-general-use` (≈66с/97 кадров, `scripts/service-animation/matte.py:1`), а не по цвету. На `v1 gradient` — стабильно 63% transparent, на `v2 bright chroma` — 1-2% semi, на `v3 gray #808080` — 14% semi (низкий контраст серого GPU → мягкая маска), поэтому для серого металла рекомендован тёмный фон `#171A20`.
+    - Пайплайн: `frames_in → isnet → frames_out → ProRes4444 alpha.mov → overlay на #171A20 → libx264/libvpx-vp9` (`docs/service-animation/guide-final-v2.md:1` + `scripts/service-animation/process_service.sh:1` + `scripts/service-animation/matte.py:1`).
     - `src/components/ServiceAnimation.astro:1` — IntersectionObserver, `preload none`, `prefers-reduced-motion`, `mp4/webm/alphaMov`; `ServiceCard.astro:18` и `services/[slug].astro:6` — карта `animatedServices` только для `remont-videokarty-kompyutera` ( `public/videos/services/remont-videokarty-kompyutera.{mp4,webm,poster.webp}` isnet baked 207K/231K).
-    - Telegram Video Stickers/Emoji: `scripts/convert_to_sticker_emoji.sh:1` — берёт готовое видео, делает `isnet` alpha, режет до 3с, `scale 512:512` (стикер, одна сторона 512) и `100:100` (эмодзи), `VP9, yuv420p + alpha_mode=1, 30fps, no audio, ≤256KB, 2-pass CRF авто-подбор 32→44`. Результат: `public/stickers/remont-videokarty-kompyutera.webm` 177KB 512×512 и `public/emoji/remont-videokarty-kompyutera.webm` 26KB 100×100 (`ffprobe` `alpha_mode=1`, `duration=3.0`).
+    - Telegram Video Stickers/Emoji: `scripts/convert-sticker/convert_to_sticker_emoji.sh:1` — берёт готовое видео, делает `isnet` alpha, режет до 3с, `scale 512:512` (стикер, одна сторона 512) и `100:100` (эмодзи), `VP9, yuv420p + alpha_mode=1, 30fps, no audio, ≤256KB, 2-pass CRF авто-подбор 32→44`. Результат: `public/stickers/remont-videokarty-kompyutera.webm` 177KB 512×512 и `public/emoji/remont-videokarty-kompyutera.webm` 26KB 100×100 (`ffprobe` `alpha_mode=1`, `duration=3.0`).
     - Инструкция для генерации: `docs/service-animation/guide-final-v2.md:1` §1-3 — базовый промпт + выбор бакета фона (тёмный `#171A20` для светлого металла / светлый `#D1D5DB` для тёмных плат), MOTION A/B для 10 услуг.

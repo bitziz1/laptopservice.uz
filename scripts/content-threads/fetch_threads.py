@@ -3,9 +3,9 @@
 """
 Fetch Threads share URLs -> content/threads/*.md
 Usage:
-  python scripts/fetch_threads.py https://www.threads.com/share/BBR4vE0M6h/ --date 2026-08-30
-  python scripts/fetch_threads.py --file urls.txt  # each line: URL [date]
-  python scripts/fetch_threads.py https://www.threads.com/share/_eq_ppozf/ --date 2026-09-01 --dry-run
+  python scripts/content-threads/fetch_threads.py https://www.threads.com/share/BBR4vE0M6h/ --date 2026-08-30
+  python scripts/content-threads/fetch_threads.py --file urls.txt  # each line: URL [date]
+  python scripts/content-threads/fetch_threads.py https://www.threads.com/share/_eq_ppozf/ --date 2026-09-01 --dry-run
 """
 import sys
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')

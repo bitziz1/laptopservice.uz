@@ -4,12 +4,12 @@ Generate copy-ready prompts for 10 service animations (guide-final-v2) into
 an Obsidian-friendly vault: prompts/services/<slug>.md + prompts/_index.md
 
 Usage:
-  python scripts/generate_animation_prompts.py
-  python scripts/generate_animation_prompts.py --out prompts --guide docs/service-animation/guide-final-v2.md
-  python scripts/generate_animation_prompts.py --force
+  python scripts/generate-prompts/generate_animation_prompts.py
+  python scripts/generate-prompts/generate_animation_prompts.py --out prompts --guide docs/service-animation/guide-final-v2.md
+  python scripts/generate-prompts/generate_animation_prompts.py --force
 Vault can be opened directly in Obsidian (each file is standalone markdown).
 After generation: paste results manually into vault/Attachments/<slug>/, then run
-  ./scripts/process_service.sh <slug> /path/to/generated-video.mp4  -> public/videos/services/
+  ./scripts/service-animation/process_service.sh <slug> /path/to/generated-video.mp4  -> public/videos/services/
 """
 import argparse, re, pathlib, datetime
 
@@ -137,10 +137,10 @@ tags: [service-animation, {slug}]
 4. Скачайте `*.mp4` → положите в `Attachments/{slug}/raw-video.mp4` (папку можно открыть в Obsidian, drag & drop).
 5. Запустите пайплайн:
 ```bash
-./scripts/process_service.sh {slug} prompts/Attachments/{slug}/raw-video.mp4
+./scripts/service-animation/process_service.sh {slug} prompts/Attachments/{slug}/raw-video.mp4
 # выход: public/videos/services/{slug}.{{mp4,webm,poster.jpg,poster.webp}} + /tmp/svc-anim/{slug}/alpha.mov
 ```
-6. QA: `python3 scripts/check_alpha_quality.py /tmp/svc-anim/{slug}/frames_out --threshold 6` (автоматически в `process_service.sh` шаг 2.5)
+6. QA: `python3 scripts/service-animation/check_alpha_quality.py /tmp/svc-anim/{slug}/frames_out --threshold 6` (автоматически в `process_service.sh` шаг 2.5)
 7. Добавьте slug в `src/components/ServiceCard.astro:animatedServices` и `src/pages/services/[slug].astro:animatedServices`, `npm run build`.
 
 ## Attachments (перетащите сюда файлы в Obsidian)
@@ -153,7 +153,7 @@ tags: [service-animation, {slug}]
 ## Links
 
 - Гайд: [[guide-final-v2.md|docs/service-animation/guide-final-v2.md §1-4]]
-- Пайплайн: `scripts/matte.py` / `scripts/process_service.sh` / `scripts/check_alpha_quality.py`
+- Пайплайн: `scripts/service-animation/matte.py` / `scripts/service-animation/process_service.sh` / `scripts/service-animation/check_alpha_quality.py`
 - Компонент: `src/components/ServiceAnimation.astro`
 - Карточка услуги: `/services/{slug}`
 """
@@ -176,13 +176,13 @@ tags: [service-animation, {slug}]
 1. Откройте `services/<slug>/<slug>.md` → скопируйте *Image prompt* → генерите картинку.
 2. Скопируйте *Video prompt A* (или B) → генерите видео 4 сек.
 3. Перетащите файлы в `Attachments/<slug>/` прямо в Obsidian.
-4. Запустите `./scripts/process_service.sh <slug> prompts/Attachments/<slug>/raw-video.mp4`
+4. Запустите `./scripts/service-animation/process_service.sh <slug> prompts/Attachments/<slug>/raw-video.mp4`
 5. Проверьте `public/videos/services/<slug>.*` и добавьте в `animatedServices`.
 
 См. `docs/service-animation/guide-final-v2.md` §3-5 для выбора фона и QA.
 """
     (out / "services" / "_index.md").write_text(index_md, encoding="utf-8")
-    (out / "README.md").write_text("# Prompts vault\n\nОткройте `prompts/` как Obsidian vault.\n- `services/<slug>/<slug>.md` — copy-ready промпты на каждый из 10 услуг (тёмный `#171A20` / светлый `#D1D5DB` + MOTION A/B)\n- `Attachments/<slug>/` — сюда перетаскивайте `raw-image.png` / `raw-video.mp4` прямо в Obsidian\n\nГенератор: `python scripts/generate_animation_prompts.py`\n", encoding="utf-8")
+    (out / "README.md").write_text("# Prompts vault\n\nОткройте `prompts/` как Obsidian vault.\n- `services/<slug>/<slug>.md` — copy-ready промпты на каждый из 10 услуг (тёмный `#171A20` / светлый `#D1D5DB` + MOTION A/B)\n- `Attachments/<slug>/` — сюда перетаскивайте `raw-image.png` / `raw-video.mp4` прямо в Obsidian\n\nГенератор: `python scripts/generate-prompts/generate_animation_prompts.py`\n", encoding="utf-8")
     print(f"Generated {len(SERVICES)} services into {out}/services/ + Attachments/")
 
 if __name__ == "__main__":

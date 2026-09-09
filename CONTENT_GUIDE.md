@@ -8,7 +8,7 @@
 
 1. **Установка (один раз):** `npm ci` → `npm run dev:tina` (поднимает `tinacms dev -c "astro dev"`). Админка: `http://localhost:4321/admin`, сайт: `http://localhost:4321`.
 2. **Создание:** в админке `Сборки / Кейсы / Лента / Отзывы` → `Create New` → заполни `Title`/`Author`+`Date` → внизу поле **Filename** автогенерируется как `base-дата` (транслит кириллицы + суффикс `-DDmmmYYYY`), можно поправить латиницей **с сохранением суффикса** → `Save`. Формат суффикса: `-26aug2026` (день известен), `-aug2026` (день неизвестен), `-2026` (месяц неизвестен). Месяцы — англ. `jan feb mar apr may jun jul aug sep oct nov dec` в нижнем регистре.
-   - **Автоматика для ленты:** `python scripts/fetch_threads.py https://www.threads.com/share/BBR4vE0M6h/ --date 2026-08-30` (см. §7 «Автоматический импорт Threads») — создаст `content/threads/<slug>-DDmmmYYYY.md` + скачает `og:image` без ручной заливки.
+   - **Автоматика для ленты:** `python scripts/content-threads/fetch_threads.py https://www.threads.com/share/BBR4vE0M6h/ --date 2026-08-30` (см. §7 «Автоматический импорт Threads») — создаст `content/threads/<slug>-DDmmmYYYY.md` + скачает `og:image` без ручной заливки.
 3. **Картинки:** в поле `Обложка`/`Галерея` → `Upload` → выбери `jpg/png` (до 4000px) → путь запишется как `/content/<collection>/file-DDmmmYYYY.jpg` (colocated рядом с `.md`, **имя фото тоже с датой**). Порядок — drag ☰, удаление — 🗑.
 4. **Проверка:** `npm run build` (astro check + 29 страниц + 138 картинок `avif/webp`). Пуш: `git add content/ tina/tina-lock.json` → `commit` → `push origin/master` → деплой GH Pages.
 
@@ -97,7 +97,7 @@ content/
 
 **Кириллица в Filename:** Tina `tina/config.ts:6` `slugify` транслитерирует (`тестовый заголовок` → `testovyi-zagolovok`, `Сергей Д.` → `rev-sergey-d`), пустого `"-.md"` не бывает. Затем `tina/config.ts:24` `dateSuffix()` добавляет `-DDmmmYYYY` / `-mmmYYYY` / `-YYYY`. Поле `Filename` внизу формы Tina — единственное место для слага, автозаполняется из `Title`/`Author`/`handle`+`date`, можно поправить латиницей вручную **но суффикс сохраняй**. Агент пишет сразу латинский `content/.../YYYY_MM/<slug>/<slug>-DDmmmYYYY.md`. При смене `date` — перенеси папку в другой `YYYY_MM` и переименуй файл+фото чтобы суффикс совпадал с `date`.
 
-**Картинки:** путь **абсолютный** `/content/<collection>/YYYY_MM/<slug>/file` (напр. `/content/cases/2026_09/vosstanovlenie-...-02sep2026/vosstanovlenie-...-01-02sep2026.jpg`), файл лежит в той же папке что и `.md`. Tina `tina/config.ts:mediaRoot: "content"` так сохраняет. Если у поста несколько фото — держи их в той же папке: `slug-1-DDmmmYYYY.jpg`, `slug-DDmmmYYYY-01.jpg`. Для `threads`/`reviews` аватар/галерея тоже внутри папки сущности: `/content/threads/2026_09/rtx3090ti-.../rtx3090ti-...jpg`, `/content/reviews/2026_03/rev-sergey-d-24mar2026/Сергей Д.-24mar2026.webp`. Автомат `scripts/fetch_threads.py` теперь создаёт `content/threads/YYYY_MM/<slug>/<slug>.md` + фото внутри.
+**Картинки:** путь **абсолютный** `/content/<collection>/YYYY_MM/<slug>/file` (напр. `/content/cases/2026_09/vosstanovlenie-...-02sep2026/vosstanovlenie-...-01-02sep2026.jpg`), файл лежит в той же папке что и `.md`. Tina `tina/config.ts:mediaRoot: "content"` так сохраняет. Если у поста несколько фото — держи их в той же папке: `slug-1-DDmmmYYYY.jpg`, `slug-DDmmmYYYY-01.jpg`. Для `threads`/`reviews` аватар/галерея тоже внутри папки сущности: `/content/threads/2026_09/rtx3090ti-.../rtx3090ti-...jpg`, `/content/reviews/2026_03/rev-sergey-d-24mar2026/Сергей Д.-24mar2026.webp`. Автомат `scripts/content-threads/fetch_threads.py` теперь создаёт `content/threads/YYYY_MM/<slug>/<slug>.md` + фото внутри.
 
 ---
 
@@ -263,12 +263,12 @@ Body = текст отзыва. **Filename:** `rev-author-DDmmmYYYY.md` (нап�
 
 ### Автоматический импорт Threads из `threads.com/share/*` (рекомендуемый для ленты)
 
-Скрипт `scripts/fetch_threads.py` вытаскивает текст/картинку/канонический URL из SSR `og:description` / `og:image` / `og:url` share-ссылки (без API-ключа, без Playwright) и сразу создаёт `content/threads/<slug>-DDmmmYYYY.md` + скачивает фото.
+Скрипт `scripts/content-threads/fetch_threads.py` вытаскивает текст/картинку/канонический URL из SSR `og:description` / `og:image` / `og:url` share-ссылки (без API-ключа, без Playwright) и сразу создаёт `content/threads/<slug>-DDmmmYYYY.md` + скачивает фото.
 
 **Что делает:**
 - `slug` = `slugify(body[:80])` + `dateSuffix(date)` как в `tina/config.ts:6` / `tina/config.ts:24` (транслит, суффикс `-DDmmmYYYY` обязателен).
 - `date` берётся из `--date YYYY-MM-DD` (дата сообщения в Threads), иначе из `article:published_time` в HTML, иначе `today`.
-- `gallery` = один `og:image` → `/content/threads/<slug>.jpg` (для карусели — расширь `all_images` в `scripts/fetch_threads.py:36`).
+- `gallery` = один `og:image` → `/content/threads/<slug>.jpg` (для карусели — расширь `all_images` в `scripts/content-threads/fetch_threads.py:36`).
 - `alts[0]` = первые 80 символов `body`, `url` = канонический `https://www.threads.com/@laptopservice_uz/post/<id>`.
 - Идемпотентно: если `content/threads/<slug>.md` уже есть — добавляет `-2`, `-3` перед суффиксом.
 
@@ -278,13 +278,13 @@ Body = текст отзыва. **Filename:** `rev-author-DDmmmYYYY.md` (нап�
 
 ```bash
 # один пост — дата = дата сообщения (как в чате: 30.08 0:48 → 2026-08-30)
-python scripts/fetch_threads.py https://www.threads.com/share/BBR4vE0M6h/ --date 2026-08-30
+python scripts/content-threads/fetch_threads.py https://www.threads.com/share/BBR4vE0M6h/ --date 2026-08-30
 # пачкой
-python scripts/fetch_threads.py https://www.threads.com/share/BAh1FFA_8M/ --date 2026-08-30 https://www.threads.com/share/_eq_ppozf/ --date 2026-09-01
+python scripts/content-threads/fetch_threads.py https://www.threads.com/share/BAh1FFA_8M/ --date 2026-08-30 https://www.threads.com/share/_eq_ppozf/ --date 2026-09-01
 # из файла (каждая строка: URL [YYYY-MM-DD])
-python scripts/fetch_threads.py --file urls.txt
+python scripts/content-threads/fetch_threads.py --file urls.txt
 # проверка без записи
-python scripts/fetch_threads.py --dry-run
+python scripts/content-threads/fetch_threads.py --dry-run
 # npm-алиасы (package.json:6)
 npm run threads:import -- https://www.threads.com/share/BBR4vE0M6h/ --date 2026-08-30
 npm run threads:import:dry
@@ -312,7 +312,7 @@ git push
 
 ### Автоматический импорт отзывов с Яндекс Карт
 
-Скрипт `scripts/fetch_reviews.py` парсит SSR-страницу `https://yandex.uz/maps/org/laptop_service/81659688745/reviews/` (без API-ключа, только `urllib` + regex на `business-review-view`) и создаёт недостающие `content/reviews/YYYY_MM/<slug>/<slug>.md` + скачивает аватары.
+Скрипт `scripts/content-reviews/fetch_reviews.py` парсит SSR-страницу `https://yandex.uz/maps/org/laptop_service/81659688745/reviews/` (без API-ключа, только `urllib` + regex на `business-review-view`) и создаёт недостающие `content/reviews/YYYY_MM/<slug>/<slug>.md` + скачивает аватары.
 
 **Что делает:**
 - Парсит 18 отзывов с Яндекс Карт (на 08.09.2026: 22 оценки / 18 отзывов, рейтинг 5.0): `author`, `datePublished` (ISO → `YYYY-MM-DD`), `reviewBody` (`spoiler-view__text-container`), `ratingValue`, `avatar` (`avatars.mds.yandex.net/get-yapic/.../islands-68` → скачивает `islands-200` 200×200).
@@ -328,17 +328,17 @@ git push
 
 ```bash
 # все новые отзывы (проверяет дубликаты по имени+дате)
-python scripts/fetch_reviews.py
+python scripts/content-reviews/fetch_reviews.py
 
 # проверка без записи
-python scripts/fetch_reviews.py --dry-run
+python scripts/content-reviews/fetch_reviews.py --dry-run
 npm run reviews:import:dry
 
 # принудительно перезаписать / лимит
-python scripts/fetch_reviews.py --force --limit 2
+python scripts/content-reviews/fetch_reviews.py --force --limit 2
 
 # другой URL (yandex.ru / yandex.com / yandex.uz)
-python scripts/fetch_reviews.py --url https://yandex.ru/maps/org/laptop_service/81659688745/reviews/ --dry-run
+python scripts/content-reviews/fetch_reviews.py --url https://yandex.ru/maps/org/laptop_service/81659688745/reviews/ --dry-run
 
 # npm-алиасы (package.json)
 npm run reviews:import

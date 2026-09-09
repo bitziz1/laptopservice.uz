@@ -3,10 +3,10 @@
 """
 Fetch Yandex Maps reviews -> content/reviews/*.md
 Usage:
-  python scripts/fetch_reviews.py                          # default org (yandex.uz)
-  python scripts/fetch_reviews.py --url https://yandex.uz/maps/org/laptop_service/81659688745/reviews/
-  python scripts/fetch_reviews.py --dry-run
-  python scripts/fetch_reviews.py --device-map '{"Umid Iskandarov":"Lenovo"}'
+  python scripts/content-reviews/fetch_reviews.py                          # default org (yandex.uz)
+  python scripts/content-reviews/fetch_reviews.py --url https://yandex.uz/maps/org/laptop_service/81659688745/reviews/
+  python scripts/content-reviews/fetch_reviews.py --dry-run
+  python scripts/content-reviews/fetch_reviews.py --device-map '{"Umid Iskandarov":"Lenovo"}'
 """
 import sys
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')

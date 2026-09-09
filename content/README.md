@@ -47,7 +47,7 @@ content/
 4. Перетащите фото прямо в эту же папку — в frontmatter укажите `heroImage: /content/cases/2026_09/my-case-12sep2026/photo.jpg`, `gallery: [/content/cases/2026_09/my-case-12sep2026/02.jpg]`.
 5. Заполните поля, сохраните. Готово.
 
-Аналогично для `builds/`, `threads/`, `reviews/`. Для `threads` можно автоматом: `python scripts/fetch_threads.py https://www.threads.com/share/XXX/ --date 2026-09-04` — скрипт сам создаст `content/threads/2026_09/<slug>/<slug>.md` + скачает фото.
+Аналогично для `builds/`, `threads/`, `reviews/`. Для `threads` можно автоматом: `python scripts/content-threads/fetch_threads.py https://www.threads.com/share/XXX/ --date 2026-09-04` — скрипт сам создаст `content/threads/2026_09/<slug>/<slug>.md` + скачает фото.
 
 ## Шаблоны
 

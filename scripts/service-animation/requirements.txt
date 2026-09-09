@@ -1,0 +1,4 @@
+rembg[cpu]
+onnxruntime
+Pillow
+tqdm

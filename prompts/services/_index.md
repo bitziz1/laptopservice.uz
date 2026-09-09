@@ -20,7 +20,7 @@
 1. Откройте `services/<slug>/<slug>.md` → скопируйте *Image prompt* → генерите картинку.
 2. Скопируйте *Video prompt A* (или B) → генерите видео 4 сек.
 3. Перетащите файлы в `Attachments/<slug>/` прямо в Obsidian.
-4. Запустите `./scripts/process_service.sh <slug> prompts/Attachments/<slug>/raw-video.mp4`
+4. Запустите `./scripts/service-animation/process_service.sh <slug> prompts/Attachments/<slug>/raw-video.mp4`
 5. Проверьте `public/videos/services/<slug>.*` и добавьте в `animatedServices`.
 
 См. `docs/service-animation/guide-final-v2.md` §3-5 для выбора фона и QA.

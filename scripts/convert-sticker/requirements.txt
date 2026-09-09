@@ -1,0 +1,6 @@
+ffmpeg
+python3
+rembg[cpu]
+onnxruntime
+Pillow
+tqdm (optional)

@@ -4,8 +4,8 @@ Sync vault resources to frontend: checks prompts/Attachments/<slug>/raw-video.mp
 and built public/videos/services/<slug>.* Exists, reports links status.
 
 Usage:
-  python scripts/sync_prompts_to_frontend.py            # check
-  python scripts/sync_prompts_to_frontend.py --sync     # copy raw-video -> process_service.sh automatically? manual
+  python scripts/sync-prompts/sync_prompts_to_frontend.py            # check
+  python scripts/sync-prompts/sync_prompts_to_frontend.py --sync     # copy raw-video -> process_service.sh automatically? manual
 """
 import pathlib, sys
 
@@ -34,5 +34,5 @@ for d in sorted(PROMPTS.iterdir()):
     print(f"  public/webm: {built_webm.exists()} {'✓' if built_webm.exists() else '—'}")
     print(f"  public/poster: {built_poster.exists()} {'✓' if built_poster.exists() else '—'}")
     if raw_vid.exists() and not built_mp4.exists():
-        print(f"  → run: ./scripts/process_service.sh {slug} {raw_vid}")
-print("\nDone. To build missing: ./scripts/process_service.sh <slug> prompts/Attachments/<slug>/raw-video.mp4")
+        print(f"  → run: ./scripts/service-animation/process_service.sh {slug} {raw_vid}")
+print("\nDone. To build missing: ./scripts/service-animation/process_service.sh <slug> prompts/Attachments/<slug>/raw-video.mp4")
