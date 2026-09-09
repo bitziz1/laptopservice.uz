@@ -44,6 +44,6 @@ brew install ffmpeg webp  # для видео и poster webp
 ### Связанные доки
 
 - `docs/service-animation/guide-final-v2.md` — финальный гайд v2 (бакет логика, 10 MOTION A/B)
-- `CONTENT_GUIDE.md` — правила `content/**/*.md` (TinaCMS, filename = slug + `-DDmmmYYYY`)
+- `content/CONTENT_GUIDE.md` — правила `content/**/*.md` (TinaCMS, filename = slug + `-DDmmmYYYY`)
 - `docs/README.md` — индекс доков
 - `prompts/README.md` — vault readme
