@@ -85,7 +85,8 @@ def build_files(out, guide_path):
         dir_path.mkdir(parents=True, exist_ok=True)
         # attachments folder for Obsidian
         (out / "Attachments" / slug).mkdir(parents=True, exist_ok=True)
-        md = f"""---
+        md = f"""<!-- GENERATED — single source: docs/service-animation/guide-final-v2.md — DO NOT EDIT, regenerate via generate_animation_prompts.py -->
+---
 slug: {slug}
 title: "{title}"
 tone: {tone}

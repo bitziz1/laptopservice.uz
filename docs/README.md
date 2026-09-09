@@ -1,7 +1,7 @@
 # Docs — laptopservice.uz
 
 - [`service-animation/guide-final-v2.md`](service-animation/guide-final-v2.md) — **финальный гайд v2 (08.09.2026)** по анимациям услуг: мастер-промпты (фото/видео 640×640), выбор фона по контрасту (`#171A20` dark / `#D1D5DB` light), 10 услуг (SUBJECT + MOTION A/B), пайплайн `matte.py` + `check_alpha_quality.py` + `process_service.sh`, QA checklist.
-- [`content-guide.md`](content-guide.md) — правила контента TinaCMS / `content/**/*.md` (canonical, копия также в `content/CONTENT_GUIDE.md` для Obsidian vault)
+- [`content-guide.md`](content-guide.md) — правила контента TinaCMS / `content/**/*.md` (single source, symlink `content/CONTENT_GUIDE.md` → `docs/content-guide.md` для Obsidian vault)
 - [`../PROGRESS.md`](../PROGRESS.md) — журнал реализации
 
 ## Prompts vault (Obsidian)

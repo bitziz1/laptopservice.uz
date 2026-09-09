@@ -72,3 +72,5 @@ npm run dev     # локальный просмотр
 ```
 
 Не нужно: `public/media`, `src/assets/images/media` — удалены.
+
+> **Гайд по контенту:** см. [`docs/content-guide.md`](../docs/content-guide.md) (симлинк `content/CONTENT_GUIDE.md` → `docs/content-guide.md`, single source).

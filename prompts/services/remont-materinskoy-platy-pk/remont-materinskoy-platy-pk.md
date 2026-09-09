@@ -1,3 +1,4 @@
+<!-- GENERATED — single source: docs/service-animation/guide-final-v2.md — DO NOT EDIT, regenerate via generate_animation_prompts.py -->
 ---
 slug: remont-materinskoy-platy-pk
 title: "Ремонт материнской платы"

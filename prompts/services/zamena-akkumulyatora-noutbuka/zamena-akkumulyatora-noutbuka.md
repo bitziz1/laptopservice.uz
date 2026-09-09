@@ -1,3 +1,4 @@
+<!-- GENERATED — single source: docs/service-animation/guide-final-v2.md — DO NOT EDIT, regenerate via generate_animation_prompts.py -->
 ---
 slug: zamena-akkumulyatora-noutbuka
 title: "Замена аккумулятора ноутбука"
