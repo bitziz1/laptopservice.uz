@@ -3,8 +3,12 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import ServiceCard from "@/components/ServiceCard.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import IconLink from "@/components/IconLink.astro";
-import { servicesData } from "@/data/services";
+import { getCollection } from "astro:content";
 import { siteConfig } from "@/data/siteConfig";
+
+const servicesEntries = await getCollection("services");
+servicesEntries.sort((a,b)=> (a.data.title ?? "").localeCompare(b.data.title ?? "", "ru"));
+// adapter for ServiceCard: pass entry directly, it normalizes data vs flat
 
 const breadcrumbs = [
   { name: "Услуги", url: "/services" },
@@ -45,7 +49,10 @@ const breadcrumbs = [
 
     <!-- Services Grid — все карточки на одной странице для SEO/LLM -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="services-grid">
-      {servicesData.map((service) => {
+      {servicesEntries.map((entry) => {
+        const service: any = entry; // ServiceCard normalizes entry.data
+        // keep slug mapping for filter (same slugs as before) — id is "slug/slug.md" for folder-per-service
+        const slug = entry.id.split("/").pop()!.replace(/\.md$/,"");
         // кластер для фильтра без изменения модели данных
         const plata = ["remont-materinskoy-platy-noutbuka","zamena-bga-chipseta","zamena-videokarty-gpu","remont-materinskoy-platy-pk","remont-videokarty-kompyutera","diagnostika","bga-payka-reballing","remont-posle-zalitiya","chistka-platy-posle-zalitiya","remont-cepi-pitaniya","zamena-multikontrollera","proshivka-bios-ec","remont-materinskoy-platy-monobloka"];
         const pitanie = ["zamena-razema-pitaniya","zamena-razema-type-c","zamena-razema-hdmi-usb","zamena-razema-klaviatury","remont-bloka-pitaniya-noutbuka","remont-bloka-pitaniya-pk","remont-ups","remont-bloka-pitaniya-monobloka"];
@@ -56,13 +63,13 @@ const breadcrumbs = [
         const pk = ["chistka-sistemnogo-bloka","remont-opticheskogo-privoda","sborka-pk-na-zakaz"];
         const soft = ["pereustanovka-windows","zamena-cmos-batarei","proshivka-bios-ec","ustanovka-drayverov","udalenie-virusov","ustanovka-antivirusa","snyatie-parolya-bios","snyatie-parolya-os","tekhnicheskoe-zaklyuchenie","vyezd-mastera-tashkent","dostavka-tekhniki-v-servis"];
         let cat = "soft";
-        if (plata.includes(service.slug)) cat = "plata";
-        else if (pitanie.includes(service.slug)) cat = "pitanie";
-        else if (ohlazhdenie.includes(service.slug)) cat = "ohlazhdenie";
-        else if (monoblok.includes(service.slug)) cat = "monoblok";
-        else if (monitor.includes(service.slug)) cat = "monitor";
-        else if (dannye.includes(service.slug)) cat = "dannye";
-        else if (pk.includes(service.slug)) cat = "pk";
+        if (plata.includes(slug)) cat = "plata";
+        else if (pitanie.includes(slug)) cat = "pitanie";
+        else if (ohlazhdenie.includes(slug)) cat = "ohlazhdenie";
+        else if (monoblok.includes(slug)) cat = "monoblok";
+        else if (monitor.includes(slug)) cat = "monitor";
+        else if (dannye.includes(slug)) cat = "dannye";
+        else if (pk.includes(slug)) cat = "pk";
         return (
           <div data-cat={cat} class="service-card">
             <ServiceCard service={service} />

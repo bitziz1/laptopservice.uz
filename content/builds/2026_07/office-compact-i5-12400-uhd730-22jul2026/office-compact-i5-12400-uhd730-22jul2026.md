@@ -13,7 +13,6 @@ components:
   psu: "500W 80+ Bronze (FSP HV Pro 550W)"
   case: "Jonsbo C6 (Mini-Tower, компактный)"
   cooler: "Боксовый кулер Intel Laminar RM1 (в комплекте CPU)"
-complexity: "easy"
 tags: ["Office", "Core i5", "Компактный ПК", "Бухгалтерия"]
 ---
 

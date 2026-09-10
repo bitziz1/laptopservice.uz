@@ -1,71 +1,81 @@
 ---
-import { Picture } from "astro:assets";
-import type { ImageMetadata } from "astro";
-import type { ServiceItem } from "@/data/services";
 import { siteConfig } from "@/data/siteConfig";
 import IconLink from "@/components/IconLink.astro";
 import ServiceAnimation from "@/components/ServiceAnimation.astro";
 
 interface Props {
-  service: ServiceItem;
+  service: any;
   ctaLabel?: string;
 }
 
 const { service, ctaLabel = "Узнать стоимость" } = Astro.props;
-const svcMeta = ((service as any).heroImage ?? (service as any).gallery?.[0]) as ImageMetadata | undefined;
-const telegramHref = `${siteConfig.telegram.masterUrl}${siteConfig.telegram.masterUrl.includes("?") ? "&" : "?"}text=${encodeURIComponent(`Меня интересует ${service.title}. Модель устройства: `)}`;
+const data = service.data ?? service;
+const rawId: string = service.id ?? data.slug ?? "";
+const slug: string = service.slug ?? (rawId.includes("/") ? rawId.split("/").pop()!.replace(/\.md$/, "") : rawId.replace(/\.md$/, "")) ?? "";
+const title: string = data.title ?? service.title ?? "";
+const shortDescription: string = data.shortDescription ?? service.shortDescription ?? "";
+const symptoms: string[] = (data.symptoms as string[]) ?? (service.symptoms as string[]) ?? [];
+const telegramHref = `${siteConfig.telegram.masterUrl}${siteConfig.telegram.masterUrl.includes("?") ? "&" : "?"}text=${encodeURIComponent(`Меня интересует ${title}. Модель устройства: `)}`;
 
-// Карта анимированных услуг: только remont-videokarty-kompyutera пока
-// Видео подготовлено: фон вырезан (colorkey 0x85b180) и запечён на #171A20 для бесшовности на карточке.
-// Источники: mp4 (h264) фолбэк + webm (vp9) предпочтительно, poster — кадры из запечённого ролика.
-const animatedServices: Record<string, { mp4: string; webm: string; poster: string; alt: string }> = {
-  "remont-videokarty-kompyutera": {
-    mp4: "/videos/services/remont-videokarty-kompyutera.mp4",
-    webm: "/videos/services/remont-videokarty-kompyutera.webm",
-    poster: "/videos/services/remont-videokarty-kompyutera-poster.webp",
-    alt: "Ремонт видеокарты компьютера — анимация GPU",
-  },
-};
-const anim = animatedServices[service.slug];
+// Анимации: только webm (прозрачный фон вырезан) — public/videos/services/<slug>.webm
+// Фото: только webp прозрачный — public/images/services/<slug>.webp
+import fs from "node:fs";
+let anim: { webm: string; poster: string; alt: string } | undefined;
+let pubImg: string | undefined;
+try {
+  const webmPath = `public/videos/services/${slug}.webm`;
+  if (fs.existsSync(webmPath)) {
+    const poster = fs.existsSync(`public/videos/services/${slug}-poster.webp`) ? `/videos/services/${slug}-poster.webp` : "";
+    anim = {
+      webm: `/videos/services/${slug}.webm`,
+      poster: poster || "",
+      alt: `${title} — анимация`,
+    };
+  }
+  if (!anim) {
+    const webp = `public/images/services/${slug}.webp`;
+    if (fs.existsSync(webp)) pubImg = `/images/services/${slug}.webp`;
+  }
+} catch {}
 ---
 
 <div class="rounded-lg bg-chassis-850/50 overflow-hidden flex flex-col justify-between">
   {anim ? (
-    <div class="w-full bg-chassis-900">
+    <div class="w-full bg-[#171A20]">
       <ServiceAnimation
-        mp4={anim.mp4}
         webm={anim.webm}
         poster={anim.poster}
         alt={anim.alt}
       />
     </div>
-  ) : svcMeta && (
-    <div class="w-full bg-chassis-900">
-      <Picture src={svcMeta} alt={service.title} widths={[400, 600]} sizes="(max-width: 768px) 100vw, 400px" formats={["avif", "webp"]} fallbackFormat="webp" class="w-full h-auto object-contain max-h-48" loading="lazy" decoding="async" />
+  ) : pubImg ? (
+    <div class="w-full bg-[#171A20] flex items-center justify-center p-2">
+      <img src={pubImg} alt={title} class="w-full h-auto object-contain max-h-48" loading="lazy" decoding="async" />
     </div>
-  )}
+  ) : null}
   <div class="p-5 sm:p-6 flex flex-col justify-between flex-1 space-y-4">
     <div class="space-y-3">
       <h3 class="text-lg font-extrabold text-chassis-100 leading-tight">
-        <a href={`/services/${service.slug}`} class="hover:underline">
-          {service.title}
+        <a href={`/services/${slug}`} class="hover:underline">
+          {title}
         </a>
       </h3>
 
       <p class="text-xs text-chassis-400 leading-relaxed line-clamp-3">
-        {service.shortDescription}
+        {shortDescription}
       </p>
 
-      <!-- Typical Symptoms -->
-      <div class="space-y-1 pt-1">
-        <div class="text-[10px] font-sans uppercase text-chassis-400">Характерные признаки:</div>
-        {service.symptoms.slice(0, 2).map((symptom) => (
-          <div class="text-xs text-chassis-300 flex items-start gap-1.5">
-            <span class="text-chassis-400 font-sans">-</span>
-            <span class="line-clamp-1">{symptom}</span>
-          </div>
-        ))}
-      </div>
+      {symptoms.length > 0 && (
+        <div class="space-y-1 pt-1">
+          <div class="text-[10px] font-sans uppercase text-chassis-400">Характерные признаки:</div>
+          {symptoms.slice(0, 2).map((symptom) => (
+            <div class="text-xs text-chassis-300 flex items-start gap-1.5">
+              <span class="text-chassis-400 font-sans">-</span>
+              <span class="line-clamp-1">{symptom}</span>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
 
     <!-- Bottom Actions -->
@@ -73,7 +83,7 @@ const anim = animatedServices[service.slug];
 
       <div class="grid grid-cols-2 gap-2">
       <a
-        href={`/services/${service.slug}`}
+        href={`/services/${slug}`}
         class="py-2 px-3 rounded border border-chassis-800 bg-chassis-900 hover:bg-chassis-800 text-chassis-300 text-center text-xs font-sans transition-colors"
       >
         Подробнее

@@ -51,7 +51,6 @@ export const collections = {
           })
           .optional()
           .default({}),
-        complexity: z.enum(["easy", "medium", "hard"]).default("medium"),
         tags: z.array(z.string()).default([]),
         heroImage: image().optional(),
         gallery: z.array(image()).optional(),
@@ -85,6 +84,26 @@ export const collections = {
         avatar: image().optional(),
         gallery: z.array(image()).optional(),
         captions: z.array(z.string()).optional(),
+      }),
+  }),
+
+  // Services — one folder per service: content/services/<slug>/<slug>.md + 1 photo + 1 video
+  // Body (markdown) рендерится как HTML на странице (как в cases) — содержит симптомы/этапы/FAQ.
+  // Prompts хранятся в frontmatter но не рендерятся в продакшене.
+  // Фото/видео НЕ хранятся в md: источники это файлы content/services/<slug>/image.* и video.mp4 -> public/images|videos
+  services: defineCollection({
+    loader: glob({ pattern: "**/*.md", base: "./content/services" }),
+    schema: () =>
+      z.object({
+        title: z.string(),
+        shortDescription: z.string(),
+        fullDescription: z.string(),
+        // Prompts co-located — single source, для 3 кнопок копирования в Tina (dev только). В проде не показывается.
+        promptSubject: z.string().optional().nullable(),
+        promptMotionA: z.string().optional().nullable(),
+        promptMotionB: z.string().optional().nullable(),
+        promptBucket: z.enum(["dark", "light"]).optional().nullable(),
+        promptTone: z.string().optional().nullable(),
       }),
   }),
 };

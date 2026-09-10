@@ -3,128 +3,151 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import IconLink from "@/components/IconLink.astro";
 import ServiceAnimation from "@/components/ServiceAnimation.astro";
-import { servicesData, type ServiceItem } from "@/data/services";
+import { Picture } from "astro:assets";
+import { getCollection, render } from "astro:content";
 import { siteConfig } from "@/data/siteConfig";
+import VisualService from "@/components/VisualService";
+import fs from "node:fs";
+import client from "../../../tina/__generated__/client";
 
-const animatedServices: Record<string, { mp4: string; webm: string; poster: string; alt: string }> = {
-  "remont-videokarty-kompyutera": {
-    mp4: "/videos/services/remont-videokarty-kompyutera.mp4",
-    webm: "/videos/services/remont-videokarty-kompyutera.webm",
-    poster: "/videos/services/remont-videokarty-kompyutera-poster.webp",
-    alt: "Ремонт видеокарты компьютера — анимация GPU",
-  },
-};
+const SERVICE_QUERY = `query($relativePath:String!){ services(relativePath:$relativePath){ title shortDescription fullDescription promptSubject promptMotionA promptMotionB promptBucket promptTone body } }`;
 
-export function getStaticPaths() {
-  return servicesData.map((service) => ({
-    params: { slug: service.slug },
-    props: { service },
-  }));
+export async function getStaticPaths() {
+  const services = await getCollection("services");
+  return services.map((entry) => {
+    const slug = entry.id.split("/").pop()!.replace(/\.md$/, "");
+    return {
+      params: { slug },
+      props: { entry },
+    };
+  });
 }
 
 interface Props {
-  service: ServiceItem;
+  entry: any;
 }
 
-const { service } = Astro.props;
+const { entry } = Astro.props as { entry: any };
+const slug: string = entry.id.split("/").pop()!.replace(/\.md$/, "");
+
+// Tina Visual Editing — live query when `tinacms dev` on 4001 is running, fallback to astro:content
+let tinaData: any = null;
+let tinaError: string | null = null;
+let tinaRelativePath: string = (entry as any).id as string;
+if (!tinaRelativePath.endsWith(".md")) tinaRelativePath += ".md";
+const tinaVariables = { relativePath: tinaRelativePath };
+let tinaPayload: any = null;
+try {
+  const gqlRes = await fetch("http://localhost:4001/graphql", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ query: SERVICE_QUERY, variables: tinaVariables }),
+  });
+  if (gqlRes.ok) {
+    const json: any = await gqlRes.json();
+    if (json?.data?.services) {
+      tinaData = json.data.services;
+      tinaPayload = { query: SERVICE_QUERY, variables: tinaVariables, data: json.data };
+    } else tinaError = json?.errors?.[0]?.message ?? "no data";
+  } else tinaError = `http ${gqlRes.status}`;
+} catch (e: any) {
+  tinaError = e?.message ?? String(e);
+  try {
+    const res = await client.queries.services({ relativePath: tinaRelativePath });
+    tinaData = res?.data?.services ?? null;
+    if (tinaData) {
+      tinaPayload = { query: res.query, variables: res.variables, data: res.data };
+      tinaError = null;
+    }
+  } catch {}
+}
+const isTina = !!tinaData;
+const raw = isTina ? tinaData : entry.data;
+const service = raw;
+const { Content } = await render(entry);
+// media — только прозрачные public файлы webp/webm (исходники в content не используются на сайте, png/mp4/jpg не храним)
+let anim: { webm: string; poster: string; alt: string } | undefined;
+let pubImg: string | undefined;
+const baseAlt = `${service.title} — анимация`;
+try {
+  const webmPath = `public/videos/services/${slug}.webm`;
+  if (fs.existsSync(webmPath)) {
+    const poster = fs.existsSync(`public/videos/services/${slug}-poster.webp`) ? `/videos/services/${slug}-poster.webp` : "";
+    anim = {
+      webm: `/videos/services/${slug}.webm`,
+      poster: poster || "",
+      alt: baseAlt,
+    };
+  }
+  const webp = `public/images/services/${slug}.webp`;
+  if (fs.existsSync(webp)) pubImg = `/images/services/${slug}.webp`;
+} catch {}
 
 const telegramHref = `${siteConfig.telegram.masterUrl}${siteConfig.telegram.masterUrl.includes("?") ? "&" : "?"}text=${encodeURIComponent(`Меня интересует ${service.title}. Модель устройства: `)}`;
 
 const breadcrumbs = [
   { name: "Услуги", url: "/services" },
-  { name: service.title, url: `/services/${service.slug}` },
+  { name: service.title, url: `/services/${slug}` },
 ];
 ---
 
 <BaseLayout
-  title={`${service.title} в Ташкенте`}
-  description={`${service.shortDescription} Laptop Service (laptopservice.uz) в Ташкенте — опыт 20 лет, Telegram @laptopservice_master, согласование до ремонта.`}
+  title={service.title.includes("в Ташкенте") ? service.title : `${service.title} в Ташкенте`}
+  description={service.shortDescription.includes("в Ташкенте") ? `${service.shortDescription} Laptop Service (laptopservice.uz) — опыт 20 лет, Telegram @laptopservice_master, согласование до ремонта.` : `${service.shortDescription} Laptop Service (laptopservice.uz) в Ташкенте — опыт 20 лет, Telegram @laptopservice_master, согласование до ремонта.`}
   type="Service"
   serviceData={{
     name: service.title,
     description: service.fullDescription,
   }}
-  faqList={service.faq}
   breadcrumbs={breadcrumbs}
 >
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-10">
     
     <Breadcrumbs items={breadcrumbs} />
 
-    {animatedServices[service.slug] && (
-      <div class="w-full max-w-[420px] mx-auto rounded-xl overflow-hidden border border-chassis-800 bg-chassis-900">
+    {/* media — прозрачные, вне isTina чтобы в dev:tina тоже видно */}
+    {pubImg ? (
+      <div class="w-full rounded-xl overflow-hidden border border-chassis-800 bg-[#171A20] flex items-center justify-center p-4">
+        <img src={pubImg} alt={service.title} class="w-full h-auto object-contain max-h-[420px]" loading="eager" decoding="async" />
+      </div>
+    ) : anim ? (
+      <div class="w-full rounded-xl overflow-hidden border border-chassis-800 bg-[#171A20]">
         <ServiceAnimation
-          mp4={animatedServices[service.slug].mp4}
-          webm={animatedServices[service.slug].webm}
-          poster={animatedServices[service.slug].poster}
-          alt={animatedServices[service.slug].alt}
+          webm={anim.webm}
+          poster={anim.poster}
+          alt={anim.alt}
         />
       </div>
+    ) : null}
+
+    {isTina && tinaPayload ? (
+      <VisualService client:load query={tinaPayload.query} variables={tinaPayload.variables} data={tinaPayload.data} />
+    ) : (
+      <>
+        <!-- Service Header -->
+        <header class="space-y-4">
+          <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider">
+            Laptop Service • laptopservice.uz • <a href="/contacts" class="hover:text-chassis-200 underline underline-offset-2">Контакты</a>
+            {import.meta.env.DEV && <span class="text-chassis-500 text-[10px] ml-2">{tinaError ? `Tina err: ${tinaError}` : "Tina offline"}</span>}
+          </div>
+
+          <h1 class="text-2xl sm:text-4xl font-extrabold text-chassis-100 tracking-tight leading-tight">
+            {service.title}
+          </h1>
+
+          <p class="text-sm sm:text-base text-chassis-300 leading-relaxed">
+            {service.fullDescription}
+          </p>
+        </header>
+
+        <!-- Body — симптомы/этапы/FAQ из markdown (как в cases) -->
+        <article class="prose prose-invert prose-sm max-w-none prose-headings:font-bold prose-headings:text-chassis-100 prose-p:text-chassis-300 prose-li:text-chassis-300 prose-strong:text-chassis-100 prose-a:text-sky-400 hover:prose-a:text-sky-300">
+          <Content />
+        </article>
+      </>
     )}
 
-    <!-- Service Header -->
-    <header class="space-y-4">
-      <div class="text-xs font-sans text-chassis-400 uppercase tracking-wider">
-        Laptop Service • laptopservice.uz • <a href="/contacts" class="hover:text-chassis-200 underline underline-offset-2">Контакты</a>
-      </div>
-
-      <h1 class="text-2xl sm:text-4xl font-extrabold text-chassis-100 tracking-tight leading-tight">
-        {service.title}
-      </h1>
-
-      <p class="text-sm sm:text-base text-chassis-300 leading-relaxed">
-        {service.fullDescription}
-      </p>
-    </header>
-
-    <!-- Symptoms Checklist -->
-    <section class="space-y-3">
-      <h2 class="text-sm font-bold text-chassis-200 uppercase font-sans tracking-wider">
-        Характерные признаки
-      </h2>
-      <div class="space-y-2">
-        {service.symptoms.map((symptom) => (
-          <div class="text-xs text-chassis-300 flex items-start gap-2.5 leading-relaxed">
-            <span class="text-chassis-500 mt-0.5">—</span>
-            <span>{symptom}</span>
-          </div>
-        ))}
-      </div>
-    </section>
-
-    <!-- Stages of Work -->
-    <section class="space-y-4">
-      <h2 class="text-sm font-bold text-chassis-200 uppercase font-sans tracking-wider">
-        Порядок проведения работ
-      </h2>
-      <div class="space-y-4">
-        {service.stages.map((stage, idx) => (
-          <div class="space-y-1">
-            <div class="text-xs font-sans text-chassis-100 font-bold">0{idx + 1}. {stage.title}</div>
-            <p class="text-xs text-chassis-400 leading-relaxed">{stage.description}</p>
-          </div>
-        ))}
-      </div>
-    </section>
-
-    <!-- FAQ -->
-    {service.faq && service.faq.length > 0 && (
-      <section class="space-y-4 pt-6">
-        <h2 class="text-sm font-bold text-chassis-200 uppercase font-sans tracking-wider">
-          Частые вопросы
-        </h2>
-        <div class="space-y-4">
-          {service.faq.map((item) => (
-            <div class="space-y-1">
-              <h3 class="text-xs font-bold text-chassis-100">{item.question}</h3>
-              <p class="text-xs text-chassis-400 leading-relaxed">{item.answer}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-    )}
-
-    {service.slug === "remont-monobloka" && (
+    {slug === "remont-monobloka" && (
       <section class="space-y-3">
         <h2 class="text-sm font-bold text-chassis-200 uppercase font-sans tracking-wider">Что мы чиним в моноблоках</h2>
         <p class="text-xs text-chassis-400 leading-relaxed">Моноблок — гибрид монитора и системника в одном корпусе. Выбирайте конкретную услугу кластера — каждая страница заточена под свой запрос и содержит детали по разборке на клею/болтах, диагностике и срокам в Ташкенте.</p>
@@ -139,7 +162,7 @@ const breadcrumbs = [
             {slug:"remont-monobloka-posle-zalitiya", title:"После залития"},
             {slug:"zamena-nakopitelya-monobloka", title:"Замена HDD/SSD"},
             {slug:"remont-videokarty-monobloka", title:"Ремонт видеокарты"},
-          ].map(item => (
+          ].map((item: any) => (
             <a href={`/services/${item.slug}`} class="text-xs text-sky-400 hover:text-sky-300 hover:underline flex gap-1.5"><span>—</span><span>{item.title} →</span></a>
           ))}
         </div>

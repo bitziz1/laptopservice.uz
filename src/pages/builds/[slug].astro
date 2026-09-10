@@ -10,7 +10,7 @@ import { siteConfig } from "@/data/siteConfig";
 // Tina Visual Editing: try to fetch via Tina GraphQL when dev server running, fallback to astro:content for production (gh-pages)
 import client from "../../../tina/__generated__/client";
 
-const BUILD_QUERY = `query($relativePath:String!){ builds(relativePath:$relativePath){ title purpose purposeLabel date description components{ cpu motherboard ram gpu storage psu case cooler } complexity tags heroImage gallery body } }`;
+const BUILD_QUERY = `query($relativePath:String!){ builds(relativePath:$relativePath){ title purpose purposeLabel date description components{ cpu motherboard ram gpu storage psu case cooler } tags heroImage gallery body } }`;
 
 export async function getStaticPaths() {
   const entries = await getCollection("builds");

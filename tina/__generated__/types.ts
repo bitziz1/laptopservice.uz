@@ -89,6 +89,8 @@ export type Query = {
   threadsConnection: ThreadsConnection;
   reviews: Reviews;
   reviewsConnection: ReviewsConnection;
+  services: Services;
+  servicesConnection: ServicesConnection;
 };
 
 
@@ -172,11 +174,27 @@ export type QueryReviewsConnectionArgs = {
   filter?: InputMaybe<ReviewsFilter>;
 };
 
+
+export type QueryServicesArgs = {
+  relativePath?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryServicesConnectionArgs = {
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Float']['input']>;
+  last?: InputMaybe<Scalars['Float']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<ServicesFilter>;
+};
+
 export type DocumentFilter = {
   builds?: InputMaybe<BuildsFilter>;
   cases?: InputMaybe<CasesFilter>;
   threads?: InputMaybe<ThreadsFilter>;
   reviews?: InputMaybe<ReviewsFilter>;
+  services?: InputMaybe<ServicesFilter>;
 };
 
 export type DocumentConnectionEdges = {
@@ -216,7 +234,7 @@ export type CollectionDocumentsArgs = {
   folder?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type DocumentNode = Builds | Cases | Threads | Reviews | Folder;
+export type DocumentNode = Builds | Cases | Threads | Reviews | Services | Folder;
 
 export type BuildsComponents = {
   __typename?: 'BuildsComponents';
@@ -238,7 +256,6 @@ export type Builds = Node & Document & {
   date: Scalars['String']['output'];
   description: Scalars['String']['output'];
   components?: Maybe<BuildsComponents>;
-  complexity?: Maybe<Scalars['String']['output']>;
   tags?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   heroImage?: Maybe<Scalars['String']['output']>;
   gallery?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
@@ -294,7 +311,6 @@ export type BuildsFilter = {
   date?: InputMaybe<DatetimeFilter>;
   description?: InputMaybe<StringFilter>;
   components?: InputMaybe<BuildsComponentsFilter>;
-  complexity?: InputMaybe<StringFilter>;
   tags?: InputMaybe<StringFilter>;
   heroImage?: InputMaybe<ImageFilter>;
   gallery?: InputMaybe<ImageFilter>;
@@ -468,6 +484,47 @@ export type ReviewsConnection = Connection & {
   edges?: Maybe<Array<Maybe<ReviewsConnectionEdges>>>;
 };
 
+export type Services = Node & Document & {
+  __typename?: 'Services';
+  title: Scalars['String']['output'];
+  shortDescription: Scalars['String']['output'];
+  fullDescription: Scalars['String']['output'];
+  promptSubject?: Maybe<Scalars['String']['output']>;
+  promptMotionA?: Maybe<Scalars['String']['output']>;
+  promptMotionB?: Maybe<Scalars['String']['output']>;
+  promptBucket?: Maybe<Scalars['String']['output']>;
+  promptTone?: Maybe<Scalars['String']['output']>;
+  body?: Maybe<Scalars['JSON']['output']>;
+  id: Scalars['ID']['output'];
+  _sys: SystemInfo;
+  _values: Scalars['JSON']['output'];
+};
+
+export type ServicesFilter = {
+  title?: InputMaybe<StringFilter>;
+  shortDescription?: InputMaybe<StringFilter>;
+  fullDescription?: InputMaybe<StringFilter>;
+  promptSubject?: InputMaybe<StringFilter>;
+  promptMotionA?: InputMaybe<StringFilter>;
+  promptMotionB?: InputMaybe<StringFilter>;
+  promptBucket?: InputMaybe<StringFilter>;
+  promptTone?: InputMaybe<StringFilter>;
+  body?: InputMaybe<RichTextFilter>;
+};
+
+export type ServicesConnectionEdges = {
+  __typename?: 'ServicesConnectionEdges';
+  cursor: Scalars['String']['output'];
+  node?: Maybe<Services>;
+};
+
+export type ServicesConnection = Connection & {
+  __typename?: 'ServicesConnection';
+  pageInfo: PageInfo;
+  totalCount: Scalars['Float']['output'];
+  edges?: Maybe<Array<Maybe<ServicesConnectionEdges>>>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   addPendingDocument: DocumentNode;
@@ -483,6 +540,8 @@ export type Mutation = {
   createThreads: Threads;
   updateReviews: Reviews;
   createReviews: Reviews;
+  updateServices: Services;
+  createServices: Services;
 };
 
 
@@ -566,11 +625,24 @@ export type MutationCreateReviewsArgs = {
   params: ReviewsMutation;
 };
 
+
+export type MutationUpdateServicesArgs = {
+  relativePath: Scalars['String']['input'];
+  params: ServicesMutation;
+};
+
+
+export type MutationCreateServicesArgs = {
+  relativePath: Scalars['String']['input'];
+  params: ServicesMutation;
+};
+
 export type DocumentUpdateMutation = {
   builds?: InputMaybe<BuildsMutation>;
   cases?: InputMaybe<CasesMutation>;
   threads?: InputMaybe<ThreadsMutation>;
   reviews?: InputMaybe<ReviewsMutation>;
+  services?: InputMaybe<ServicesMutation>;
   relativePath?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -579,6 +651,7 @@ export type DocumentMutation = {
   cases?: InputMaybe<CasesMutation>;
   threads?: InputMaybe<ThreadsMutation>;
   reviews?: InputMaybe<ReviewsMutation>;
+  services?: InputMaybe<ServicesMutation>;
 };
 
 export type BuildsComponentsMutation = {
@@ -599,7 +672,6 @@ export type BuildsMutation = {
   date?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   components?: InputMaybe<BuildsComponentsMutation>;
-  complexity?: InputMaybe<Scalars['String']['input']>;
   tags?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   heroImage?: InputMaybe<Scalars['String']['input']>;
   gallery?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
@@ -652,6 +724,18 @@ export type ReviewsMutation = {
   body?: InputMaybe<Scalars['JSON']['input']>;
 };
 
+export type ServicesMutation = {
+  title?: InputMaybe<Scalars['String']['input']>;
+  shortDescription?: InputMaybe<Scalars['String']['input']>;
+  fullDescription?: InputMaybe<Scalars['String']['input']>;
+  promptSubject?: InputMaybe<Scalars['String']['input']>;
+  promptMotionA?: InputMaybe<Scalars['String']['input']>;
+  promptMotionB?: InputMaybe<Scalars['String']['input']>;
+  promptBucket?: InputMaybe<Scalars['String']['input']>;
+  promptTone?: InputMaybe<Scalars['String']['input']>;
+  body?: InputMaybe<Scalars['JSON']['input']>;
+};
+
 export type StringFilter = {
   startsWith?: string | null | undefined;
   eq?: string | null | undefined;
@@ -698,7 +782,6 @@ export type BuildsFilter = {
   date?: DatetimeFilter | null | undefined;
   description?: StringFilter | null | undefined;
   components?: BuildsComponentsFilter | null | undefined;
-  complexity?: StringFilter | null | undefined;
   tags?: StringFilter | null | undefined;
   heroImage?: ImageFilter | null | undefined;
   gallery?: ImageFilter | null | undefined;
@@ -761,7 +844,19 @@ export type ReviewsFilter = {
   body?: RichTextFilter | null | undefined;
 };
 
-export type BuildsPartsFragment = { __typename: 'Builds', title: string, purpose: string, purposeLabel: string, date: string, description: string, complexity: string | null, tags: Array<string | null> | null, heroImage: string | null, gallery: Array<string | null> | null, body: any, components: { __typename: 'BuildsComponents', cpu: string | null, motherboard: string | null, ram: string | null, gpu: string | null, storage: string | null, psu: string | null, case: string | null, cooler: string | null } | null };
+export type ServicesFilter = {
+  title?: StringFilter | null | undefined;
+  shortDescription?: StringFilter | null | undefined;
+  fullDescription?: StringFilter | null | undefined;
+  promptSubject?: StringFilter | null | undefined;
+  promptMotionA?: StringFilter | null | undefined;
+  promptMotionB?: StringFilter | null | undefined;
+  promptBucket?: StringFilter | null | undefined;
+  promptTone?: StringFilter | null | undefined;
+  body?: RichTextFilter | null | undefined;
+};
+
+export type BuildsPartsFragment = { __typename: 'Builds', title: string, purpose: string, purposeLabel: string, date: string, description: string, tags: Array<string | null> | null, heroImage: string | null, gallery: Array<string | null> | null, body: any, components: { __typename: 'BuildsComponents', cpu: string | null, motherboard: string | null, ram: string | null, gpu: string | null, storage: string | null, psu: string | null, case: string | null, cooler: string | null } | null };
 
 export type CasesPartsFragment = { __typename: 'Cases', title: string, device: string, category: string, date: string, problem: string | null, diagnosis: string | null, solution: string | null, result: string | null, tags: Array<string | null> | null, heroImage: string | null, gallery: Array<string | null> | null, captions: Array<string | null> | null, schemaType: string | null, summaryForSocial: string | null, body: any, keySpecs: Array<{ __typename: 'CasesKeySpecs', label: string | null, value: string | null } | null> | null };
 
@@ -769,12 +864,14 @@ export type ThreadsPartsFragment = { __typename: 'Threads', handle: string | nul
 
 export type ReviewsPartsFragment = { __typename: 'Reviews', author: string, source: string | null, rating: number | null, date: string, device: string | null, avatar: string | null, gallery: Array<string | null> | null, captions: Array<string | null> | null, body: any };
 
+export type ServicesPartsFragment = { __typename: 'Services', title: string, shortDescription: string, fullDescription: string, promptSubject: string | null, promptMotionA: string | null, promptMotionB: string | null, promptBucket: string | null, promptTone: string | null, body: any };
+
 export type BuildsQueryVariables = Exact<{
   relativePath: string;
 }>;
 
 
-export type BuildsQuery = { builds: { __typename: 'Builds', id: string, title: string, purpose: string, purposeLabel: string, date: string, description: string, complexity: string | null, tags: Array<string | null> | null, heroImage: string | null, gallery: Array<string | null> | null, body: any, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, components: { __typename: 'BuildsComponents', cpu: string | null, motherboard: string | null, ram: string | null, gpu: string | null, storage: string | null, psu: string | null, case: string | null, cooler: string | null } | null } };
+export type BuildsQuery = { builds: { __typename: 'Builds', id: string, title: string, purpose: string, purposeLabel: string, date: string, description: string, tags: Array<string | null> | null, heroImage: string | null, gallery: Array<string | null> | null, body: any, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, components: { __typename: 'BuildsComponents', cpu: string | null, motherboard: string | null, ram: string | null, gpu: string | null, storage: string | null, psu: string | null, case: string | null, cooler: string | null } | null } };
 
 export type BuildsConnectionQueryVariables = Exact<{
   before?: string | null | undefined;
@@ -786,7 +883,7 @@ export type BuildsConnectionQueryVariables = Exact<{
 }>;
 
 
-export type BuildsConnectionQuery = { buildsConnection: { totalCount: number, pageInfo: { hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges: Array<{ cursor: string, node: { __typename: 'Builds', id: string, title: string, purpose: string, purposeLabel: string, date: string, description: string, complexity: string | null, tags: Array<string | null> | null, heroImage: string | null, gallery: Array<string | null> | null, body: any, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, components: { __typename: 'BuildsComponents', cpu: string | null, motherboard: string | null, ram: string | null, gpu: string | null, storage: string | null, psu: string | null, case: string | null, cooler: string | null } | null } | null } | null> | null } };
+export type BuildsConnectionQuery = { buildsConnection: { totalCount: number, pageInfo: { hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges: Array<{ cursor: string, node: { __typename: 'Builds', id: string, title: string, purpose: string, purposeLabel: string, date: string, description: string, tags: Array<string | null> | null, heroImage: string | null, gallery: Array<string | null> | null, body: any, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, components: { __typename: 'BuildsComponents', cpu: string | null, motherboard: string | null, ram: string | null, gpu: string | null, storage: string | null, psu: string | null, case: string | null, cooler: string | null } | null } | null } | null> | null } };
 
 export type CasesQueryVariables = Exact<{
   relativePath: string;
@@ -845,6 +942,25 @@ export type ReviewsConnectionQueryVariables = Exact<{
 
 export type ReviewsConnectionQuery = { reviewsConnection: { totalCount: number, pageInfo: { hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges: Array<{ cursor: string, node: { __typename: 'Reviews', id: string, author: string, source: string | null, rating: number | null, date: string, device: string | null, avatar: string | null, gallery: Array<string | null> | null, captions: Array<string | null> | null, body: any, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
 
+export type ServicesQueryVariables = Exact<{
+  relativePath: string;
+}>;
+
+
+export type ServicesQuery = { services: { __typename: 'Services', id: string, title: string, shortDescription: string, fullDescription: string, promptSubject: string | null, promptMotionA: string | null, promptMotionB: string | null, promptBucket: string | null, promptTone: string | null, body: any, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
+
+export type ServicesConnectionQueryVariables = Exact<{
+  before?: string | null | undefined;
+  after?: string | null | undefined;
+  first?: number | null | undefined;
+  last?: number | null | undefined;
+  sort?: string | null | undefined;
+  filter?: ServicesFilter | null | undefined;
+}>;
+
+
+export type ServicesConnectionQuery = { servicesConnection: { totalCount: number, pageInfo: { hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges: Array<{ cursor: string, node: { __typename: 'Services', id: string, title: string, shortDescription: string, fullDescription: string, promptSubject: string | null, promptMotionA: string | null, promptMotionB: string | null, promptBucket: string | null, promptTone: string | null, body: any, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
+
 export const BuildsPartsFragmentDoc = gql`
     fragment BuildsParts on Builds {
   __typename
@@ -864,7 +980,6 @@ export const BuildsPartsFragmentDoc = gql`
     case
     cooler
   }
-  complexity
   tags
   heroImage
   gallery
@@ -919,6 +1034,20 @@ export const ReviewsPartsFragmentDoc = gql`
   avatar
   gallery
   captions
+  body
+}
+    `;
+export const ServicesPartsFragmentDoc = gql`
+    fragment ServicesParts on Services {
+  __typename
+  title
+  shortDescription
+  fullDescription
+  promptSubject
+  promptMotionA
+  promptMotionB
+  promptBucket
+  promptTone
   body
 }
     `;
@@ -1150,6 +1279,63 @@ export const ReviewsConnectionDocument = gql`
   }
 }
     ${ReviewsPartsFragmentDoc}`;
+export const ServicesDocument = gql`
+    query services($relativePath: String!) {
+  services(relativePath: $relativePath) {
+    ... on Document {
+      _sys {
+        filename
+        basename
+        hasReferences
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+    ...ServicesParts
+  }
+}
+    ${ServicesPartsFragmentDoc}`;
+export const ServicesConnectionDocument = gql`
+    query servicesConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: ServicesFilter) {
+  servicesConnection(
+    before: $before
+    after: $after
+    first: $first
+    last: $last
+    sort: $sort
+    filter: $filter
+  ) {
+    pageInfo {
+      hasPreviousPage
+      hasNextPage
+      startCursor
+      endCursor
+    }
+    totalCount
+    edges {
+      cursor
+      node {
+        ... on Document {
+          _sys {
+            filename
+            basename
+            hasReferences
+            breadcrumbs
+            path
+            relativePath
+            extension
+          }
+          id
+        }
+        ...ServicesParts
+      }
+    }
+  }
+}
+    ${ServicesPartsFragmentDoc}`;
 export type Requester<C= {}> = <R, V>(doc: DocumentNode, vars?: V, options?: C) => Promise<R>
   export function getSdk<C>(requester: Requester<C>) {
     return {
@@ -1176,6 +1362,12 @@ export type Requester<C= {}> = <R, V>(doc: DocumentNode, vars?: V, options?: C) 
       },
     reviewsConnection(variables?: ReviewsConnectionQueryVariables, options?: C): Promise<{data: ReviewsConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: ReviewsConnectionQueryVariables, query: string}> {
         return requester<{data: ReviewsConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: ReviewsConnectionQueryVariables, query: string}, ReviewsConnectionQueryVariables>(ReviewsConnectionDocument, variables, options);
+      },
+    services(variables: ServicesQueryVariables, options?: C): Promise<{data: ServicesQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: ServicesQueryVariables, query: string}> {
+        return requester<{data: ServicesQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: ServicesQueryVariables, query: string}, ServicesQueryVariables>(ServicesDocument, variables, options);
+      },
+    servicesConnection(variables?: ServicesConnectionQueryVariables, options?: C): Promise<{data: ServicesConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: ServicesConnectionQueryVariables, query: string}> {
+        return requester<{data: ServicesConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: ServicesConnectionQueryVariables, query: string}, ServicesConnectionQueryVariables>(ServicesConnectionDocument, variables, options);
       }
     };
   }

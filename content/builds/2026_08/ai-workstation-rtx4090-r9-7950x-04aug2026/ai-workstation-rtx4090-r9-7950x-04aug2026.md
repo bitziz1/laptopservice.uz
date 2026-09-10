@@ -13,7 +13,6 @@ components:
   psu: '1000W 80+ Gold ATX 3.0 (Corsair RM1000e, PCIe 5.0 12VHPWR)'
   case: 'Fractal Design Meshify 2 XL (Full-Tower, продуваемый)'
   cooler: Arctic Liquid Freezer III 360 (СЖО 360 мм)
-complexity: hard
 tags:
   - RTX 4090
   - Ryzen 9

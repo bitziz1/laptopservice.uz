@@ -13,7 +13,6 @@ components:
   psu: "650W 80+ Bronze"
   case: "DeepCool Matrexx 40 3FS"
   cooler: "DeepCool AG400"
-complexity: "medium"
 tags: ["RTX 4060", "Ryzen 5", "Full HD"]
 heroImage: /content/builds/cover-10aug2026.jpg
 gallery:

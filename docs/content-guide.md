@@ -154,7 +154,6 @@ gallery: [/content/cases/photo-01.jpg]
 | `date` | `YYYY-MM-DD` | **да** | `2026-08-04` |
 | `description` | `string` | **да** | `"Для LLM..."` |
 | `components` | `object` | нет | `cpu: "Ryzen 9", gpu: "RTX 4090"` |
-| `complexity` | `easy|medium|hard` | нет | `hard` |
 | `tags` | `string[]` | нет | `["RTX 4090"]` |
 | `heroImage/gallery` | `image` | нет | `/content/builds/cover.jpg` |
 

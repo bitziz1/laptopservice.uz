@@ -16,7 +16,6 @@ fragment BuildsParts on Builds {
     case
     cooler
   }
-  complexity
   tags
   heroImage
   gallery
@@ -68,5 +67,18 @@ fragment ReviewsParts on Reviews {
   avatar
   gallery
   captions
+  body
+}
+
+fragment ServicesParts on Services {
+  __typename
+  title
+  shortDescription
+  fullDescription
+  promptSubject
+  promptMotionA
+  promptMotionB
+  promptBucket
+  promptTone
   body
 }

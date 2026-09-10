@@ -62,6 +62,8 @@ type Query {
   threadsConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: ThreadsFilter): ThreadsConnection!
   reviews(relativePath: String): Reviews!
   reviewsConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: ReviewsFilter): ReviewsConnection!
+  services(relativePath: String): Services!
+  servicesConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: ServicesFilter): ServicesConnection!
 }
 
 input DocumentFilter {
@@ -69,6 +71,7 @@ input DocumentFilter {
   cases: CasesFilter
   threads: ThreadsFilter
   reviews: ReviewsFilter
+  services: ServicesFilter
 }
 
 type DocumentConnectionEdges {
@@ -94,7 +97,7 @@ type Collection {
   documents(before: String, after: String, first: Float, last: Float, sort: String, filter: DocumentFilter, folder: String): DocumentConnection!
 }
 
-union DocumentNode = Builds | Cases | Threads | Reviews | Folder
+union DocumentNode = Builds | Cases | Threads | Reviews | Services | Folder
 
 type BuildsComponents {
   cpu: String
@@ -114,7 +117,6 @@ type Builds implements Node & Document {
   date: String!
   description: String!
   components: BuildsComponents
-  complexity: String
   tags: [String]
   heroImage: String
   gallery: [String]
@@ -170,7 +172,6 @@ input BuildsFilter {
   date: DatetimeFilter
   description: StringFilter
   components: BuildsComponentsFilter
-  complexity: StringFilter
   tags: StringFilter
   heroImage: ImageFilter
   gallery: ImageFilter
@@ -332,6 +333,44 @@ type ReviewsConnection implements Connection {
   edges: [ReviewsConnectionEdges]
 }
 
+type Services implements Node & Document {
+  title: String!
+  shortDescription: String!
+  fullDescription: String!
+  promptSubject: String
+  promptMotionA: String
+  promptMotionB: String
+  promptBucket: String
+  promptTone: String
+  body: JSON
+  id: ID!
+  _sys: SystemInfo!
+  _values: JSON!
+}
+
+input ServicesFilter {
+  title: StringFilter
+  shortDescription: StringFilter
+  fullDescription: StringFilter
+  promptSubject: StringFilter
+  promptMotionA: StringFilter
+  promptMotionB: StringFilter
+  promptBucket: StringFilter
+  promptTone: StringFilter
+  body: RichTextFilter
+}
+
+type ServicesConnectionEdges {
+  cursor: String!
+  node: Services
+}
+
+type ServicesConnection implements Connection {
+  pageInfo: PageInfo!
+  totalCount: Float!
+  edges: [ServicesConnectionEdges]
+}
+
 type Mutation {
   addPendingDocument(collection: String!, relativePath: String!, template: String): DocumentNode!
   updateDocument(collection: String, relativePath: String!, params: DocumentUpdateMutation!): DocumentNode!
@@ -346,6 +385,8 @@ type Mutation {
   createThreads(relativePath: String!, params: ThreadsMutation!): Threads!
   updateReviews(relativePath: String!, params: ReviewsMutation!): Reviews!
   createReviews(relativePath: String!, params: ReviewsMutation!): Reviews!
+  updateServices(relativePath: String!, params: ServicesMutation!): Services!
+  createServices(relativePath: String!, params: ServicesMutation!): Services!
 }
 
 input DocumentUpdateMutation {
@@ -353,6 +394,7 @@ input DocumentUpdateMutation {
   cases: CasesMutation
   threads: ThreadsMutation
   reviews: ReviewsMutation
+  services: ServicesMutation
   relativePath: String
 }
 
@@ -361,6 +403,7 @@ input DocumentMutation {
   cases: CasesMutation
   threads: ThreadsMutation
   reviews: ReviewsMutation
+  services: ServicesMutation
 }
 
 input BuildsComponentsMutation {
@@ -381,7 +424,6 @@ input BuildsMutation {
   date: String
   description: String
   components: BuildsComponentsMutation
-  complexity: String
   tags: [String]
   heroImage: String
   gallery: [String]
@@ -431,6 +473,18 @@ input ReviewsMutation {
   avatar: String
   gallery: [String]
   captions: [String]
+  body: JSON
+}
+
+input ServicesMutation {
+  title: String
+  shortDescription: String
+  fullDescription: String
+  promptSubject: String
+  promptMotionA: String
+  promptMotionB: String
+  promptBucket: String
+  promptTone: String
   body: JSON
 }
 

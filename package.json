@@ -9,13 +9,17 @@
     "build": "tinacms build --local --skip-cloud-checks --skip-search-index && node -e \"try{require('fs').rmSync('public/admin',{recursive:true,force:true})}catch{}\" && node --max-old-space-size=8192 ./node_modules/astro/astro.js build && node scripts/content-images/copy-content-images.mjs",
     "build:tina": "tinacms build --local --skip-cloud-checks --skip-search-index",
     "build:check": "node --max-old-space-size=8192 ./node_modules/astro/astro.js check",
-    "build:prod": "node --max-old-space-size=8192 ./node_modules/astro/astro.js build && node scripts/content-images/copy-content-images.mjs",
+    "build:prod": "node -e \"try{require('fs').rmSync('public/admin',{recursive:true,force:true})}catch{}\" && node --max-old-space-size=8192 ./node_modules/astro/astro.js build && node scripts/content-images/copy-content-images.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "threads:import": "python3 scripts/content-threads/fetch_threads.py",
     "threads:import:dry": "python3 scripts/content-threads/fetch_threads.py --dry-run",
     "reviews:import": "python3 scripts/content-reviews/fetch_reviews.py",
-    "reviews:import:dry": "python3 scripts/content-reviews/fetch_reviews.py --dry-run"
+    "reviews:import:dry": "python3 scripts/content-reviews/fetch_reviews.py --dry-run",
+    "services:ingest": "bash scripts/service-animation/ingest.sh && bash scripts/service-images/ingest_images.sh",
+    "services:ingest:one": "bash scripts/service-animation/process_service.sh",
+    "services:ingest:image": "bash scripts/service-images/process_image.sh",
+    "services:ingest:images": "bash scripts/service-images/ingest_images.sh"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",

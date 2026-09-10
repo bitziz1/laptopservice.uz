@@ -13,7 +13,6 @@ components:
   psu: "MSI MAG A650BN 650W 80+ Bronze (ATX, 120мм)"
   case: "DeepCool CG380 3F (mATX, 3×120мм вентилятора, сетка)"
   cooler: "DeepCool AK400 Digital SE (башня, 4 теплотрубки, дисплей)"
-complexity: "medium"
 tags: ["RTX 5050", "i5-12400F", "Бюджетная сборка", "Игры", "1080p", "Александр", "DeepCool", "Gigabyte", "MSI"]
 heroImage: /content/builds/2026_08/byudzhetnaya-igrovaya-sborka-i5-12400f-rtx5050-aleksandr-27aug2026/byudzhetnaya-igrovaya-sborka-i5-12400f-rtx5050-aleksandr-27aug2026-01.jpg
 gallery:

@@ -24,7 +24,6 @@ export const BuildsPartsFragmentDoc = gql`
     case
     cooler
   }
-  complexity
   tags
   heroImage
   gallery
@@ -79,6 +78,20 @@ export const ReviewsPartsFragmentDoc = gql`
   avatar
   gallery
   captions
+  body
+}
+    `;
+export const ServicesPartsFragmentDoc = gql`
+    fragment ServicesParts on Services {
+  __typename
+  title
+  shortDescription
+  fullDescription
+  promptSubject
+  promptMotionA
+  promptMotionB
+  promptBucket
+  promptTone
   body
 }
     `;
@@ -310,6 +323,63 @@ export const ReviewsConnectionDocument = gql`
   }
 }
     ${ReviewsPartsFragmentDoc}`;
+export const ServicesDocument = gql`
+    query services($relativePath: String!) {
+  services(relativePath: $relativePath) {
+    ... on Document {
+      _sys {
+        filename
+        basename
+        hasReferences
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+    ...ServicesParts
+  }
+}
+    ${ServicesPartsFragmentDoc}`;
+export const ServicesConnectionDocument = gql`
+    query servicesConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: ServicesFilter) {
+  servicesConnection(
+    before: $before
+    after: $after
+    first: $first
+    last: $last
+    sort: $sort
+    filter: $filter
+  ) {
+    pageInfo {
+      hasPreviousPage
+      hasNextPage
+      startCursor
+      endCursor
+    }
+    totalCount
+    edges {
+      cursor
+      node {
+        ... on Document {
+          _sys {
+            filename
+            basename
+            hasReferences
+            breadcrumbs
+            path
+            relativePath
+            extension
+          }
+          id
+        }
+        ...ServicesParts
+      }
+    }
+  }
+}
+    ${ServicesPartsFragmentDoc}`;
 export function getSdk(requester) {
   return {
     builds(variables, options) {
@@ -335,6 +405,12 @@ export function getSdk(requester) {
     },
     reviewsConnection(variables, options) {
       return requester(ReviewsConnectionDocument, variables, options);
+    },
+    services(variables, options) {
+      return requester(ServicesDocument, variables, options);
+    },
+    servicesConnection(variables, options) {
+      return requester(ServicesConnectionDocument, variables, options);
     }
   };
 }

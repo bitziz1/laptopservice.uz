@@ -18,6 +18,7 @@ agent_session/
 # Obsidian — not needed, ignore entirely
 .obsidian/
 content/.obsidian/
+**/.obsidian/
 
 # TinaCMS — generated admin (Variant A local-only)
 public/admin/
@@ -30,3 +31,6 @@ tina/__generated__/static-media.json
 
 prompts/Attachments/**/*.mp4
 prompts/Attachments/**/*.png
+
+# service-animation meta (idempotency, not needed in repo)
+public/videos/services/*.meta

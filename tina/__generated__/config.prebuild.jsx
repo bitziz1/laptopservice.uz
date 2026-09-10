@@ -1,5 +1,96 @@
 // tina/config.ts
 import { defineConfig } from "tinacms";
+
+// tina/components/CopyField.tsx
+import React from "react";
+var MASTER_IMAGE = `3D rendered icon in a clean modern tech-repair style, glossy plastic and brushed matte-graphite materials, the subject is lit by soft diffused studio lighting with realistic highlights and shadow, single accent color #19BD9B (teal-green) used for glowing highlights, energy lines, LED indicators and screen glow, neutral grey and dark graphite base materials, isometric 3/4 perspective, centered composition, no text, no logos, no watermarks.
+
+BACKGROUND: {bg}
+
+single centered object, physically based rendering, high detail, sharp focus on thin structures (fan blades, pins, cables, hinges), neutral reflections only, playful sticker-like appeal similar to 3D emoji icon packs, crisp clean edges, subtle soft contact shadow directly under the object, product-render quality, 4k
+
+SUBJECT: {subject}
+
+Negative prompt: colored background, green background, chroma key, gradient background, vignette, color spill, green reflection, extra objects, hands, people, text, watermark`;
+var MASTER_VIDEO = `Seamless perfectly looping 4-second animation of the reference image, 24fps, 640x640, camera locked and completely static, no camera movement, no camera shake.
+
+{MOTION}
+
+Natural physics with realistic weight, momentum and secondary motion, smooth non-linear easing (ease-in / ease-out, not constant speed), loop point matches the first frame exactly so playback repeats infinitely with no visible seam or jump, teal (#19BD9B) glow pulses softly and rhythmically in sync with the motion, playful sticker-like appeal, background stays exactly as in the reference image (flat, unlit, no gradient), no new elements entering or leaving the frame.
+
+MOTION: {motion}`;
+var BG_DARK = "plain uncluttered dark charcoal studio background (#171A20), evenly lit, minimal shadow, subject clearly separated from background, no other objects in frame, no gradient, no vignette, no color spill from the subject onto the background.";
+var BG_LIGHT = "plain uncluttered light grey studio background (#D1D5DB), evenly lit, minimal shadow, subject clearly separated from background, no other objects in frame, no gradient, no vignette, no color spill from the subject onto the background.";
+function CopyField(props) {
+  const { input, field, form } = props;
+  const [copied, setCopied] = React.useState(false);
+  const text = input?.value || "";
+  const label = field.name === "promptSubject" ? "\u041A\u043E\u043F\u0438\u0440\u043E\u0432\u0430\u0442\u044C \u043F\u0440\u043E\u043C\u043F\u0442 \u0444\u043E\u0442\u043E" : field.name === "promptMotionA" ? "\u041A\u043E\u043F\u0438\u0440\u043E\u0432\u0430\u0442\u044C \u043F\u0440\u043E\u043C\u043F\u0442 \u0432\u0438\u0434\u0435\u043E A" : field.name === "promptMotionB" ? "\u041A\u043E\u043F\u0438\u0440\u043E\u0432\u0430\u0442\u044C \u043F\u0440\u043E\u043C\u043F\u0442 \u0432\u0438\u0434\u0435\u043E B" : "\u041A\u043E\u043F\u0438\u0440\u043E\u0432\u0430\u0442\u044C";
+  const getBucket = () => {
+    try {
+      const vals = form?.getState?.()?.values ?? form?.values ?? {};
+      return vals?.promptBucket ?? "dark";
+    } catch {
+      return "dark";
+    }
+  };
+  const buildFullPrompt = () => {
+    if (!text) return "";
+    if (field.name === "promptSubject") {
+      const bucket = getBucket();
+      const bg = bucket === "light" ? BG_LIGHT : BG_DARK;
+      return MASTER_IMAGE.replace("{bg}", bg).replace("{subject}", text);
+    }
+    if (field.name === "promptMotionA" || field.name === "promptMotionB") {
+      return MASTER_VIDEO.split("{MOTION}").join(text).split("{motion}").join(text);
+    }
+    return text;
+  };
+  const doCopy = async () => {
+    try {
+      const v = buildFullPrompt() || text || "";
+      if (!v) return;
+      if (navigator?.clipboard?.writeText) {
+        await navigator.clipboard.writeText(v);
+      } else {
+        const ta = document.createElement("textarea");
+        ta.value = v;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        ta.remove();
+      }
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1200);
+    } catch {
+    }
+  };
+  return React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6 } }, React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center" } }, React.createElement("span", { style: { fontSize: 12, fontWeight: 600 } }, field.label), React.createElement(
+    "button",
+    {
+      type: "button",
+      onClick: doCopy,
+      style: {
+        padding: "4px 10px",
+        borderRadius: 6,
+        border: "1px solid #d1d5db",
+        background: copied ? "#ecfdf5" : "#f9fafb",
+        fontSize: 12,
+        cursor: "pointer"
+      }
+    },
+    copied ? "\u2713 \u0421\u043A\u043E\u043F\u0438\u0440\u043E\u0432\u0430\u043D\u043E" : label
+  )), React.createElement(
+    "textarea",
+    {
+      ...input,
+      rows: 4,
+      style: { width: "100%", padding: 8, borderRadius: 6, border: "1px solid #d1d5db", fontFamily: "monospace", fontSize: 12 }
+    }
+  ), field.description && React.createElement("span", { style: { fontSize: 11, color: "#6b7280" } }, field.description));
+}
+
+// tina/config.ts
 var branch = process.env.HEAD || process.env.GITHUB_REF_NAME || "master";
 var slugify = (str) => str.toString().toLowerCase().replace(/[а-яё]/g, (char) => {
   const map = {
@@ -95,7 +186,7 @@ var config_default = defineConfig({
         path: "content/builds",
         format: "md",
         ui: {
-          router: ({ document }) => `/builds/${document._sys.filename}`,
+          router: ({ document: document2 }) => `/builds/${document2._sys.filename}`,
           filename: {
             // slug = title + -DDmmmYYYY (-04aug2026 / -aug2026 / -2026)
             slugify: (values) => filenameSlugify(values, "novaya-sborka")
@@ -139,16 +230,6 @@ var config_default = defineConfig({
               { type: "string", name: "cooler", label: "\u2744\uFE0F \u041E\u0445\u043B\u0430\u0436\u0434\u0435\u043D\u0438\u0435" }
             ]
           },
-          {
-            type: "string",
-            name: "complexity",
-            label: "\u0421\u043B\u043E\u0436\u043D\u043E\u0441\u0442\u044C",
-            options: [
-              { value: "easy", label: "\u{1F7E2} \u041F\u0440\u043E\u0441\u0442\u043E" },
-              { value: "medium", label: "\u{1F7E1} \u0421\u0440\u0435\u0434\u043D\u0435" },
-              { value: "hard", label: "\u{1F534} \u0421\u043B\u043E\u0436\u043D\u043E" }
-            ]
-          },
           { type: "string", name: "tags", label: "\u0422\u0435\u0433\u0438", list: true },
           { type: "image", name: "heroImage", label: "\u041E\u0431\u043B\u043E\u0436\u043A\u0430 (hero)" },
           { type: "image", name: "gallery", label: "\u0413\u0430\u043B\u0435\u0440\u0435\u044F", list: true },
@@ -161,7 +242,7 @@ var config_default = defineConfig({
         path: "content/cases",
         format: "md",
         ui: {
-          router: ({ document }) => `/cases/${document._sys.filename}`,
+          router: ({ document: document2 }) => `/cases/${document2._sys.filename}`,
           filename: {
             // slug = title + -DDmmmYYYY
             slugify: (values) => filenameSlugify(values, "novyi-keys")
@@ -303,6 +384,52 @@ var config_default = defineConfig({
           { type: "image", name: "gallery", label: "\u0413\u0430\u043B\u0435\u0440\u0435\u044F", list: true },
           { type: "string", name: "captions", label: "\u041F\u043E\u0434\u043F\u0438\u0441\u0438", list: true, description: "1:1 \u043A gallery" },
           { type: "rich-text", name: "body", label: "\u0422\u0435\u043A\u0441\u0442 \u043E\u0442\u0437\u044B\u0432\u0430", isBody: true }
+        ]
+      },
+      {
+        name: "services",
+        label: "\u0423\u0441\u043B\u0443\u0433\u0438",
+        path: "content/services",
+        format: "md",
+        ui: {
+          router: ({ document: document2 }) => {
+            const fn = document2._sys?.filename || "";
+            const slug = fn.includes("/") ? fn.split("/").pop() : fn;
+            return `/services/${slug}`;
+          },
+          filename: {
+            // One service = one folder: content/services/<slug>/<slug>.md
+            // Tina creates via slugify returning "slug/slug" (folder + file)
+            slugify: (values) => {
+              const src = values?.title ?? "novaya-usluga";
+              const s = slugify(src);
+              const base = stripDateSuffix(s) || "novaya-usluga";
+              return `${base}/${base}`;
+            }
+          }
+        },
+        fields: [
+          { type: "string", name: "title", label: "\u0417\u0430\u0433\u043E\u043B\u043E\u0432\u043E\u043A \u0443\u0441\u043B\u0443\u0433\u0438", isTitle: true, required: true },
+          { type: "string", name: "shortDescription", label: "\u041A\u043E\u0440\u043E\u0442\u043A\u043E\u0435 \u043E\u043F\u0438\u0441\u0430\u043D\u0438\u0435 (\u043A\u0430\u0440\u0442\u043E\u0447\u043A\u0430/SEO)", ui: { component: "textarea" }, required: true },
+          { type: "string", name: "fullDescription", label: "\u041F\u043E\u043B\u043D\u043E\u0435 \u043E\u043F\u0438\u0441\u0430\u043D\u0438\u0435 (\u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0430)", ui: { component: "textarea" }, required: true },
+          // Media — файлы НЕ хранятся в md: источники это content/services/<slug>/image.png|jpg и video.mp4
+          // ingest сканирует папку и генерит public/images|videos/services/<slug>.webp|mp4 (прозрачные, без фона)
+          // Prompts — с кнопками копирования (всегда видны, даже если heroImage/video заполнены)
+          { type: "string", name: "promptSubject", label: "\u041F\u0440\u043E\u043C\u043F\u0442 \u2014 SUBJECT (\u0444\u043E\u0442\u043E)", ui: { component: CopyField }, description: "SUBJECT \u0438\u0437 guide-final-v2.md \xA74. \u041A\u043D\u043E\u043F\u043A\u0430 \u0441\u043A\u043E\u043F\u0438\u0440\u0443\u0435\u0442 \u043F\u043E\u043B\u043D\u044B\u0439 \u043F\u0440\u043E\u043C\u043F\u0442 \u0444\u043E\u0442\u043E." },
+          { type: "string", name: "promptMotionA", label: "\u041F\u0440\u043E\u043C\u043F\u0442 \u2014 MOTION A (\u0432\u0438\u0434\u0435\u043E \u0431\u0430\u0437\u043E\u0432\u044B\u0439)", ui: { component: CopyField }, description: "MOTION A \u2014 \u0441\u0442\u0430\u0431\u0438\u043B\u044C\u043D\u044B\u0439 loop." },
+          { type: "string", name: "promptMotionB", label: "\u041F\u0440\u043E\u043C\u043F\u0442 \u2014 MOTION B (\u0432\u0438\u0434\u0435\u043E \u0432\u0438\u0440\u0430\u043B\u044C\u043D\u044B\u0439)", ui: { component: CopyField }, description: "MOTION B \u2014 anticipation/overshoot." },
+          {
+            type: "string",
+            name: "promptBucket",
+            label: "\u0411\u0430\u043A\u0435\u0442 \u0444\u043E\u043D\u0430",
+            description: "dark=#171A20 (\u0441\u0432\u0435\u0442\u043B\u044B\u0439 \u043E\u0431\u044A\u0435\u043A\u0442) / light=#D1D5DB (\u0442\u0451\u043C\u043D\u044B\u0439 \u043E\u0431\u044A\u0435\u043A\u0442) \u2014 \u0441\u043C. guide \xA73",
+            options: [
+              { value: "dark", label: "\u0422\u0451\u043C\u043D\u044B\u0439 #171A20" },
+              { value: "light", label: "\u0421\u0432\u0435\u0442\u043B\u044B\u0439 #D1D5DB" }
+            ]
+          },
+          { type: "string", name: "promptTone", label: "\u0422\u043E\u043D \u043E\u0431\u044A\u0435\u043A\u0442\u0430 (\u0441\u0432\u0435\u0442\u043B\u044B\u0439/\u0442\u0451\u043C\u043D\u044B\u0439/\u0441\u043C\u0435\u0448\u0430\u043D\u043D\u044B\u0439)", description: "\u0414\u043B\u044F \u0432\u044B\u0431\u043E\u0440\u0430 \u0431\u0430\u043A\u0435\u0442\u0430" },
+          { type: "rich-text", name: "body", label: "\u0422\u0435\u043B\u043E \u2014 \u0441\u0438\u043C\u043F\u0442\u043E\u043C\u044B/\u044D\u0442\u0430\u043F\u044B/FAQ (\u043A\u0430\u043A \u0432 cases)", isBody: true, description: "\u041F\u0438\u0448\u0438\u0442\u0435 ## \u0425\u0430\u0440\u0430\u043A\u0442\u0435\u0440\u043D\u044B\u0435 \u043F\u0440\u0438\u0437\u043D\u0430\u043A\u0438 / ## \u041F\u043E\u0440\u044F\u0434\u043E\u043A \u043F\u0440\u043E\u0432\u0435\u0434\u0435\u043D\u0438\u044F \u0440\u0430\u0431\u043E\u0442 / ## \u0427\u0430\u0441\u0442\u044B\u0435 \u0432\u043E\u043F\u0440\u043E\u0441\u044B \u2014 \u0440\u0435\u043D\u0434\u0435\u0440\u0438\u0442\u0441\u044F \u0432 HTML \u043D\u0430 \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0435 \u0443\u0441\u043B\u0443\u0433\u0438." }
         ]
       }
     ]

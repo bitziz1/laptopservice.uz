@@ -6,9 +6,11 @@ export const GET: APIRoute = async () => {
   const cases = await getCollection("cases");
   const builds = await getCollection("builds");
   const reviews = await getCollection("reviews");
+  const services = await getCollection("services");
 
   cases.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
   builds.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+  services.sort((a, b) => (a.data.title ?? "").localeCompare(b.data.title ?? "", "ru"));
 
   const casesList = cases
     .map((c, i) => {
@@ -27,6 +29,13 @@ export const GET: APIRoute = async () => {
           .join("; ")
         : "";
       return `${i + 1}. **${b.data.title}:** ${b.data.purposeLabel} — https://laptopservice.uz/builds/${slug}${comps ? ` — ${comps}` : ""}`;
+    })
+    .join("\n");
+
+  const servicesList = services
+    .map((s, i) => {
+      const slug = s.id.split("/").pop()!.replace(/\.md$/, "");
+      return `${i + 1}. **${s.data.title}:** https://laptopservice.uz/services/${slug} — ${s.data.shortDescription}`;
     })
     .join("\n");
 
@@ -63,30 +72,33 @@ export const GET: APIRoute = async () => {
 - **Программаторы:** RT809H, Vertyanov JIG v3
 - **Расходники:** Honeywell PTM7950, Kester/Amtech, жидкий металл
 
-## 4. Примеры работ (Наши работы) — ${cases.length} кейсов
+## 4. Услуги — ${services.length} услуг
+${servicesList}
+
+## 5. Примеры работ (Наши работы) — ${cases.length} кейсов
 ${casesList}
 
 *Даты показываются словами («12 августа 2026»), в разметке ISO YYYY-MM-DD.*
 
-## 5. Сборки ПК — ${builds.length} сборок
+## 6. Сборки ПК — ${builds.length} сборок
 ${buildsList}
 
-## 6. Отзывы — ${reviews.length} отзывов
+## 7. Отзывы — ${reviews.length} отзывов
 Всего отзывов в коллекции: ${reviews.length}. Примеры: ${reviews
       .slice(0, 3)
       .map((r) => `${r.data.author} (${r.data.source})`)
       .join(", ")}.
 
-## 7. Навигация сайта
+## 8. Навигация сайта
 - Главная (/) — сервис, порядок работы
-- Услуги (/services) — не включается/греется/залит/петли
+- Услуги (/services) — ${services.length} услуг — не включается/греется/залит/петли
 - Наши работы (/cases) — ${cases.length} реальных примеров
 - Сборки ПК (/builds) — ${builds.length} сборок
 - Цены (/prices)
 - Отзывы (/reviews) — ${reviews.length} отзывов
 - Контакты (/contacts)
 
-*Сгенерировано автоматически из content/cases, content/builds, content/reviews при билде. Сайт: ${siteConfig.url}*
+*Сгенерировано автоматически из content/services, content/cases, content/builds, content/reviews при билде. Сайт: ${siteConfig.url}*
 `;
 
   return new Response(body, {

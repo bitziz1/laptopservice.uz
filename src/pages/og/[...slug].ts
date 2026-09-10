@@ -1,6 +1,5 @@
 import { OGImageRoute } from 'astro-og-canvas';
 import { getCollection } from 'astro:content';
-import { servicesData } from '@/data/services';
 
 // Brand color from user: rgb(25,189,155) = #19BD9B
 const brandBg: [number, number, number] = [25, 189, 155];
@@ -41,11 +40,13 @@ const staticPages: Record<string, { title: string; description: string }> = {
   },
 };
 
-// Dynamic service pages
-for (const s of servicesData) {
-  staticPages[`services/${s.slug}`] = {
-    title: s.title,
-    description: s.shortDescription?.slice(0, 120) ?? s.title,
+// Dynamic service pages — из content/services/*/*.md
+const servicesEntries = await getCollection("services");
+for (const s of servicesEntries) {
+  const slug = s.id.split("/").pop()!.replace(/\.md$/,"");
+  staticPages[`services/${slug}`] = {
+    title: s.data.title,
+    description: (s.data.shortDescription as string)?.slice(0, 120) ?? s.data.title,
   };
 }
 // Dynamic builds — из content/builds/*.md

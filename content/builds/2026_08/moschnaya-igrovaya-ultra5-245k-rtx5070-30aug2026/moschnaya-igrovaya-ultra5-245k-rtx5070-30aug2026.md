@@ -13,7 +13,6 @@ components:
   psu: "Montech Century II 1050W 80+ Gold (ATX 3.1, PCIe 5.1)"
   case: "Montech XR Black (ATX, закалённое стекло)"
   cooler: "Montech HyperFlow Silent 360 (СЖО 360мм, 3×120мм)"
-complexity: "medium"
 tags: ["RTX 5070", "Core Ultra 5 245K", "4K", "Рендер", "B860", "DDR5 32GB", "Montech", "Gigabyte", "Игровая сборка", "СЖО 360", "Александр", "2150$"]
 heroImage: /content/builds/2026_08/moschnaya-igrovaya-ultra5-245k-rtx5070-30aug2026/moschnaya-igrovaya-ultra5-245k-rtx5070-30aug2026.jpg
 ---

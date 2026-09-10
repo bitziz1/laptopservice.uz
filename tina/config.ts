@@ -1,4 +1,5 @@
 import { defineConfig } from "tinacms";
+import CopyField from "./components/CopyField";
 
 const branch = process.env.HEAD || process.env.GITHUB_REF_NAME || "master";
 
@@ -134,17 +135,6 @@ export default defineConfig({
               { type: "string", name: "psu", label: "⚡ Блок питания" },
               { type: "string", name: "case", label: "🖥 Корпус" },
               { type: "string", name: "cooler", label: "❄️ Охлаждение" },
-            ],
-          },
-
-          {
-            type: "string",
-            name: "complexity",
-            label: "Сложность",
-            options: [
-              { value: "easy", label: "🟢 Просто" },
-              { value: "medium", label: "🟡 Средне" },
-              { value: "hard", label: "🔴 Сложно" },
             ],
           },
 
@@ -303,6 +293,50 @@ export default defineConfig({
           { type: "image", name: "gallery", label: "Галерея", list: true },
           { type: "string", name: "captions", label: "Подписи", list: true, description: "1:1 к gallery" },
           { type: "rich-text", name: "body", label: "Текст отзыва", isBody: true },
+        ],
+      },
+      {
+        name: "services",
+        label: "Услуги",
+        path: "content/services",
+        format: "md",
+        ui: {
+          router: ({ document }) => {
+            // document._sys.filename for nested: "slug/slug" -> last segment
+            const fn = (document as any)._sys?.filename || "";
+            const slug = fn.includes("/") ? fn.split("/").pop() : fn;
+            return `/services/${slug}`;
+          },
+          filename: {
+            // One service = one folder: content/services/<slug>/<slug>.md
+            // Tina creates via slugify returning "slug/slug" (folder + file)
+            slugify: (values: any) => {
+              const src = values?.title ?? "novaya-usluga";
+              const s = slugify(src);
+              const base = stripDateSuffix(s) || "novaya-usluga";
+              return `${base}/${base}`;
+            },
+          },
+        },
+        fields: [
+          { type: "string", name: "title", label: "Заголовок услуги", isTitle: true, required: true },
+          { type: "string", name: "shortDescription", label: "Короткое описание (карточка/SEO)", ui: { component: "textarea" }, required: true },
+          { type: "string", name: "fullDescription", label: "Полное описание (страница)", ui: { component: "textarea" }, required: true },
+          // Media — файлы НЕ хранятся в md: источники это content/services/<slug>/image.png|jpg и video.mp4
+          // ingest сканирует папку и генерит public/images|videos/services/<slug>.webp|mp4 (прозрачные, без фона)
+          // Prompts — с кнопками копирования (всегда видны, даже если heroImage/video заполнены)
+          { type: "string", name: "promptSubject", label: "Промпт — SUBJECT (фото)", ui: { component: CopyField as any }, description: "SUBJECT из guide-final-v2.md §4. Кнопка скопирует полный промпт фото." },
+          { type: "string", name: "promptMotionA", label: "Промпт — MOTION A (видео базовый)", ui: { component: CopyField as any }, description: "MOTION A — стабильный loop." },
+          { type: "string", name: "promptMotionB", label: "Промпт — MOTION B (видео виральный)", ui: { component: CopyField as any }, description: "MOTION B — anticipation/overshoot." },
+          {
+            type: "string", name: "promptBucket", label: "Бакет фона", description: "dark=#171A20 (светлый объект) / light=#D1D5DB (тёмный объект) — см. guide §3",
+            options: [
+              { value: "dark", label: "Тёмный #171A20" },
+              { value: "light", label: "Светлый #D1D5DB" },
+            ],
+          },
+          { type: "string", name: "promptTone", label: "Тон объекта (светлый/тёмный/смешанный)", description: "Для выбора бакета" },
+          { type: "rich-text", name: "body", label: "Тело — симптомы/этапы/FAQ (как в cases)", isBody: true, description: "Пишите ## Характерные признаки / ## Порядок проведения работ / ## Частые вопросы — рендерится в HTML на странице услуги." },
         ],
       },
     ],

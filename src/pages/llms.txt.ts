@@ -1,7 +1,6 @@
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 import { siteConfig } from "@/data/siteConfig";
-import { servicesData } from "@/data/services";
 
 export const GET: APIRoute = async () => {
   const cases = await getCollection("cases");
@@ -24,8 +23,12 @@ export const GET: APIRoute = async () => {
     })
     .join("\n");
 
-  const servicesList = servicesData
-    .map((s) => `- [${s.title}](https://laptopservice.uz/services/${s.slug}): ${s.shortDescription}`)
+  const services = await getCollection("services");
+  const servicesList = services
+    .map((e) => {
+      const slug = e.id.split("/").pop()!.replace(/\.md$/,"");
+      return `- [${e.data.title}](https://laptopservice.uz/services/${slug}): ${e.data.shortDescription}`;
+    })
     .join("\n");
 
   const body = `# Laptop Service
@@ -73,7 +76,7 @@ ${buildsList
 ## Дополнительно
 - [Полный машиночитаемый контекст компании](https://laptopservice.uz/llms-full.txt): Детальное описание для языковых моделей, включая примеры работ, параметры оборудования и регламенты.
 
-*Сгенерировано при билде ${new Date().toISOString().slice(0, 10)} из ${cases.length} кейсов и ${builds.length} сборок. Сайт: ${siteConfig.url}*
+*Сгенерировано при билде ${new Date().toISOString().slice(0, 10)} из ${services.length} услуг, ${cases.length} кейсов и ${builds.length} сборок. Сайт: ${siteConfig.url}*
 `;
 
   return new Response(body, {

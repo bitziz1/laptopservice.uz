@@ -13,7 +13,6 @@ components:
   psu: "Montech APX750W 750W 80+ Gold (ATX 3.1, 120мм)"
   case: "Montech XR Black (ATX, закалённое стекло, 4 вентилятора)"
   cooler: "Montech HyperFlow Silent 360 (СЖО 360мм, 3×120мм)"
-complexity: "medium"
 tags: ["RTX 5060", "Core Ultra 5 245K", "B860", "DDR5 32GB", "Montech", "MSI", "Игровая сборка", "СЖО 360", "Александр", "1700$"]
 heroImage: /content/builds/2026_08/moschnaya-igrovaya-ultra5-245k-rtx5060-30aug2026/moschnaya-igrovaya-ultra5-245k-rtx5060-30aug2026.jpg
 ---

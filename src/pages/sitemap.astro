@@ -1,7 +1,6 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
-import { servicesData } from "@/data/services";
 import { getCollection } from "astro:content";
 
 const breadcrumbs = [
@@ -10,6 +9,7 @@ const breadcrumbs = [
 
 const cases = await getCollection("cases");
 const builds = await getCollection("builds");
+const services = await getCollection("services");
 
 // группировка услуг как на /services
 const groups: { title: string; slugs: string[] }[] = [
@@ -23,7 +23,10 @@ const groups: { title: string; slugs: string[] }[] = [
   { title: "Софт и доставка", slugs: ["pereustanovka-windows","ustanovka-drayverov","udalenie-virusov","ustanovka-antivirusa","snyatie-parolya-bios","snyatie-parolya-os","tekhnicheskoe-zaklyuchenie","vyezd-mastera-tashkent","dostavka-tekhniki-v-servis"] },
 ];
 
-const serviceBySlug = new Map(servicesData.map(s => [s.slug, s]));
+const serviceBySlug = new Map(services.map(e => {
+  const slug = e.id.split("/").pop()!.replace(/\.md$/,"");
+  return [slug, e.data] as const;
+}));
 ---
 
 <BaseLayout
@@ -44,7 +47,7 @@ const serviceBySlug = new Map(servicesData.map(s => [s.slug, s]));
       <h2 class="text-sm font-bold text-chassis-200 uppercase tracking-wider">Основные разделы</h2>
       <ul class="grid grid-cols-1 sm:grid-cols-2 gap-1 text-xs">
         <li><a href="/" class="text-sky-400 hover:underline">Главная</a></li>
-        <li><a href="/services" class="text-sky-400 hover:underline">Все услуги ({servicesData.length})</a></li>
+        <li><a href="/services" class="text-sky-400 hover:underline">Все услуги ({services.length})</a></li>
         <li><a href="/cases" class="text-sky-400 hover:underline">Наши работы ({cases.length})</a></li>
         <li><a href="/builds" class="text-sky-400 hover:underline">Сборки ПК ({builds.length})</a></li>
         <li><a href="/about" class="text-sky-400 hover:underline">О сервисном центре</a></li>
@@ -61,7 +64,7 @@ const serviceBySlug = new Map(servicesData.map(s => [s.slug, s]));
           {group.slugs.map(slug => {
             const s = serviceBySlug.get(slug);
             return s ? (
-              <li><a href={`/services/${s.slug}`} class="text-chassis-300 hover:text-chassis-100 hover:underline">{s.title}</a></li>
+              <li><a href={`/services/${slug}`} class="text-chassis-300 hover:text-chassis-100 hover:underline">{(s as any).title}</a></li>
             ) : (
               <li class="text-chassis-500">{slug} — не найдено</li>
             );
@@ -73,9 +76,10 @@ const serviceBySlug = new Map(servicesData.map(s => [s.slug, s]));
     <section class="space-y-2">
       <h2 class="text-sm font-bold text-chassis-200 uppercase tracking-wider">Все услуги списком</h2>
       <ul class="grid grid-cols-1 sm:grid-cols-2 gap-1 text-xs">
-        {servicesData.map(s => (
-          <li><a href={`/services/${s.slug}`} class="text-chassis-300 hover:text-chassis-100 hover:underline">{s.title}</a></li>
-        ))}
+        {services.map(e => {
+          const slug = e.id.split("/").pop()!.replace(/\.md$/,"");
+          return <li><a href={`/services/${slug}`} class="text-chassis-300 hover:text-chassis-100 hover:underline">{e.data.title}</a></li>
+        })}
       </ul>
     </section>
   </div>
