@@ -105,17 +105,18 @@ const breadcrumbs = [
     
     <Breadcrumbs items={breadcrumbs} />
 
-    {/* media — прозрачные, вне isTina чтобы в dev:tina тоже видно */}
+    {/* media — прозрачные, вне isTina чтобы в dev:tina тоже видно — видео и фото одинаковый визуальный размер */}
     {pubImg ? (
       <div class="w-full rounded-xl overflow-hidden border border-chassis-800 bg-[#171A20] flex items-center justify-center p-4">
         <img src={pubImg} alt={service.title} class="w-full h-auto object-contain max-h-[420px]" loading="eager" decoding="async" />
       </div>
     ) : anim ? (
-      <div class="w-full rounded-xl overflow-hidden border border-chassis-800 bg-[#171A20]">
+      <div class="w-full rounded-xl overflow-hidden border border-chassis-800 bg-[#171A20] flex items-center justify-center p-4">
         <ServiceAnimation
           webm={anim.webm}
           poster={anim.poster}
           alt={anim.alt}
+          class="w-full max-h-[420px]"
         />
       </div>
     ) : null}

@@ -41,11 +41,12 @@ try {
 
 <div class="rounded-lg bg-chassis-850/50 overflow-hidden flex flex-col justify-between">
   {anim ? (
-    <div class="w-full bg-[#171A20]">
+    <div class="w-full bg-[#171A20] flex items-center justify-center p-2">
       <ServiceAnimation
         webm={anim.webm}
         poster={anim.poster}
         alt={anim.alt}
+        class="w-full max-h-48"
       />
     </div>
   ) : pubImg ? (
