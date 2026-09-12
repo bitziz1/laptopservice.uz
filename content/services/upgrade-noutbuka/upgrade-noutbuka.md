@@ -2,6 +2,11 @@
 title: 'Апгрейд ноутбука: SSD, RAM, матрица, клавиатура, аккумулятор'
 shortDescription: Увеличение памяти и накопителя, замена матрицы, клавиатуры и аккумулятора, перенос Windows без потери данных. Диагностика в Ташкенте на
 fullDescription: Комплексный апгрейд ноутбука — от увеличения оперативной памяти и установки скоростных NVMe SSD с переносом системы 1-в-1 до замены матрицы, клавиатуры и аккумулятора. Подбираем совместимые комплектующие по модели ноутбука, проверяем поддержку стандартов и согласуем стоимость до работ. Для каждой замены — гарантия на установленные детали и проверка стабильности.
+promptSubject: 'An open laptop viewed from above showing an empty component slot, with a stylized RAM memory stick and SSD module floating just above it, a thin teal alignment guide glow marking where they will insert.'
+promptMotionA: 'The RAM stick and SSD module float in place with a gentle hover bobbing motion, teal alignment glow pulses softly in sync with the bob, resetting cleanly for a loop.'
+promptMotionB: 'The RAM stick slides down into its slot with a satisfying motion — it accelerates slightly then stops with a tiny recoil bounce on contact, teal glow flashes bright at the moment of contact and radiates outward along the slot, then the stick slides back up out of the slot smoothly to reset the loop, like a clean before/after swap.'
+promptBucket: dark
+promptTone: светлый
 ---
 
 ## Характерные признаки

@@ -2,6 +2,11 @@
 title: Аппаратная диагностика материнской платы
 shortDescription: Поиск коротких замыканий, замеры сопротивлений линий питания, осмотр тепловизором и осциллографом. Диагностика и согласование до работ в Laptop Service.
 fullDescription: Аппаратная диагностика — основа надежного ремонта. Мы подключаем плату к лабораторному источнику питания, проверяем сигналы мультиконтроллера и дежурных напряжений, исследуем силовые фазы осциллографом и выявляем греющиеся компоненты тепловизором. Точная стоимость ремонта рассчитывается по результатам диагностики и согласовывается до начала работ.
+promptSubject: 'A stylized 3D circuit board fragment with a diagnostic scanning wand hovering just above it, a thin teal scan-line sweeping across the board and highlighting a small chip with a soft glow, like a magnifying diagnostic scan effect.'
+promptMotionA: 'The teal scan-line sweeps slowly back and forth once across the board, highlighting points along its path with a soft glow trail, resetting seamlessly to the starting position.'
+promptMotionB: 'The scan-line sweeps down the board and pauses briefly over one chip (anticipation beat), the chip lights up bright teal as if diagnosed healthy, with a small pulse ring expanding outward from it like a radar ping, then the scan-line continues down and fades at the bottom, resetting to the top to restart the sweep.'
+promptBucket: light
+promptTone: тёмный
 ---
 
 ## Характерные признаки

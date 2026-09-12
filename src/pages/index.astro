@@ -7,16 +7,40 @@ import ThreadsScroller from "@/components/ThreadsScroller.astro";
 import FaqAccordion from "@/components/FaqAccordion.astro";
 import VisualThreadsHome from "@/components/VisualThreadsHome";
 import VisualReviews from "@/components/VisualReviews";
+import ServiceAnimation from "@/components/ServiceAnimation.astro";
 import { siteConfig } from "@/data/siteConfig";
 import { formatDateRu } from "@/utils/formatDate";
 import mapFacadeImg from "@/assets/service_on_yandex_maps.png";
+import fs from "node:fs";
 
 // Контент: content/{cases,builds,reviews,threads,services}/*.md — 1 файл = 1 запись, открывается в Obsidian
 const casesEntries = await getCollection("cases");
 const buildsEntries = await getCollection("builds");
 const reviewsEntries = await getCollection("reviews");
 const servicesEntries = await getCollection("services");
-servicesEntries.sort((a,b)=> (a.data.title ?? "").localeCompare(b.data.title ?? "", "ru"));
+const prioritySlugs = [
+  "remont-materinskoy-platy-pk",
+  "zamena-akkumulyatora-noutbuka",
+  "pereustanovka-windows",
+  "dostavka-tekhniki-v-servis",
+  "remont-shleyfa-matritsy",
+  "chistka-noutbuka-ot-pyli",
+  "aktivatsiya-windows",
+  "upgrade-noutbuka",
+  "remont-videokarty-kompyutera",
+  "diagnostika",
+  "zamena-razema-pitaniya",
+  "udalenie-virusov",
+];
+const priorityMap = new Map(prioritySlugs.map((s,i)=>[s,i]));
+servicesEntries.sort((a,b)=>{
+  const aSlug = a.id.split("/").pop()!.replace(/\.md$/,"");
+  const bSlug = b.id.split("/").pop()!.replace(/\.md$/,"");
+  const aPri = priorityMap.has(aSlug) ? priorityMap.get(aSlug)! : Infinity;
+  const bPri = priorityMap.has(bSlug) ? priorityMap.get(bSlug)! : Infinity;
+  if(aPri!==bPri) return aPri - bPri;
+  return (a.data.title ?? "").localeCompare(b.data.title ?? "", "ru");
+});
 casesEntries.sort((a,b)=> b.data.date.getTime() - a.data.date.getTime());
 buildsEntries.sort((a,b)=> b.data.date.getTime() - a.data.date.getTime());
 reviewsEntries.sort((a,b)=> b.data.date.getTime() - a.data.date.getTime());
@@ -184,19 +208,42 @@ const homeFaq = [
         <button type="button" data-scroller-next aria-label="Вперед" class="hidden md:flex absolute right-1 lg:-right-4 top-1/2 -translate-y-1/2 z-10 w-9 h-9 items-center justify-center rounded-full bg-black/70 backdrop-blur-md border border-white/15 text-white hover:bg-black/85 transition shadow-lg disabled:opacity-30 disabled:pointer-events-none">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
         </button>
-        <div class="horizontal-scroller flex gap-2.5 overflow-x-auto overflow-y-hidden pb-2 snap-x snap-mandatory scroll-smooth -mx-4 px-4 sm:mx-0 sm:px-0">
+        <div class="horizontal-scroller services-float flex gap-2.5 overflow-x-auto overflow-y-hidden pb-2 snap-x snap-mandatory scroll-smooth -mx-4 px-4 sm:mx-0 sm:px-0">
           {servicesEntries.slice(0,12).map((entry) => {
             const service = entry.data;
             const slug = entry.id.split("/").pop()!.replace(/\.md$/,"");
+            let media: { type: "video"; webm: string; poster: string } | { type: "image"; src: string } | null = null;
+            try {
+              const webmPath = `public/videos/services/${slug}.webm`;
+              if (fs.existsSync(webmPath)) {
+                const poster = fs.existsSync(`public/videos/services/${slug}-poster.webp`) ? `/videos/services/${slug}-poster.webp` : "";
+                media = { type: "video", webm: `/videos/services/${slug}.webm`, poster };
+              } else {
+                const webpPath = `public/images/services/${slug}.webp`;
+                if (fs.existsSync(webpPath)) media = { type: "image", src: `/images/services/${slug}.webp` };
+              }
+            } catch {}
             return (
-            <a href={`/services/${slug}`} class="group shrink-0 snap-start w-[270px] sm:w-[290px] bg-chassis-850 border border-chassis-800 rounded-[14px] overflow-hidden flex flex-col p-3.5 hover:border-chassis-700 hover:bg-chassis-800/60 transition-colors text-left">
-              <div class="flex items-center gap-2 mb-2">
-                <img src="/logo.svg" alt="" width="20" height="20" class="w-5 h-5 rounded-full bg-chassis-900 border border-chassis-800 shrink-0" loading="lazy" />
-                <span class="text-[10px] font-sans uppercase tracking-wider text-chassis-500 group-hover:text-chassis-400">Laptop Service</span>
+            <a href={`/services/${slug}`} class="group shrink-0 snap-start w-[148px] sm:w-[156px] flex flex-col text-left">
+              <div class="w-full bg-[#171A20] rounded-xl overflow-hidden flex flex-col p-2 pb-3">
+                {media?.type === "video" ? (
+                  <div class="w-full aspect-square flex items-center justify-center overflow-hidden">
+                    <ServiceAnimation webm={media.webm} poster={media.poster} alt={service.title} class="w-full h-full" />
+                  </div>
+                ) : media?.type === "image" ? (
+                  <div class="w-full aspect-square flex items-center justify-center overflow-hidden">
+                    <img src={media.src} alt={service.title} class="w-full h-full object-contain" loading="lazy" decoding="async" />
+                  </div>
+                ) : (
+                  <div class="w-full aspect-square flex items-center justify-center">
+                    <img src="/logo.svg" alt="" width="48" height="48" class="w-12 h-12 opacity-10" loading="lazy" />
+                  </div>
+                )}
+                <h3 class="mt-2.5 text-[13px] font-bold text-chassis-100 leading-tight line-clamp-3 min-h-[48px] group-hover:underline underline-offset-2">{service.title}</h3>
               </div>
-              <h3 class="text-sm font-bold text-chassis-100 leading-tight line-clamp-2 group-hover:underline underline-offset-2">{service.title}</h3>
-              <p class="text-xs text-chassis-400 leading-relaxed line-clamp-2 mt-1.5">{service.shortDescription}</p>
-              <span class="mt-auto pt-3 ml-auto self-end text-right text-[11px] font-sans font-bold text-chassis-300 group-hover:text-chassis-100">Подробнее →</span>
+              <div class="mt-2 bg-chassis-850 border border-chassis-800 rounded-[12px] px-2.5 py-2 flex items-center justify-center group-hover:border-chassis-700 group-hover:bg-chassis-800/60 transition-colors">
+                <span class="text-center text-[11px] font-sans font-bold text-chassis-400 group-hover:text-chassis-100">Подробнее →</span>
+              </div>
             </a>
           )})}
         </div>

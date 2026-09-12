@@ -2,6 +2,11 @@
 title: Активация Windows в Ташкенте
 shortDescription: Помощь с активацией Windows в Ташкенте — надпись 'Activate Windows', 'Чтобы активировать Windows, перейдите в раздел Параметры'. Laptop Service, исправление.
 fullDescription: На экране появилась полупрозрачная надпись 'Activate Windows' / 'Активация Windows' — 'Чтобы активировать Windows, перейдите в раздел Параметры', не работает персонализация и система просит активировать Windows. В Laptop Service в Ташкенте помогаем с активацией Windows 10/11 — проверяем тип лицензии (OEM/Retail), состояние ключа и привязку к Microsoft-аккаунту, устраняем ошибки активации, вводим ваш ключ и настраиваем обновления. Работаем только официальными способами — без взломов и активаторов, помогаем легально активировать вашу копию.
+promptSubject: 'A stylized 3D laptop screen showing a minimal circular keyhole/lock icon centered on the screen, with a separate small 3D key shape (teal glowing tip) floating just above and in front of the keyhole, aligned to insert, no text, no real OS UI, no logos.'
+promptMotionA: 'The key hovers just above the keyhole with a gentle bobbing motion, its teal tip pulsing softly in a slow breathing rhythm, returning to its exact starting position for a perfect loop.'
+promptMotionB: 'The key lowers into the keyhole and turns with a crisp quarter-rotation (a small mechanical snap), the lock icon flashes bright teal and pops open, and the moment it unlocks a soft radiating burst of teal light washes outward across the whole screen like a light switch turning on. The key then lifts back out and the lock resets closed to restart the loop — a satisfying "unlock" beat, distinct from any scanning or progress-bar motion elsewhere on the site.'
+promptBucket: light
+promptTone: тёмный
 ---
 
 ## Характерные признаки

@@ -17,8 +17,9 @@ function extractText(body: any): string {
 }
 
 export default function VisualThreadsHome(props: { query: string; variables: any; data: any }) {
-  const { data } = useTina(props);
-  const edges = data.threadsConnection?.edges ?? [];
+  const tinaResult = useTina(props);
+  const data = (tinaResult?.data as any) ?? props.data;
+  const edges = data?.threadsConnection?.edges ?? [];
   const threads = edges.map((e: any) => e.node).filter(Boolean);
   threads.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
 

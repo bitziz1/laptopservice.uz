@@ -198,6 +198,22 @@ Body = текст отзыва. **Filename:** `rev-author-DDmmmYYYY.md` (нап�
 
 **Не делай:** `public/`, `src/assets/`, `dist/`, фото без суффикса даты.
 
+### 4.1 Фото услуг `content/services/<slug>/image.png` → `public/images/services/<slug>.webp`
+
+У услуг фото хранится не в `frontmatter`, а как файл `content/services/<slug>/image.png` (+ `video.mp4`). При `npm run build` → `scripts/content-images/copy-content-images.mjs` → `public/images/services`. Обработка — `scripts/service-images/`:
+
+- **Основной:** `matte_image.py` (`rembg isnet-general-use`) → `/tmp/<slug>_matte.png` → `cwebp -q 90` → `public/images/services/<slug>.webp` (прозрачный, фон `#171A20` накладывается CSS на всю ширину).
+- **Fallback без скачивания:** `matte_colorkey.py` — когда isnet делает корпус прозрачным. Кейс `zamena-razema-pitaniya` 2026-09: isnet дал `80.2% trans / 7.6% opaque` (серый металл на светлом фоне `#E8ECF0` слился, боковина стала дырой). Решение — цветовой ключ `dist<55` + `exterior` (компоненты связанные с границей) + гаусс `sigma 0.7`. Запускается автоматически в `process_image.sh:60` если `trans>75 || opaque<15`, или вручную `--method colorkey`. Без загрузки `birefnet` (973MB).
+
+```bash
+./scripts/service-images/process_image.sh zamena-razema-pitaniya content/services/zamena-razema-pitaniya/image.png
+./scripts/service-images/process_image.sh zamena-razema-pitaniya content/services/zamena-razema-pitaniya/image.png --method colorkey
+./scripts/service-images/ingest_images.sh  # batch
+npm run services:ingest:images
+```
+
+Детали: `scripts/service-images/README.md`.
+
 ---
 
 ## 5. Схемы и диаграммы — только как картинки
