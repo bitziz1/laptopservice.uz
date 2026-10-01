@@ -1,0 +1,27 @@
+{
+  "name": "Laptop Service — Ремонт ноутбуков в Ташкенте",
+  "short_name": "Laptop Service",
+  "description": "Ремонт ноутбуков в Ташкенте (ул. Паркент 11). BGA-пайка, чистка, замена термоинтерфейсов, восстановление после залития.",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "theme_color": "#171A20",
+  "background_color": "#171A20",
+  "display": "standalone",
+  "start_url": "/",
+  "scope": "/",
+  "lang": "ru",
+  "dir": "ltr",
+  "orientation": "any"
+}
