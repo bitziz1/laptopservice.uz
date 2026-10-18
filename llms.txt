@@ -1,0 +1,130 @@
+# Laptop Service
+
+> Сервисный центр по компонентному ремонту ноутбуков и компьютерной техники в Ташкенте — работаем с 2004 года. Бесплатная диагностика, акт приёма, согласование стоимости только после диагностики.
+
+Laptop Service (также известный как RemontNoutbukov) — специализированный сервисный центр в Ташкенте (Мирзо-Улугбекский район, ул. Паркент 11, напротив Паркентского базара, магазин «Радиодетали»). Выполняем сложный аппаратный ремонт материнских плат: BGA-пайку видеочипов и процессоров, устранение коротких замыканий, ультразвуковую чистку и восстановление после залития, замену термоинтерфейсов на фазовый материал Honeywell PTM7950 и жидкий металл. Делаем профессиональные сборки ПК — знаем нюансы корпусов, охлаждения и питания, сами обслуживаем и поддерживаем технику.
+
+## Ключевые правила взаимодействия
+- **Приём техники:** Лично в сервисном центре (г. Ташкент, Мирзо-Улугбекский район, ул. Паркент 11). Диагностика — **бесплатно**. Фиксируем акт приёма и контакты — на диагностику уходит время.
+- **Связь без посредников и форм на сайте:** Только напрямую через Telegram [@laptopservice_master](https://t.me/laptopservice_master) или по телефону [+998 (93) 228-77-38](tel:+998932287738). Руководитель сервиса Руслан — [+998 (90) 358-77-38](tel:+998903587738) [@remontnoutbukov_uz](https://t.me/remontnoutbukov_uz) — строго по делу, контакты только на странице контактов.
+- **Прозрачное ценообразование:** Точная стоимость определяется только по результатам аппаратной диагностики и **всегда согласуется до начала ремонта**.
+- **Официальный Telegram-канал:** [@laptopservice_uz](https://t.me/laptopservice_uz) — первоисточник с фотоотчётами, замерами и видео процесса ремонта.
+
+## Основные разделы
+- [Главная страница](https://laptopservice.uz/): Информация о сервисном центре, порядке работы (бесплатная диагностика, акт) и контактах.
+- [Услуги сервисного центра](https://laptopservice.uz/services/): Ноутбук не включается, перегревается, не заряжается, залит, сломаны петли — приезжайте, посмотрим и поможем.
+  - [Активация Windows в Ташкенте](https://laptopservice.uz/services/aktivatsiya-windows/): Помощь с активацией Windows в Ташкенте — надпись 'Activate Windows', 'Чтобы активировать Windows, перейдите в раздел Параметры'. исправление.
+  - [Чистка моноблока от пыли в Ташкенте](https://laptopservice.uz/services/chistka-monobloka-ot-pyli/): Чистка моноблока от пыли в Ташкенте — шумит, греется. разборка, продувка, смазка кулеров.
+  - [BGA-пайка и реболлинг чипсетов в Ташкенте](https://laptopservice.uz/services/bga-payka-reballing/): BGA-пайка и реболлинг чипсетов в Ташкенте — замена мостов и GPU на ИК-станции.
+  - [Чистка ноутбука от пыли в Ташкенте](https://laptopservice.uz/services/chistka-noutbuka-ot-pyli/): Чистка ноутбука от пыли в Ташкенте — шумит, греется. разборка, продувка, согласование.
+  - [Чистка системного блока ПК в Ташкенте](https://laptopservice.uz/services/chistka-sistemnogo-bloka/): Чистка системного блока ПК от пыли в Ташкенте — шумит и греется.
+  - [Чистка платы после залития в Ташкенте](https://laptopservice.uz/services/chistka-platy-posle-zalitiya/): Чистка платы после залития в Ташкенте — чай, кофе, вода. УЗ-ванна, согласование до работ.
+  - [Аппаратная диагностика материнской платы](https://laptopservice.uz/services/diagnostika/): Поиск коротких замыканий, замеры сопротивлений линий питания, осмотр тепловизором и осциллографом.
+  - [Диагностика моноблока в Ташкенте](https://laptopservice.uz/services/diagnostika-monobloka/): Диагностика моноблока в Ташкенте — не включается, нет картинки. замеры питания, матрица, согласование.
+  - [Ноутбук не включается — ремонт в Ташкенте](https://laptopservice.uz/services/noutbuk-ne-vklyuchaetsya/): Ноутбук не включается в Ташкенте — чёрный экран, нет реакции на кнопку, индикаторы горят. диагностика, ремонт платы, BIOS. Согласование до работ.
+  - [Доставка техники в сервис в Ташкенте — приём](https://laptopservice.uz/services/dostavka-tekhniki-v-servis/): Доставка техники в сервис в Ташкенте — курьер, Яндекс Доставка, приём из регионов и акт.
+  - [Не работает интернет и Wi-Fi на ноутбуке — ремонт в Ташкенте](https://laptopservice.uz/services/ne-rabotaet-internet-na-noutbuke/): Не работает интернет (Wi-Fi или Ethernet) на ноутбуке или ПК в Ташкенте — драйвер, модуль, разъём. диагностика и ремонт сети.
+  - [Не работает звук на ноутбуке — ремонт в Ташкенте](https://laptopservice.uz/services/net-zvuka-na-noutbuke/): Не работает звук на ноутбуке или компьютере в Ташкенте — драйвер, динамики, плата. диагностика и ремонт звука, согласование до работ.
+  - [Ноутбук постоянно перезагружается — ремонт в Ташкенте](https://laptopservice.uz/services/noutbuk-perezagruzhaetsya/): Ноутбук перезагружается сам, циклично в Ташкенте — BSOD, перегрев, плата. диагностика, пайка, BIOS. Согласование до работ.
+  - [Ноутбук сам выключается / выключается автоматически — ремонт в Ташкенте](https://laptopservice.uz/services/noutbuk-sam-vyklyuchaetsya/): Ноутбук выключается сам, выключается автоматически в Ташкенте — перегрев, питание. чистка, ремонт цепи 19V, тест под нагрузкой.
+  - [Ошибка no bootable device — ремонт ноутбука в Ташкенте](https://laptopservice.uz/services/oshibka-no-bootable-device/): No bootable device на ноутбуке в Ташкенте — не виден диск, не загружается Windows. диагностика накопителя, шлейфа и BIOS. Согласование до работ.
+  - [Ноутбук тормозит, зависает и медленно загружается — ускорение в Ташкенте](https://laptopservice.uz/services/noutbuk-tormozit-zavisaet-medlenno-zagruzhaetsya/): Ноутбук слабо работает, тормозит, зависает и медленно загружается в Ташкенте. чистка, SSD, Windows, вирусы. Диагностика и ускорение до 3 раз.
+  - [Переустановка Windows с сохранением данных](https://laptopservice.uz/services/pereustanovka-windows/): Чистая установка Windows + драйверы, нужный софт и антивирус. Без потери данных, с гарантией и быстро.
+  - [Прошивка BIOS и EC в Ташкенте](https://laptopservice.uz/services/proshivka-bios-ec/): Прошивка BIOS и EC в Ташкенте — не включается, чёрный экран. программатор, чистый ME-регион.
+  - [Ремонт блока питания моноблока в Ташкенте](https://laptopservice.uz/services/remont-bloka-pitaniya-monobloka/): Ремонт блока питания моноблока в Ташкенте — не включается, пищит. цепи, пайка, согласование.
+  - [Ремонт блока питания ноутбука в Ташкенте](https://laptopservice.uz/services/remont-bloka-pitaniya-noutbuka/): Ремонт блока питания ноутбука в Ташкенте — не заряжает, мигает, греется. диагностика, согласование до работ.
+  - [Ремонт цепи питания ноутбука в Ташкенте](https://laptopservice.uz/services/remont-cepi-pitaniya/): Ремонт цепи питания 19V в Ташкенте — КЗ, ноутбук не стартует.
+  - [Ремонт блока питания компьютера в Ташкенте](https://laptopservice.uz/services/remont-bloka-pitaniya-pk/): Ремонт блока питания ПК в Ташкенте — не стартует, пищит, греется. диагностика, пайка.
+  - [Ремонт платы моноблока в Ташкенте](https://laptopservice.uz/services/remont-materinskoy-platy-monobloka/): Ремонт материнской платы моноблока в Ташкенте — не стартует, КЗ.
+  - [Ремонт материнской платы ноутбука в Ташкенте](https://laptopservice.uz/services/remont-materinskoy-platy-noutbuka/): Сложный ремонт материнской платы ноутбука в Ташкенте — диагностика цепей, пайка, восстановление.
+  - [Ремонт материнской платы компьютера в Ташкенте](https://laptopservice.uz/services/remont-materinskoy-platy-pk/): Ремонт материнской платы компьютера в Ташкенте — не стартует, нет картинки. поиск КЗ, пайка, согласование.
+  - [Ремонт блока питания монитора в Ташкенте](https://laptopservice.uz/services/remont-monitora-pitaniya/): Ремонт блока питания монитора в Ташкенте — не включается, мигает. проверка цепей, пайка.
+  - [Ремонт подсветки монитора в Ташкенте](https://laptopservice.uz/services/remont-monitora-podsvetki/): Ремонт подсветки монитора в Ташкенте — тёмный экран, изображение еле видно.
+  - [Ремонт моноблока в Ташкенте](https://laptopservice.uz/services/remont-monobloka/): Ремонт моноблока в Ташкенте — не включается, чёрный экран, перегрев платы.
+  - [Ремонт моноблока после залития в Ташкенте](https://laptopservice.uz/services/remont-monobloka-posle-zalitiya/): Ремонт моноблока после залития в Ташкенте — кофе, вода, не включается. УЗ-ванна, пайка.
+  - [Ремонт оптического привода DVD в Ташкенте](https://laptopservice.uz/services/remont-opticheskogo-privoda/): Ремонт DVD привода в Ташкенте — не читает диски. чистка лазера, согласование.
+  - [Ремонт петель и восстановление корпуса ноутбука](https://laptopservice.uz/services/remont-petel-korpusa/): Усиление металлических шарниров, регулировка жесткости хода петель, восстановление выломанных латунных втулок.
+  - [Ремонт ноутбука после залития в Ташкенте](https://laptopservice.uz/services/remont-posle-zalitiya/): Ремонт ноутбука после залития в Ташкенте — УЗ-чистка платы, восстановление дорожек и SMD.
+  - [Ремонт шлейфа матрицы ноутбука в Ташкенте](https://laptopservice.uz/services/remont-shleyfa-matritsy/): Ремонт шлейфа матрицы в Ташкенте — полосы, мерцание. пайка, согласование до работ.
+  - [Ремонт системы охлаждения ноутбука в Ташкенте](https://laptopservice.uz/services/remont-sistemy-ohlazhdeniya/): Ремонт системы охлаждения ноутбука в Ташкенте — гудит, не крутит. кулеры, трубки, прокладки.
+  - [Ремонт тачпада ноутбука в Ташкенте](https://laptopservice.uz/services/remont-tachpada/): Ремонт тачпада в Ташкенте — не двигается курсор, клик. шлейф, плата, согласование.
+  - [Диагностика и подбор ИБП UPS в Ташкенте](https://laptopservice.uz/services/remont-ups/): Диагностика и подбор ИБП UPS в Ташкенте — проверка АКБ, автономности и параметров сети.
+  - [Ремонт видеокарты компьютера в Ташкенте](https://laptopservice.uz/services/remont-videokarty-kompyutera/): Ремонт видеокарты компьютера в Ташкенте — код 43, артефакты. Диагностика питания, BGA-пайка в Laptop Service без наценок.
+  - [Ремонт жёсткого диска HDD в Ташкенте](https://laptopservice.uz/services/remont-zhestkogo-diska/): Ремонт жёсткого диска HDD в Ташкенте — не определяется, щёлкает. плата, согласование.
+  - [Ремонт видеокарты моноблока в Ташкенте](https://laptopservice.uz/services/remont-videokarty-monobloka/): Ремонт видеокарты моноблока в Ташкенте — артефакты, код 43. BGA-пайка, согласование до работ.
+  - [Сборка ПК на заказ в Ташкенте](https://laptopservice.uz/services/sborka-pk-na-zakaz/): Сборка ПК на заказ в Ташкенте — игровые, офисные. подбор, сборка, согласование.
+  - [Сборка и разборка монитора в Ташкенте](https://laptopservice.uz/services/sborka-razborka-monitora/): Сборка и разборка монитора в Ташкенте — на защёлках и клею. аккуратный доступ, согласование.
+  - [Сборка и разборка моноблока в Ташкенте](https://laptopservice.uz/services/sborka-razborka-monobloka/): Сборка и разборка моноблока в Ташкенте — на болтах и на клею. аккуратная разборка, согласование.
+  - [Сброс пароля Windows на ноутбуке в Ташкенте — забыл пароль](https://laptopservice.uz/services/snyatie-parolya-os/): Сброс пароля Windows в Ташкенте — забыли пароль, вход в систему заблокирован.
+  - [Снятие пароля BIOS на ноутбуке в Ташкенте](https://laptopservice.uz/services/snyatie-parolya-bios/): Снятие пароля BIOS в Ташкенте — просит пароль. программатор, согласование.
+  - [Техническое заключение для ноутбука в Ташкенте](https://laptopservice.uz/services/tekhnicheskoe-zaklyuchenie/): Техническое заключение в Ташкенте — для юрлиц, суда. диагностика, официальный акт.
+  - [Тестирование HDD и SSD в Ташкенте](https://laptopservice.uz/services/testirovanie-nakopiteley/): Тестирование HDD и SSD в Ташкенте — бэд-блоки, скорость. SMART, поверхность, согласование.
+  - [Удаление вирусов с ноутбука в Ташкенте](https://laptopservice.uz/services/udalenie-virusov/): Удаление вирусов в Ташкенте — реклама, майнинг, шифрование файлов.
+  - [Апгрейд ноутбука: SSD, RAM, матрица, клавиатура, аккумулятор](https://laptopservice.uz/services/upgrade-noutbuka/): Увеличение памяти и накопителя, замена матрицы, клавиатуры и аккумулятора, перенос Windows без потери данных.
+  - [Установка антивируса в Ташкенте](https://laptopservice.uz/services/ustanovka-antivirusa/): Установка антивируса в Ташкенте — защита от вирусов. настройка, согласование.
+  - [Установка драйверов на ноутбук в Ташкенте](https://laptopservice.uz/services/ustanovka-drayverov/): Установка драйверов в Ташкенте — не работает Wi-Fi, звук. подбор под модель.
+  - [Установка и активация Microsoft Office в Ташкенте](https://laptopservice.uz/services/ustanovka-i-aktivatsiya-microsoft-office/): Установка и активация Microsoft Office (Word, Excel, PowerPoint) на Windows и MacBook в Ташкенте — 'Необходима активация', 'Сбой активации'. помощь.
+  - [Восстановление данных HDD при повреждении в Ташкенте](https://laptopservice.uz/services/vosstanovlenie-dannyh-hdd/): Восстановление данных HDD в Ташкенте — бэд-блоки, стук, диск не определяется.
+  - [Забор техники курьером в Ташкенте — в сервис](https://laptopservice.uz/services/vyezd-mastera-tashkent/): Забор техники курьером в Ташкенте — из дома или офиса, с актом приёма и доставкой в сервис.
+  - [Восстановление данных после удаления в Ташкенте](https://laptopservice.uz/services/vosstanovlenie-dannyh-posle-udaleniya/): Восстановление данных после удаления и форматирования в Ташкенте — файлы, фото, документы. без вскрытия диска.
+  - [Замена аккумулятора ноутбука в Ташкенте](https://laptopservice.uz/services/zamena-akkumulyatora-noutbuka/): Замена аккумулятора ноутбука в Ташкенте — быстро садится, не заряжает.
+  - [Замена BGA чипсета на ноутбуке в Ташкенте](https://laptopservice.uz/services/zamena-bga-chipseta/): Замена BGA чипсета (южный/северный мост, PCH) в Ташкенте — ИК-станция с термопрофилем. диагностика и согласование.
+  - [Замена батареи CMOS на ноутбуке в Ташкенте](https://laptopservice.uz/services/zamena-cmos-batarei/): Замена батареи CMOS в Ташкенте — сбрасывается время, не сохраняет BIOS.
+  - [Замена клавиатуры ноутбука в Ташкенте](https://laptopservice.uz/services/zamena-klaviatury-noutbuka/): Замена клавиатуры ноутбука в Ташкенте — залипает, не печатает. подбор модели, согласование.
+  - [Замена инвертора матрицы ноутбука в Ташкенте](https://laptopservice.uz/services/zamena-invertora-matritsy/): Замена инвертора матрицы в Ташкенте — тусклый экран, мерцание.
+  - [Замена матрицы экрана ноутбука в Ташкенте](https://laptopservice.uz/services/zamena-matritsy-ekrana/): Замена матрицы ноутбука в Ташкенте — трещина, полосы. подбор по модели, согласование.
+  - [Замена матрицы моноблока в Ташкенте](https://laptopservice.uz/services/zamena-matritsy-monobloka/): Замена матрицы моноблока в Ташкенте — трещина, полосы. подбор по модели, согласование до работ.
+  - [Замена мультиконтроллера ноутбука в Ташкенте](https://laptopservice.uz/services/zamena-multikontrollera/): Замена мультиконтроллера EC/KBC в Ташкенте — не включается, нет инициализации. прошивка.
+  - [Замена матрицы монитора в Ташкенте](https://laptopservice.uz/services/zamena-matritsy-monitora/): Замена матрицы монитора в Ташкенте — трещина, полосы, пятна. подбор панели, согласование до работ.
+  - [Замена разъёма клавиатуры на плате в Ташкенте](https://laptopservice.uz/services/zamena-razema-klaviatury/): Замена разъёма клавиатуры на плате в Ташкенте — не работает клава, шлейф. микропайка.
+  - [Замена разъёма питания на ноутбуке в Ташкенте](https://laptopservice.uz/services/zamena-razema-pitaniya/): Замена разъёма питания ноутбука в Ташкенте — шатается, не заряжает. пайка с усилением, согласование.
+  - [Замена разъёма монитора в Ташкенте](https://laptopservice.uz/services/zamena-razema-monitora/): Замена разъёмов монитора в Ташкенте — HDMI, DisplayPort, VGA. пайка, согласование до работ.
+  - [Замена накопителя на моноблоке в Ташкенте](https://laptopservice.uz/services/zamena-nakopitelya-monobloka/): Замена HDD/SSD на моноблоке в Ташкенте — мало места, система тормозит.
+  - [Замена разъёма HDMI и USB на ноутбуке в Ташкенте](https://laptopservice.uz/services/zamena-razema-hdmi-usb/): Замена разъёмов HDMI/USB в Ташкенте — болтается, нет контакта. пайка, согласование до работ.
+  - [Замена охлаждения процессора в Ташкенте](https://laptopservice.uz/services/zamena-sistemy-ohlazhdeniya-processora/): Замена охлаждения процессора в Ташкенте — кулер, башня. подбор, термопаста, согласование до работ.
+  - [Профилактика и чистка системы охлаждения ноутбука](https://laptopservice.uz/services/zamena-termopasty/): Удаление пылевого войлока, чистка радиаторов и кулеров, замена термопасты и термопрокладок на Honeywell PTM7950 — без перегрева и шума.
+  - [Замена разъёма Type-C на ноутбуке в Ташкенте](https://laptopservice.uz/services/zamena-razema-type-c/): Замена разъёма Type-C в Ташкенте — не заряжает, не видит устройства.
+  - [Замена видеочипа GPU на ноутбуке в Ташкенте](https://laptopservice.uz/services/zamena-videokarty-gpu/): Замена видеочипа GPU и реболлинг в Ташкенте — код 43, артефакты, нет картинки. ИК-пайка в без прогрева.
+- [Наши работы](https://laptopservice.uz/cases/): Реальные примеры из практики сервисного центра.
+  - [HP Victus: прогорело входное питание — восстановили участок платы](https://laptopservice.uz/cases/hp-victus-progar-platy-vhodnoe-pitanie-08sep2026/) — HP Victus 15/16 (типовая уязвимость входных линий) — Компонентный ремонт платы
+  - [Lenovo Legion 5 Pro 16ACH6H: Обслуживание системы охлаждения и замена PTM7950](https://laptopservice.uz/cases/lenovo-legion-5-pro-16ach6h-profilaktika-honeywell-ptm7950-07sep2026/) — Lenovo Legion 5 Pro 16ACH6H — Профилактика и охлаждение
+  - [Восстановление двух ASUS ROG Strix RTX 3090 Ti LC 240: Code 43, не определяется и ТО водянки](https://laptopservice.uz/cases/vosstanovlenie-dvuh-asus-rog-strix-rtx-3090-ti-lc-240-02sep2026/) — 2× ASUS ROG Strix GeForce RTX 3090 Ti LC 240 (GA102-350-A1, 24GB GDDR6X) — Компонентный ремонт платы
+  - [ASUS TUF Gaming A15: Короткое замыкание по линии 19V после скачка в сети](https://laptopservice.uz/cases/asus-tuf-a15-korotkoe-zamykanie-19v-12aug2026/) — ASUS TUF Gaming A15 (FA506) — Компонентный ремонт платы
+  - [Lenovo Legion 5 Pro: Ошибка Code 43 на RTX 3070 и замена видеопамяти VRAM](https://laptopservice.uz/cases/lenovo-legion-5-bga-reballing-rtx3070-05aug2026/) — Lenovo Legion 5 Pro (16ACH6H) — BGA-пайка и реболлинг
+  - [MSI Katana GF66: Усиление вырванных шарниров и монолитная полимерная реконструкция топкейса](https://laptopservice.uz/cases/msi-katana-gf66-vosstanovlenie-petel-korpusa-19jul2026/) — MSI Katana GF66 (11UE) — Ремонт петель и корпуса
+  - [Dell G15 5515: Устранение перегрева Ryzen 7 и падения FPS заменой термоинтерфейса на Honeywell PTM7950](https://laptopservice.uz/cases/dell-g15-5515-zamena-honeywell-ptm7950-10jul2026/) — Dell G15 5515 Ryzen Edition — Профилактика и охлаждение
+  - [HP Victus 16: Долгая инициализация (2 минуты до логотипа) и очистка ME-региона BIOS](https://laptopservice.uz/cases/hp-victus-16-proshivka-bios-clean-me-25jun2026/) — HP Victus 16 (d0000) — Прошивка BIOS / EC
+  - [Acer Nitro 5: Не заряжает аккумулятор, мигает оранжевым индикатором — ремонт чарджера BQ24781](https://laptopservice.uz/cases/acer-nitro-5-vosstanovlenie-shemy-charedzhera-14jun2026/) — Acer Nitro 5 (AN515-57) — Компонентный ремонт платы
+  - [Lenovo ThinkPad X1 Carbon Gen 9: Замена разбитого разъема Thunderbolt 4 Type-C](https://laptopservice.uz/cases/thinkpad-x1-carbon-zamena-razema-type-c-30may2026/) — Lenovo ThinkPad X1 Carbon Gen 9 — Разъемы и пайка
+  - [ASUS ROG Strix G17: Не работают все порты USB и клавиатура — замена хаба Intel HM570](https://laptopservice.uz/cases/asus-rog-strix-zamena-hub-pch-hm570-18may2026/) — ASUS ROG Strix G17 (G713) — BGA-пайка и реболлинг
+  - [Dell XPS 15 9500: Циклический перезапуск и замена мультиконтроллера MEC5105](https://laptopservice.uz/cases/dell-xps-15-9500-vosstanovlenie-pitaniya-multikontrollera-02may2026/) — Dell XPS 15 9500 — Компонентный ремонт платы
+  - [ASUS TUF: Восстановление выломанных петель и бонок крепления корпуса](https://laptopservice.uz/cases/asus-tuf-vosstanovlenie-petel-i-kreplenij-18apr2026/) — ASUS TUF Gaming — Ремонт петель и корпуса
+- [Сборки ПК](https://laptopservice.uz/builds/): Профессиональные сборки от мастеров — знаем нюансы, сами обслуживаем, предупреждаем о рисках заранее.
+  - [Мощная игровая сборка на Core Ultra 5 245K + RTX 5060 с водянкой — $1700](https://laptopservice.uz/builds/moschnaya-igrovaya-ultra5-245k-rtx5060-30aug2026/) — Игры • Топовые AAA • $1700
+  - [Топовая сборка для 4K — Core Ultra 5 245K + RTX 5070 с водянкой — $2150](https://laptopservice.uz/builds/moschnaya-igrovaya-ultra5-245k-rtx5070-30aug2026/) — Игры 4K • Рендер • $2150
+  - [Бюджетная игровая сборка от Александра — i5-12400F + RTX 5050 за ~$1000](https://laptopservice.uz/builds/byudzhetnaya-igrovaya-sborka-i5-12400f-rtx5050-aleksandr-27aug2026/) — Игры • Бюджет ~$1000
+  - [Оптимальная сборка для игр в Full HD — RTX 4060 + Ryzen 5 5600](https://laptopservice.uz/builds/gaming-1080p-rtx4060-r5-5600-10aug2026/) — Игры (Full HD / 144 Гц)
+  - [Рабочая станция для AI / 3D-рендера — RTX 4090 + Ryzen 9 7950X](https://laptopservice.uz/builds/ai-workstation-rtx4090-r9-7950x-04aug2026/) — AI, нейросети и 3D-рендер
+  - [Компактная офисная сборка — Core i5-12400 (UHD 730) без дискретной GPU](https://laptopservice.uz/builds/office-compact-i5-12400-uhd730-22jul2026/) — Офис и учёба
+- [Цены](https://laptopservice.uz/prices/): Бесплатная диагностика, порядок согласования стоимости.
+- [Отзывы клиентов](https://laptopservice.uz/reviews/): Реальные отзывы с Яндекс Карт и Google Maps. Оставить отзыв — на Яндекс Картах и Google Maps.
+- [Контакты и схема проезда](https://laptopservice.uz/contacts/): Адрес, Яндекс Карты / Google Maps, режим работы, руководитель сервиса.
+
+## Языковые версии
+- [English — Laptop repair in Tashkent](https://laptopservice.uz/en/): Board-level laptop repair, BGA soldering, liquid damage recovery, free diagnostics.
+- [O'zbekcha — Toshkentda noutbuk ta'mirlash](https://laptopservice.uz/uz/): Komponent darajasida ta'mirlash, BGA payvandlash, bepul diagnostika.
+- [中文 — 塔什干笔记本维修](https://laptopservice.uz/zh/): 主板级维修、BGA焊接、进水维修、免费检测。
+
+## Картографические профили и соцсети
+- [Яндекс Карты](https://yandex.com/maps/org/laptop_service/81659688745): Профиль организации Laptop Service, маршрут и отзывы.
+- [Google Maps](https://maps.app.goo.gl/nhNuRttDTpXGpabW7): Локация сервисного центра (Мирзо-Улугбекский район, ул. Паркент 11).
+- [Telegram-канал](https://t.me/laptopservice_uz): Ежедневные публикации из мастерской.
+- [Telegram-чат](https://t.me/laptop_service_chat): Чат мастеров и обсуждения.
+- [Instagram](https://www.instagram.com/laptopservice_uz): Фото и видео рабочего процесса.
+- [Threads](https://www.threads.com/@laptopservice_uz): Лента работ и короткие заметки из сервиса.
+- [Facebook](https://www.facebook.com/RemontNoutbukov.uz): Официальная страница в Facebook.
+
+## Дополнительно
+- [Полный машиночитаемый контекст компании](https://laptopservice.uz/llms-full.txt): Детальное описание для языковых моделей, включая примеры работ, параметры оборудования и регламенты.
+
+*Сгенерировано при билде 2026-10-18 из 72 услуг, 13 кейсов и 6 сборок. Сайт: https://laptopservice.uz*
