@@ -1,0 +1,71 @@
+# Laptop Service — https://laptopservice.uz
+# Allow everything; the goal is maximum discovery by search and AI engines.
+
+User-agent: *
+Allow: /
+Disallow: /yandex
+
+# --- Search engine crawlers ---
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+Disallow: /yandex
+
+User-agent: YandexImages
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+# --- AI / LLM crawlers (GEO: keep the site fully answerable) ---
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+# Yandex region binding
+Host: https://laptopservice.uz
+
+Sitemap: https://laptopservice.uz/sitemap-index.xml
